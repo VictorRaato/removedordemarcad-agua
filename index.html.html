@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Removedor de marca d’água</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1F4;--surface:#fff;--ink:#172033;--muted:#5B667A;--line:#D5DBE3;--accent:#1F4FFF;--on-accent:#fff;--mask:#FF2D6F;--ok:#14804A;--err:#D6334C;--c1:#E3E8EE;--c2:#F4F6F9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F131A;--surface:#171C26;--ink:#E8ECF3;--muted:#9AA6B8;--line:#2A3342;--accent:#6C8CFF;--on-accent:#0F131A;--ok:#4CC38A;--err:#FF6B83;--c1:#1C2330;--c2:#232B3A}}
+:root[data-theme="dark"]{--bg:#0F131A;--surface:#171C26;--ink:#E8ECF3;--muted:#9AA6B8;--line:#2A3342;--accent:#6C8CFF;--on-accent:#0F131A;--ok:#4CC38A;--err:#FF6B83;--c1:#1C2330;--c2:#232B3A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.5 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.page{max-width:1080px;margin:0 auto;padding:28px 16px 48px}
+h1{font-size:clamp(1.7rem,4.6vw,2.5rem);line-height:1.1;margin:0 0 8px;font-weight:700;letter-spacing:-.02em}
+.lead{margin:0 0 14px;color:var(--muted);max-width:66ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.chip{font-size:.82rem;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:99px;padding:3px 11px}
+.chip[data-s="ok"]{color:var(--ok);border-color:currentColor}
+.chip[data-s="err"]{color:var(--err);border-color:currentColor}
+.bar{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-bottom:12px}
+.field{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.92rem}
+.field input[type=range]{width:110px;accent-color:var(--accent)}
+select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 14px;border-radius:10px;font:inherit;cursor:pointer}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.spacer{flex:1}
+button:focus-visible,select:focus-visible,input:focus-visible,#drop:focus-within,.box:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+details{margin-bottom:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px 14px}
+summary{cursor:pointer;font-weight:700}
+.adv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 18px;margin-top:12px}
+.adv .field{justify-content:space-between}
+.stage{border:1px solid var(--line);border-radius:14px;background:conic-gradient(var(--c1) 25%,var(--c2) 0 50%,var(--c1) 0 75%,var(--c2) 0) 0 0/20px 20px;min-height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#drop{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:48px 20px;width:100%;cursor:pointer;color:var(--muted)}
+#drop strong{color:var(--ink);font-size:1.15rem}
+#drop.over{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+#wrap{position:relative;line-height:0;max-width:100%}
+#cnv{display:block;max-width:100%;height:auto}
+#boxes{position:absolute;inset:0}
+#boxes.draw{cursor:crosshair;touch-action:none}
+.box{position:absolute;padding:0;margin:0;cursor:pointer;border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:3px;min-width:8px;min-height:8px}
+.box:hover{background:color-mix(in srgb,var(--accent) 30%,transparent)}
+.box[aria-pressed="true"]{border-color:var(--mask);background:color-mix(in srgb,var(--mask) 38%,transparent)}
+.box.tmp{pointer-events:none;border-style:dashed;border-color:var(--mask)}
+#boxes.draw .box:not(.tmp){pointer-events:none}
+progress{width:100%;height:8px;margin-top:10px;accent-color:var(--accent)}
+#msg{min-height:1.5em;margin:10px 0 0;color:var(--muted)}
+#msg.err{color:var(--err)}
+#count{font-weight:700;color:var(--ink)}
+.note{margin-top:26px;color:var(--muted);font-size:.9rem;max-width:72ch}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Removedor de marca d’água</h1>
+  <p class="lead">Envie uma imagem, o navegador encontra os textos (OCR), você clica nos que quer apagar e o fundo é reconstruído com OpenCV. Tudo roda no seu dispositivo: a imagem não é enviada a nenhum servidor.</p>
+  <div class="chips" aria-live="polite">
+    <span class="chip" id="chip-ocr" data-s="load">OCR: carregando…</span>
+    <span class="chip" id="chip-cv" data-s="load">OpenCV: carregando…</span>
+  </div>
+
+  <div id="bar" hidden>
+    <div class="bar">
+      <label class="field">Idioma
+        <select id="lang">
+          <option value="por+eng">Português + Inglês</option>
+          <option value="eng">Inglês</option>
+          <option value="spa+eng">Espanhol + Inglês</option>
+          <option value="fra+eng">Francês + Inglês</option>
+          <option value="deu+eng">Alemão + Inglês</option>
+          <option value="ita+eng">Italiano + Inglês</option>
+        </select>
+      </label>
+      <label class="field">Detectar por
+        <select id="gran"><option value="words">Palavras</option><option value="lines">Linhas</option></select>
+      </label>
+      <label class="field">Confiança mín. <input type="range" id="conf" min="0" max="95" value="35"><output id="confv">35</output></label>
+      <button type="button" class="btn" id="rescan">Escanear de novo</button>
+      <button type="button" class="btn" id="draw" aria-pressed="false" title="Arraste sobre a imagem para marcar um texto que o OCR não achou">Desenhar caixa</button>
+    </div>
+    <div class="bar">
+      <span id="count" role="status">0 textos</span>
+      <button type="button" class="btn" id="all">Selecionar todos</button>
+      <button type="button" class="btn" id="none">Limpar seleção</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn main" id="go" disabled>Remover selecionados</button>
+      <button type="button" class="btn" id="undo" disabled>Desfazer</button>
+      <button type="button" class="btn" id="save">Baixar PNG</button>
+      <button type="button" class="btn" id="other">Outra imagem</button>
+    </div>
+    <details>
+      <summary>Ajustes avançados</summary>
+      <div class="adv">
+        <label class="field">Modo
+          <select id="mode"><option value="glyph">Só as letras (recomendado)</option><option value="box">Caixa inteira</option></select>
+        </label>
+        <label class="field">Algoritmo
+          <select id="algo"><option value="telea">Telea (suave)</option><option value="ns">Navier-Stokes (bordas)</option></select>
+        </label>
+        <label class="field">Margem da caixa <input type="range" id="pad" min="0" max="20" value="3"><output id="padv">3</output></label>
+        <label class="field">Sensibilidade de cor <input type="range" id="thr" min="8" max="120" value="32"><output id="thrv">32</output></label>
+        <label class="field">Espessura extra <input type="range" id="dil" min="0" max="8" value="3"><output id="dilv">3</output></label>
+        <label class="field">Raio de reconstrução <input type="range" id="rad" min="1" max="15" value="5"><output id="radv">5</output></label>
+        <label class="field"><span>Recriar granulado</span><input type="checkbox" id="tex" checked></label>
+      </div>
+    </details>
+  </div>
+
+  <div class="stage" id="stage">
+    <label id="drop" tabindex="-1">
+      <strong>Arraste uma imagem aqui</strong>
+      <span>ou clique para escolher um arquivo. Também funciona colar com Ctrl+V.</span>
+      <input type="file" id="file" accept="image/*" hidden>
+    </label>
+    <div id="wrap" hidden><canvas id="cnv"></canvas><div id="boxes"></div></div>
+  </div>
+  <progress id="prog" max="1" value="0" hidden></progress>
+  <p id="msg" role="status"></p>
+
+  <p class="note">Dica: se o OCR não pegar uma marca (texto muito claro, girado ou estilizado), use “Desenhar caixa” e marque a área à mão. Em fundos muito detalhados, o modo “Só as letras” dá resultado mais limpo que “Caixa inteira”. Imagens maiores que 3000 px são reduzidas. Use apenas em imagens suas ou que você tem autorização para editar.</p>
+</div>
+
+<script>
+/* ===== utilidades ===== */
+const $=s=>document.querySelector(s);
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const tick=()=>new Promise(r=>setTimeout(r,30));
+const say=(t,err)=>{const m=$('#msg');m.textContent=t||'';m.className=err?'err':''};
+const chip=(k,s,t)=>{const c=$('#chip-'+k);c.dataset.s=s;c.textContent=t};
+const cnv=$('#cnv'),cx=cnv.getContext('2d',{willReadFrequently:true});
+const MAX=3000;
+let W=0,H=0,boxes=[],raw={words:[],lines:[]},rawScale=1,hist=[],worker=null,workerLang='',busy=false,drawMode=false,cvOK=false;
+
+/* ===== carregamento das bibliotecas (CDN) ===== */
+const TESS_URL='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+const CV_URLS=['https://docs.opencv.org/4.x/opencv.js','https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js'];
+function loadScript(u){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=u;s.async=true;s.onload=res;s.onerror=()=>{s.remove();rej(new Error('Falha ao carregar '+u))};document.head.appendChild(s)})}
+async function loadCV(u){
+  await loadScript(u);
+  let c=window.cv;if(!c)throw new Error('cv ausente');
+  if(typeof c.then==='function'){
+    c=await new Promise((res,rej)=>{c.then(m=>{try{delete m.then}catch(e){}res(m)},rej)});window.cv=c;
+  }
+  if(!c.Mat){
+    await new Promise((res,rej)=>{
+      const t=setTimeout(()=>{clearInterval(p);rej(new Error('timeout'))},90000);
+      const done=()=>{clearTimeout(t);clearInterval(p);res()};
+      const p=setInterval(()=>{if(c.Mat)done()},250);
+      c.onRuntimeInitialized=done;
+    });
+  }
+  if(!window.cv.inpaint)throw new Error('cv.inpaint indisponível');
+}
+const tessP=loadScript(TESS_URL).then(()=>chip('ocr','ok','OCR: pronto')).catch(e=>{chip('ocr','err','OCR: falhou ao carregar');throw e});
+tessP.catch(()=>{});
+(async()=>{
+  for(const u of CV_URLS){try{await loadCV(u);cvOK=true;chip('cv','ok','OpenCV: pronto');return}catch(e){console.warn(e)}}
+  chip('cv','err','OpenCV indisponível (usando alternativa JS)');
+})();
+
+/* ===== carregar imagem ===== */
+/* decodifica a imagem sem depender de blob: URLs (alguns ambientes os bloqueiam) */
+function decodeImage(file){
+  const viaReader=()=>new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onerror=()=>rej(new Error('leitura'));
+    fr.onload=()=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>rej(new Error('decodificação'));im.src=fr.result};
+    fr.readAsDataURL(file);
+  });
+  const viaBitmap=()=>typeof createImageBitmap==='function'?createImageBitmap(file):Promise.reject(new Error('sem createImageBitmap'));
+  return viaBitmap().catch(viaReader);
+}
+async function load(file){
+  if(!file||!file.type.startsWith('image/')){say('Escolha um arquivo de imagem.',true);return}
+  let im;
+  try{im=await decodeImage(file)}
+  catch(e){console.error(e);say('Não foi possível abrir essa imagem. Tente PNG, JPG ou WebP.',true);return}
+  const iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height;
+  const s=Math.min(1,MAX/Math.max(iw,ih));
+  W=Math.round(iw*s);H=Math.round(ih*s);
+  cnv.width=W;cnv.height=H;cx.clearRect(0,0,W,H);cx.drawImage(im,0,0,W,H);
+  if(im.close)im.close();
+  hist=[];boxes=[];raw={words:[],lines:[]};render();
+  $('#drop').hidden=true;$('#wrap').hidden=false;$('#bar').hidden=false;$('#undo').disabled=true;
+  scan();
+}
+$('#file').onchange=e=>{load(e.target.files[0]);e.target.value=''};
+$('#other').onclick=()=>$('#file').click();
+const drop=$('#drop');
+['dragenter','dragover'].forEach(t=>window.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(t=>window.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));
+window.addEventListener('drop',e=>load(e.dataTransfer.files[0]));
+window.addEventListener('paste',e=>{const f=[...(e.clipboardData?.files||[])][0];if(f)load(f)});
+
+/* ===== estado ocupado ===== */
+function setBusy(b,label){
+  busy=b;
+  ['#rescan','#all','#none','#undo','#save','#other','#draw','#lang'].forEach(s=>$(s).disabled=b);
+  $('#go').disabled=b||!boxes.some(x=>x.sel);
+  if(!b)$('#undo').disabled=!hist.length;
+  $('#go').textContent=b&&label==='rem'?'Removendo…':'Remover selecionados';
+}
+
+/* ===== OCR (Tesseract.js) ===== */
+function collect(data,kind){
+  if(data[kind]&&data[kind].length)return data[kind];
+  const out=[];
+  (data.blocks||[]).forEach(b=>(b.paragraphs||[]).forEach(p=>(p.lines||[]).forEach(l=>{
+    if(kind==='lines')out.push(l);else(l.words||[]).forEach(w=>out.push(w))})));
+  return out;
+}
+async function scan(){
+  if(!W||busy)return;
+  setBusy(true);const pg=$('#prog');pg.hidden=false;pg.removeAttribute('value');
+  say('Preparando o OCR…');
+  try{
+    await tessP;
+    const lang=$('#lang').value;
+    if(!worker||workerLang!==lang){
+      if(worker){await worker.terminate();worker=null}
+      worker=await Tesseract.createWorker(lang,1,{logger:m=>{
+        if(typeof m.progress==='number'){pg.value=m.progress;
+          say(m.status==='recognizing text'?'Procurando textos… '+Math.round(m.progress*100)+'%':'Baixando dados do idioma… '+Math.round(m.progress*100)+'%')}
+      }});
+      workerLang=lang;
+    }
+    await worker.setParameters({tessedit_pageseg_mode:'11'}); /* texto esparso: melhor para marcas espalhadas */
+    rawScale=Math.max(W,H)<1600?2:1; /* amplia imagens pequenas para o OCR enxergar melhor */
+    const oc=document.createElement('canvas');oc.width=Math.round(W*rawScale);oc.height=Math.round(H*rawScale);
+    const o=oc.getContext('2d');o.fillStyle='#fff';o.fillRect(0,0,oc.width,oc.height);o.drawImage(cnv,0,0,oc.width,oc.height);
+    pg.removeAttribute('value');
+    const {data}=await worker.recognize(oc);
+    raw={words:collect(data,'words'),lines:collect(data,'lines')};
+    buildBoxes();
+    const n=boxes.filter(b=>!b.manual).length;
+    say(n?'Clique nas caixas dos textos que deseja apagar e depois em “Remover selecionados”.':'Nenhum texto encontrado. Diminua a confiança mínima ou use “Desenhar caixa”.',!n);
+  }catch(e){console.error(e);say('Erro no OCR: '+(e&&e.message||e)+'. Você ainda pode usar “Desenhar caixa”.',true)}
+  pg.hidden=true;setBusy(false);
+}
+function buildBoxes(){
+  const items=raw[$('#gran').value]||[],minc=+$('#conf').value,s=rawScale;
+  const det=items.filter(w=>w.bbox&&w.confidence>=minc&&/[\p{L}\p{N}]/u.test(w.text||'')).map(w=>({
+    x:w.bbox.x0/s,y:w.bbox.y0/s,w:(w.bbox.x1-w.bbox.x0)/s,h:(w.bbox.y1-w.bbox.y0)/s,
+    text:(w.text||'').trim(),conf:Math.round(w.confidence),sel:false}));
+  boxes=boxes.filter(b=>b.manual).concat(det);render();
+}
+$('#rescan').onclick=scan;
+$('#lang').onchange=scan;
+$('#gran').onchange=()=>{boxes=boxes.filter(b=>b.manual);buildBoxes()};
+$('#conf').oninput=e=>{$('#confv').textContent=e.target.value;if(raw.words.length||raw.lines.length)buildBoxes()};
+[['pad'],['thr'],['dil'],['rad']].forEach(([k])=>$('#'+k).oninput=e=>$('#'+k+'v').textContent=e.target.value);
+
+/* ===== caixas clicáveis ===== */
+const layer=$('#boxes');
+function render(){
+  layer.querySelectorAll('.box').forEach(n=>n.remove());
+  boxes.forEach(b=>{
+    const e=document.createElement('button');e.type='button';e.className='box';
+    e.style.cssText=`left:${b.x/W*100}%;top:${b.y/H*100}%;width:${b.w/W*100}%;height:${b.h/H*100}%`;
+    e.setAttribute('aria-pressed',String(b.sel));
+    const lbl=b.manual?'Área marcada à mão':'“'+b.text+'” ('+b.conf+'%)';
+    e.title=lbl;e.setAttribute('aria-label',lbl);
+    e.onclick=()=>{b.sel=!b.sel;e.setAttribute('aria-pressed',String(b.sel));count()};
+    layer.appendChild(e);
+  });
+  count();
+}
+function count(){
+  const s=boxes.filter(b=>b.sel).length;
+  $('#count').textContent=boxes.length+(boxes.length===1?' texto':' textos')+' · '+s+(s===1?' selecionado':' selecionados');
+  $('#go').disabled=busy||!s;
+}
+$('#all').onclick=()=>{boxes.forEach(b=>b.sel=true);render()};
+$('#none').onclick=()=>{boxes.forEach(b=>b.sel=false);render()};
+
+/* desenhar caixa manual */
+$('#draw').onclick=()=>{drawMode=!drawMode;$('#draw').setAttribute('aria-pressed',String(drawMode));layer.classList.toggle('draw',drawMode);
+  say(drawMode?'Arraste sobre a imagem para marcar uma área.':'')};
+let ds=null,tmp=null;
+const lp=e=>{const r=layer.getBoundingClientRect();return{x:clamp((e.clientX-r.left)*W/r.width,0,W),y:clamp((e.clientY-r.top)*H/r.height,0,H)}};
+const rectOf=(a,b)=>({x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(a.x-b.x),h:Math.abs(a.y-b.y)});
+layer.addEventListener('pointerdown',e=>{
+  if(!drawMode||e.target!==layer)return;
+  layer.setPointerCapture(e.pointerId);ds=lp(e);tmp=document.createElement('div');tmp.className='box tmp';layer.appendChild(tmp);
+});
+layer.addEventListener('pointermove',e=>{
+  if(!ds)return;const r=rectOf(ds,lp(e));
+  tmp.style.cssText=`left:${r.x/W*100}%;top:${r.y/H*100}%;width:${r.w/W*100}%;height:${r.h/H*100}%`;
+});
+const endDraw=e=>{
+  if(!ds)return;const r=rectOf(ds,lp(e));ds=null;if(tmp){tmp.remove();tmp=null}
+  if(r.w>6&&r.h>6){boxes.unshift({...r,text:'',conf:100,sel:true,manual:true});render()}
+};
+layer.addEventListener('pointerup',endDraw);
+layer.addEventListener('pointercancel',()=>{ds=null;if(tmp){tmp.remove();tmp=null}});
+
+/* ===== máscara: só as letras (cor que destoa do entorno) ou caixa inteira ===== */
+function buildMask(sel){
+  const d=cx.getImageData(0,0,W,H).data,m=new Uint8Array(W*H);
+  const pad=+$('#pad').value,thr=+$('#thr').value,whole=$('#mode').value==='box';
+  for(const b of sel){
+    const x0=Math.max(0,Math.floor(b.x-pad)),y0=Math.max(0,Math.floor(b.y-pad)),x1=Math.min(W,Math.ceil(b.x+b.w+pad)),y1=Math.min(H,Math.ceil(b.y+b.h+pad));
+    const fill=()=>{for(let y=y0;y<y1;y++)m.fill(1,y*W+x0,y*W+x1)};
+    if(whole){fill();continue}
+    const r=5,ax0=Math.max(0,x0-r),ay0=Math.max(0,y0-r),ax1=Math.min(W,x1+r),ay1=Math.min(H,y1+r);
+    const R=[],G=[],B=[];
+    for(let y=ay0;y<ay1;y++)for(let x=ax0;x<ax1;x++){
+      if(x>=x0&&x<x1&&y>=y0&&y<y1)continue;const i=(y*W+x)*4;R.push(d[i]);G.push(d[i+1]);B.push(d[i+2])}
+    if(R.length<8){fill();continue}
+    const med=a=>{a.sort((p,q)=>p-q);return a[a.length>>1]};
+    const mr=med(R),mg=med(G),mb=med(B),hit=[];
+    for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){
+      const i=(y*W+x)*4;
+      if(Math.max(Math.abs(d[i]-mr),Math.abs(d[i+1]-mg),Math.abs(d[i+2]-mb))>thr)hit.push(y*W+x);
+    }
+    /* fundo texturado ou texto sem contraste: cai para a caixa inteira */
+    if(!hit.length||hit.length>(x1-x0)*(y1-y0)*.7){fill();continue}
+    for(const j of hit)m[j]=1;
+  }
+  return m;
+}
+const gauss=()=>Math.sqrt(-2*Math.log(Math.random()+1e-9))*Math.cos(6.2831853*Math.random());
+function grain(d,m){ /* estima o granulado da foto fora da máscara */
+  const diffs=[],l=j=>d[j*4]*.3+d[j*4+1]*.59+d[j*4+2]*.11;
+  if(W<4||H<4)return 0;
+  for(let s=0;s<20000;s++){
+    const x=1+Math.floor(Math.random()*(W-2)),y=1+Math.floor(Math.random()*(H-2)),i=y*W+x;
+    if(m[i]||m[i-1]||m[i+1]||m[i-W]||m[i+W])continue;
+    diffs.push(Math.abs(l(i)-(l(i-1)+l(i+1)+l(i-W)+l(i+W))/4));
+  }
+  if(!diffs.length)return 0;
+  diffs.sort((a,b)=>a-b);return diffs[diffs.length>>1]*1.2;
+}
+
+/* ===== reconstrução com OpenCV (cv.inpaint) ===== */
+function inpaintCV(sel,m){
+  const c=window.cv,img=cx.getImageData(0,0,W,H);
+  const sg=$('#tex').checked?grain(img.data,m):0;
+  const m255=new Uint8Array(W*H);for(let i=0;i<m.length;i++)if(m[i])m255[i]=255;
+  const rgba=c.matFromImageData(img),rgb=new c.Mat(),mask=c.matFromArray(H,W,c.CV_8UC1,m255),out=new c.Mat();let k=null;
+  try{
+    c.cvtColor(rgba,rgb,c.COLOR_RGBA2RGB);
+    const it=+$('#dil').value,rad=+$('#rad').value,flag=$('#algo').value==='ns'?c.INPAINT_NS:c.INPAINT_TELEA;
+    if(it>0){k=c.Mat.ones(3,3,c.CV_8U);c.dilate(mask,mask,k,new c.Point(-1,-1),it)}
+    const px=+$('#pad').value+it+rad*3+6;
+    for(const b of sel){ /* só a região ao redor de cada caixa: bem mais rápido */
+      const x0=Math.max(0,Math.floor(b.x-px)),y0=Math.max(0,Math.floor(b.y-px)),x1=Math.min(W,Math.ceil(b.x+b.w+px)),y1=Math.min(H,Math.ceil(b.y+b.h+px));
+      if(x1-x0<2||y1-y0<2)continue;
+      const r=new c.Rect(x0,y0,x1-x0,y1-y0),s=rgb.roi(r),mk=mask.roi(r),o=new c.Mat();
+      try{c.inpaint(s,mk,o,rad,flag);o.copyTo(s)}finally{s.delete();mk.delete();o.delete()}
+    }
+    c.cvtColor(rgb,out,c.COLOR_RGB2RGBA);
+    const res=new ImageData(new Uint8ClampedArray(out.data),W,H),md=mask.data;
+    if(sg>0)for(let i=0;i<W*H;i++){
+      if(!md[i])continue;const g=gauss()*sg;
+      for(let ch=0;ch<3;ch++)res.data[i*4+ch]=clamp(res.data[i*4+ch]+g+gauss()*sg*.25,0,255);
+    }
+    cx.putImageData(res,0,0);
+  }finally{[rgba,rgb,mask,out,k].forEach(x=>x&&x.delete())}
+}
+
+/* ===== alternativa em JS puro (se o OpenCV não carregar): interpolação multiescala ===== */
+function dilJS(m){
+  const t=new Uint8Array(W*H),o=new Uint8Array(W*H);
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x;t[i]=m[i]|(x>0?m[i-1]:0)|(x<W-1?m[i+1]:0)}
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x;o[i]=t[i]|(y>0?t[i-W]:0)|(y<H-1?t[i+W]:0)}
+  return o;
+}
+function pushPull(d,m){
+  const L=[];let c=new Float32Array(W*H*3),a=new Float32Array(W*H),n=new Float32Array(W*H).fill(1),known=0;
+  for(let i=0;i<W*H;i++)if(!m[i]){known++;a[i]=1;c[i*3]=d[i*4];c[i*3+1]=d[i*4+1];c[i*3+2]=d[i*4+2]}
+  if(!known)return null;
+  L.push({w:W,h:H,c,a,n});
+  while(L[L.length-1].w>1||L[L.length-1].h>1){
+    const p=L[L.length-1],nw=(p.w+1)>>1,nh=(p.h+1)>>1,q={w:nw,h:nh,c:new Float32Array(nw*nh*3),a:new Float32Array(nw*nh),n:new Float32Array(nw*nh)};
+    for(let y=0;y<p.h;y++)for(let x=0;x<p.w;x++){
+      const i=y*p.w+x,j=(y>>1)*nw+(x>>1);q.a[j]+=p.a[i];q.n[j]+=p.n[i];
+      q.c[j*3]+=p.c[i*3];q.c[j*3+1]+=p.c[i*3+1];q.c[j*3+2]+=p.c[i*3+2]}
+    L.push(q);
+  }
+  let F=null;
+  for(let k=L.length-1;k>=0;k--){
+    const l=L[k],f=new Float32Array(l.w*l.h*3),P=L[k+1];
+    for(let y=0;y<l.h;y++)for(let x=0;x<l.w;x++){
+      const i=y*l.w+x,cov=l.a[i]/l.n[i];
+      for(let ch=0;ch<3;ch++){
+        let up=0;
+        if(F){
+          const px=Math.min(Math.max((x+.5)/2-.5,0),P.w-1),py=Math.min(Math.max((y+.5)/2-.5,0),P.h-1),
+          x0=px|0,y0=py|0,x1=Math.min(x0+1,P.w-1),y1=Math.min(y0+1,P.h-1),fx=px-x0,fy=py-y0;
+          up=(F[(y0*P.w+x0)*3+ch]*(1-fx)+F[(y0*P.w+x1)*3+ch]*fx)*(1-fy)+(F[(y1*P.w+x0)*3+ch]*(1-fx)+F[(y1*P.w+x1)*3+ch]*fx)*fy;
+        }
+        const mean=l.a[i]>0?l.c[i*3+ch]/l.a[i]:up;
+        f[i*3+ch]=cov*mean+(1-cov)*up;
+      }
+    }
+    F=f;
+  }
+  return F;
+}
+function inpaintJS(m){
+  const src=cx.getImageData(0,0,W,H),d=src.data;
+  let mm=m;for(let k=0;k<+$('#dil').value;k++)mm=dilJS(mm);
+  const F=pushPull(d,mm);if(!F)throw new Error('A seleção cobre a imagem inteira.');
+  const sg=$('#tex').checked?grain(d,mm):0,bm=new Float32Array(W*H);
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){let s=0,k=0;
+    for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const xx=x+dx,yy=y+dy;if(xx>=0&&yy>=0&&xx<W&&yy<H){s+=mm[yy*W+xx];k++}}
+    bm[y*W+x]=s/k}
+  for(let i=0;i<W*H;i++){
+    const b=bm[i];if(!b)continue;const g=gauss()*sg;
+    for(let ch=0;ch<3;ch++){const v=F[i*3+ch]+g+gauss()*sg*.25;d[i*4+ch]=d[i*4+ch]*(1-b)+clamp(v,0,255)*b}
+  }
+  cx.putImageData(src,0,0);
+}
+
+/* ===== remover ===== */
+async function removeSel(){
+  const sel=boxes.filter(b=>b.sel);if(!sel.length||busy)return;
+  setBusy(true,'rem');say('Reconstruindo o fundo…');await tick();
+  hist.push({img:cx.getImageData(0,0,W,H),boxes:boxes.map(b=>({...b}))});if(hist.length>4)hist.shift();
+  try{
+    const m=buildMask(sel);
+    if(cvOK)inpaintCV(sel,m);else inpaintJS(m);
+    boxes=boxes.filter(b=>!b.sel);render();
+    say('Pronto. '+(cvOK?'':'(OpenCV indisponível: usei a reconstrução alternativa.) ')+'Se sobrar algo, selecione de novo ou use “Escanear de novo”.');
+  }catch(e){
+    console.error(e);const h=hist.pop();if(h)cx.putImageData(h.img,0,0);
+    say('Erro ao processar: '+(e&&e.message||e),true);
+  }
+  setBusy(false);
+}
+$('#go').onclick=removeSel;
+$('#undo').onclick=()=>{
+  const h=hist.pop();if(!h)return;cx.putImageData(h.img,0,0);boxes=h.boxes;render();
+  $('#undo').disabled=!hist.length;say('Alteração desfeita.');
+};
+
+/* ===== download ===== */
+$('#save').onclick=()=>{
+  cnv.toBlob(b=>{
+    if(!b){say('Não foi possível gerar o PNG.',true);return}
+    const a=document.createElement('a'),u=URL.createObjectURL(b);
+    a.href=u;a.download='imagem-sem-marca.png';document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(u),4000);say('Imagem salva.');
+  },'image/png');
+};
+</script>
+</body>
+</html>
