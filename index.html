@@ -86,14 +86,14 @@ progress::-moz-progress-bar{background:linear-gradient(90deg,var(--accent),var(-
 
 /* tela de entrada */
 html.splashing,html.splashing body{overflow:hidden}
-#splash{position:fixed;inset:0;height:100dvh;z-index:200;display:grid;place-items:center;background:radial-gradient(720px 440px at 50% 44%,rgba(124,140,255,.16),transparent 70%),#05060A;transition:opacity .75s ease,visibility .75s}
+#splash{position:fixed;inset:0;height:100dvh;z-index:200;display:grid;place-items:center;background:radial-gradient(720px 440px at 50% 44%,rgba(124,140,255,.16),transparent 70%),#05060A;transition:opacity .75s ease,visibility .75s;will-change:opacity;contain:strict}
 #splash.out{opacity:0;visibility:hidden}
-.sp-word{display:flex;align-items:baseline;font-weight:700;font-size:clamp(2.2rem,8.4vw,5.4rem);line-height:1;white-space:nowrap;color:var(--ink);animation:sp-expand 2.3s cubic-bezier(.16,.8,.24,1) both}
-.sp-word span{display:inline-block;animation:sp-letter .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*65ms + 120ms)}
+.sp-word{display:flex;align-items:baseline;font-weight:700;font-size:clamp(2.2rem,8.4vw,5.4rem);line-height:1;white-space:nowrap;letter-spacing:.07em;margin-right:-.07em;color:var(--ink);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;animation:sp-expand 2.3s cubic-bezier(.16,.8,.24,1) both}
+.sp-word span{display:inline-block;will-change:transform,opacity;backface-visibility:hidden;animation:sp-letter .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*65ms + 120ms)}
 .sp-word .gap{width:.34em}
 .sp-word .w2{font-weight:400;color:#C9D0FF}
-@keyframes sp-expand{from{letter-spacing:-.04em;transform:scale(.94)}to{letter-spacing:.07em;transform:scale(1)}}
-@keyframes sp-letter{from{opacity:0;filter:blur(12px);transform:translateY(.28em)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes sp-expand{from{transform:scale(.92) translateZ(0)}to{transform:scale(1) translateZ(0)}}
+@keyframes sp-letter{from{opacity:0;transform:translate3d(0,.28em,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 
 /* central de ajuda */
 .help-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;width:46px;height:46px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line-2);background:rgba(20,22,29,.92);color:var(--muted);cursor:pointer;box-shadow:0 14px 34px -12px rgba(0,0,0,.85);transition:color .18s,border-color .18s,transform .18s}
@@ -101,7 +101,8 @@ html.splashing,html.splashing body{overflow:hidden}
 .help-fab .ic{width:22px;height:22px}
 .modal{position:fixed;inset:0;z-index:150;display:grid;place-items:center;padding:20px;background:rgba(3,4,8,.68);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fadein .18s ease-out}
 @keyframes fadein{from{opacity:0}}
-.modal-card{width:min(580px,100%);max-height:min(82dvh,740px);overflow:auto;padding:20px 22px 12px;border-radius:22px;border:1px solid var(--line-2);background:#0F1118;box-shadow:0 50px 100px -30px rgba(0,0,0,.95)}
+.modal-card{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;width:min(580px,100%);max-height:min(82dvh,740px);overflow:auto;padding:20px 22px 12px;border-radius:22px;border:1px solid var(--line-2);background:#0F1118;box-shadow:0 50px 100px -30px rgba(0,0,0,.95)}
+.modal-card::-webkit-scrollbar{display:none;width:0;height:0}
 .modal-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .modal-h h2{margin:0;font-size:1.15rem;font-weight:700;letter-spacing:-.01em}
 .x{width:36px;height:36px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;transition:color .18s,background .18s,border-color .18s}
@@ -203,6 +204,7 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
 <script>
 (function(){
   var sp=document.getElementById('splash'),w=sp.firstElementChild,app=document.getElementById('app'),idx=0;
+  window.splashDone=new Promise(function(r){window.__sd=r}); /* bibliotecas pesadas só começam depois da splash */
   document.documentElement.classList.add('splashing');if(app)app.inert=true;
   'AETIX DESIGN'.split('').forEach(function(ch,n){
     var e=document.createElement('span');
@@ -212,7 +214,7 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
   });
   setTimeout(function(){
     sp.classList.add('out');document.documentElement.classList.remove('splashing');if(app)app.inert=false;
-    setTimeout(function(){sp.remove()},900);
+    setTimeout(function(){sp.remove();window.__sd()},900);
   },2300);
 })();
 </script>
@@ -369,9 +371,11 @@ async function loadCV(u){
   }
   if(!window.cv.inpaint)throw new Error('cv.inpaint indisponível');
 }
-const tessP=loadScript(TESS_URL).then(()=>chip('ocr','ok','OCR: pronto')).catch(e=>{chip('ocr','err','OCR: falhou ao carregar');throw e});
+const afterSplash=(window.splashDone||Promise.resolve()).then(()=>new Promise(r=>setTimeout(r,80))); /* splash roda sozinha, sem competir com download/parse dos scripts */
+const tessP=afterSplash.then(()=>loadScript(TESS_URL)).then(()=>chip('ocr','ok','OCR: pronto')).catch(e=>{chip('ocr','err','OCR: falhou ao carregar');throw e});
 tessP.catch(()=>{});
 const cvP=(async()=>{ /* nunca rejeita: o OCR espera por ela para poder pré-processar a imagem */
+  await afterSplash;
   for(const u of CV_URLS){try{await loadCV(u);cvOK=true;chip('cv','ok','OpenCV: pronto');return}catch(e){console.warn(e)}}
   chip('cv','err','OpenCV indisponível (usando alternativa JS)');
 })();
@@ -626,12 +630,15 @@ function setTool(t){
   $('#wrap').classList.toggle('pen',!!t);
   if(t&&drawMode){drawMode=false;$('#draw').setAttribute('aria-pressed','false');layer.classList.remove('draw')}
   if(t)placePop(t);else{$('#pcur').hidden=true;pl=null}
-  say(t==='pen'?'Pinte sobre a marca que deseja apagar. Ajuste a espessura na guia do lápis.':t==='eraser'?'Passe a borracha sobre o traço que quiser apagar.':'');
+  say(t==='pen'?'Pinte sobre a marca que deseja apagar. Ajuste a espessura e solte o controle para começar a pintar.':t==='eraser'?'Ajuste a largura e solte o controle para começar a apagar.':'');
 }
 function toolClick(t){
-  if(tool!==t){setTool(t);return}
-  if($(POPS[t]).hidden)placePop(t);else setTool(null); /* guia aberta: desliga; guia fechada: reabre */
+  if(tool===t)setTool(null); /* clique 2: desativa a ferramenta (cursor volta ao padrão) */
+  else setTool(t);           /* clique 1: ativa e abre a guia do slider */
 }
+/* ao soltar o slider, a guia some na hora e a ferramenta continua ativa */
+function sliderDone(t){closePops();say(t==='pen'?'Pinte sobre a marca que deseja apagar. Clique no lápis de novo para desativar.':'Passe a borracha sobre o traço que quiser apagar. Clique na borracha de novo para desativar.')}
+['pen','eraser'].forEach(t=>{const r=$(SIZE[t]);r.addEventListener('change',()=>sliderDone(t));r.addEventListener('pointerup',()=>sliderDone(t))});
 function clearPen(){ox.clearRect(0,0,ov.width,ov.height);penDirty=false}
 function checkDirty(){ /* depois de apagar: ainda sobrou algum traço? */
   const s=Math.min(1,160/Math.max(W,H)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(W*s));c.height=Math.max(1,Math.round(H*s));
@@ -911,8 +918,8 @@ const HELP=[
 ['Selecionar e remover','Clique nas caixas que deseja apagar (elas ficam rosas) e depois em “Remover selecionados”. “Selecionar todos” e “Limpar seleção” marcam e desmarcam tudo de uma vez.'],
 ['Cancelar o escaneamento','Enquanto o site lê a imagem, aparece o botão “Cancelar escaneamento”. Ele interrompe a leitura na hora. Depois você pode usar “Reescanear”, o lápis ou “Desenhar caixa”.'],
 ['Desenhar caixa','Se algum texto não foi detectado, clique em “Desenhar caixa” e arraste sobre a área. A caixa já entra selecionada.'],
-['Lápis','Clique no lápis para abrir a guia de espessura e pinte sobre a marca que o escaneamento não pegou. O traço rosa entra junto com as caixas em “Remover selecionados”. Clique no lápis de novo, com a guia aberta, para desligá-lo e voltar a clicar nas caixas.'],
-['Borracha','Apaga partes do traço que você fez com o lápis, se errou ou passou do ponto. Ela tem a própria guia de largura. A borracha só mexe no traço ainda não removido, nunca na imagem.'],
+['Lápis','Clique no lápis para abrir a guia de espessura e pinte sobre a marca que o escaneamento não pegou. O traço rosa entra junto com as caixas em “Remover selecionados”. Ao soltar o controle de espessura, a guia some sozinha para não atrapalhar. Clique no lápis de novo para desativá-lo e voltar a clicar nas caixas.'],
+['Borracha','Apaga partes do traço que você fez com o lápis, se errou ou passou do ponto. Ela tem a própria guia de largura, que some ao soltar o controle. Clique na borracha de novo para desativá-la. A borracha só mexe no traço ainda não removido, nunca na imagem.'],
 ['Desfazer','“Desfazer” volta as últimas remoções, até 4 delas.'],
 ['Reescanear e ajustes','“Reescanear” lê a imagem de novo. Em “Ajustes” você muda o idioma, a confiança mínima, o agrupamento das caixas e o pré-processamento (Otsu, Adaptativo ou Desligado). Se sobrarem texturas marcadas como texto, aumente o “Rigor do filtro”; se faltar texto sutil, diminua.'],
 ['Metadados e privacidade','Com “Remover metadados” marcado, o arquivo baixado sai sem EXIF nem perfil de cor, e as áreas reconstruídas recebem uma variação aleatória de ±1 no RGB. É uma camada extra de privacidade, não garante que a edição seja indetectável.'],
