@@ -1,45 +1,115 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="splashing">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Removedor de marca d’água · AETIX DESIGN</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Cdefs%3E%0A%3CradialGradient%20id%3D%22g%22%20cx%3D%2250%25%22%20cy%3D%2238%25%22%20r%3D%2275%25%22%3E%0A%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23171a2c%22%2F%3E%0A%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2306070c%22%2F%3E%0A%3C%2FradialGradient%3E%0A%3ClinearGradient%20id%3D%22t%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23aab3ff%22%2F%3E%0A%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23c79bff%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3Cfilter%20id%3D%22n%22%20x%3D%22-60%25%22%20y%3D%22-60%25%22%20width%3D%22220%25%22%20height%3D%22220%25%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20stdDeviation%3D%222.6%22%20result%3D%22b1%22%2F%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20stdDeviation%3D%221.1%22%20result%3D%22b2%22%2F%3E%0A%3CfeMerge%3E%0A%3CfeMergeNode%20in%3D%22b1%22%2F%3E%0A%3CfeMergeNode%20in%3D%22b2%22%2F%3E%0A%3CfeMergeNode%20in%3D%22SourceGraphic%22%2F%3E%0A%3C%2FfeMerge%3E%0A%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2262%22%20height%3D%2262%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%237C8CFF%22%20stroke-opacity%3D%22.35%22%2F%3E%0A%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20font-family%3D%22Inter%2CSegoe%20UI%2Csystem-ui%2Csans-serif%22%20font-size%3D%2227%22%20font-weight%3D%22700%22%20letter-spacing%3D%22-1%22%20text-anchor%3D%22middle%22%20fill%3D%22url%28%23t%29%22%20filter%3D%22url%28%23n%29%22%3EAE%3C%2Ftext%3E%0A%3C%2Fsvg%3E">
+<title>Remover marca d'água · AETIX DESIGN</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232a1a55'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='16' fill='none' stroke='%239B6BFF' stroke-opacity='.7'/%3E%3Cpath d='M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z' fill='%23EDE8FF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07080C;--panel:rgba(255,255,255,.045);--panel-2:rgba(255,255,255,.07);--line:rgba(255,255,255,.09);--line-2:rgba(255,255,255,.18);--ink:#F2F4F8;--muted:#98A1B3;--dim:#6B7385;--accent:#7C8CFF;--accent-2:#9B6BFF;--mask:#FF4D8D;--ok:#4ADE9A;--err:#FF6B83;color-scheme:dark}
-*{box-sizing:border-box}
-html{background:var(--bg)}
-body{margin:0;min-height:100dvh;color:var(--ink);font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;
-background:radial-gradient(900px 520px at 12% -8%,rgba(124,140,255,.17),transparent 60%),radial-gradient(800px 520px at 92% 0,rgba(155,107,255,.12),transparent 60%),var(--bg);
-padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-.page{--gap:44px;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;width:100%;max-width:980px;margin:0 auto;padding:40px 20px}
-header{text-align:center;margin-bottom:var(--gap)}
-.logo{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin:0 auto 20px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 10px 34px rgba(124,140,255,.38)}
-.logo .ic{width:22px;height:22px}
-h1{margin:0 0 10px;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:700;letter-spacing:-.03em;line-height:1.08}
-.sub{margin:0 auto;max-width:44ch;color:var(--muted)}
-.pill{display:flex;width:fit-content;align-items:center;gap:8px;margin:20px auto 0;padding:5px 13px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:.8rem}
+:root{--bg:#07080C;--panel:rgba(255,255,255,.045);--panel-2:rgba(255,255,255,.07);--line:rgba(255,255,255,.09);--line-2:rgba(255,255,255,.18);--ink:#F2F4F8;--muted:#98A1B3;--dim:#6B7385;--accent:#7C8CFF;--accent-2:#9B6BFF;--mask:#FF4D8D;--ok:#4ADE9A;--err:#FF6B83;--hdr-h:64px;color-scheme:dark}
+*{box-sizing:border-box;scrollbar-width:none;-ms-overflow-style:none}
+*::-webkit-scrollbar{display:none;width:0;height:0}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none;background:var(--bg)}
+body{height:100dvh;color:var(--ink);font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;
+background:radial-gradient(900px 520px at 12% -8%,rgba(124,140,255,.17),transparent 60%),radial-gradient(800px 520px at 92% 0,rgba(155,107,255,.12),transparent 60%),var(--bg)}
+.hidden{display:none!important}
+[hidden]{display:none!important}
+html.splashing,html.splashing body{overflow:hidden}
+.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#app{height:100dvh;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+
+/* ---------- header ---------- */
+.hdr{position:relative;z-index:50;flex:none;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;min-height:var(--hdr-h);padding:10px clamp(12px,3vw,28px);border-bottom:1px solid var(--line);background:rgba(10,11,17,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(124,140,255,.12),0 12px 40px -24px rgba(124,140,255,.5)}
+.brand{justify-self:start;display:inline-flex;align-items:center;gap:.45em;margin:0;padding:0;border:0;background:none;color:var(--ink);font:700 clamp(.82rem,3.4vw,1.12rem)/1 Inter,system-ui,sans-serif;letter-spacing:.14em;cursor:pointer;white-space:nowrap;min-width:0}
+.brand .logo{width:2.5em;height:2.5em;flex:none;margin-right:.35em;filter:drop-shadow(0 0 10px rgba(155,107,255,.55))}
+.brand .b1{background:linear-gradient(135deg,#C9D0FF,var(--accent) 55%,var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(124,140,255,.55))}
+.brand .b2{font-weight:400;color:#C9D0FF;text-shadow:0 0 14px rgba(155,107,255,.55)}
+.nav{display:flex;align-items:center;justify-content:center;gap:clamp(28px,5.5vw,72px)}
+.nav-link{position:relative;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 2px;border:0;border-radius:0;background:transparent;color:var(--muted);font:500 .92rem Inter,system-ui,sans-serif;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:color .18s}
+.nav-link::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 10px 1px rgba(124,140,255,.9),0 0 18px 2px rgba(155,107,255,.6);transform:scaleX(0);transform-origin:center;transition:transform .22s ease}
+.nav-link:hover,.nav-link:active,.nav-link.active{color:#fff;background:transparent}
+.nav-link:hover::after,.nav-link:active::after,.nav-link.active::after{transform:scaleX(1)}
+.beta{display:inline-flex;align-items:center;height:18px;padding:0 7px;border-radius:99px;border:1px solid rgba(155,107,255,.7);background:rgba(155,107,255,.16);color:#E4DAFF;font:700 .62rem/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-shadow:0 0 8px rgba(155,107,255,.9);box-shadow:0 0 12px -2px rgba(155,107,255,.8),inset 0 0 8px rgba(155,107,255,.25)}
+.hdr-right{justify-self:end;display:flex;align-items:center;justify-content:flex-end;flex-wrap:nowrap;gap:10px;min-width:0}
+.cta{height:38px;padding:0 16px;border-radius:12px;border:1px solid rgba(124,140,255,.55);background:linear-gradient(135deg,rgba(124,140,255,.22),rgba(155,107,255,.16));color:#fff;font:700 .74rem Inter,system-ui,sans-serif;letter-spacing:.1em;cursor:pointer;white-space:nowrap;box-shadow:0 0 22px -6px rgba(124,140,255,.75),inset 0 1px 0 rgba(255,255,255,.12);transition:box-shadow .2s,transform .18s,filter .18s}
+.cta:hover{filter:brightness(1.12);transform:translateY(-1px);box-shadow:0 0 30px -4px rgba(155,107,255,.85),inset 0 1px 0 rgba(255,255,255,.16)}
+.helpwrap{position:relative}
+.helpmenu{position:absolute;right:0;top:calc(100% + 12px);z-index:60;--hi:46px;--hg:2px;width:min(380px,calc(100vw - 24px));border-radius:16px;border:1px solid var(--line-2);background:#12141B;box-shadow:0 30px 60px -18px rgba(0,0,0,.9),0 0 30px -12px rgba(124,140,255,.4);transform-origin:top right;animation:slidedown .22s ease-out;overflow:hidden}
+.helpmenu .dd-h{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.help-list{list-style:none;margin:0;padding:6px 8px;max-height:min(calc(var(--hi)*6 + var(--hg)*5 + 12px),calc(100dvh - var(--hdr-h) - 170px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;-ms-overflow-style:none}
+.help-list::-webkit-scrollbar{display:none;width:0;height:0}
+.help-list li{margin-bottom:var(--hg);overflow:hidden;border-radius:12px}
+.help-list li:last-child{margin-bottom:0}
+.help-row{display:flex;align-items:center;gap:10px;width:100%;height:var(--hi);margin:0;padding:0 10px;border:0;border-radius:12px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:background .16s}
+.help-row:hover,.help-row[aria-expanded="true"]{background:var(--panel)}
+.help-row b{display:grid;place-items:center;flex:none;width:22px;height:22px;border-radius:7px;background:rgba(124,140,255,.18);border:1px solid rgba(124,140,255,.4);color:#C9D0FF;font-size:.72rem}
+.help-row h3{flex:1;min-width:0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.88rem;font-weight:600;color:var(--ink)}
+.help-ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.help-ans>div{min-height:0;overflow:hidden}
+.help-ans p{margin:0;padding:2px 12px 12px 42px;color:var(--muted);font-size:.82rem;line-height:1.55}
+.help-list li.open .help-ans{grid-template-rows:1fr}
+.help-chev{flex:none;width:16px;height:16px;color:var(--dim);transition:transform .25s,color .16s}
+.help-row[aria-expanded="true"] .help-chev{transform:rotate(90deg);color:var(--accent)}
+.help-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border-top:1px solid var(--line)}
+.help-nav span{font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums}
+.help-nav div{display:flex;gap:6px}
+.help-nav .x:disabled{opacity:.35;cursor:default;pointer-events:none}
+.help-nav .up .ic{transform:rotate(-90deg)}
+.help-nav .down .ic{transform:rotate(90deg)}
+@keyframes slidedown{from{opacity:0;transform:translateY(-8px) scaleY(.96)}}
+.link-btn{height:38px;padding:0 6px;border:0;background:transparent;color:var(--muted);font:500 .9rem Inter,system-ui,sans-serif;cursor:pointer;border-radius:10px;transition:color .18s}
+.link-btn:hover{color:var(--ink)}
+.langsw{position:relative;height:36px;display:flex;align-items:center}
+.langsw .ic{position:absolute;left:11px;top:50%;width:16px;height:16px;margin-top:-8px;color:var(--muted);pointer-events:none;z-index:1}
+.langsw select{appearance:none;-webkit-appearance:none;height:36px;margin:0;padding:0 28px 0 34px;border-radius:12px;border:1px solid var(--line);background:rgba(20,22,29,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2398A1B3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--ink);font:600 .8rem Inter,system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;transition:border-color .18s,box-shadow .18s}
+.langsw:hover select{border-color:var(--line-2);box-shadow:0 10px 26px -12px rgba(124,140,255,.55)}
+.langsw select option{background:#14161D;color:var(--ink)}
+.profile{position:relative}
+.avatar-btn{width:38px;height:38px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line-2);background:linear-gradient(145deg,rgba(124,140,255,.2),rgba(155,107,255,.1));color:#C9D0FF;cursor:pointer;transition:box-shadow .2s,border-color .2s}
+.avatar-btn:hover,.avatar-btn[aria-expanded="true"]{border-color:rgba(124,140,255,.7);box-shadow:0 0 20px -4px rgba(124,140,255,.75)}
+.dropdown{position:absolute;right:0;top:calc(100% + 12px);z-index:60;width:min(260px,calc(100vw - 24px));min-height:120px;padding:12px 14px 14px;border-radius:16px;border:1px solid var(--line-2);background:#12141B;box-shadow:0 30px 60px -18px rgba(0,0,0,.9),0 0 30px -12px rgba(124,140,255,.4);animation:popin .16s ease-out}
+.dd-h{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.9rem}
+.dd-body{min-height:60px}
+.menu-item{display:flex;align-items:center;gap:10px;width:100%;height:42px;margin-top:10px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font:500 .9rem Inter,system-ui,sans-serif;text-align:left;cursor:pointer;transition:background .16s,border-color .16s}
+.menu-item:hover{background:rgba(124,140,255,.16);border-color:rgba(124,140,255,.5)}
+.only-mobile{display:none}
+
+/* ---------- page ---------- */
+.page{flex:1;min-height:0;display:flex;flex-direction:column;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+.page-in{margin:auto;width:100%;max-width:980px;padding:clamp(12px,3dvh,32px) clamp(12px,4vw,20px)}
+.hero{text-align:center;margin-bottom:clamp(14px,3dvh,28px)}
+h1{margin:0 0 8px;font-size:clamp(1.5rem,4.4vw,2.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.sub{margin:0 auto;max-width:48ch;color:var(--muted);font-size:clamp(.85rem,2.4vw,1rem)}
+.pill{display:flex;width:fit-content;align-items:center;gap:8px;margin:14px auto 0;padding:5px 13px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:.8rem}
 .pill i{width:7px;height:7px;border-radius:50%;background:var(--muted)}
 .pill[data-s="ok"] i{background:var(--ok);box-shadow:0 0 0 3px rgba(74,222,154,.18)}
 .pill[data-s="err"] i{background:var(--err)}
 .pill[data-s="load"] i{animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.3}}
-.card{padding:14px;border-radius:26px;border:1px solid var(--line);background:var(--panel);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 40px 90px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05)}
-#drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:340px;padding:40px 22px;text-align:center;cursor:pointer;border-radius:20px;border:1px solid var(--line);
+.tabs{display:flex;width:fit-content;max-width:100%;margin:0 auto clamp(12px,2.4dvh,20px);padding:5px;gap:4px;border-radius:16px;border:1px solid var(--line-2);background:rgba(255,255,255,.04);box-shadow:0 0 30px -14px rgba(124,140,255,.6)}
+.tab{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 26px;border:0;border-radius:12px;background:transparent;color:var(--muted);font:600 .92rem Inter,system-ui,sans-serif;cursor:pointer;transition:color .18s,background .18s,box-shadow .18s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 10px 28px -10px rgba(124,140,255,.85),0 0 22px -6px rgba(155,107,255,.7)}
+.card{padding:clamp(8px,2vw,14px);border-radius:26px;border:1px solid var(--line);background:var(--panel);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 40px 90px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05)}
+
+/* ---------- dropzone ---------- */
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:clamp(190px,34dvh,320px);padding:clamp(18px,4dvh,40px) clamp(14px,4vw,22px);text-align:center;cursor:pointer;border-radius:20px;border:1px solid var(--line);
 background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));transition:border-color .2s,box-shadow .2s,background .2s}
-#drop:hover,#drop.over{border-color:rgba(124,140,255,.6);box-shadow:0 0 0 4px rgba(124,140,255,.12),0 20px 60px -20px rgba(124,140,255,.35)}
-.up-ic{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;margin-bottom:18px;color:#C9D0FF;border:1px solid rgba(124,140,255,.35);background:linear-gradient(145deg,rgba(124,140,255,.22),rgba(155,107,255,.1));transition:transform .25s}
+.drop:hover,.drop.over{border-color:rgba(124,140,255,.6);box-shadow:0 0 0 4px rgba(124,140,255,.12),0 20px 60px -20px rgba(124,140,255,.35)}
+.up-ic{width:clamp(52px,9dvh,76px);height:clamp(52px,9dvh,76px);border-radius:24px;display:grid;place-items:center;margin-bottom:clamp(8px,2dvh,18px);color:#C9D0FF;border:1px solid rgba(124,140,255,.35);background:linear-gradient(145deg,rgba(124,140,255,.22),rgba(155,107,255,.1));transition:transform .25s}
 .up-ic .ic{width:34px;height:34px;stroke-width:1.6}
-#drop:hover .up-ic,#drop.over .up-ic{transform:translateY(-3px) scale(1.04)}
-#drop strong{font-size:1.3rem;font-weight:700;letter-spacing:-.01em}
-#drop .hint{color:var(--muted);font-weight:400}
-#drop .fake{display:inline-flex;margin-top:20px;height:42px;align-items:center;padding:0 22px;border-radius:12px;font-weight:600;font-size:.92rem;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 10px 28px -10px rgba(124,140,255,.75);transition:filter .18s,transform .18s}
-#drop:hover .fake{filter:brightness(1.1);transform:translateY(-1px)}
-#drop .fmt{margin-top:14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.drop:hover .up-ic,.drop.over .up-ic{transform:translateY(-3px) scale(1.04)}
+.drop strong{font-size:clamp(1.05rem,3.6vw,1.3rem);font-weight:700;letter-spacing:-.01em}
+.drop .hint{color:var(--muted)}
+.drop .fake{display:inline-flex;margin-top:clamp(10px,2.2dvh,20px);height:42px;align-items:center;padding:0 22px;border-radius:12px;font-weight:600;font-size:.92rem;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 10px 28px -10px rgba(124,140,255,.75);transition:filter .18s,transform .18s}
+.drop:hover .fake{filter:brightness(1.1);transform:translateY(-1px)}
+.drop .fmt{margin-top:clamp(8px,1.6dvh,14px);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+
+/* ---------- editor ---------- */
 .topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 12px}
 .tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px}
 .tool{position:relative;display:inline-flex}
@@ -49,76 +119,43 @@ background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparen
 .pop-h output{color:var(--ink);font-variant-numeric:tabular-nums}
 .pop input[type=range]{width:100%;accent-color:var(--accent)}
 @keyframes popin{from{opacity:0;translate:0 -4px}}
-#count{font-size:.9rem;color:var(--muted)}
+.count{font-size:.9rem;color:var(--muted)}
 .stage{display:flex;justify-content:center;align-items:center;padding:12px;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:transparent}
-#wrap{position:relative;display:inline-block;max-width:100%;line-height:0}
-#cnv{display:block;max-width:100%;max-height:max(160px,calc(100dvh - 360px));width:auto;height:auto;border-radius:6px}
-#boxes{position:absolute;inset:0}
-#boxes.draw{cursor:crosshair;touch-action:none}
+.wrap{position:relative;display:inline-block;max-width:100%;line-height:0}
+#im-cnv{display:block;max-width:100%;max-height:max(160px,calc(100dvh - 560px));width:auto;height:auto;border-radius:6px}
+#vd-vid{display:block;max-width:100%;max-height:max(170px,calc(100dvh - 620px));width:auto;height:auto;border-radius:6px;background:#000}
+.layer{position:absolute;inset:0}
+.layer.draw{cursor:crosshair;touch-action:none}
 .box{position:absolute;padding:0;margin:0;cursor:pointer;min-width:8px;min-height:8px;border-radius:4px;border:1.5px solid rgba(124,140,255,.95);background:rgba(124,140,255,.12);transition:background .15s,border-color .15s,box-shadow .15s}
 .box::after{content:"";position:absolute;inset:-5px}
 .box:hover{background:rgba(124,140,255,.3);box-shadow:0 0 0 3px rgba(124,140,255,.18)}
 .box[aria-pressed="true"]{border-color:var(--mask);background:rgba(255,77,141,.28);box-shadow:0 0 0 3px rgba(255,77,141,.18)}
 .box.tmp{pointer-events:none;border-style:dashed;border-color:var(--mask);background:rgba(255,77,141,.12)}
-#boxes.draw .box:not(.tmp){pointer-events:none}
-#ov{position:absolute;inset:0;width:100%;height:100%;opacity:.6;pointer-events:none;border-radius:6px}
-#wrap.pen #ov{pointer-events:auto;cursor:none;touch-action:none}
-#pcur{position:absolute;z-index:3;pointer-events:none;border-radius:50%;border:1.5px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.55);transform:translate(-50%,-50%)}
-#laser{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;border-radius:6px}
-#laser i{position:absolute;inset:0;
-background:linear-gradient(90deg,transparent 0,#fff 50%,transparent 100%) bottom/100% 2px no-repeat,linear-gradient(180deg,transparent 55%,rgba(124,140,255,.22) 85%,rgba(155,107,255,.45) 100%);
-box-shadow:0 10px 26px 4px rgba(124,140,255,.85);animation:laser 2.4s linear infinite;will-change:transform}
+.layer.draw .box:not(.tmp){pointer-events:none}
+.ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:6px}
+#im-ov{opacity:.6}
+.wrap.pen .ov{pointer-events:auto;cursor:none;touch-action:none}
+.pcur{position:absolute;z-index:3;pointer-events:none;border-radius:50%;border:1.5px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.55);transform:translate(-50%,-50%)}
+.pcur.era{border-style:dashed}
+.laser{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;border-radius:6px}
+.laser i{position:absolute;inset:0;background:linear-gradient(90deg,transparent 0,#fff 50%,transparent 100%) bottom/100% 2px no-repeat,linear-gradient(180deg,transparent 55%,rgba(124,140,255,.22) 85%,rgba(155,107,255,.45) 100%);box-shadow:0 10px 26px 4px rgba(124,140,255,.85);animation:laser 2.4s linear infinite;will-change:transform}
 @keyframes laser{from{transform:translateY(-100%)}to{transform:translateY(0)}}
 progress{display:block;width:100%;height:4px;margin-top:12px;border:0;border-radius:99px;appearance:none;-webkit-appearance:none;background:var(--line);accent-color:var(--accent)}
 progress::-webkit-progress-bar{background:var(--line);border-radius:99px}
 progress::-webkit-progress-value{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px}
 progress::-moz-progress-bar{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px}
-#pcur.era{border-style:dashed}
-#scanbar{display:flex;align-items:center;gap:14px;margin-top:12px}
-#scanbar progress{flex:1;margin-top:0}
-#scanbar .btn{height:34px;padding:0 14px;font-size:.84rem}
-html.splashing,html.splashing body{overflow:hidden}
-#splash{position:fixed;inset:0;height:100dvh;z-index:200;display:grid;place-items:center;background:radial-gradient(720px 440px at 50% 44%,rgba(124,140,255,.16),transparent 70%),#05060A;transition:opacity .75s ease,visibility .75s;will-change:opacity;contain:strict}
-#splash.out{opacity:0;visibility:hidden}
-.sp-word{display:flex;align-items:baseline;font-weight:700;font-size:clamp(2.2rem,8.4vw,5.4rem);line-height:1;white-space:nowrap;letter-spacing:.07em;margin-right:-.07em;color:var(--ink);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;animation:sp-expand 2.3s cubic-bezier(.16,.8,.24,1) both}
-.sp-word span{display:inline-block;will-change:transform,opacity;backface-visibility:hidden;animation:sp-letter .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*65ms + 120ms)}
-.sp-word .gap{width:.34em}
-.sp-word .w2{font-weight:400;color:#C9D0FF}
-@keyframes sp-expand{from{transform:scale(.92) translateZ(0)}to{transform:scale(1) translateZ(0)}}
-@keyframes sp-letter{from{opacity:0;transform:translate3d(0,.28em,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-.help-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;width:46px;height:46px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line-2);background:rgba(20,22,29,.92);color:var(--muted);cursor:pointer;box-shadow:0 14px 34px -12px rgba(0,0,0,.85);transition:color .18s,border-color .18s,transform .18s}
-.help-fab:hover{color:var(--ink);border-color:rgba(124,140,255,.6);transform:translateY(-1px)}
-.help-fab .ic{width:22px;height:22px}
-.modal{position:fixed;inset:0;z-index:150;display:grid;place-items:center;padding:20px;background:rgba(3,4,8,.68);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fadein .18s ease-out}
-@keyframes fadein{from{opacity:0}}
-.modal-card{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;width:min(580px,100%);max-height:min(82dvh,740px);overflow:auto;padding:20px 22px 12px;border-radius:22px;border:1px solid var(--line-2);background:#0F1118;box-shadow:0 50px 100px -30px rgba(0,0,0,.95)}
-.modal-card::-webkit-scrollbar{display:none;width:0;height:0}
-.modal-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-.modal-h h2{margin:0;font-size:1.15rem;font-weight:700;letter-spacing:-.01em}
-.x{width:36px;height:36px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;transition:color .18s,background .18s,border-color .18s}
-.x:hover{color:var(--ink);background:rgba(255,255,255,.1);border-color:var(--line-2)}
-.acc{list-style:none;margin:0;padding:0}
-.acc-i{border-top:1px solid var(--line)}
-.acc-i h3{margin:0;font:inherit}
-.acc-b{display:flex;align-items:center;gap:12px;width:100%;padding:14px 4px;border:0;background:transparent;color:var(--ink);font:500 .95rem/1.35 Inter,system-ui,sans-serif;text-align:left;cursor:pointer}
-.acc-b .n{min-width:1.6em;color:var(--accent);font-variant-numeric:tabular-nums;font-weight:600}
-.acc-b .t{flex:1}
-.acc-b .chev{color:var(--muted);transition:transform .25s ease,color .18s}
-.acc-b:hover .chev{color:var(--ink)}
-.acc-i.open .chev{transform:rotate(-90deg);color:var(--accent)}
-.acc-p{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
-.acc-p>div{min-height:0;overflow:hidden}
-.acc-i.open .acc-p{grid-template-rows:1fr}
-.acc-p p{margin:0;padding:0 4px 16px calc(1.6em + 16px);color:var(--muted);font-size:.9rem;line-height:1.6}
-#bar{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px 4px 6px}
+.scanbar{display:flex;align-items:center;gap:14px;margin-top:12px}
+.scanbar progress{flex:1;margin-top:0}
+.scanbar .btn{height:34px;padding:0 14px;font-size:.84rem}
+.bar{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px 4px 6px}
 .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
+.actions{margin-top:2px}
 .field{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:.85rem}
 .field select{appearance:none;-webkit-appearance:none;border:0;outline-offset:6px;padding:0 18px 0 0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2398A1B3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right center;color:var(--ink);font:500 .9rem Inter,system-ui,sans-serif;cursor:pointer}
 .field select option{background:#14161D;color:var(--ink)}
 .field input[type=range]{width:110px;accent-color:var(--accent)}
 .field input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
 .field output{min-width:2.2ch;color:var(--ink);font-variant-numeric:tabular-nums}
-.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);font:500 .9rem Inter,system-ui,sans-serif;cursor:pointer;transition:background .18s,border-color .18s,color .18s,transform .18s,box-shadow .18s,filter .18s}
 .btn:hover:not(:disabled){background:rgba(255,255,255,.11);border-color:var(--line-2);transform:translateY(-1px)}
 .btn:active:not(:disabled){transform:translateY(0) scale(.98)}
@@ -128,7 +165,6 @@ html.splashing,html.splashing body{overflow:hidden}
 .btn.danger:hover:not(:disabled){border-color:var(--err);color:var(--err);background:rgba(255,107,131,.08)}
 .btn.primary{height:48px;padding:0 28px;border:0;font-weight:600;font-size:.95rem;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 12px 30px -12px rgba(124,140,255,.85)}
 .btn.primary:hover:not(:disabled){filter:brightness(1.1);background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 16px 36px -12px rgba(124,140,255,.95)}
-.actions{margin-top:2px}
 details{width:100%;text-align:center}
 summary{display:inline-flex;align-items:center;gap:8px;list-style:none;cursor:pointer;color:var(--muted);font-size:.85rem;padding:8px 12px;border-radius:10px;transition:color .18s,background .18s}
 summary::-webkit-details-marker{display:none}
@@ -136,38 +172,98 @@ summary:hover{color:var(--ink);background:var(--panel)}
 .adv{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px;text-align:left}
 .adv .field{justify-content:space-between}
 .adv .pair{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:480px){.adv .pair{grid-template-columns:1fr}}
-#msg{margin:2px 4px 12px;text-align:center;font-size:.92rem;color:var(--muted)}
-#msg.err{color:var(--err)}
-#msg:empty{display:none}
-footer{margin-top:calc(var(--gap) - .35em);padding:0;text-align:center;color:var(--dim);font-size:.8rem;line-height:1.7}
+.adv-note{grid-column:1/-1;margin:2px 4px 6px;color:var(--dim);font-size:.78rem;line-height:1.55}
+.msg{margin:2px 4px 12px;text-align:center;font-size:.92rem;color:var(--muted)}
+.msg.err{color:var(--err)}
+.msg:empty{display:none}
+
+/* ---------- video ---------- */
+#vd-timeline{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 4px 0;padding:0 2px}
+.btn.play{width:40px;height:40px;padding:0;border-radius:50%;flex:none}
+.btn.step{width:34px;height:34px;padding:0;border-radius:10px;flex:none;color:var(--muted)}
+.btn.step:hover:not(:disabled){color:var(--ink)}
+#vd-tlbody{flex:1 1 180px;min-width:150px;position:relative;padding-top:4px}
+#vd-seek{width:100%;margin:0;accent-color:var(--accent);cursor:pointer}
+#vd-marks{position:absolute;left:0;right:0;top:0;height:10px;pointer-events:none}
+.mark{position:absolute;top:0;width:2px;height:10px;border-radius:2px;background:var(--accent);box-shadow:0 0 7px rgba(124,140,255,.85);transform:translateX(-1px)}
+.mark.active{background:var(--mask);box-shadow:0 0 8px rgba(255,77,141,.9)}
+#vd-time{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:92px;text-align:right}
+#vd-kfs{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:12px}
+#vd-kflist{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px}
+.kf{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 7px 0 10px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font:600 .76rem/1 Inter,system-ui,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;transition:border-color .16s,color .16s,background .16s}
+.kf:hover{border-color:var(--line-2);color:var(--ink)}
+.kf[aria-current="true"]{border-color:var(--accent);color:#fff;background:rgba(124,140,255,.17);box-shadow:0 0 0 3px rgba(124,140,255,.12)}
+.kf .kx{display:grid;place-items:center;width:18px;height:18px;padding:0;border:0;border-radius:5px;background:transparent;color:var(--dim);cursor:pointer}
+.kf .kx:hover{color:var(--err);background:rgba(255,107,131,.12)}
+.kf .kx .ic{width:12px;height:12px}
+.kf-empty{color:var(--dim);font-size:.8rem;padding:0 4px}
+#vd-kfhint{margin:10px 4px 0;text-align:center;color:var(--dim);font-size:.78rem;line-height:1.5}
+#vd-resvid{display:block;width:100%;max-height:min(58dvh,520px);border-radius:12px;background:#000;border:1px solid var(--line)}
+.result-card{width:min(760px,100%)}
+.result-sub{margin:12px 4px 4px;color:var(--muted);font-size:.86rem;text-align:center;line-height:1.55}
+.result-actions{padding:8px 0 10px}
+
+/* ---------- modais ---------- */
+.modal{position:fixed;inset:0;z-index:150;display:grid;place-items:center;padding:20px;background:rgba(3,4,8,.68);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:fadein .18s ease-out}
+@keyframes fadein{from{opacity:0}}
+.modal-card{overscroll-behavior:contain;width:min(580px,100%);max-height:min(82dvh,740px);overflow:auto;padding:20px 22px 16px;border-radius:22px;border:1px solid var(--line-2);background:#0F1118;box-shadow:0 50px 100px -30px rgba(0,0,0,.95),0 0 40px -16px rgba(124,140,255,.4)}
+.modal-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.modal-h h2{margin:0;font-size:1.15rem;font-weight:700;letter-spacing:-.01em}
+.modal-body{min-height:160px}
+.x{width:36px;height:36px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--muted);cursor:pointer;transition:color .18s,background .18s,border-color .18s}
+.x.sm{width:30px;height:30px}
+.x:hover{color:var(--ink);background:rgba(255,255,255,.1);border-color:var(--line-2)}
+
+/* ---------- splash ---------- */
+#splash{position:fixed;inset:0;height:100dvh;z-index:200;display:grid;place-items:center;background:radial-gradient(720px 440px at 50% 44%,rgba(124,140,255,.16),transparent 70%),#05060A;transition:opacity .75s ease,visibility .75s;will-change:opacity;contain:strict}
+#splash.out{opacity:0;visibility:hidden}
+.sp-word{display:flex;align-items:baseline;font-weight:700;font-size:clamp(2.2rem,8.4vw,5.4rem);line-height:1;white-space:nowrap;letter-spacing:.07em;margin-right:-.07em;color:var(--ink);transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;animation:sp-expand 2.3s cubic-bezier(.16,.8,.24,1) both}
+.sp-word span{display:inline-block;will-change:transform,opacity;backface-visibility:hidden;animation:sp-letter .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*65ms + 120ms)}
+.sp-word .gap{width:.34em}
+.sp-word .w2{font-weight:400;color:#C9D0FF}
+@keyframes sp-expand{from{transform:scale(.92) translateZ(0)}to{transform:scale(1) translateZ(0)}}
+@keyframes sp-letter{from{opacity:0;transform:translate3d(0,.28em,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+
+.price-body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,5dvh,34px);min-height:200px;padding:6px 4px 14px;text-align:center}
+.price-sub{margin:-4px 0 0;font:700 clamp(1.1rem,4.4vw,1.5rem)/1.1 Inter,system-ui,sans-serif;letter-spacing:.14em;background:linear-gradient(135deg,#C9D0FF,var(--accent) 55%,var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(124,140,255,.55)) drop-shadow(0 0 18px rgba(155,107,255,.45))}
+.price-phrase{margin:0;font:800 clamp(1.6rem,7.2vw,2.6rem)/1.12 Inter,system-ui,sans-serif;letter-spacing:-.02em;color:#fff;text-shadow:0 0 18px rgba(124,140,255,.6),0 0 38px rgba(155,107,255,.4)}
+footer{margin-top:clamp(16px,4dvh,36px);text-align:center;color:var(--dim);font-size:.8rem;line-height:1.7}
 footer strong{color:var(--muted);font-weight:600;letter-spacing:.08em}
-[hidden]{display:none!important}
-button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,#drop:focus-visible,.box:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media (max-width:560px){.btn.primary{width:100%}.field input[type=range]{width:90px}}
-html,body{height:100%;overflow:hidden;overscroll-behavior:none}
-body{height:100dvh;min-height:0;-webkit-text-size-adjust:100%}
-.page{--gap:clamp(16px,5dvh,44px);height:100dvh;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;-ms-overflow-style:none;justify-content:flex-start;padding:clamp(12px,3dvh,40px) clamp(12px,4vw,20px)}
-.page::-webkit-scrollbar{display:none;width:0;height:0}
-.page::before,.page::after{content:"";flex:1 0 0} 
-.logo{width:clamp(34px,6dvh,46px);height:clamp(34px,6dvh,46px);margin-bottom:clamp(8px,2.2dvh,20px)}
-h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
-.sub{font-size:clamp(.85rem,2.4vw,1rem)}
-.pill{margin-top:clamp(10px,2.2dvh,20px)}
-#drop{min-height:clamp(190px,38dvh,340px);padding:clamp(18px,4dvh,40px) clamp(14px,4vw,22px)}
-.up-ic{width:clamp(52px,9dvh,76px);height:clamp(52px,9dvh,76px);margin-bottom:clamp(8px,2dvh,18px)}
-#drop strong{font-size:clamp(1.05rem,3.6vw,1.3rem)}
-#drop .fake{margin-top:clamp(10px,2.2dvh,20px)}
-#drop .fmt{margin-top:clamp(8px,1.6dvh,14px)}
-.card{padding:clamp(8px,2vw,14px)}
-@media (max-width:560px){.topbar{justify-content:center}.tools{justify-content:center}.btn{padding:0 12px}.row{gap:8px}.modal{padding:12px}.modal-card{padding:16px 16px 8px}}
-@media (max-height:640px){.sub,#drop .fmt{display:none}.pill{margin-top:8px}footer{font-size:.72rem;line-height:1.5}}
-.langsw{position:fixed;z-index:45;top:var(--sw-y,12px);right:max(14px,env(safe-area-inset-right,0px));height:36px;display:flex;align-items:center}
-.langsw .ic{position:absolute;left:11px;top:50%;width:16px;height:16px;margin-top:-8px;color:var(--muted);pointer-events:none;z-index:1;transition:color .18s}
-.langsw select{appearance:none;-webkit-appearance:none;height:36px;margin:0;padding:0 28px 0 34px;border-radius:12px;border:1px solid var(--line);background:rgba(20,22,29,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2398A1B3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--ink);font:600 .8rem Inter,system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;transition:border-color .18s,background-color .18s,box-shadow .18s}
-.langsw:hover select{border-color:var(--line-2);background-color:rgba(255,255,255,.09);box-shadow:0 10px 26px -12px rgba(124,140,255,.55)}
-.langsw:hover .ic{color:var(--ink)}
-.langsw select option{background:#14161D;color:var(--ink)}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,.drop:focus-visible,.box:focus-visible,.kf:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media (max-width:1100px){.hdr{grid-template-columns:auto 1fr;grid-template-areas:"brand right" "nav nav";row-gap:2px}.brand{grid-area:brand}.hdr-right{grid-area:right}.nav{grid-area:nav;padding-bottom:2px}}
+@media (max-width:700px){.only-mobile{display:flex}.helpwrap .cta{display:none}.helpwrap{position:static}.helpmenu{left:auto;right:12px;width:min(280px,calc(100vw - 24px));top:100%;margin-top:6px;transform-origin:top right;--hi:40px}.helpmenu .dd-h{padding:10px 12px 8px;font-size:.84rem}.help-list{padding:5px 6px}.help-row{padding:0 8px;gap:8px}.help-row b{width:20px;height:20px;font-size:.68rem}.help-row h3{font-size:.8rem}.help-ans p{padding:0 10px 10px 36px;font-size:.76rem;line-height:1.5}.help-nav{padding:6px 10px}.help-nav span{font-size:.7rem}}
+@media (max-width:600px){
+  .hdr{gap:6px;padding-top:8px;padding-bottom:6px}
+  .hdr-right{gap:6px;flex-wrap:nowrap}
+  .cta{height:34px;padding:0 10px;font-size:.6rem;letter-spacing:.06em}
+  .link-btn{height:34px;font-size:.8rem}
+  .langsw select{padding:0 22px 0 28px;font-size:.72rem}.langsw .ic{left:8px}
+  .avatar-btn{width:34px;height:34px}
+  .nav{gap:clamp(18px,6vw,32px)}.nav-link{font-size:.76rem;gap:5px}.beta{height:16px;padding:0 5px;font-size:.54rem}
+  .btn.primary{width:100%}.field input[type=range]{width:90px}
+  .topbar,.tools{justify-content:center}.btn{padding:0 12px}.row{gap:8px}
+  .adv .pair{grid-template-columns:1fr}
+  .modal{padding:12px}.modal-card{padding:16px 16px 12px}
+  #vd-timeline{gap:7px}#vd-time{min-width:78px;font-size:.74rem}.btn.step{width:30px;height:30px}
+  #vd-kfs{gap:6px}.kf{height:28px;font-size:.72rem}
+  .tab{padding:0 20px}
+}
+@media (max-width:700px){
+  .topbar{gap:8px;padding:2px 2px 8px}.tools{gap:6px}.bar{gap:10px;padding:14px 2px 4px}.row{gap:6px}
+  .btn{height:36px;padding:0 10px;gap:6px;border-radius:10px;font-size:.8rem}
+  .btn .ic{width:15px;height:15px}
+  .btn.primary{height:44px;padding:0 18px;font-size:.88rem}
+  .field{height:36px;gap:8px;padding:0 10px;font-size:.8rem}.field select{font-size:.82rem}
+  .scanbar{gap:10px}.scanbar .btn{height:32px;padding:0 10px;font-size:.76rem}
+  .result-actions{padding:6px 0 8px}
+}
+@media (max-width:380px){.btn{padding:0 8px;font-size:.76rem;gap:5px}.btn .ic{width:14px;height:14px}.btn.primary{font-size:.84rem}}
+@media (max-height:640px){.sub,.drop .fmt{display:none}footer{font-size:.72rem;line-height:1.5}}
+@media (max-width:560px){.langsw select{padding:0 18px 0 26px}.langsw select{background-position:right 6px center}}
+@media (max-width:560px){.hdr{padding-left:10px;padding-right:10px}.brand{font-size:.82rem;letter-spacing:.1em}.hdr-right{gap:4px}.cta{padding:0 8px;font-size:.55rem;letter-spacing:.04em}.link-btn{padding:0 2px;font-size:.74rem}.langsw select{font-size:.7rem;padding:0 16px 0 24px}.langsw .ic{left:7px;width:14px;height:14px;margin-top:-7px}.avatar-btn{width:30px;height:30px}}
+@media (max-width:350px){.nav{gap:10px}.nav-link{font-size:.64rem;gap:4px}.beta{font-size:.48rem;padding:0 4px;height:14px}}
+@media (max-width:380px){.brand{font-size:.7rem;letter-spacing:.08em;gap:.35em}.brand .logo{margin-right:.2em}.hdr{padding-left:8px;padding-right:8px}.langsw select{font-size:.66rem;padding:0 14px 0 22px}.link-btn{font-size:.7rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -186,154 +282,301 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
     <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
     <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7"/><path d="M10 4H3"/><path d="M21 12h-9"/><path d="M8 12H3"/><path d="M21 20h-5"/><path d="M12 20H3"/><path d="M14 2v4"/><path d="M8 10v4"/><path d="M16 18v4"/></symbol>
-    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
     <symbol id="i-rubber" viewBox="0 0 24 24"><path d="M20 20H9"/><path d="m4.6 14.1 8.5-8.5a2 2 0 0 1 2.8 0l3.5 3.5a2 2 0 0 1 0 2.8L11.3 20H8.2l-3.6-3.6a2 2 0 0 1 0-2.3z"/><path d="m8.5 10.2 6.3 6.3"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="3"/><path d="m16 10 6-3v10l-6-3"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14"/><path d="M16 5v14"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></symbol>
+    <symbol id="i-rew" viewBox="0 0 24 24"><path d="M11 19V5l-8 7z"/><path d="M21 19V5l-8 7z"/></symbol>
+    <symbol id="i-ff" viewBox="0 0 24 24"><path d="M13 5v14l8-7z"/><path d="M3 5v14l8-7z"/></symbol>
   </defs>
 </svg>
 
 <div id="splash" role="status" aria-label="AETIX DESIGN"><div class="sp-word" aria-hidden="true"></div></div>
-<script>
-(function(){
-  var sp=document.getElementById('splash'),w=sp.firstElementChild,app=document.getElementById('app'),idx=0;
-  window._ps=new Promise(function(r){window._pd=r}); 
-  document.documentElement.classList.add('splashing');if(app)app.inert=true;
-  'AETIX DESIGN'.split('').forEach(function(ch,n){
-    var e=document.createElement('span');
-    if(ch===' '){e.className='gap'}
-    else{e.textContent=ch;e.style.setProperty('--i',idx++);if(n>5)e.className='w2'}
-    w.appendChild(e);
-  });
-  setTimeout(function(){
-    sp.classList.add('out');document.documentElement.classList.remove('splashing');if(app)app.inert=false;
-    setTimeout(function(){sp.remove();window._pd()},900);
-  },2300);
-})();
-</script>
 
-<div class="langsw" id="langsw">
-  <svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>
-  <select id="uilang" aria-label="Idioma da interface" data-i18n-aria="uiLang">
-    <option value="pt">PT</option>
-    <option value="en">EN</option>
-  </select>
-</div>
+<div id="app">
+  <!-- ===================== HEADER ===================== -->
+  <header class="hdr">
+    <button type="button" class="brand" id="brand" aria-label="AETIX DESIGN">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9B6BFF" stop-opacity=".42"/><stop offset="1" stop-color="#7C8CFF" stop-opacity=".2"/></linearGradient></defs><rect x="1.5" y="1.5" width="61" height="61" rx="17" fill="url(#lg)" stroke="#9B6BFF" stroke-opacity=".6"/><path d="M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z" fill="#EDE8FF"/></svg>
+      <span class="b1">AETIX</span><span class="b2">DESIGN</span>
+    </button>
 
-<main class="page" id="app">
-  <header>
-    <div class="logo"><svg class="ic"><use href="#i-spark"/></svg></div>
-    <h1 data-i18n="h1">Removedor de marca d’água</h1>
-    <p class="sub" data-i18n="sub">Apague textos e marcas das suas imagens em poucos cliques.</p>
-    <span class="pill" id="engine" data-s="load" role="status"><i></i><span id="engine-t">Carregando recursos…</span></span>
-  </header>
+    <nav class="nav" id="mainNav" aria-label="Navegação principal" data-i18n-aria="core.navAria">
+      <button type="button" class="nav-link active" data-tab="image" aria-current="page"><span data-i18n="core.navImage">Marca d'água imagem</span><span class="beta">PLUS</span></button>
+      <button type="button" class="nav-link" data-tab="video"><span data-i18n="core.navVideo">Marca d'água vídeo</span><span class="beta">BETA</span></button>
+    </nav>
 
-  <section class="card">
-    <p id="msg" role="status"></p>
-    <label id="drop" tabindex="0">
-      <span class="up-ic"><svg class="ic"><use href="#i-upload"/></svg></span>
-      <strong data-i18n="dropTitle">Arraste sua imagem aqui</strong>
-      <span class="hint" data-i18n="dropHint">ou cole com Ctrl+V</span>
-      <span class="fake" data-i18n="dropBtn">Escolher arquivo</span>
-      <span class="fmt">PNG · JPG · WebP</span>
-      <input type="file" id="file" accept="image/*" hidden>
-    </label>
-
-    <div id="editor" hidden>
-      <div class="topbar">
-        <span id="count" role="status">0 textos</span>
-        <div class="tools">
-          <div class="tool">
-            <button type="button" class="btn" id="pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte à mão o que o OCR não detectou" data-i18n-title="pencilTip"><svg class="ic"><use href="#i-pencil"/></svg><span data-i18n="pencil">Lápis</span></button>
-            <div class="pop" id="penpop" hidden>
-              <div class="pop-h"><span data-i18n="penWidth">Espessura do lápis</span><output id="penv">20px</output></div>
-              <input type="range" id="pen" min="4" max="120" value="20" aria-label="Espessura do lápis" data-i18n-aria="penWidth">
-            </div>
-          </div>
-          <div class="tool">
-            <button type="button" class="btn" id="eraser" aria-pressed="false" aria-expanded="false" title="Borracha: apague partes do traço feito com o lápis" data-i18n-title="eraserTip"><svg class="ic"><use href="#i-rubber"/></svg><span data-i18n="eraser">Borracha</span></button>
-            <div class="pop" id="erapop" hidden>
-              <div class="pop-h"><span data-i18n="eraserWidth">Largura da borracha</span><output id="erav">20px</output></div>
-              <input type="range" id="era" min="4" max="120" value="20" aria-label="Largura da borracha" data-i18n-aria="eraserWidth">
-            </div>
-          </div>
-          <button type="button" class="btn danger" id="reset"><svg class="ic"><use href="#i-trash"/></svg><span data-i18n="removeImage">Remover imagem</span></button>
+    <div class="hdr-right">
+      <div class="helpwrap">
+        <button type="button" class="cta" id="helpOpen" aria-haspopup="true" aria-expanded="false" aria-controls="helpMenu" data-i18n="core.help">CENTRAL DE AJUDA</button>
+        <div class="helpmenu" id="helpMenu" role="region" aria-labelledby="helpMenu-t" hidden>
+          <div class="dd-h"><strong id="helpMenu-t" data-i18n="core.helpTitle">Central de ajuda</strong><button type="button" class="x sm" id="helpClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <ul class="help-list" id="helpList"></ul>
+          <div class="help-nav"><span id="helpCount" aria-live="polite"></span><div><button type="button" class="x sm up" id="helpUp" aria-label="Tópicos anteriores" data-i18n-aria="core.helpUp"><svg class="ic"><use href="#i-chev"/></svg></button><button type="button" class="x sm down" id="helpDown" aria-label="Próximos tópicos" data-i18n-aria="core.helpDown"><svg class="ic"><use href="#i-chev"/></svg></button></div></div>
         </div>
       </div>
-      <div class="stage"><div id="wrap"><canvas id="cnv"></canvas><div id="boxes"></div><canvas id="ov"></canvas><div id="laser" hidden><i></i></div><div id="pcur" hidden></div></div></div>
-      <div id="scanbar" hidden><progress id="prog" max="1" value="0"></progress><button type="button" class="btn ghost" id="cancel"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="cancelScan">Cancelar escaneamento</span></button></div>
-
-      <div id="bar">
-        <div class="row">
-          <button type="button" class="btn ghost" id="all"><svg class="ic"><use href="#i-checks"/></svg><span data-i18n="selectAll">Selecionar todos</span></button>
-          <button type="button" class="btn ghost" id="none"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="clearSel">Limpar seleção</span></button>
-          <button type="button" class="btn" id="draw" aria-pressed="false" title="Arraste sobre a imagem para marcar uma área que não foi detectada" data-i18n-title="drawBoxTip"><svg class="ic"><use href="#i-box"/></svg><span data-i18n="drawBox">Desenhar caixa</span></button>
-          <button type="button" class="btn" id="rescan"><svg class="ic"><use href="#i-refresh"/></svg><span data-i18n="rescan">Reescanear</span></button>
+      <button type="button" class="link-btn" id="pricingOpen" aria-haspopup="dialog" data-i18n="core.pricing">Preços</button>
+      <div class="langsw" id="langsw">
+        <svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>
+        <select id="uiLang" aria-label="Idioma da interface" data-i18n-aria="core.uiLang">
+          <option value="pt">PT</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <div class="profile">
+        <button type="button" class="avatar-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu" aria-label="Conta" data-i18n-aria="core.profile" title="Conta" data-i18n-title="core.profile"><svg class="ic"><use href="#i-user"/></svg></button>
+        <div class="dropdown" id="profileMenu" role="dialog" aria-labelledby="profileMenu-t" hidden>
+          <div class="dd-h"><strong id="profileMenu-t" data-i18n="core.profileTitle">Minha conta</strong><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <div class="dd-body" id="profileBody"><button type="button" class="menu-item only-mobile" id="profileHelp"><svg class="ic"><use href="#i-spark"/></svg><span>Central de Ajuda</span></button></div>
         </div>
-        <div class="row actions">
-          <button type="button" class="btn" id="undo" disabled><svg class="ic"><use href="#i-undo"/></svg><span data-i18n="undo">Desfazer</span></button>
-          <button type="button" class="btn primary" id="go" disabled><svg class="ic"><use href="#i-eraser"/></svg><span id="go-t">Remover selecionados</span></button>
-          <button type="button" class="btn" id="save"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="savePng">Baixar PNG</span></button>
-        </div>
-        <details>
-          <summary><svg class="ic"><use href="#i-sliders"/></svg><span data-i18n="adjust">Ajustes</span></summary>
-          <div class="adv">
-            <label class="field"><span data-i18n="fLang">Idioma</span>
-              <select id="lang">
-                <option value="por+eng" data-i18n="ocrPorEng">Português + Inglês</option>
-                <option value="eng" data-i18n="ocrEng">Inglês</option>
-                <option value="spa+eng" data-i18n="ocrSpaEng">Espanhol + Inglês</option>
-                <option value="fra+eng" data-i18n="ocrFraEng">Francês + Inglês</option>
-                <option value="deu+eng" data-i18n="ocrDeuEng">Alemão + Inglês</option>
-                <option value="ita+eng" data-i18n="ocrItaEng">Italiano + Inglês</option>
-              </select>
-            </label>
-            <label class="field"><span data-i18n="fGran">Detectar por</span>
-              <select id="gran"><option value="words" data-i18n="gWords">Palavras</option><option value="lines" data-i18n="gLines">Linhas</option></select>
-            </label>
-            <label class="field"><span data-i18n="fConf">Confiança mínima</span> <input type="range" id="conf" min="0" max="95" value="45"><output id="confv">45</output></label>
-            <label class="field"><span data-i18n="fMode">Modo</span>
-              <select id="mode"><option value="glyph" data-i18n="mGlyph">Só as letras</option><option value="box" data-i18n="mBox">Caixa inteira</option></select>
-            </label>
-            <label class="field"><span data-i18n="fAlgo">Algoritmo</span>
-              <select id="algo"><option value="telea" data-i18n="aTelea">Suave</option><option value="ns" data-i18n="aNs">Bordas</option></select>
-            </label>
-            <label class="field"><span data-i18n="fPad">Margem da caixa</span> <input type="range" id="pad" min="0" max="20" value="3"><output id="padv">3</output></label>
-            <label class="field"><span data-i18n="fThr">Sensibilidade de cor</span> <input type="range" id="thr" min="8" max="120" value="32"><output id="thrv">32</output></label>
-            <label class="field"><span data-i18n="fDil">Espessura extra</span> <input type="range" id="dil" min="0" max="8" value="3"><output id="dilv">3</output></label>
-            <label class="field"><span data-i18n="fRad">Raio de reconstrução</span> <input type="range" id="rad" min="1" max="15" value="5"><output id="radv">5</output></label>
-            <label class="field"><span data-i18n="fPsm">Leitura do texto</span>
-              <select id="psm"><option value="11" selected data-i18n="psm11">Texto esparso (PSM 11)</option><option value="3" data-i18n="psm3">Página automática (PSM 3)</option><option value="6" data-i18n="psm6">Bloco único</option></select>
-            </label>
-            <label class="field"><span data-i18n="fMerge">Agrupar caixas</span> <input type="range" id="merge" min="0" max="4" step="0.1" value="1.5"><output id="mergev">1.5</output></label>
-            <label class="field"><span data-i18n="fPrep">Pré-processamento</span>
-              <select id="prep"><option value="otsu" selected data-i18n="pOtsu">Otsu (rígido)</option><option value="adaptive" data-i18n="pAdaptive">Adaptativo</option><option value="off" data-i18n="pOff">Desligado</option></select>
-            </label>
-            <label class="field"><span data-i18n="fBinc">Rigor do filtro</span> <input type="range" id="binc" min="3" max="24" value="10"><output id="bincv">10</output></label>
-            <div class="pair">
-              <label class="field"><span data-i18n="fTex">Recriar granulado</span><input type="checkbox" id="tex" checked></label>
-              <label class="field"><span data-i18n="fMeta">Remover metadados</span><input type="checkbox" id="meta" checked></label>
-            </div>
-          </div>
-        </details>
       </div>
     </div>
-  </section>
+  </header>
 
-  <footer>
-    <span data-i18n="footerBy">Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
-    <span data-i18n="footerRights">© AETIX DESIGN. Todos os direitos reservados.</span>
-  </footer>
-</main>
+  <!-- ===================== MAIN ===================== -->
+  <main class="page" id="page">
+    <div class="page-in">
+      <section class="hero">
+        <div class="tabs" role="tablist" aria-label="Modo" data-i18n-aria="core.tabsAria">
+          <button type="button" class="tab" role="tab" id="tabImage" data-tab="image" aria-selected="true" aria-controls="panelImage"><svg class="ic"><use href="#i-image"/></svg><span data-i18n="core.tabImage">Imagem</span></button>
+          <button type="button" class="tab" role="tab" id="tabVideo" data-tab="video" aria-selected="false" aria-controls="panelVideo" tabindex="-1"><svg class="ic"><use href="#i-video"/></svg><span data-i18n="core.tabVideo">Vídeo</span></button>
+        </div>
+        <h1 id="heroTitle" data-i18n="core.h1_image">Removedor de marca d'água em imagens</h1>
+        <p class="sub" id="heroSub" data-i18n="core.sub_image">Apague textos e marcas das suas imagens em poucos cliques.</p>
+        <span class="pill" id="engine" data-s="load" role="status"><i></i><span id="engineText">Carregando recursos…</span></span>
+      </section>
 
-<button type="button" class="help-fab" id="helpBtn" aria-label="Central de ajuda" data-i18n-aria="helpTitle" aria-haspopup="dialog" title="Central de ajuda" data-i18n-title="helpTitle" hidden><svg class="ic"><use href="#i-help"/></svg></button>
-<div class="modal" id="help" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="help-t">
-    <div class="modal-h"><h2 id="help-t" data-i18n="helpTitle">Central de ajuda</h2><button type="button" class="x" id="helpX" aria-label="Fechar" data-i18n-aria="close"><svg class="ic"><use href="#i-x"/></svg></button></div>
-    <ol class="acc" id="acc"></ol>
+      <!-- =============== PAINEL: IMAGEM =============== -->
+      <section class="card" id="panelImage" role="tabpanel" aria-labelledby="tabImage">
+        <p class="msg" id="im-msg" role="status"></p>
+        <label class="drop" id="im-drop" tabindex="0">
+          <span class="up-ic"><svg class="ic"><use href="#i-upload"/></svg></span>
+          <strong data-i18n="img.dropTitle">Arraste sua imagem aqui</strong>
+          <span class="hint" data-i18n="img.dropHint">ou cole com Ctrl+V</span>
+          <span class="fake" data-i18n="img.dropBtn">Escolher arquivo</span>
+          <span class="fmt">PNG · JPG · WebP</span>
+          <input type="file" id="im-file" accept="image/*" hidden>
+        </label>
+
+        <div id="im-editor" hidden>
+          <div class="topbar">
+            <span class="count" id="im-count" role="status">0 textos</span>
+            <div class="tools">
+              <div class="tool">
+                <button type="button" class="btn" id="im-pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte à mão o que o OCR não detectou" data-i18n-title="img.pencilTip"><svg class="ic"><use href="#i-pencil"/></svg><span data-i18n="img.pencil">Lápis</span></button>
+                <div class="pop" id="im-penpop" hidden>
+                  <div class="pop-h"><span data-i18n="img.penWidth">Espessura do lápis</span><output id="im-penv">20px</output></div>
+                  <input type="range" id="im-pen" min="4" max="120" value="20" aria-label="Espessura do lápis" data-i18n-aria="img.penWidth">
+                </div>
+              </div>
+              <div class="tool">
+                <button type="button" class="btn" id="im-eraser" aria-pressed="false" aria-expanded="false" title="Borracha: apague partes do traço feito com o lápis" data-i18n-title="img.eraserTip"><svg class="ic"><use href="#i-rubber"/></svg><span data-i18n="img.eraser">Borracha</span></button>
+                <div class="pop" id="im-erapop" hidden>
+                  <div class="pop-h"><span data-i18n="img.eraserWidth">Largura da borracha</span><output id="im-erav">20px</output></div>
+                  <input type="range" id="im-era" min="4" max="120" value="20" aria-label="Largura da borracha" data-i18n-aria="img.eraserWidth">
+                </div>
+              </div>
+              <button type="button" class="btn danger" id="im-reset"><svg class="ic"><use href="#i-trash"/></svg><span data-i18n="img.removeImage">Remover imagem</span></button>
+            </div>
+          </div>
+
+          <div class="stage"><div class="wrap" id="im-wrap"><canvas id="im-cnv"></canvas><div class="layer" id="im-boxes"></div><canvas class="ov" id="im-ov"></canvas><div class="laser" id="im-laser" hidden><i></i></div><div class="pcur" id="im-pcur" hidden></div></div></div>
+          <div class="scanbar" id="im-scanbar" hidden><progress id="im-prog" max="1" value="0"></progress><button type="button" class="btn ghost" id="im-cancel"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="img.cancelScan">Cancelar escaneamento</span></button></div>
+
+          <div class="bar" id="im-bar">
+            <div class="row">
+              <button type="button" class="btn ghost" id="im-all"><svg class="ic"><use href="#i-checks"/></svg><span data-i18n="img.selectAll">Selecionar todos</span></button>
+              <button type="button" class="btn ghost" id="im-none"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="img.clearSel">Limpar seleção</span></button>
+              <button type="button" class="btn" id="im-draw" aria-pressed="false" title="Arraste sobre a imagem para marcar uma área que não foi detectada" data-i18n-title="img.drawBoxTip"><svg class="ic"><use href="#i-box"/></svg><span data-i18n="img.drawBox">Desenhar caixa</span></button>
+              <button type="button" class="btn" id="im-rescan"><svg class="ic"><use href="#i-refresh"/></svg><span data-i18n="img.rescan">Reescanear</span></button>
+            </div>
+            <div class="row actions">
+              <button type="button" class="btn" id="im-undo" disabled><svg class="ic"><use href="#i-undo"/></svg><span data-i18n="img.undo">Desfazer</span></button>
+              <button type="button" class="btn primary" id="im-go" disabled><svg class="ic"><use href="#i-eraser"/></svg><span id="im-go-t">Remover selecionados</span></button>
+              <button type="button" class="btn" id="im-save"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="img.savePng">Baixar PNG</span></button>
+            </div>
+            <details>
+              <summary><svg class="ic"><use href="#i-sliders"/></svg><span data-i18n="img.adjust">Ajustes</span></summary>
+              <div class="adv">
+                <label class="field"><span data-i18n="img.fLang">Idioma</span>
+                  <select id="im-lang">
+                    <option value="por+eng" data-i18n="img.ocrPorEng">Português + Inglês</option>
+                    <option value="eng" data-i18n="img.ocrEng">Inglês</option>
+                    <option value="spa+eng" data-i18n="img.ocrSpaEng">Espanhol + Inglês</option>
+                    <option value="fra+eng" data-i18n="img.ocrFraEng">Francês + Inglês</option>
+                    <option value="deu+eng" data-i18n="img.ocrDeuEng">Alemão + Inglês</option>
+                    <option value="ita+eng" data-i18n="img.ocrItaEng">Italiano + Inglês</option>
+                  </select>
+                </label>
+                <label class="field"><span data-i18n="img.fGran">Detectar por</span>
+                  <select id="im-gran"><option value="words" data-i18n="img.gWords">Palavras</option><option value="lines" data-i18n="img.gLines">Linhas</option></select>
+                </label>
+                <label class="field"><span data-i18n="img.fConf">Confiança mínima</span> <input type="range" id="im-conf" min="0" max="95" value="45"><output id="im-confv">45</output></label>
+                <label class="field"><span data-i18n="img.fMode">Modo</span>
+                  <select id="im-mode"><option value="glyph" data-i18n="img.mGlyph">Só as letras</option><option value="box" data-i18n="img.mBox">Caixa inteira</option></select>
+                </label>
+                <label class="field"><span data-i18n="img.fAlgo">Algoritmo</span>
+                  <select id="im-algo"><option value="telea" data-i18n="img.aTelea">Suave</option><option value="ns" data-i18n="img.aNs">Bordas</option></select>
+                </label>
+                <label class="field"><span data-i18n="img.fPad">Margem da caixa</span> <input type="range" id="im-pad" min="0" max="20" value="3"><output id="im-padv">3</output></label>
+                <label class="field"><span data-i18n="img.fThr">Sensibilidade de cor</span> <input type="range" id="im-thr" min="8" max="120" value="32"><output id="im-thrv">32</output></label>
+                <label class="field"><span data-i18n="img.fDil">Espessura extra</span> <input type="range" id="im-dil" min="0" max="8" value="3"><output id="im-dilv">3</output></label>
+                <label class="field"><span data-i18n="img.fRad">Raio de reconstrução</span> <input type="range" id="im-rad" min="1" max="15" value="5"><output id="im-radv">5</output></label>
+                <label class="field"><span data-i18n="img.fPsm">Leitura do texto</span>
+                  <select id="im-psm"><option value="11" selected data-i18n="img.psm11">Texto esparso (PSM 11)</option><option value="3" data-i18n="img.psm3">Página automática (PSM 3)</option><option value="6" data-i18n="img.psm6">Bloco único</option></select>
+                </label>
+                <label class="field"><span data-i18n="img.fMerge">Agrupar caixas</span> <input type="range" id="im-merge" min="0" max="4" step="0.1" value="1.5"><output id="im-mergev">1.5</output></label>
+                <label class="field"><span data-i18n="img.fPrep">Pré-processamento</span>
+                  <select id="im-prep"><option value="otsu" selected data-i18n="img.pOtsu">Otsu (rígido)</option><option value="adaptive" data-i18n="img.pAdaptive">Adaptativo</option><option value="off" data-i18n="img.pOff">Desligado</option></select>
+                </label>
+                <label class="field"><span data-i18n="img.fBinc">Rigor do filtro</span> <input type="range" id="im-binc" min="3" max="24" value="10"><output id="im-bincv">10</output></label>
+                <div class="pair">
+                  <label class="field"><span data-i18n="img.fTex">Recriar granulado</span><input type="checkbox" id="im-tex" checked></label>
+                  <label class="field"><span data-i18n="img.fMeta">Remover metadados</span><input type="checkbox" id="im-meta" checked></label>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============== PAINEL: VÍDEO =============== -->
+      <section class="card hidden" id="panelVideo" role="tabpanel" aria-labelledby="tabVideo">
+        <p class="msg" id="vd-msg" role="status"></p>
+        <label class="drop" id="vd-drop" tabindex="0">
+          <span class="up-ic"><svg class="ic"><use href="#i-video"/></svg></span>
+          <strong data-i18n="vid.dropTitle">Arraste seu vídeo aqui</strong>
+          <span class="hint" data-i18n="vid.dropHint">ou cole com Ctrl+V</span>
+          <span class="fake" data-i18n="vid.dropBtn">Escolher arquivo</span>
+          <span class="fmt">MP4 · MOV · WEBM</span>
+          <input type="file" id="vd-file" accept="video/mp4,video/quicktime,video/webm,video/*" hidden>
+        </label>
+
+        <div id="vd-editor" hidden>
+          <div class="topbar">
+            <span class="count" id="vd-count" role="status"></span>
+            <div class="tools">
+              <div class="tool">
+                <button type="button" class="btn" id="vd-pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte a marca d’água na posição atual" data-i18n-title="vid.pencilTip"><svg class="ic"><use href="#i-pencil"/></svg><span data-i18n="vid.pencil">Lápis</span></button>
+                <div class="pop" id="vd-penpop" hidden>
+                  <div class="pop-h"><span data-i18n="vid.penWidth">Espessura do lápis</span><output id="vd-penv">20px</output></div>
+                  <input type="range" id="vd-pen" min="4" max="120" value="20" aria-label="Espessura do lápis" data-i18n-aria="vid.penWidth">
+                </div>
+              </div>
+              <div class="tool">
+                <button type="button" class="btn" id="vd-eraser" aria-pressed="false" aria-expanded="false" title="Borracha: apague partes do traço feito com o lápis" data-i18n-title="vid.eraserTip"><svg class="ic"><use href="#i-rubber"/></svg><span data-i18n="vid.eraser">Borracha</span></button>
+                <div class="pop" id="vd-erapop" hidden>
+                  <div class="pop-h"><span data-i18n="vid.eraserWidth">Largura da borracha</span><output id="vd-erav">20px</output></div>
+                  <input type="range" id="vd-era" min="4" max="120" value="20" aria-label="Largura da borracha" data-i18n-aria="vid.eraserWidth">
+                </div>
+              </div>
+              <button type="button" class="btn danger" id="vd-reset"><svg class="ic"><use href="#i-trash"/></svg><span data-i18n="vid.removeVideo">Remover vídeo</span></button>
+            </div>
+          </div>
+
+          <div class="stage">
+            <div class="wrap" id="vd-wrap">
+              <video id="vd-vid" playsinline preload="metadata"></video>
+              <canvas class="ov" id="vd-ov"></canvas>
+              <div class="pcur" id="vd-pcur" hidden></div>
+            </div>
+          </div>
+
+          <div id="vd-timeline">
+            <button type="button" class="btn play" id="vd-play" aria-label="Reproduzir" data-i18n-aria="vid.play"><svg class="ic"><use id="vd-playic" href="#i-play"/></svg></button>
+            <button type="button" class="btn step ghost" id="vd-prevf" aria-label="Quadro anterior" data-i18n-aria="vid.prevFrame" title="Quadro anterior" data-i18n-title="vid.prevFrame"><svg class="ic"><use href="#i-rew"/></svg></button>
+            <button type="button" class="btn step ghost" id="vd-nextf" aria-label="Próximo quadro" data-i18n-aria="vid.nextFrame" title="Próximo quadro" data-i18n-title="vid.nextFrame"><svg class="ic"><use href="#i-ff"/></svg></button>
+            <div id="vd-tlbody">
+              <div id="vd-marks" aria-hidden="true"></div>
+              <input type="range" id="vd-seek" min="0" max="1" step="0.01" value="0" aria-label="Tempo do vídeo" data-i18n-aria="vid.seek">
+            </div>
+            <span id="vd-time">0:00 / 0:00</span>
+          </div>
+
+          <div id="vd-kfs">
+            <button type="button" class="btn" id="vd-addkf"><svg class="ic"><use href="#i-flag"/></svg><span data-i18n="vid.addKf">Adicionar keyframe</span></button>
+            <div id="vd-kflist" role="list"></div>
+            <button type="button" class="btn ghost" id="vd-delkf" disabled><svg class="ic"><use href="#i-trash"/></svg><span data-i18n="vid.delKf">Excluir keyframe</span></button>
+          </div>
+          <p id="vd-kfhint" data-i18n="vid.kfHint">Pause o vídeo no tempo desejado e pinte a marca d’água. Repita em outros tempos para criar a trajetória.</p>
+
+          <div class="scanbar" id="vd-scanbar" hidden><progress id="vd-prog" max="1" value="0"></progress><button type="button" class="btn ghost" id="vd-cancel"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="vid.cancelRender">Cancelar renderização</span></button></div>
+
+          <div class="bar" id="vd-bar">
+            <div class="row actions">
+              <button type="button" class="btn primary" id="vd-render" disabled><svg class="ic"><use href="#i-spark"/></svg><span data-i18n="vid.render">Renderizar vídeo</span></button>
+              <button type="button" class="btn" id="vd-save" disabled><svg class="ic"><use href="#i-download"/></svg><span data-i18n="vid.saveMp4">Baixar MP4</span></button>
+            </div>
+            <details>
+              <summary><svg class="ic"><use href="#i-sliders"/></svg><span data-i18n="vid.adjust">Ajustes</span></summary>
+              <div class="adv">
+                <label class="field"><span data-i18n="vid.fAlgo">Algoritmo</span>
+                  <select id="vd-algo"><option value="telea" data-i18n="vid.aTelea">Suave</option><option value="ns" data-i18n="vid.aNs">Bordas</option></select>
+                </label>
+                <label class="field"><span data-i18n="vid.fRad">Raio de reconstrução</span> <input type="range" id="vd-rad" min="1" max="15" value="5"><output id="vd-radv">5</output></label>
+                <label class="field"><span data-i18n="vid.fDil">Espessura extra</span> <input type="range" id="vd-dil" min="0" max="8" value="2"><output id="vd-dilv">2</output></label>
+                <label class="field"><span data-i18n="vid.fQuality">Qualidade do MP4</span>
+                  <select id="vd-quality">
+                    <option value="6000000" data-i18n="vid.qHigh">Alta (6 Mbps)</option>
+                    <option value="3000000" data-i18n="vid.qMid">Média (3 Mbps)</option>
+                    <option value="1500000" data-i18n="vid.qLow">Leve (1,5 Mbps)</option>
+                  </select>
+                </label>
+                <div class="pair">
+                  <label class="field"><span data-i18n="vid.fNoise">Ruído anti-forense</span><input type="checkbox" id="vd-noise" checked></label>
+                  <label class="field"><span data-i18n="vid.fMeta">Remover metadados</span><input type="checkbox" id="vd-meta" checked></label>
+                </div>
+                <p class="adv-note" data-i18n="vid.advNote">A máscara é interpolada linearmente entre os keyframes. O processamento acontece só na área pintada, em 480p, para terminar rápido.</p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span data-i18n="core.footerBy">Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
+        <span data-i18n="core.footerRights">© AETIX DESIGN. Todos os direitos reservados.</span>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<!-- ===================== MODAIS ===================== -->
+<div class="modal" id="pricingModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="pricingModal-t">
+    <div class="modal-h"><h2 id="pricingModal-t" data-i18n="core.pricingTitle">Preços</h2><button type="button" class="x" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div class="modal-body price-body" id="pricingBody"><p class="price-sub">Victor Dev</p><p class="price-phrase">já quer pagar kkkk?</p></div>
   </div>
 </div>
 
-<script src="script.js"></script>
+<div class="modal" id="vd-result" hidden>
+  <div class="modal-card result-card" role="dialog" aria-modal="true" aria-labelledby="vd-result-t">
+    <div class="modal-h"><h2 id="vd-result-t" data-i18n="vid.resultTitle">Vídeo pronto</h2><button type="button" class="x" id="vd-resultX" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <video id="vd-resvid" controls playsinline></video>
+    <p class="result-sub" id="vd-resultSub" data-i18n="vid.resultHint">Confira o resultado e baixe o MP4. O áudio original foi mantido.</p>
+    <div class="row result-actions">
+      <button type="button" class="btn primary" id="vd-resultSave"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="vid.saveMp4">Baixar MP4</span></button>
+      <button type="button" class="btn ghost" data-close-modal data-i18n="core.close">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js?v=20261029c" defer></script>
+<script>
+window.addEventListener('load',function(){
+  var ok=window.AetixApp&&window.AetixApp.Core&&typeof window.AetixApp.Core.openHelp==='function';
+  if(ok)return;
+  var d=document.createElement('div');
+  d.setAttribute('role','alert');
+  d.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:999;padding:12px 14px;border-radius:12px;background:#2a1220;border:1px solid #FF6B83;color:#FFD5DC;font:500 14px/1.4 Inter,system-ui,sans-serif;text-align:center';
+  d.textContent='O arquivo script.js carregado está desatualizado ou com erro. Substitua-o pelo script.js mais recente, na mesma pasta do index.html, e recarregue com Ctrl+F5.';
+  document.body.appendChild(d);
+});
+</script>
 </body>
 </html>
