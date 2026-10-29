@@ -46,7 +46,7 @@ background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparen
 /* editor */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 12px}
 #count{font-size:.9rem;color:var(--muted)}
-.stage{display:flex;justify-content:center;align-items:center;padding:12px;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:conic-gradient(#12141B 25%,#0D0F15 0 50%,#12141B 0 75%,#0D0F15 0) 0 0/20px 20px}
+.stage{display:flex;justify-content:center;align-items:center;padding:12px;overflow:hidden;border-radius:18px;border:1px solid var(--line);background:transparent}
 #wrap{position:relative;display:inline-block;max-width:100%;line-height:0}
 #cnv{display:block;max-width:100%;max-height:68vh;width:auto;height:auto;border-radius:6px}
 #boxes{position:absolute;inset:0}
@@ -88,6 +88,8 @@ summary::-webkit-details-marker{display:none}
 summary:hover{color:var(--ink);background:var(--panel)}
 .adv{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px;text-align:left}
 .adv .field{justify-content:space-between}
+.adv .pair{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:480px){.adv .pair{grid-template-columns:1fr}}
 #msg{min-height:1.6em;margin:18px 0 0;text-align:center;font-size:.92rem;color:var(--muted)}
 #msg.err{color:var(--err)}
 footer{padding:26px 20px 38px;text-align:center;color:var(--dim);font-size:.8rem;line-height:1.7}
@@ -169,7 +171,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
             <label class="field">Detectar por
               <select id="gran"><option value="words">Palavras</option><option value="lines">Linhas</option></select>
             </label>
-            <label class="field">Confiança mínima <input type="range" id="conf" min="0" max="95" value="35"><output id="confv">35</output></label>
+            <label class="field">Confiança mínima <input type="range" id="conf" min="0" max="95" value="45"><output id="confv">45</output></label>
             <label class="field">Modo
               <select id="mode"><option value="glyph">Só as letras</option><option value="box">Caixa inteira</option></select>
             </label>
@@ -180,7 +182,14 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
             <label class="field">Sensibilidade de cor <input type="range" id="thr" min="8" max="120" value="32"><output id="thrv">32</output></label>
             <label class="field">Espessura extra <input type="range" id="dil" min="0" max="8" value="3"><output id="dilv">3</output></label>
             <label class="field">Raio de reconstrução <input type="range" id="rad" min="1" max="15" value="5"><output id="radv">5</output></label>
-            <label class="field"><span>Recriar granulado</span><input type="checkbox" id="tex" checked></label>
+            <label class="field">Leitura do texto
+              <select id="psm"><option value="11">Texto esparso</option><option value="3">Página automática</option><option value="6">Bloco único</option></select>
+            </label>
+            <label class="field">Agrupar caixas <input type="range" id="merge" min="0" max="4" step="0.1" value="1.5"><output id="mergev">1.5</output></label>
+            <div class="pair">
+              <label class="field"><span>Recriar granulado</span><input type="checkbox" id="tex" checked></label>
+              <label class="field"><span>Remover metadados</span><input type="checkbox" id="meta"></label>
+            </div>
           </div>
         </details>
       </div>
@@ -209,7 +218,7 @@ const chip=(k,s)=>{
   $('#engine-t').textContent=st==='ok'?'Pronto para usar':st==='err'?'Detecção automática indisponível':'Carregando recursos…';
 };
 const cnv=$('#cnv'),cx=cnv.getContext('2d',{willReadFrequently:true});
-const MAX=3000;
+const MAX=4096;
 let W=0,H=0,boxes=[],raw={words:[],lines:[]},rawScale=1,hist=[],worker=null,workerLang='',busy=false,drawMode=false,cvOK=false;
 
 /* ===== carregamento das bibliotecas (CDN) ===== */
@@ -312,10 +321,10 @@ async function scan(){
       }});
       workerLang=lang;
     }
-    await worker.setParameters({tessedit_pageseg_mode:'11'}); /* texto esparso: melhor para marcas espalhadas */
-    rawScale=Math.max(W,H)<1600?2:1; /* amplia imagens pequenas para o OCR enxergar melhor */
+    await worker.setParameters({tessedit_pageseg_mode:$('#psm').value,preserve_interword_spaces:'1'});
+    const mx=Math.max(W,H);rawScale=mx<1600?2:mx>3200?3200/mx:1; /* amplia imagens pequenas; reduz as gigantes */
     const oc=document.createElement('canvas');oc.width=Math.round(W*rawScale);oc.height=Math.round(H*rawScale);
-    const o=oc.getContext('2d');o.fillStyle='#fff';o.fillRect(0,0,oc.width,oc.height);o.drawImage(cnv,0,0,oc.width,oc.height);
+    const o=oc.getContext('2d');o.fillStyle='#fff';o.fillRect(0,0,oc.width,oc.height);o.imageSmoothingQuality='high';try{o.filter='grayscale(1) contrast(1.25)'}catch(e){}o.drawImage(cnv,0,0,oc.width,oc.height);
     pg.removeAttribute('value');
     const {data}=await worker.recognize(oc);
     raw={words:collect(data,'words'),lines:collect(data,'lines')};
@@ -325,18 +334,59 @@ async function scan(){
   }catch(e){console.error(e);say('Erro na detecção de texto: '+(e&&e.message||e)+'. Você ainda pode usar “Desenhar caixa”.',true)}
   pg.hidden=true;setBusy(false);
 }
+/* agrupa caixas próximas na mesma linha em uma só (marcas longas não são mais quebradas) */
+function mergeBoxes(list,k){
+  const n=list.length;if(n<2||k<=0)return list;
+  const p=list.map((_,i)=>i),f=i=>{while(p[i]!==i){p[i]=p[p[i]];i=p[i]}return i};
+  for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){
+    const a=list[i],b=list[j],minH=Math.min(a.h,b.h),maxH=Math.max(a.h,b.h);
+    if(Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y)<minH*.5)continue; /* fora da mesma linha */
+    if(maxH>minH*2.2)continue;                                         /* tamanhos de fonte diferentes */
+    if(Math.max(a.x,b.x)-Math.min(a.x+a.w,b.x+b.w)<=maxH*k)p[f(i)]=f(j); /* próximas na horizontal */
+  }
+  const g=new Map();
+  list.forEach((b,i)=>{const r=f(i);if(!g.has(r))g.set(r,[]);g.get(r).push(b)});
+  return [...g.values()].map(m=>{
+    if(m.length===1)return m[0];
+    m.sort((a,b)=>a.x-b.x);
+    const x0=Math.min(...m.map(b=>b.x)),y0=Math.min(...m.map(b=>b.y)),x1=Math.max(...m.map(b=>b.x+b.w)),y1=Math.max(...m.map(b=>b.y+b.h));
+    const chars=m.reduce((t,b)=>t+b.text.length,0);
+    return{x:x0,y:y0,w:x1-x0,h:y1-y0,text:m.map(b=>b.text).join(' '),conf:m.reduce((t,b)=>t+b.conf*b.text.length,0)/chars,sel:false};
+  });
+}
+/* descarta caixas sobre áreas vazias/lisas: sem variação de luminância não há texto */
+function contrastOK(b){
+  const x=Math.max(0,Math.floor(b.x)),y=Math.max(0,Math.floor(b.y)),w=Math.min(W-x,Math.ceil(b.w)),h=Math.min(H-y,Math.ceil(b.h));
+  if(w<2||h<2)return false;
+  const d=cx.getImageData(x,y,w,h).data,n=w*h;let s=0,q=0;
+  for(let i=0;i<n;i++){const l=d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114;s+=l;q+=l*l}
+  const m=s/n;return Math.sqrt(Math.max(0,q/n-m*m))>=4.5;
+}
 function buildBoxes(){
-  const items=raw[$('#gran').value]||[],minc=+$('#conf').value,s=rawScale;
-  const det=items.filter(w=>w.bbox&&w.confidence>=minc&&/[\p{L}\p{N}]/u.test(w.text||'')).map(w=>({
-    x:w.bbox.x0/s,y:w.bbox.y0/s,w:(w.bbox.x1-w.bbox.x0)/s,h:(w.bbox.y1-w.bbox.y0)/s,
-    text:(w.text||'').trim(),conf:Math.round(w.confidence),sel:false}));
+  const items=raw[$('#gran').value]||[],minc=+$('#conf').value,s=rawScale,minDim=Math.min(W,H);
+  let det=[];
+  for(const w of items){
+    if(!w.bbox)continue;
+    const text=(w.text||'').trim(),conf=w.confidence;
+    if(!text||conf<minc)continue;
+    const chars=text.replace(/\s/g,''),good=(chars.match(/[\p{L}\p{N}]/gu)||[]).length;
+    if(good/chars.length<.6)continue;                 /* símbolos soltos = ruído */
+    if(good<2&&conf<80)continue;                      /* letra isolada só com alta confiança */
+    const b={x:w.bbox.x0/s,y:w.bbox.y0/s,w:(w.bbox.x1-w.bbox.x0)/s,h:(w.bbox.y1-w.bbox.y0)/s,text,conf,sel:false};
+    if(b.h<minDim*.008||b.h>H*.4||b.w<2)continue;     /* minúsculo ou gigante demais */
+    if(b.h>b.w*3&&good<3)continue;                    /* riscos verticais */
+    det.push(b);
+  }
+  det=mergeBoxes(det,+$('#merge').value).filter(contrastOK).map(b=>({...b,conf:Math.round(b.conf)}));
   boxes=boxes.filter(b=>b.manual).concat(det);render();
 }
 $('#rescan').onclick=scan;
 $('#lang').onchange=scan;
+$('#psm').onchange=scan;
 $('#gran').onchange=()=>{boxes=boxes.filter(b=>b.manual);buildBoxes()};
 $('#conf').oninput=e=>{$('#confv').textContent=e.target.value;if(raw.words.length||raw.lines.length)buildBoxes()};
-[['pad'],['thr'],['dil'],['rad']].forEach(([k])=>$('#'+k).oninput=e=>$('#'+k+'v').textContent=e.target.value);
+[['pad'],['thr'],['dil'],['rad'],['merge']].forEach(([k])=>$('#'+k).oninput=e=>$('#'+k+'v').textContent=e.target.value);
+$('#merge').addEventListener('input',()=>{if(raw.words.length||raw.lines.length)buildBoxes()});
 
 /* ===== caixas clicáveis ===== */
 const layer=$('#boxes');
@@ -408,6 +458,19 @@ function buildMask(sel){
   return m;
 }
 const gauss=()=>Math.sqrt(-2*Math.log(Math.random()+1e-9))*Math.cos(6.2831853*Math.random());
+/* micro-ruído estocástico de ±1 no RGB dos pixels reconstruídos (Anti-DeInpainting) */
+function jitter(d,mk){
+  const buf=new Uint8Array(65536);let bi=buf.length;
+  const fill=()=>{try{crypto.getRandomValues(buf)}catch(e){for(let i=0;i<buf.length;i++)buf[i]=Math.random()*256|0}bi=0};
+  for(let i=0;i<W*H;i++){
+    if(!mk[i])continue;
+    for(let ch=0;ch<3;ch++){
+      if(bi>=buf.length)fill();
+      const v=d[i*4+ch]+(buf[bi++]%3-1);
+      d[i*4+ch]=v<0?0:v>255?255:v;
+    }
+  }
+}
 function grain(d,m){ /* estima o granulado da foto fora da máscara */
   const diffs=[],l=j=>d[j*4]*.3+d[j*4+1]*.59+d[j*4+2]*.11;
   if(W<4||H<4)return 0;
@@ -443,6 +506,7 @@ function inpaintCV(sel,m){
       if(!md[i])continue;const g=gauss()*sg;
       for(let ch=0;ch<3;ch++)res.data[i*4+ch]=clamp(res.data[i*4+ch]+g+gauss()*sg*.25,0,255);
     }
+    if($('#meta').checked)jitter(res.data,md);
     cx.putImageData(res,0,0);
   }finally{[rgba,rgb,mask,out,k].forEach(x=>x&&x.delete())}
 }
@@ -498,6 +562,7 @@ function inpaintJS(m){
     const b=bm[i];if(!b)continue;const g=gauss()*sg;
     for(let ch=0;ch<3;ch++){const v=F[i*3+ch]+g+gauss()*sg*.25;d[i*4+ch]=d[i*4+ch]*(1-b)+clamp(v,0,255)*b}
   }
+  if($('#meta').checked)jitter(d,mm);
   cx.putImageData(src,0,0);
 }
 
@@ -525,12 +590,17 @@ $('#undo').onclick=()=>{
 
 /* ===== download ===== */
 $('#save').onclick=()=>{
-  cnv.toBlob(b=>{
+  let c=cnv;
+  if($('#meta').checked){ /* tela nova, sem nenhum dado do arquivo original (EXIF, perfil de cor, miniaturas) */
+    c=document.createElement('canvas');c.width=W;c.height=H;
+    const k=c.getContext('2d');k.imageSmoothingEnabled=false;k.drawImage(cnv,0,0);
+  }
+  c.toBlob(b=>{ /* PNG é sem perdas; qualidade 1 por garantia */
     if(!b){say('Não foi possível gerar o PNG.',true);return}
     const a=document.createElement('a'),u=URL.createObjectURL(b);
     a.href=u;a.download='imagem-sem-marca.png';document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(u),4000);say('Imagem salva.');
-  },'image/png');
+  },'image/png',1);
 };
 
 /* acessibilidade: abrir o seletor com Enter/Espaço */
