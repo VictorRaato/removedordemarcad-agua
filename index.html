@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Removedor de marca d’água · AETIX DESIGN</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Cdefs%3E%0A%3CradialGradient%20id%3D%22g%22%20cx%3D%2250%25%22%20cy%3D%2238%25%22%20r%3D%2275%25%22%3E%0A%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23171a2c%22%2F%3E%0A%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2306070c%22%2F%3E%0A%3C%2FradialGradient%3E%0A%3ClinearGradient%20id%3D%22t%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23aab3ff%22%2F%3E%0A%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23c79bff%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3Cfilter%20id%3D%22n%22%20x%3D%22-60%25%22%20y%3D%22-60%25%22%20width%3D%22220%25%22%20height%3D%22220%25%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20stdDeviation%3D%222.6%22%20result%3D%22b1%22%2F%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20stdDeviation%3D%221.1%22%20result%3D%22b2%22%2F%3E%0A%3CfeMerge%3E%0A%3CfeMergeNode%20in%3D%22b1%22%2F%3E%0A%3CfeMergeNode%20in%3D%22b2%22%2F%3E%0A%3CfeMergeNode%20in%3D%22SourceGraphic%22%2F%3E%0A%3C%2FfeMerge%3E%0A%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22url%28%23g%29%22%2F%3E%0A%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2262%22%20height%3D%2262%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%237C8CFF%22%20stroke-opacity%3D%22.35%22%2F%3E%0A%3Ctext%20x%3D%2232%22%20y%3D%2243%22%20font-family%3D%22Inter%2CSegoe%20UI%2Csystem-ui%2Csans-serif%22%20font-size%3D%2227%22%20font-weight%3D%22700%22%20letter-spacing%3D%22-1%22%20text-anchor%3D%22middle%22%20fill%3D%22url%28%23t%29%22%20filter%3D%22url%28%23n%29%22%3EAE%3C%2Ftext%3E%0A%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,10 +28,7 @@ h1{margin:0 0 10px;font-size:clamp(1.9rem,5vw,2.9rem);font-weight:700;letter-spa
 .pill[data-s="err"] i{background:var(--err)}
 .pill[data-s="load"] i{animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.3}}
-
 .card{padding:14px;border-radius:26px;border:1px solid var(--line);background:var(--panel);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 40px 90px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05)}
-
-/* upload */
 #drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:340px;padding:40px 22px;text-align:center;cursor:pointer;border-radius:20px;border:1px solid var(--line);
 background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));transition:border-color .2s,box-shadow .2s,background .2s}
 #drop:hover,#drop.over{border-color:rgba(124,140,255,.6);box-shadow:0 0 0 4px rgba(124,140,255,.12),0 20px 60px -20px rgba(124,140,255,.35)}
@@ -42,8 +40,6 @@ background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparen
 #drop .fake{display:inline-flex;margin-top:20px;height:42px;align-items:center;padding:0 22px;border-radius:12px;font-weight:600;font-size:.92rem;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 10px 28px -10px rgba(124,140,255,.75);transition:filter .18s,transform .18s}
 #drop:hover .fake{filter:brightness(1.1);transform:translateY(-1px)}
 #drop .fmt{margin-top:14px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-
-/* editor */
 .topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 12px}
 .tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px}
 .tool{position:relative;display:inline-flex}
@@ -68,7 +64,6 @@ background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparen
 #ov{position:absolute;inset:0;width:100%;height:100%;opacity:.6;pointer-events:none;border-radius:6px}
 #wrap.pen #ov{pointer-events:auto;cursor:none;touch-action:none}
 #pcur{position:absolute;z-index:3;pointer-events:none;border-radius:50%;border:1.5px solid rgba(255,255,255,.95);box-shadow:0 0 0 1px rgba(0,0,0,.55);transform:translate(-50%,-50%)}
-/* feixe de laser durante a leitura */
 #laser{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;border-radius:6px}
 #laser i{position:absolute;inset:0;
 background:linear-gradient(90deg,transparent 0,#fff 50%,transparent 100%) bottom/100% 2px no-repeat,linear-gradient(180deg,transparent 55%,rgba(124,140,255,.22) 85%,rgba(155,107,255,.45) 100%);
@@ -78,13 +73,10 @@ progress{display:block;width:100%;height:4px;margin-top:12px;border:0;border-rad
 progress::-webkit-progress-bar{background:var(--line);border-radius:99px}
 progress::-webkit-progress-value{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px}
 progress::-moz-progress-bar{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:99px}
-
 #pcur.era{border-style:dashed}
 #scanbar{display:flex;align-items:center;gap:14px;margin-top:12px}
 #scanbar progress{flex:1;margin-top:0}
 #scanbar .btn{height:34px;padding:0 14px;font-size:.84rem}
-
-/* tela de entrada */
 html.splashing,html.splashing body{overflow:hidden}
 #splash{position:fixed;inset:0;height:100dvh;z-index:200;display:grid;place-items:center;background:radial-gradient(720px 440px at 50% 44%,rgba(124,140,255,.16),transparent 70%),#05060A;transition:opacity .75s ease,visibility .75s;will-change:opacity;contain:strict}
 #splash.out{opacity:0;visibility:hidden}
@@ -94,8 +86,6 @@ html.splashing,html.splashing body{overflow:hidden}
 .sp-word .w2{font-weight:400;color:#C9D0FF}
 @keyframes sp-expand{from{transform:scale(.92) translateZ(0)}to{transform:scale(1) translateZ(0)}}
 @keyframes sp-letter{from{opacity:0;transform:translate3d(0,.28em,0)}to{opacity:1;transform:translate3d(0,0,0)}}
-
-/* central de ajuda */
 .help-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:40;width:46px;height:46px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line-2);background:rgba(20,22,29,.92);color:var(--muted);cursor:pointer;box-shadow:0 14px 34px -12px rgba(0,0,0,.85);transition:color .18s,border-color .18s,transform .18s}
 .help-fab:hover{color:var(--ink);border-color:rgba(124,140,255,.6);transform:translateY(-1px)}
 .help-fab .ic{width:22px;height:22px}
@@ -120,8 +110,6 @@ html.splashing,html.splashing body{overflow:hidden}
 .acc-p>div{min-height:0;overflow:hidden}
 .acc-i.open .acc-p{grid-template-rows:1fr}
 .acc-p p{margin:0;padding:0 4px 16px calc(1.6em + 16px);color:var(--muted);font-size:.9rem;line-height:1.6}
-
-/* controles */
 #bar{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px 4px 6px}
 .row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
 .field{display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:.85rem}
@@ -152,18 +140,16 @@ summary:hover{color:var(--ink);background:var(--panel)}
 #msg{margin:2px 4px 12px;text-align:center;font-size:.92rem;color:var(--muted)}
 #msg.err{color:var(--err)}
 #msg:empty{display:none}
-/* margem = distância padrão (--gap) menos a meia-entrelinha, para o texto ficar a exatos --gap do cartão */
 footer{margin-top:calc(var(--gap) - .35em);padding:0;text-align:center;color:var(--dim);font-size:.8rem;line-height:1.7}
 footer strong{color:var(--muted);font-weight:600;letter-spacing:.08em}
 [hidden]{display:none!important}
 button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,#drop:focus-visible,.box:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media (max-width:560px){.btn.primary{width:100%}.field input[type=range]{width:90px}}
-/* app em tela cheia, sem barras de rolagem visíveis */
 html,body{height:100%;overflow:hidden;overscroll-behavior:none}
 body{height:100dvh;min-height:0;-webkit-text-size-adjust:100%}
 .page{--gap:clamp(16px,5dvh,44px);height:100dvh;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;-ms-overflow-style:none;justify-content:flex-start;padding:clamp(12px,3dvh,40px) clamp(12px,4vw,20px)}
 .page::-webkit-scrollbar{display:none;width:0;height:0}
-.page::before,.page::after{content:"";flex:1 0 0} /* centraliza na vertical sem cortar o conteúdo quando faltar espaço */
+.page::before,.page::after{content:"";flex:1 0 0} 
 .logo{width:clamp(34px,6dvh,46px);height:clamp(34px,6dvh,46px);margin-bottom:clamp(8px,2.2dvh,20px)}
 h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
 .sub{font-size:clamp(.85rem,2.4vw,1rem)}
@@ -204,7 +190,7 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
 <script>
 (function(){
   var sp=document.getElementById('splash'),w=sp.firstElementChild,app=document.getElementById('app'),idx=0;
-  window.splashDone=new Promise(function(r){window.__sd=r}); /* bibliotecas pesadas só começam depois da splash */
+  window._ps=new Promise(function(r){window._pd=r}); 
   document.documentElement.classList.add('splashing');if(app)app.inert=true;
   'AETIX DESIGN'.split('').forEach(function(ch,n){
     var e=document.createElement('span');
@@ -214,7 +200,7 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
   });
   setTimeout(function(){
     sp.classList.add('out');document.documentElement.classList.remove('splashing');if(app)app.inert=false;
-    setTimeout(function(){sp.remove();window.__sd()},900);
+    setTimeout(function(){sp.remove();window._pd()},900);
   },2300);
 })();
 </script>
@@ -333,30 +319,27 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
   </div>
 </div>
 
-<script>
+<script>const _d=s=>new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0)));
 
-/* ===== utilidades ===== */
 const $=s=>document.querySelector(s);
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
-const tick=()=>new Promise(r=>setTimeout(r,30));
-const say=(t,err)=>{const m=$('#msg');m.textContent=t||'';m.className=err?'err':''};
+const _x0=(v,a,b)=>Math.min(b,Math.max(a,v));
+const _x1=()=>new Promise(r=>setTimeout(r,30));
+const _x2=(t,err)=>{const m=$('#msg');m.textContent=t||'';m.className=err?'err':''};
 const eng={ocr:'load',cv:'load'};
-const chip=(k,s)=>{
+const _x3=(k,s)=>{
   eng[k]=s;const p=$('#engine');
   const st=eng.ocr==='err'?'err':(eng.ocr==='ok'&&eng.cv!=='load')?'ok':'load';
   p.dataset.s=st;
-  $('#engine-t').textContent=st==='ok'?'Pronto para usar':st==='err'?'Detecção automática indisponível':'Carregando recursos…';
+  $('#engine-t').textContent=st==='ok'?_d('UHJvbnRvIHBhcmEgdXNhcg=='):st==='err'?_d('RGV0ZWPDp8OjbyBhdXRvbcOhdGljYSBpbmRpc3BvbsOtdmVs'):_d('Q2FycmVnYW5kbyByZWN1cnNvc+KApg==');
 };
 const cnv=$('#cnv'),cx=cnv.getContext('2d',{willReadFrequently:true});
 const MAX=4096;
 let W=0,H=0,boxes=[],raw={words:[],lines:[]},rawScale=1,hist=[],worker=null,workerLang='',busy=false,drawMode=false,cvOK=false,ink=null,scanCtl=null;
-
-/* ===== carregamento das bibliotecas (CDN) ===== */
 const TESS_URL='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
 const CV_URLS=['https://docs.opencv.org/4.x/opencv.js','https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js'];
-function loadScript(u){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=u;s.async=true;s.onload=res;s.onerror=()=>{s.remove();rej(new Error('Falha ao carregar '+u))};document.head.appendChild(s)})}
-async function loadCV(u){
-  await loadScript(u);
+function _x4(u){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=u;s.async=true;s.onload=res;s.onerror=()=>{s.remove();rej(new Error(_d('RmFsaGEgYW8gY2FycmVnYXIg')+u))};document.head.appendChild(s)})}
+async function _x5(u){
+  await _x4(u);
   let c=window.cv;if(!c)throw new Error('cv ausente');
   if(typeof c.then==='function'){
     c=await new Promise((res,rej)=>{c.then(m=>{try{delete m.then}catch(e){}res(m)},rej)});window.cv=c;
@@ -369,20 +352,17 @@ async function loadCV(u){
       c.onRuntimeInitialized=done;
     });
   }
-  if(!window.cv.inpaint)throw new Error('cv.inpaint indisponível');
+  if(!window.cv.inpaint)throw new Error(_d('Y3YuaW5wYWludCBpbmRpc3BvbsOtdmVs'));
 }
-const afterSplash=(window.splashDone||Promise.resolve()).then(()=>new Promise(r=>setTimeout(r,80))); /* splash roda sozinha, sem competir com download/parse dos scripts */
-const tessP=afterSplash.then(()=>loadScript(TESS_URL)).then(()=>chip('ocr','ok','OCR: pronto')).catch(e=>{chip('ocr','err','OCR: falhou ao carregar');throw e});
+const _x6=(window._ps||Promise.resolve()).then(()=>new Promise(r=>setTimeout(r,80))); 
+const tessP=_x6.then(()=>_x4(TESS_URL)).then(()=>_x3('ocr','ok',_d('T0NSOiBwcm9udG8='))).catch(e=>{_x3('ocr','err',_d('T0NSOiBmYWxob3UgYW8gY2FycmVnYXI='));throw e});
 tessP.catch(()=>{});
-const cvP=(async()=>{ /* nunca rejeita: o OCR espera por ela para poder pré-processar a imagem */
-  await afterSplash;
-  for(const u of CV_URLS){try{await loadCV(u);cvOK=true;chip('cv','ok','OpenCV: pronto');return}catch(e){console.warn(e)}}
-  chip('cv','err','OpenCV indisponível (usando alternativa JS)');
+const cvP=(async()=>{ 
+  await _x6;
+  for(const u of CV_URLS){try{await _x5(u);cvOK=true;_x3('cv','ok',_d('T3BlbkNWOiBwcm9udG8='));return}catch(e){console.warn(e)}}
+  _x3('cv','err',_d('T3BlbkNWIGluZGlzcG9uw612ZWwgKHVzYW5kbyBhbHRlcm5hdGl2YSBKUyk='));
 })();
-
-/* ===== carregar imagem ===== */
-/* decodifica a imagem sem depender de blob: URLs (alguns ambientes os bloqueiam) */
-function decodeImage(file){
+function _x7(file){
   const viaReader=()=>new Promise((res,rej)=>{
     const fr=new FileReader();
     fr.onerror=()=>rej(new Error('leitura'));
@@ -392,54 +372,49 @@ function decodeImage(file){
   const viaBitmap=()=>typeof createImageBitmap==='function'?createImageBitmap(file):Promise.reject(new Error('sem createImageBitmap'));
   return viaBitmap().catch(viaReader);
 }
-async function load(file){
-  if(!file||!file.type.startsWith('image/')){say('Escolha um arquivo de imagem.',true);return}
+async function _x8(file){
+  if(!file||!file.type.startsWith('image/')){_x2(_d('RXNjb2xoYSB1bSBhcnF1aXZvIGRlIGltYWdlbS4='),true);return}
   let im;
-  try{im=await decodeImage(file)}
-  catch(e){console.error(e);say('Não foi possível abrir essa imagem. Tente PNG, JPG ou WebP.',true);return}
+  try{im=await _x7(file)}
+  catch(e){console.error(e);_x2(_d('TsOjbyBmb2kgcG9zc8OtdmVsIGFicmlyIGVzc2EgaW1hZ2VtLiBUZW50ZSBQTkcsIEpQRyBvdSBXZWJQLg=='),true);return}
   const iw=im.naturalWidth||im.width,ih=im.naturalHeight||im.height;
   const s=Math.min(1,MAX/Math.max(iw,ih));
   W=Math.round(iw*s);H=Math.round(ih*s);
   cnv.width=W;cnv.height=H;ov.width=W;ov.height=H;penDirty=false;cx.clearRect(0,0,W,H);cx.drawImage(im,0,0,W,H);
   if(im.close)im.close();
-  hist=[];boxes=[];raw={words:[],lines:[]};render();
-  $('#drop').hidden=true;$('#editor').hidden=false;$('#helpBtn').hidden=false;$('#undo').disabled=true;setTool(null);
-  scan();
+  hist=[];boxes=[];raw={words:[],lines:[]};_x31();
+  $('#drop').hidden=true;$('#editor').hidden=false;$('#helpBtn').hidden=false;$('#undo').disabled=true;_x22(null);
+  _x15();
 }
-$('#file').onchange=e=>{load(e.target.files[0]);e.target.value=''};
-function resetAll(){
+$('#file').onchange=e=>{_x8(e.target.files[0]);e.target.value=''};
+function _x9(){
   if(busy)return;
   W=0;H=0;boxes=[];raw={words:[],lines:[]};hist=[];
   drawMode=false;$('#draw').setAttribute('aria-pressed','false');layer.classList.remove('draw');
-  cnv.width=1;cnv.height=1;ov.width=1;ov.height=1;penDirty=false;setTool(null);render();
-  $('#editor').hidden=true;$('#helpBtn').hidden=true;$('#drop').hidden=false;$('#undo').disabled=true;say('');
+  cnv.width=1;cnv.height=1;ov.width=1;ov.height=1;penDirty=false;_x22(null);_x31();
+  $('#editor').hidden=true;$('#helpBtn').hidden=true;$('#drop').hidden=false;$('#undo').disabled=true;_x2('');
 }
-$('#reset').onclick=resetAll;
+$('#reset').onclick=_x9;
 const drop=$('#drop');
 ['dragenter','dragover'].forEach(t=>window.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));
 ['dragleave','drop'].forEach(t=>window.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));
-window.addEventListener('drop',e=>load(e.dataTransfer.files[0]));
-window.addEventListener('paste',e=>{const f=[...(e.clipboardData?.files||[])][0];if(f)load(f)});
-
-/* ===== estado ocupado ===== */
-function setBusy(b,label){
+window.addEventListener('drop',e=>_x8(e.dataTransfer.files[0]));
+window.addEventListener('paste',e=>{const f=[...(e.clipboardData?.files||[])][0];if(f)_x8(f)});
+function _x10(b,label){
   busy=b;
   ['#rescan','#all','#none','#undo','#save','#reset','#draw','#pencil','#eraser','#lang'].forEach(s=>$(s).disabled=b);
   $('#go').disabled=b||!(penDirty||boxes.some(x=>x.sel));
   if(!b)$('#undo').disabled=!hist.length;
-  $('#go').textContent=b&&label==='rem'?'Removendo…':'Remover selecionados';
+  $('#go').textContent=b&&label==='rem'?_d('UmVtb3ZlbmRv4oCm'):_d('UmVtb3ZlciBzZWxlY2lvbmFkb3M=');
 }
-
-/* ===== OCR (Tesseract.js) ===== */
-function collect(data,kind){
+function _x11(data,kind){
   if(data[kind]&&data[kind].length)return data[kind];
   const out=[];
   (data.blocks||[]).forEach(b=>(b.paragraphs||[]).forEach(p=>(p.lines||[]).forEach(l=>{
     if(kind==='lines')out.push(l);else(l.words||[]).forEach(w=>out.push(w))})));
   return out;
 }
-/* pré-processamento: tons de cinza + binarização (OpenCV.js). Deixa só preto e branco, para o Tesseract ignorar texturas e focar em caracteres */
-function binarize(src,mode,c){
+function _x12(src,mode,c){
   const k=window.cv;if(!cvOK||!k||mode==='off')return src;
   const mats=[],mk=()=>{const m=new k.Mat();mats.push(m);return m};
   try{
@@ -449,50 +424,48 @@ function binarize(src,mode,c){
     k.GaussianBlur(g,g,new k.Size(3,3),0);
     if(mode==='otsu'){
       k.threshold(g,o,0,255,k.THRESH_BINARY|k.THRESH_OTSU);
-      if(k.countNonZero(o)<o.rows*o.cols/2)k.bitwise_not(o,o); /* fundo sempre branco */
+      if(k.countNonZero(o)<o.rows*o.cols/2)k.bitwise_not(o,o); 
     }else{
-      /* limiar local nas duas polaridades: pega texto escuro e claro (marcas d'água costumam ser claras) */
-      const bs=clamp(Math.round(Math.min(src.width,src.height)/6),31,255)|1,a=mk(),b=mk(); /* janela grande: letras grandes não ficam ocas */
+      const bs=_x0(Math.round(Math.min(src.width,src.height)/6),31,255)|1,a=mk(),b=mk(); 
       k.adaptiveThreshold(g,a,255,k.ADAPTIVE_THRESH_GAUSSIAN_C,k.THRESH_BINARY,bs,c);
       k.adaptiveThreshold(g,b,255,k.ADAPTIVE_THRESH_GAUSSIAN_C,k.THRESH_BINARY,bs,-c);
       k.bitwise_not(b,b);k.bitwise_and(a,b,o);
     }
-    const t=mk();k.medianBlur(o,t,3); /* tira os pontinhos isolados de ruído */
+    const t=mk();k.medianBlur(o,t,3); 
     const out=document.createElement('canvas');out.width=src.width;out.height=src.height;
     k.imshow(out,t);return out;
   }catch(e){console.warn('binarização',e);return src}
   finally{mats.forEach(m=>{try{m.delete()}catch(e){}})}
 }
-function inkMap(c,sc){ /* 1 = pixel de "tinta" (preto) na imagem binarizada */
+function _x13(c,sc){ 
   const d=c.getContext('2d',{willReadFrequently:true}).getImageData(0,0,c.width,c.height).data,n=c.width*c.height,m=new Uint8Array(n);
   for(let i=0;i<n;i++)m[i]=d[i*4]<128?1:0;
   return{w:c.width,h:c.height,sc,d:m};
 }
-/* caixa sem tinta (vazia) ou quase toda preta (textura) não é texto */
-function inkOK(b){
+function _x14(b){
   if(!ink)return true;
-  const s=ink.sc,x0=clamp(Math.floor(b.x*s),0,ink.w-1),y0=clamp(Math.floor(b.y*s),0,ink.h-1),x1=clamp(Math.ceil((b.x+b.w)*s),x0+1,ink.w),y1=clamp(Math.ceil((b.y+b.h)*s),y0+1,ink.h);
+  const s=ink.sc,x0=_x0(Math.floor(b.x*s),0,ink.w-1),y0=_x0(Math.floor(b.y*s),0,ink.h-1),x1=_x0(Math.ceil((b.x+b.w)*s),x0+1,ink.w),y1=_x0(Math.ceil((b.y+b.h)*s),y0+1,ink.h);
   let n=0;for(let y=y0;y<y1;y++){const o=y*ink.w;for(let x=x0;x<x1;x++)n+=ink.d[o+x]}
   const f=n/((x1-x0)*(y1-y0));return f>=.03&&f<=.85;
 }
-async function scan(){
+async function _x15(){
   if(!W||busy)return;
   const ctl={cancelled:false,rej:null};ctl.p=new Promise((_,rej)=>{ctl.rej=rej});ctl.p.catch(()=>{});
-  scanCtl=ctl;const run=p=>Promise.race([p,ctl.p]); /* qualquer etapa é interrompida quando o usuário cancela */
-  setBusy(true);const pg=$('#prog'),sb=$('#scanbar');sb.hidden=false;pg.removeAttribute('value');$('#laser').hidden=false;
-  say('Preparando a detecção…');
+  scanCtl=ctl;const run=p=>Promise.race([p,ctl.p]); 
+  _x10(true);const pg=$('#prog'),sb=$('#scanbar');sb.hidden=false;pg.removeAttribute('value');$('#laser').hidden=false;
+  _x2(_d('UHJlcGFyYW5kbyBhIGRldGVjw6fDo2/igKY='));
   try{
     await run(tessP);
-    if(eng.cv==='load')say('Carregando o OpenCV para preparar a imagem…');
+    if(eng.cv==='load')_x2(_d('Q2FycmVnYW5kbyBvIE9wZW5DViBwYXJhIHByZXBhcmFyIGEgaW1hZ2Vt4oCm'));
     await run(cvP);
-    say('Preparando a detecção…');
+    _x2(_d('UHJlcGFyYW5kbyBhIGRldGVjw6fDo2/igKY='));
     const lang=$('#lang').value;
     if(!worker||workerLang!==lang){
       if(worker){const old=worker;worker=null;workerLang='';await run(Promise.resolve(old.terminate()).catch(()=>{}))}
       const mkw=Tesseract.createWorker(lang,1,{logger:m=>{
         if(ctl.cancelled)return;
         if(typeof m.progress==='number'){pg.value=m.progress;
-          say(m.status==='recognizing text'?'Procurando textos… '+Math.round(m.progress*100)+'%':'Baixando dados do idioma… '+Math.round(m.progress*100)+'%')}
+          _x2(m.status==='recognizing text'?_d('UHJvY3VyYW5kbyB0ZXh0b3PigKYg')+Math.round(m.progress*100)+'%':_d('QmFpeGFuZG8gZGFkb3MgZG8gaWRpb21h4oCmIA==')+Math.round(m.progress*100)+'%')}
       }});
       try{worker=await run(mkw);workerLang=lang}
       catch(e){if(ctl.cancelled)mkw.then(x=>x.terminate()).catch(()=>{});throw e}
@@ -500,60 +473,58 @@ async function scan(){
     const wk=worker;
     await run(wk.setParameters({tessedit_pageseg_mode:$('#psm').value,preserve_interword_spaces:'1',user_defined_dpi:'300'}));
     const prep=$('#prep').value,bc=+$('#binc').value,useBin=cvOK&&prep!=='off';
-    const mx=Math.max(W,H);rawScale=mx<1600?2:mx>3200?3200/mx:1; /* amplia imagens pequenas; reduz as gigantes */
+    const mx=Math.max(W,H);rawScale=mx<1600?2:mx>3200?3200/mx:1; 
     const oc=document.createElement('canvas');oc.width=Math.round(W*rawScale);oc.height=Math.round(H*rawScale);
     const o=oc.getContext('2d');o.fillStyle='#fff';o.fillRect(0,0,oc.width,oc.height);o.imageSmoothingQuality='high';try{o.filter='grayscale(1) contrast(1.25)'}catch(e){}o.drawImage(cnv,0,0,oc.width,oc.height);
     let inp=oc,newInk=null;
-    if(useBin){say('Isolando os textos do fundo…');await tick();inp=binarize(oc,prep,bc);if(inp!==oc)newInk=inkMap(inp,rawScale)}
+    if(useBin){_x2(_d('SXNvbGFuZG8gb3MgdGV4dG9zIGRvIGZ1bmRv4oCm'));await _x1();inp=_x12(oc,prep,bc);if(inp!==oc)newInk=_x13(inp,rawScale)}
     if(ctl.cancelled)throw new Error('cancelado');
     pg.removeAttribute('value');
     const {data}=await run(wk.recognize(inp));
     const norm=(arr,x0,y0,sc,edge)=>arr.filter(w=>w.bbox).map(w=>({text:w.text||'',confidence:w.confidence,edge,
       bbox:{x0:x0+w.bbox.x0/sc,y0:y0+w.bbox.y0/sc,x1:x0+w.bbox.x1/sc,y1:y0+w.bbox.y1/sc}}));
-    const nr={words:norm(collect(data,'words'),0,0,rawScale,false),lines:norm(collect(data,'lines'),0,0,rawScale,false)};
-    /* 2ª leitura, mais sensível: faixas de 15% em cada borda, ampliadas, com contraste reforçado e filtro menos rígido */
+    const nr={words:norm(_x11(data,'words'),0,0,rawScale,false),lines:norm(_x11(data,'lines'),0,0,rawScale,false)};
     const bx=Math.round(W*.15),by=Math.round(H*.15);
     const strips=[[0,0,W,by],[0,H-by,W,by],[0,0,bx,H],[W-bx,0,bx,H]];
     for(let si=0;si<strips.length;si++){
       if(ctl.cancelled)throw new Error('cancelado');
       const [x,y,w,h]=strips[si];if(w<8||h<8)continue;
       try{
-        say('Reforçando a leitura das bordas… '+(si+1)+'/4');
-        const sc=clamp(2000/Math.max(w,h),1,3),sc2=document.createElement('canvas');
+        _x2(_d('UmVmb3LDp2FuZG8gYSBsZWl0dXJhIGRhcyBib3JkYXPigKYg')+(si+1)+'/4');
+        const sc=_x0(2000/Math.max(w,h),1,3),sc2=document.createElement('canvas');
         sc2.width=Math.round(w*sc);sc2.height=Math.round(h*sc);
         const k=sc2.getContext('2d');k.fillStyle='#fff';k.fillRect(0,0,sc2.width,sc2.height);k.imageSmoothingQuality='high';
         try{k.filter='grayscale(1) contrast(1.8)'}catch(e){}
         k.drawImage(cnv,x,y,w,h,0,0,sc2.width,sc2.height);
-        const inp2=useBin?binarize(sc2,prep,Math.max(3,Math.round(bc*.6))):sc2;
+        const inp2=useBin?_x12(sc2,prep,Math.max(3,Math.round(bc*.6))):sc2;
         const r2=await run(wk.recognize(inp2));
-        nr.words.push(...norm(collect(r2.data,'words'),x,y,sc,true));
-        nr.lines.push(...norm(collect(r2.data,'lines'),x,y,sc,true));
+        nr.words.push(...norm(_x11(r2.data,'words'),x,y,sc,true));
+        nr.lines.push(...norm(_x11(r2.data,'lines'),x,y,sc,true));
       }catch(e){if(ctl.cancelled)throw e;console.warn('faixa',si,e)}
     }
-    raw=nr;ink=newInk; /* só substitui o resultado anterior se a leitura terminou */
-    buildBoxes();
+    raw=nr;ink=newInk; 
+    _x19();
     const n=boxes.filter(b=>!b.manual).length;
-    say(n?'Clique nas caixas dos textos que deseja apagar e depois em “Remover selecionados”.':'Nenhum texto encontrado. Diminua a confiança mínima, reduza o rigor do filtro ou use “Desenhar caixa”.',!n);
+    _x2(n?_d('Q2xpcXVlIG5hcyBjYWl4YXMgZG9zIHRleHRvcyBxdWUgZGVzZWphIGFwYWdhciBlIGRlcG9pcyBlbSDigJxSZW1vdmVyIHNlbGVjaW9uYWRvc+KAnS4='):_d('TmVuaHVtIHRleHRvIGVuY29udHJhZG8uIERpbWludWEgYSBjb25maWFuw6dhIG3DrW5pbWEsIHJlZHV6YSBvIHJpZ29yIGRvIGZpbHRybyBvdSB1c2Ug4oCcRGVzZW5oYXIgY2FpeGHigJ0u'),!n);
   }catch(e){
-    if(ctl.cancelled)say('Escaneamento cancelado. Use “Reescanear”, o lápis ou “Desenhar caixa” quando quiser.');
-    else{console.error(e);say('Erro na detecção de texto: '+(e&&e.message||e)+'. Você ainda pode usar “Desenhar caixa”.',true)}
+    if(ctl.cancelled)_x2(_d('RXNjYW5lYW1lbnRvIGNhbmNlbGFkby4gVXNlIOKAnFJlZXNjYW5lYXLigJ0sIG8gbMOhcGlzIG91IOKAnERlc2VuaGFyIGNhaXhh4oCdIHF1YW5kbyBxdWlzZXIu'));
+    else{console.error(e);_x2('Erro na detecção de texto: '+(e&&e.message||e)+'. Você ainda pode usar “Desenhar caixa”.',true)}
   }
-  sb.hidden=true;$('#laser').hidden=true;scanCtl=null;setBusy(false);
+  sb.hidden=true;$('#laser').hidden=true;scanCtl=null;_x10(false);
 }
 $('#cancel').onclick=()=>{
   const c=scanCtl;if(!c||c.cancelled)return;c.cancelled=true;
-  if(worker){const w=worker;worker=null;workerLang='';Promise.resolve().then(()=>w.terminate()).catch(()=>{})} /* interrompe o worker do Tesseract */
+  if(worker){const w=worker;worker=null;workerLang='';Promise.resolve().then(()=>w.terminate()).catch(()=>{})} 
   c.rej(new Error('cancelado'));
 };
-/* agrupa caixas próximas na mesma linha em uma só (marcas longas não são mais quebradas) */
-function mergeBoxes(list,k){
+function _x16(list,k){
   const n=list.length;if(n<2||k<=0)return list;
   const p=list.map((_,i)=>i),f=i=>{while(p[i]!==i){p[i]=p[p[i]];i=p[i]}return i};
   for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){
     const a=list[i],b=list[j],minH=Math.min(a.h,b.h),maxH=Math.max(a.h,b.h);
-    if(Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y)<minH*.5)continue; /* fora da mesma linha */
-    if(maxH>minH*2.2)continue;                                         /* tamanhos de fonte diferentes */
-    if(Math.max(a.x,b.x)-Math.min(a.x+a.w,b.x+b.w)<=maxH*k)p[f(i)]=f(j); /* próximas na horizontal */
+    if(Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y)<minH*.5)continue; 
+    if(maxH>minH*2.2)continue;                                         
+    if(Math.max(a.x,b.x)-Math.min(a.x+a.w,b.x+b.w)<=maxH*k)p[f(i)]=f(j); 
   }
   const g=new Map();
   list.forEach((b,i)=>{const r=f(i);if(!g.has(r))g.set(r,[]);g.get(r).push(b)});
@@ -565,16 +536,14 @@ function mergeBoxes(list,k){
     return{x:x0,y:y0,w:x1-x0,h:y1-y0,text:m.map(b=>b.text).join(' '),conf:m.reduce((t,b)=>t+b.conf*b.text.length,0)/chars,sel:false};
   });
 }
-/* descarta caixas sobre áreas vazias/lisas: sem variação de luminância não há texto */
-function contrastOK(b,th=4.5){
+function _x17(b,th=4.5){
   const x=Math.max(0,Math.floor(b.x)),y=Math.max(0,Math.floor(b.y)),w=Math.min(W-x,Math.ceil(b.w)),h=Math.min(H-y,Math.ceil(b.h));
   if(w<2||h<2)return false;
   const d=cx.getImageData(x,y,w,h).data,n=w*h;let s=0,q=0;
   for(let i=0;i<n;i++){const l=d[i*4]*.299+d[i*4+1]*.587+d[i*4+2]*.114;s+=l;q+=l*l}
   const m=s/n;return Math.sqrt(Math.max(0,q/n-m*m))>=th;
 }
-/* remove duplicatas (o mesmo texto lido na leitura geral e na das bordas) */
-function dedupe(list){
+function _x18(list){
   const out=[];
   list.slice().sort((a,b)=>b.conf-a.conf).forEach(b=>{
     const A=b.w*b.h;
@@ -583,9 +552,8 @@ function dedupe(list){
   });
   return out;
 }
-function buildBoxes(){
+function _x19(){
   const items=raw[$('#gran').value]||[],minc=+$('#conf').value,minDim=Math.min(W,H);
-  /* borda = centro a menos de 15% de qualquer lado da imagem: filtros bem mais permissivos */
   const inEdge=b=>{const cX=b.x+b.w/2,cY=b.y+b.h/2;return cX<W*.15||cX>W*.85||cY<H*.15||cY>H*.85};
   let det=[];
   for(const w of items){
@@ -595,91 +563,86 @@ function buildBoxes(){
     const b={x:w.bbox.x0,y:w.bbox.y0,w:w.bbox.x1-w.bbox.x0,h:w.bbox.y1-w.bbox.y0,text,conf,sel:false},e=inEdge(b);
     if(conf<(e?Math.max(10,minc*.4):minc))continue;
     const chars=text.replace(/\s/g,''),good=(chars.match(/[\p{L}\p{N}]/gu)||[]).length;
-    if(good/chars.length<(e?.5:.6))continue;          /* símbolos soltos = ruído */
-    if(good<2&&conf<(e?55:80))continue;               /* letra isolada só com alta confiança */
-    if(b.h<minDim*(e?.005:.008)||b.h>H*.4||b.w<2)continue; /* minúsculo ou gigante demais */
-    if(b.h>b.w*3&&good<3)continue;                    /* riscos verticais */
+    if(good/chars.length<(e?.5:.6))continue;          
+    if(good<2&&conf<(e?55:80))continue;               
+    if(b.h<minDim*(e?.005:.008)||b.h>H*.4||b.w<2)continue; 
+    if(b.h>b.w*3&&good<3)continue;                    
     det.push(b);
   }
-  det=mergeBoxes(dedupe(det),+$('#merge').value).filter(b=>inEdge(b)||inkOK(b)).filter(b=>contrastOK(b,inEdge(b)?2.2:4.5)).map(b=>({...b,conf:Math.round(b.conf)}));
-  boxes=boxes.filter(b=>b.manual).concat(det);render();
+  det=_x16(_x18(det),+$('#merge').value).filter(b=>inEdge(b)||_x14(b)).filter(b=>_x17(b,inEdge(b)?2.2:4.5)).map(b=>({...b,conf:Math.round(b.conf)}));
+  boxes=boxes.filter(b=>b.manual).concat(det);_x31();
 }
-$('#rescan').onclick=scan;
-$('#lang').onchange=scan;
-$('#psm').onchange=scan;$('#prep').onchange=scan;$('#binc').onchange=scan;
-$('#gran').onchange=()=>{boxes=boxes.filter(b=>b.manual);buildBoxes()};
-$('#conf').oninput=e=>{$('#confv').textContent=e.target.value;if(raw.words.length||raw.lines.length)buildBoxes()};
+$('#rescan').onclick=_x15;
+$('#lang').onchange=_x15;
+$('#psm').onchange=_x15;$('#prep').onchange=_x15;$('#binc').onchange=_x15;
+$('#gran').onchange=()=>{boxes=boxes.filter(b=>b.manual);_x19()};
+$('#conf').oninput=e=>{$('#confv').textContent=e.target.value;if(raw.words.length||raw.lines.length)_x19()};
 [['pad'],['thr'],['dil'],['rad'],['merge'],['binc']].forEach(([k])=>$('#'+k).oninput=e=>$('#'+k+'v').textContent=e.target.value);
-$('#merge').addEventListener('input',()=>{if(raw.words.length||raw.lines.length)buildBoxes()});
-
-/* ===== caixas clicáveis ===== */
+$('#merge').addEventListener('input',()=>{if(raw.words.length||raw.lines.length)_x19()});
 const layer=$('#boxes'),ov=$('#ov'),ox=ov.getContext('2d',{willReadFrequently:true});
-let tool=null,penDirty=false,pl=null; /* tool: null | 'pen' | 'eraser' */
+let tool=null,penDirty=false,pl=null; 
 const POPS={pen:'#penpop',eraser:'#erapop'},BTNS={pen:'#pencil',eraser:'#eraser'},SIZE={pen:'#pen',eraser:'#era'};
-/* ===== lápis e borracha: máscara desenhada sobre a imagem ===== */
-function closePops(){for(const k in POPS){$(POPS[k]).hidden=true;$(BTNS[k]).setAttribute('aria-expanded','false')}}
-function placePop(t){ /* abre a guia logo abaixo do botão, sem sair da tela */
-  closePops();const p=$(POPS[t]);p.style.setProperty('--dx','0px');p.hidden=false;
+function _x20(){for(const k in POPS){$(POPS[k]).hidden=true;$(BTNS[k]).setAttribute('aria-expanded','false')}}
+function _x21(t){ 
+  _x20();const p=$(POPS[t]);p.style.setProperty('--dx','0px');p.hidden=false;
   const r=p.getBoundingClientRect(),m=10;let dx=0;
   if(r.left<m)dx=m-r.left;else if(r.right>innerWidth-m)dx=innerWidth-m-r.right;
   p.style.setProperty('--dx',dx+'px');$(BTNS[t]).setAttribute('aria-expanded','true');
 }
-function setTool(t){
-  tool=t;closePops(); /* fecha a guia de qualquer ferramenta antes de abrir a da escolhida */
+function _x22(t){
+  tool=t;_x20(); 
   for(const k in BTNS)$(BTNS[k]).setAttribute('aria-pressed',String(k===t));
   $('#wrap').classList.toggle('pen',!!t);
   if(t&&drawMode){drawMode=false;$('#draw').setAttribute('aria-pressed','false');layer.classList.remove('draw')}
-  if(t)placePop(t);else{$('#pcur').hidden=true;pl=null}
-  say(t==='pen'?'Pinte sobre a marca que deseja apagar. Ajuste a espessura e solte o controle para começar a pintar.':t==='eraser'?'Ajuste a largura e solte o controle para começar a apagar.':'');
+  if(t)_x21(t);else{$('#pcur').hidden=true;pl=null}
+  _x2(t==='pen'?_d('UGludGUgc29icmUgYSBtYXJjYSBxdWUgZGVzZWphIGFwYWdhci4gQWp1c3RlIGEgZXNwZXNzdXJhIGUgc29sdGUgbyBjb250cm9sZSBwYXJhIGNvbWXDp2FyIGEgcGludGFyLg=='):t==='eraser'?_d('QWp1c3RlIGEgbGFyZ3VyYSBlIHNvbHRlIG8gY29udHJvbGUgcGFyYSBjb21lw6dhciBhIGFwYWdhci4='):'');
 }
-function toolClick(t){
-  if(tool===t)setTool(null); /* clique 2: desativa a ferramenta (cursor volta ao padrão) */
-  else setTool(t);           /* clique 1: ativa e abre a guia do slider */
+function _x23(t){
+  if(tool===t)_x22(null); 
+  else _x22(t);           
 }
-/* ao soltar o slider, a guia some na hora e a ferramenta continua ativa */
-function sliderDone(t){closePops();say(t==='pen'?'Pinte sobre a marca que deseja apagar. Clique no lápis de novo para desativar.':'Passe a borracha sobre o traço que quiser apagar. Clique na borracha de novo para desativar.')}
-['pen','eraser'].forEach(t=>{const r=$(SIZE[t]);r.addEventListener('change',()=>sliderDone(t));r.addEventListener('pointerup',()=>sliderDone(t))});
-function clearPen(){ox.clearRect(0,0,ov.width,ov.height);penDirty=false}
-function checkDirty(){ /* depois de apagar: ainda sobrou algum traço? */
+function _x24(t){_x20();_x2(t==='pen'?'Pinte sobre a marca que deseja apagar. Clique no lápis de novo para desativar.':'Passe a borracha sobre o traço que quiser apagar. Clique na borracha de novo para desativar.')}
+['pen','eraser'].forEach(t=>{const r=$(SIZE[t]);r.addEventListener('change',()=>_x24(t));r.addEventListener('pointerup',()=>_x24(t))});
+function _x25(){ox.clearRect(0,0,ov.width,ov.height);penDirty=false}
+function _x26(){ 
   const s=Math.min(1,160/Math.max(W,H)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(W*s));c.height=Math.max(1,Math.round(H*s));
   const k=c.getContext('2d',{willReadFrequently:true});k.imageSmoothingQuality='high';k.drawImage(ov,0,0,c.width,c.height);
   const d=k.getImageData(0,0,c.width,c.height).data;let any=false;
   for(let i=3;i<d.length;i+=4)if(d[i]>6){any=true;break}
-  penDirty=any;count();
+  penDirty=any;_x32();
 }
 const pp=e=>{const r=ov.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height,k:W/r.width}};
-function penStroke(a,b){
+function _x27(a,b){
   const er=tool==='eraser';
   ox.globalCompositeOperation=er?'destination-out':'source-over';
   ox.strokeStyle='#FF4D8D';ox.lineCap='round';ox.lineJoin='round';
   ox.lineWidth=+$(SIZE[tool]).value*b.k;ox.beginPath();ox.moveTo(a.x,a.y);ox.lineTo(b.x+.01,b.y);ox.stroke();
   ox.globalCompositeOperation='source-over';
 }
-function penCursor(e){
+function _x28(e){
   const c=$('#pcur'),r=$('#wrap').getBoundingClientRect(),d=tool?+$(SIZE[tool]).value:20;
   c.hidden=!tool||e.pointerType==='touch';c.classList.toggle('era',tool==='eraser');c.style.width=c.style.height=d+'px';
   c.style.left=(e.clientX-r.left)+'px';c.style.top=(e.clientY-r.top)+'px';
 }
-$('#pencil').onclick=()=>toolClick('pen');
-$('#eraser').onclick=()=>toolClick('eraser');
+$('#pencil').onclick=()=>_x23('pen');
+$('#eraser').onclick=()=>_x23('eraser');
 $('#pen').oninput=e=>{$('#penv').textContent=e.target.value+'px'};
 $('#era').oninput=e=>{$('#erav').textContent=e.target.value+'px'};
-document.addEventListener('pointerdown',e=>{if(!e.target.closest('.tool'))closePops()}); /* clicar fora fecha as guias; a ferramenta continua ativa */
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('.tool'))_x20()}); 
 ov.addEventListener('pointerdown',e=>{
   if(!tool||!W||busy)return;
-  ov.setPointerCapture(e.pointerId);pl=pp(e);penStroke(pl,pl);
-  if(tool==='pen'){penDirty=true;count()}
+  ov.setPointerCapture(e.pointerId);pl=pp(e);_x27(pl,pl);
+  if(tool==='pen'){penDirty=true;_x32()}
 });
-ov.addEventListener('pointermove',e=>{penCursor(e);if(!pl)return;const p=pp(e);penStroke(pl,p);pl=p});
+ov.addEventListener('pointermove',e=>{_x28(e);if(!pl)return;const p=pp(e);_x27(pl,p);pl=p});
 ov.addEventListener('pointerleave',()=>{$('#pcur').hidden=true});
-['pointerup','pointercancel'].forEach(t=>ov.addEventListener(t,()=>{const was=pl;pl=null;if(was&&tool==='eraser'&&penDirty)checkDirty()}));
-function addPen(m){ /* soma o desenho do lápis à máscara das caixas */
+['pointerup','pointercancel'].forEach(t=>ov.addEventListener(t,()=>{const was=pl;pl=null;if(was&&tool==='eraser'&&penDirty)_x26()}));
+function _x29(m){ 
   if(!penDirty)return;
   const od=ox.getImageData(0,0,W,H).data;
   for(let i=0;i<W*H;i++)if(od[i*4+3]>40)m[i]=1;
 }
-/* regiões (retângulos) com máscara: o inpaint roda só nelas */
-function regionsOf(m){
+function _x30(m){
   const cell=8,gw=Math.ceil(W/cell),gh=Math.ceil(H/cell),g=new Uint8Array(gw*gh);
   for(let y=0;y<H;y++){const row=(y/cell|0)*gw,o=y*W;for(let x=0;x<W;x++)if(m[o+x])g[row+(x/cell|0)]=1}
   const seen=new Uint8Array(gw*gh),st=new Int32Array(gw*gh),out=[];
@@ -698,7 +661,7 @@ function regionsOf(m){
   }
   return out;
 }
-function render(){
+function _x31(){
   layer.querySelectorAll('.box').forEach(n=>n.remove());
   boxes.forEach(b=>{
     const e=document.createElement('button');e.type='button';e.className='box';
@@ -706,42 +669,38 @@ function render(){
     e.setAttribute('aria-pressed',String(b.sel));
     const lbl=b.manual?'Área marcada à mão':'“'+b.text+'” ('+b.conf+'%)';
     e.title=lbl;e.setAttribute('aria-label',lbl);
-    e.onclick=()=>{b.sel=!b.sel;e.setAttribute('aria-pressed',String(b.sel));count()};
+    e.onclick=()=>{b.sel=!b.sel;e.setAttribute('aria-pressed',String(b.sel));_x32()};
     layer.appendChild(e);
   });
-  count();
+  _x32();
 }
-function count(){
+function _x32(){
   const s=boxes.filter(b=>b.sel).length;
   $('#count').textContent=boxes.length+(boxes.length===1?' texto':' textos')+' · '+s+(s===1?' selecionado':' selecionados')+(penDirty?' · traço manual':'');
   $('#go').disabled=busy||!(s||penDirty);
 }
-$('#all').onclick=()=>{boxes.forEach(b=>b.sel=true);render()};
-$('#none').onclick=()=>{boxes.forEach(b=>b.sel=false);clearPen();render()};
-
-/* desenhar caixa manual */
-$('#draw').onclick=()=>{drawMode=!drawMode;if(drawMode&&tool)setTool(null);$('#draw').setAttribute('aria-pressed',String(drawMode));layer.classList.toggle('draw',drawMode);
-  say(drawMode?'Arraste sobre a imagem para marcar uma área.':'')};
+$('#all').onclick=()=>{boxes.forEach(b=>b.sel=true);_x31()};
+$('#none').onclick=()=>{boxes.forEach(b=>b.sel=false);_x25();_x31()};
+$('#draw').onclick=()=>{drawMode=!drawMode;if(drawMode&&tool)_x22(null);$('#draw').setAttribute('aria-pressed',String(drawMode));layer.classList.toggle('draw',drawMode);
+  _x2(drawMode?'Arraste sobre a imagem para marcar uma área.':'')};
 let ds=null,tmp=null;
-const lp=e=>{const r=layer.getBoundingClientRect();return{x:clamp((e.clientX-r.left)*W/r.width,0,W),y:clamp((e.clientY-r.top)*H/r.height,0,H)}};
-const rectOf=(a,b)=>({x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(a.x-b.x),h:Math.abs(a.y-b.y)});
+const lp=e=>{const r=layer.getBoundingClientRect();return{x:_x0((e.clientX-r.left)*W/r.width,0,W),y:_x0((e.clientY-r.top)*H/r.height,0,H)}};
+const _x33=(a,b)=>({x:Math.min(a.x,b.x),y:Math.min(a.y,b.y),w:Math.abs(a.x-b.x),h:Math.abs(a.y-b.y)});
 layer.addEventListener('pointerdown',e=>{
   if(!drawMode||e.target!==layer)return;
   layer.setPointerCapture(e.pointerId);ds=lp(e);tmp=document.createElement('div');tmp.className='box tmp';layer.appendChild(tmp);
 });
 layer.addEventListener('pointermove',e=>{
-  if(!ds)return;const r=rectOf(ds,lp(e));
+  if(!ds)return;const r=_x33(ds,lp(e));
   tmp.style.cssText=`left:${r.x/W*100}%;top:${r.y/H*100}%;width:${r.w/W*100}%;height:${r.h/H*100}%`;
 });
 const endDraw=e=>{
-  if(!ds)return;const r=rectOf(ds,lp(e));ds=null;if(tmp){tmp.remove();tmp=null}
-  if(r.w>6&&r.h>6){boxes.unshift({...r,text:'',conf:100,sel:true,manual:true});render()}
+  if(!ds)return;const r=_x33(ds,lp(e));ds=null;if(tmp){tmp.remove();tmp=null}
+  if(r.w>6&&r.h>6){boxes.unshift({...r,text:'',conf:100,sel:true,manual:true});_x31()}
 };
 layer.addEventListener('pointerup',endDraw);
 layer.addEventListener('pointercancel',()=>{ds=null;if(tmp){tmp.remove();tmp=null}});
-
-/* ===== máscara: só as letras (cor que destoa do entorno) ou caixa inteira ===== */
-function buildMask(sel){
+function _x34(sel){
   const d=cx.getImageData(0,0,W,H).data,m=new Uint8Array(W*H);
   const pad=+$('#pad').value,thr=+$('#thr').value,whole=$('#mode').value==='box';
   for(const b of sel){
@@ -759,15 +718,13 @@ function buildMask(sel){
       const i=(y*W+x)*4;
       if(Math.max(Math.abs(d[i]-mr),Math.abs(d[i+1]-mg),Math.abs(d[i+2]-mb))>thr)hit.push(y*W+x);
     }
-    /* fundo texturado ou texto sem contraste: cai para a caixa inteira */
     if(!hit.length||hit.length>(x1-x0)*(y1-y0)*.7){fill();continue}
     for(const j of hit)m[j]=1;
   }
   return m;
 }
-const gauss=()=>Math.sqrt(-2*Math.log(Math.random()+1e-9))*Math.cos(6.2831853*Math.random());
-/* micro-ruído estocástico de ±1 no RGB dos pixels reconstruídos (Anti-DeInpainting) */
-function jitter(d,mk){
+const _x35=()=>Math.sqrt(-2*Math.log(Math.random()+1e-9))*Math.cos(6.2831853*Math.random());
+function _x36(d,mk){
   const buf=new Uint8Array(65536);let bi=buf.length;
   const fill=()=>{try{crypto.getRandomValues(buf)}catch(e){for(let i=0;i<buf.length;i++)buf[i]=Math.random()*256|0}bi=0};
   for(let i=0;i<W*H;i++){
@@ -779,7 +736,7 @@ function jitter(d,mk){
     }
   }
 }
-function grain(d,m){ /* estima o granulado da foto fora da máscara */
+function _x37(d,m){ 
   const diffs=[],l=j=>d[j*4]*.3+d[j*4+1]*.59+d[j*4+2]*.11;
   if(W<4||H<4)return 0;
   for(let s=0;s<20000;s++){
@@ -790,11 +747,9 @@ function grain(d,m){ /* estima o granulado da foto fora da máscara */
   if(!diffs.length)return 0;
   diffs.sort((a,b)=>a-b);return diffs[diffs.length>>1]*1.2;
 }
-
-/* ===== reconstrução com OpenCV (cv.inpaint) ===== */
-function inpaintCV(sel,m){
+function _x38(sel,m){
   const c=window.cv,img=cx.getImageData(0,0,W,H);
-  const sg=$('#tex').checked?grain(img.data,m):0;
+  const sg=$('#tex').checked?_x37(img.data,m):0;
   const m255=new Uint8Array(W*H);for(let i=0;i<m.length;i++)if(m[i])m255[i]=255;
   const rgba=c.matFromImageData(img),rgb=new c.Mat(),mask=c.matFromArray(H,W,c.CV_8UC1,m255),out=new c.Mat();let k=null;
   try{
@@ -802,7 +757,7 @@ function inpaintCV(sel,m){
     const it=+$('#dil').value,rad=+$('#rad').value,flag=$('#algo').value==='ns'?c.INPAINT_NS:c.INPAINT_TELEA;
     if(it>0){k=c.Mat.ones(3,3,c.CV_8U);c.dilate(mask,mask,k,new c.Point(-1,-1),it)}
     const px=+$('#pad').value+it+rad*3+6;
-    for(const b of regionsOf(m)){ /* só as regiões marcadas (caixas + lápis): bem mais rápido */
+    for(const b of _x30(m)){ 
       const x0=Math.max(0,Math.floor(b.x-px)),y0=Math.max(0,Math.floor(b.y-px)),x1=Math.min(W,Math.ceil(b.x+b.w+px)),y1=Math.min(H,Math.ceil(b.y+b.h+px));
       if(x1-x0<2||y1-y0<2)continue;
       const r=new c.Rect(x0,y0,x1-x0,y1-y0),s=rgb.roi(r),mk=mask.roi(r),o=new c.Mat();
@@ -811,22 +766,20 @@ function inpaintCV(sel,m){
     c.cvtColor(rgb,out,c.COLOR_RGB2RGBA);
     const res=new ImageData(new Uint8ClampedArray(out.data),W,H),md=mask.data;
     if(sg>0)for(let i=0;i<W*H;i++){
-      if(!md[i])continue;const g=gauss()*sg;
-      for(let ch=0;ch<3;ch++)res.data[i*4+ch]=clamp(res.data[i*4+ch]+g+gauss()*sg*.25,0,255);
+      if(!md[i])continue;const g=_x35()*sg;
+      for(let ch=0;ch<3;ch++)res.data[i*4+ch]=_x0(res.data[i*4+ch]+g+_x35()*sg*.25,0,255);
     }
-    if($('#meta').checked)jitter(res.data,md);
+    if($('#meta').checked)_x36(res.data,md);
     cx.putImageData(res,0,0);
   }finally{[rgba,rgb,mask,out,k].forEach(x=>x&&x.delete())}
 }
-
-/* ===== alternativa em JS puro (se o OpenCV não carregar): interpolação multiescala ===== */
-function dilJS(m){
+function _x39(m){
   const t=new Uint8Array(W*H),o=new Uint8Array(W*H);
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x;t[i]=m[i]|(x>0?m[i-1]:0)|(x<W-1?m[i+1]:0)}
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x;o[i]=t[i]|(y>0?t[i-W]:0)|(y<H-1?t[i+W]:0)}
   return o;
 }
-function pushPull(d,m){
+function _x40(d,m){
   const L=[];let c=new Float32Array(W*H*3),a=new Float32Array(W*H),n=new Float32Array(W*H).fill(1),known=0;
   for(let i=0;i<W*H;i++)if(!m[i]){known++;a[i]=1;c[i*3]=d[i*4];c[i*3+1]=d[i*4+1];c[i*3+2]=d[i*4+2]}
   if(!known)return null;
@@ -858,73 +811,67 @@ function pushPull(d,m){
   }
   return F;
 }
-function inpaintJS(m){
+function _x41(m){
   const src=cx.getImageData(0,0,W,H),d=src.data;
-  let mm=m;for(let k=0;k<+$('#dil').value;k++)mm=dilJS(mm);
-  const F=pushPull(d,mm);if(!F)throw new Error('A seleção cobre a imagem inteira.');
-  const sg=$('#tex').checked?grain(d,mm):0,bm=new Float32Array(W*H);
+  let mm=m;for(let k=0;k<+$('#dil').value;k++)mm=_x39(mm);
+  const F=_x40(d,mm);if(!F)throw new Error('A seleção cobre a imagem inteira.');
+  const sg=$('#tex').checked?_x37(d,mm):0,bm=new Float32Array(W*H);
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){let s=0,k=0;
     for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const xx=x+dx,yy=y+dy;if(xx>=0&&yy>=0&&xx<W&&yy<H){s+=mm[yy*W+xx];k++}}
     bm[y*W+x]=s/k}
   for(let i=0;i<W*H;i++){
-    const b=bm[i];if(!b)continue;const g=gauss()*sg;
-    for(let ch=0;ch<3;ch++){const v=F[i*3+ch]+g+gauss()*sg*.25;d[i*4+ch]=d[i*4+ch]*(1-b)+clamp(v,0,255)*b}
+    const b=bm[i];if(!b)continue;const g=_x35()*sg;
+    for(let ch=0;ch<3;ch++){const v=F[i*3+ch]+g+_x35()*sg*.25;d[i*4+ch]=d[i*4+ch]*(1-b)+_x0(v,0,255)*b}
   }
-  if($('#meta').checked)jitter(d,mm);
+  if($('#meta').checked)_x36(d,mm);
   cx.putImageData(src,0,0);
 }
-
-/* ===== remover ===== */
-async function removeSel(){
+async function _x42(){
   const sel=boxes.filter(b=>b.sel);if((!sel.length&&!penDirty)||busy)return;
-  setBusy(true,'rem');say('Reconstruindo o fundo…');await tick();
+  _x10(true,'rem');_x2(_d('UmVjb25zdHJ1aW5kbyBvIGZ1bmRv4oCm'));await _x1();
   hist.push({img:cx.getImageData(0,0,W,H),boxes:boxes.map(b=>({...b}))});if(hist.length>4)hist.shift();
   try{
-    const m=buildMask(sel);addPen(m); /* caixas do OCR + traço do lápis, tudo de uma vez */
-    if(cvOK)inpaintCV(sel,m);else inpaintJS(m);
-    clearPen();boxes=boxes.filter(b=>!b.sel);render();
-    say('Pronto. '+(cvOK?'':'(Usei o modo de reconstrução alternativo.) ')+'Se sobrar algo, selecione de novo ou use “Reescanear”.');
+    const m=_x34(sel);_x29(m); 
+    if(cvOK)_x38(sel,m);else _x41(m);
+    _x25();boxes=boxes.filter(b=>!b.sel);_x31();
+    _x2(_d('UHJvbnRvLiA=')+(cvOK?'':_d('KFVzZWkgbyBtb2RvIGRlIHJlY29uc3RydcOnw6NvIGFsdGVybmF0aXZvLikg'))+_d('U2Ugc29icmFyIGFsZ28sIHNlbGVjaW9uZSBkZSBub3ZvIG91IHVzZSDigJxSZWVzY2FuZWFy4oCdLg=='));
   }catch(e){
     console.error(e);const h=hist.pop();if(h)cx.putImageData(h.img,0,0);
-    say('Erro ao processar: '+(e&&e.message||e),true);
+    _x2(_d('RXJybyBhbyBwcm9jZXNzYXI6IA==')+(e&&e.message||e),true);
   }
-  setBusy(false);
+  _x10(false);
 }
-$('#go').onclick=removeSel;
+$('#go').onclick=_x42;
 $('#undo').onclick=()=>{
-  const h=hist.pop();if(!h)return;cx.putImageData(h.img,0,0);boxes=h.boxes;render();
-  $('#undo').disabled=!hist.length;say('Alteração desfeita.');
+  const h=hist.pop();if(!h)return;cx.putImageData(h.img,0,0);boxes=h.boxes;_x31();
+  $('#undo').disabled=!hist.length;_x2(_d('QWx0ZXJhw6fDo28gZGVzZmVpdGEu'));
 };
-
-/* ===== download ===== */
 $('#save').onclick=()=>{
   let c=cnv;
-  if($('#meta').checked){ /* tela nova, sem nenhum dado do arquivo original (EXIF, perfil de cor, miniaturas) */
+  if($('#meta').checked){ 
     c=document.createElement('canvas');c.width=W;c.height=H;
     const k=c.getContext('2d');k.imageSmoothingEnabled=false;k.drawImage(cnv,0,0);
   }
-  c.toBlob(b=>{ /* PNG é sem perdas; qualidade 1 por garantia */
-    if(!b){say('Não foi possível gerar o PNG.',true);return}
+  c.toBlob(b=>{ 
+    if(!b){_x2(_d('TsOjbyBmb2kgcG9zc8OtdmVsIGdlcmFyIG8gUE5HLg=='),true);return}
     const a=document.createElement('a'),u=URL.createObjectURL(b);
     a.href=u;a.download='imagem-sem-marca.png';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(u),4000);say('Imagem salva.');
+    setTimeout(()=>URL.revokeObjectURL(u),4000);_x2(_d('SW1hZ2VtIHNhbHZhLg=='));
   },'image/png',1);
 };
-
-/* ===== central de ajuda (accordion) ===== */
 const HELP=[
-['Enviar uma imagem','Arraste o arquivo para a caixa, clique em “Escolher arquivo” ou cole com Ctrl+V. Funciona com PNG, JPG e WebP. Imagens com mais de 4096 px no maior lado são reduzidas para o navegador não travar.'],
-['Detecção automática de textos','Ao abrir a imagem, o site procura textos e marca cada um com uma caixa azul. A leitura reforça as bordas, onde as marcas d’água costumam ficar. Uma linha de luz percorre a imagem enquanto isso acontece.'],
-['Selecionar e remover','Clique nas caixas que deseja apagar (elas ficam rosas) e depois em “Remover selecionados”. “Selecionar todos” e “Limpar seleção” marcam e desmarcam tudo de uma vez.'],
-['Cancelar o escaneamento','Enquanto o site lê a imagem, aparece o botão “Cancelar escaneamento”. Ele interrompe a leitura na hora. Depois você pode usar “Reescanear”, o lápis ou “Desenhar caixa”.'],
-['Desenhar caixa','Se algum texto não foi detectado, clique em “Desenhar caixa” e arraste sobre a área. A caixa já entra selecionada.'],
-['Lápis','Clique no lápis para abrir a guia de espessura e pinte sobre a marca que o escaneamento não pegou. O traço rosa entra junto com as caixas em “Remover selecionados”. Ao soltar o controle de espessura, a guia some sozinha para não atrapalhar. Clique no lápis de novo para desativá-lo e voltar a clicar nas caixas.'],
-['Borracha','Apaga partes do traço que você fez com o lápis, se errou ou passou do ponto. Ela tem a própria guia de largura, que some ao soltar o controle. Clique na borracha de novo para desativá-la. A borracha só mexe no traço ainda não removido, nunca na imagem.'],
-['Desfazer','“Desfazer” volta as últimas remoções, até 4 delas.'],
-['Reescanear e ajustes','“Reescanear” lê a imagem de novo. Em “Ajustes” você muda o idioma, a confiança mínima, o agrupamento das caixas e o pré-processamento (Otsu, Adaptativo ou Desligado). Se sobrarem texturas marcadas como texto, aumente o “Rigor do filtro”; se faltar texto sutil, diminua.'],
-['Metadados e privacidade','Com “Remover metadados” marcado, o arquivo baixado sai sem EXIF nem perfil de cor, e as áreas reconstruídas recebem uma variação aleatória de ±1 no RGB. É uma camada extra de privacidade, não garante que a edição seja indetectável.'],
-['Baixar PNG','Salva a imagem em PNG sem perdas, com qualidade máxima. Tudo é processado no seu navegador e nada é enviado a um servidor.'],
-['Por que aparecem marcações em locais sem texto?','Isso ocorre devido a variações drásticas de luz, sombras ou texturas complexas no fundo da imagem que o algoritmo inicial confunde com caracteres. Mas fique tranquilo! Isso não interfere em absolutamente nada no resultado final, pois APENAS as caixas que você selecionar manualmente serão removidas. Este é um comportamento de sensibilidade do motor que será refinado e corrigido nas nossas próximas atualizações.']
+[_d('RW52aWFyIHVtYSBpbWFnZW0='),_d('QXJyYXN0ZSBvIGFycXVpdm8gcGFyYSBhIGNhaXhhLCBjbGlxdWUgZW0g4oCcRXNjb2xoZXIgYXJxdWl2b+KAnSBvdSBjb2xlIGNvbSBDdHJsK1YuIEZ1bmNpb25hIGNvbSBQTkcsIEpQRyBlIFdlYlAuIEltYWdlbnMgY29tIG1haXMgZGUgNDA5NiBweCBubyBtYWlvciBsYWRvIHPDo28gcmVkdXppZGFzIHBhcmEgbyBuYXZlZ2Fkb3IgbsOjbyB0cmF2YXIu')],
+[_d('RGV0ZWPDp8OjbyBhdXRvbcOhdGljYSBkZSB0ZXh0b3M='),_d('QW8gYWJyaXIgYSBpbWFnZW0sIG8gc2l0ZSBwcm9jdXJhIHRleHRvcyBlIG1hcmNhIGNhZGEgdW0gY29tIHVtYSBjYWl4YSBhenVsLiBBIGxlaXR1cmEgcmVmb3LDp2EgYXMgYm9yZGFzLCBvbmRlIGFzIG1hcmNhcyBk4oCZw6FndWEgY29zdHVtYW0gZmljYXIuIFVtYSBsaW5oYSBkZSBsdXogcGVyY29ycmUgYSBpbWFnZW0gZW5xdWFudG8gaXNzbyBhY29udGVjZS4=')],
+[_d('U2VsZWNpb25hciBlIHJlbW92ZXI='),_d('Q2xpcXVlIG5hcyBjYWl4YXMgcXVlIGRlc2VqYSBhcGFnYXIgKGVsYXMgZmljYW0gcm9zYXMpIGUgZGVwb2lzIGVtIOKAnFJlbW92ZXIgc2VsZWNpb25hZG9z4oCdLiDigJxTZWxlY2lvbmFyIHRvZG9z4oCdIGUg4oCcTGltcGFyIHNlbGXDp8Ojb+KAnSBtYXJjYW0gZSBkZXNtYXJjYW0gdHVkbyBkZSB1bWEgdmV6Lg==')],
+[_d('Q2FuY2VsYXIgbyBlc2NhbmVhbWVudG8='),_d('RW5xdWFudG8gbyBzaXRlIGzDqiBhIGltYWdlbSwgYXBhcmVjZSBvIGJvdMOjbyDigJxDYW5jZWxhciBlc2NhbmVhbWVudG/igJ0uIEVsZSBpbnRlcnJvbXBlIGEgbGVpdHVyYSBuYSBob3JhLiBEZXBvaXMgdm9jw6ogcG9kZSB1c2FyIOKAnFJlZXNjYW5lYXLigJ0sIG8gbMOhcGlzIG91IOKAnERlc2VuaGFyIGNhaXhh4oCdLg==')],
+[_d('RGVzZW5oYXIgY2FpeGE='),_d('U2UgYWxndW0gdGV4dG8gbsOjbyBmb2kgZGV0ZWN0YWRvLCBjbGlxdWUgZW0g4oCcRGVzZW5oYXIgY2FpeGHigJ0gZSBhcnJhc3RlIHNvYnJlIGEgw6FyZWEuIEEgY2FpeGEgasOhIGVudHJhIHNlbGVjaW9uYWRhLg==')],
+[_d('TMOhcGlz'),_d('Q2xpcXVlIG5vIGzDoXBpcyBwYXJhIGFicmlyIGEgZ3VpYSBkZSBlc3Blc3N1cmEgZSBwaW50ZSBzb2JyZSBhIG1hcmNhIHF1ZSBvIGVzY2FuZWFtZW50byBuw6NvIHBlZ291LiBPIHRyYcOnbyByb3NhIGVudHJhIGp1bnRvIGNvbSBhcyBjYWl4YXMgZW0g4oCcUmVtb3ZlciBzZWxlY2lvbmFkb3PigJ0uIEFvIHNvbHRhciBvIGNvbnRyb2xlIGRlIGVzcGVzc3VyYSwgYSBndWlhIHNvbWUgc296aW5oYSBwYXJhIG7Do28gYXRyYXBhbGhhci4gQ2xpcXVlIG5vIGzDoXBpcyBkZSBub3ZvIHBhcmEgZGVzYXRpdsOhLWxvIGUgdm9sdGFyIGEgY2xpY2FyIG5hcyBjYWl4YXMu')],
+[_d('Qm9ycmFjaGE='),_d('QXBhZ2EgcGFydGVzIGRvIHRyYcOnbyBxdWUgdm9jw6ogZmV6IGNvbSBvIGzDoXBpcywgc2UgZXJyb3Ugb3UgcGFzc291IGRvIHBvbnRvLiBFbGEgdGVtIGEgcHLDs3ByaWEgZ3VpYSBkZSBsYXJndXJhLCBxdWUgc29tZSBhbyBzb2x0YXIgbyBjb250cm9sZS4gQ2xpcXVlIG5hIGJvcnJhY2hhIGRlIG5vdm8gcGFyYSBkZXNhdGl2w6EtbGEuIEEgYm9ycmFjaGEgc8OzIG1leGUgbm8gdHJhw6dvIGFpbmRhIG7Do28gcmVtb3ZpZG8sIG51bmNhIG5hIGltYWdlbS4=')],
+[_d('RGVzZmF6ZXI='),_d('4oCcRGVzZmF6ZXLigJ0gdm9sdGEgYXMgw7psdGltYXMgcmVtb8Onw7VlcywgYXTDqSA0IGRlbGFzLg==')],
+[_d('UmVlc2NhbmVhciBlIGFqdXN0ZXM='),_d('4oCcUmVlc2NhbmVhcuKAnSBsw6ogYSBpbWFnZW0gZGUgbm92by4gRW0g4oCcQWp1c3Rlc+KAnSB2b2PDqiBtdWRhIG8gaWRpb21hLCBhIGNvbmZpYW7Dp2EgbcOtbmltYSwgbyBhZ3J1cGFtZW50byBkYXMgY2FpeGFzIGUgbyBwcsOpLXByb2Nlc3NhbWVudG8gKE90c3UsIEFkYXB0YXRpdm8gb3UgRGVzbGlnYWRvKS4gU2Ugc29icmFyZW0gdGV4dHVyYXMgbWFyY2FkYXMgY29tbyB0ZXh0bywgYXVtZW50ZSBvIOKAnFJpZ29yIGRvIGZpbHRyb+KAnTsgc2UgZmFsdGFyIHRleHRvIHN1dGlsLCBkaW1pbnVhLg==')],
+[_d('TWV0YWRhZG9zIGUgcHJpdmFjaWRhZGU='),_d('Q29tIOKAnFJlbW92ZXIgbWV0YWRhZG9z4oCdIG1hcmNhZG8sIG8gYXJxdWl2byBiYWl4YWRvIHNhaSBzZW0gRVhJRiBuZW0gcGVyZmlsIGRlIGNvciwgZSBhcyDDoXJlYXMgcmVjb25zdHJ1w61kYXMgcmVjZWJlbSB1bWEgdmFyaWHDp8OjbyBhbGVhdMOzcmlhIGRlIMKxMSBubyBSR0IuIMOJIHVtYSBjYW1hZGEgZXh0cmEgZGUgcHJpdmFjaWRhZGUsIG7Do28gZ2FyYW50ZSBxdWUgYSBlZGnDp8OjbyBzZWphIGluZGV0ZWN0w6F2ZWwu')],
+[_d('QmFpeGFyIFBORw=='),_d('U2FsdmEgYSBpbWFnZW0gZW0gUE5HIHNlbSBwZXJkYXMsIGNvbSBxdWFsaWRhZGUgbcOheGltYS4gVHVkbyDDqSBwcm9jZXNzYWRvIG5vIHNldSBuYXZlZ2Fkb3IgZSBuYWRhIMOpIGVudmlhZG8gYSB1bSBzZXJ2aWRvci4=')],
+[_d('UG9yIHF1ZSBhcGFyZWNlbSBtYXJjYcOnw7VlcyBlbSBsb2NhaXMgc2VtIHRleHRvPw=='),_d('SXNzbyBvY29ycmUgZGV2aWRvIGEgdmFyaWHDp8O1ZXMgZHLDoXN0aWNhcyBkZSBsdXosIHNvbWJyYXMgb3UgdGV4dHVyYXMgY29tcGxleGFzIG5vIGZ1bmRvIGRhIGltYWdlbSBxdWUgbyBhbGdvcml0bW8gaW5pY2lhbCBjb25mdW5kZSBjb20gY2FyYWN0ZXJlcy4gTWFzIGZpcXVlIHRyYW5xdWlsbyEgSXNzbyBuw6NvIGludGVyZmVyZSBlbSBhYnNvbHV0YW1lbnRlIG5hZGEgbm8gcmVzdWx0YWRvIGZpbmFsLCBwb2lzIEFQRU5BUyBhcyBjYWl4YXMgcXVlIHZvY8OqIHNlbGVjaW9uYXIgbWFudWFsbWVudGUgc2Vyw6NvIHJlbW92aWRhcy4gRXN0ZSDDqSB1bSBjb21wb3J0YW1lbnRvIGRlIHNlbnNpYmlsaWRhZGUgZG8gbW90b3IgcXVlIHNlcsOhIHJlZmluYWRvIGUgY29ycmlnaWRvIG5hcyBub3NzYXMgcHLDs3hpbWFzIGF0dWFsaXphw6fDtWVzLg==')]
 ];
 const acc=$('#acc');
 HELP.forEach(([t,p],i)=>{
@@ -934,22 +881,19 @@ HELP.forEach(([t,p],i)=>{
   acc.appendChild(li);
 });
 let helpFrom=null;
-function openHelp(){helpFrom=document.activeElement;closePops();$('#help').hidden=false;$('#app').inert=true;$('#helpBtn').inert=true;$('#helpX').focus()}
-function closeHelp(){
+function _x43(){helpFrom=document.activeElement;_x20();$('#help').hidden=false;$('#app').inert=true;$('#helpBtn').inert=true;$('#helpX').focus()}
+function _x44(){
   $('#help').hidden=true;$('#app').inert=false;$('#helpBtn').inert=false;
   acc.querySelectorAll('.acc-i.open').forEach(li=>{li.classList.remove('open');li.querySelector('button').setAttribute('aria-expanded','false')});
   if(helpFrom&&helpFrom.focus&&document.contains(helpFrom))helpFrom.focus();
 }
-$('#helpBtn').onclick=openHelp;$('#helpX').onclick=closeHelp;
-$('#help').addEventListener('pointerdown',e=>{if(e.target===$('#help'))closeHelp()});
+$('#helpBtn').onclick=_x43;$('#helpX').onclick=_x44;
+$('#help').addEventListener('pointerdown',e=>{if(e.target===$('#help'))_x44()});
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
-  if(!$('#help').hidden)closeHelp();else if(tool)setTool(null);
+  if(!$('#help').hidden)_x44();else if(tool)_x22(null);
 });
-
-/* acessibilidade: abrir o seletor com Enter/Espaço */
 drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('#file').click()}});
-
 </script>
 </body>
 </html>
