@@ -568,27 +568,6 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 
 <script src="script.js?v=20261029c" defer></script>
 <script>
-/* Oculta o aviso de status ("Recursos indisponíveis") na aba Vídeo */
-(function(){
-  function sync(){
-    var pill=document.getElementById('engine'),tab=document.getElementById('tabVideo');
-    if(!pill||!tab)return;
-    var video=tab.getAttribute('aria-selected')==='true';
-    var st=pill.getAttribute('data-s');
-    pill.classList.toggle('hidden',video&&st!=='load');
-  }
-  function init(){
-    var pill=document.getElementById('engine'),tab=document.getElementById('tabVideo');
-    if(!pill||!tab)return;
-    var mo=new MutationObserver(sync);
-    mo.observe(tab,{attributes:true,attributeFilter:['aria-selected']});
-    mo.observe(pill,{attributes:true,attributeFilter:['data-s']});
-    sync();
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
-<script>
 window.addEventListener('load',function(){
   var ok=window.AetixApp&&window.AetixApp.Core&&typeof window.AetixApp.Core.openHelp==='function';
   if(ok)return;
