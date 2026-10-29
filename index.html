@@ -162,6 +162,12 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
 .card{padding:clamp(8px,2vw,14px)}
 @media (max-width:560px){.topbar{justify-content:center}.tools{justify-content:center}.btn{padding:0 12px}.row{gap:8px}.modal{padding:12px}.modal-card{padding:16px 16px 8px}}
 @media (max-height:640px){.sub,#drop .fmt{display:none}.pill{margin-top:8px}footer{font-size:.72rem;line-height:1.5}}
+.langsw{position:fixed;z-index:45;top:var(--sw-y,12px);right:max(14px,env(safe-area-inset-right,0px));height:36px;display:flex;align-items:center}
+.langsw .ic{position:absolute;left:11px;top:50%;width:16px;height:16px;margin-top:-8px;color:var(--muted);pointer-events:none;z-index:1;transition:color .18s}
+.langsw select{appearance:none;-webkit-appearance:none;height:36px;margin:0;padding:0 28px 0 34px;border-radius:12px;border:1px solid var(--line);background:rgba(20,22,29,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2398A1B3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--ink);font:600 .8rem Inter,system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;transition:border-color .18s,background-color .18s,box-shadow .18s}
+.langsw:hover select{border-color:var(--line-2);background-color:rgba(255,255,255,.09);box-shadow:0 10px 26px -12px rgba(124,140,255,.55)}
+.langsw:hover .ic{color:var(--ink)}
+.langsw select option{background:#14161D;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -182,6 +188,7 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
     <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7"/><path d="M10 4H3"/><path d="M21 12h-9"/><path d="M8 12H3"/><path d="M21 20h-5"/><path d="M12 20H3"/><path d="M14 2v4"/><path d="M8 10v4"/><path d="M16 18v4"/></symbol>
     <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
     <symbol id="i-rubber" viewBox="0 0 24 24"><path d="M20 20H9"/><path d="m4.6 14.1 8.5-8.5a2 2 0 0 1 2.8 0l3.5 3.5a2 2 0 0 1 0 2.8L11.3 20H8.2l-3.6-3.6a2 2 0 0 1 0-2.3z"/><path d="m8.5 10.2 6.3 6.3"/></symbol>
   </defs>
 </svg>
@@ -205,11 +212,19 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
 })();
 </script>
 
+<div class="langsw" id="langsw">
+  <svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>
+  <select id="uilang" aria-label="Idioma da interface" data-i18n-aria="uiLang">
+    <option value="pt">PT</option>
+    <option value="en">EN</option>
+  </select>
+</div>
+
 <main class="page" id="app">
   <header>
     <div class="logo"><svg class="ic"><use href="#i-spark"/></svg></div>
-    <h1>Removedor de marca d’água</h1>
-    <p class="sub">Apague textos e marcas das suas imagens em poucos cliques.</p>
+    <h1 data-i18n="h1">Removedor de marca d’água</h1>
+    <p class="sub" data-i18n="sub">Apague textos e marcas das suas imagens em poucos cliques.</p>
     <span class="pill" id="engine" data-s="load" role="status"><i></i><span id="engine-t">Carregando recursos…</span></span>
   </header>
 
@@ -217,9 +232,9 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
     <p id="msg" role="status"></p>
     <label id="drop" tabindex="0">
       <span class="up-ic"><svg class="ic"><use href="#i-upload"/></svg></span>
-      <strong>Arraste sua imagem aqui</strong>
-      <span class="hint">ou cole com Ctrl+V</span>
-      <span class="fake">Escolher arquivo</span>
+      <strong data-i18n="dropTitle">Arraste sua imagem aqui</strong>
+      <span class="hint" data-i18n="dropHint">ou cole com Ctrl+V</span>
+      <span class="fake" data-i18n="dropBtn">Escolher arquivo</span>
       <span class="fmt">PNG · JPG · WebP</span>
       <input type="file" id="file" accept="image/*" hidden>
     </label>
@@ -229,75 +244,75 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
         <span id="count" role="status">0 textos</span>
         <div class="tools">
           <div class="tool">
-            <button type="button" class="btn" id="pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte à mão o que o OCR não detectou"><svg class="ic"><use href="#i-pencil"/></svg>Lápis</button>
+            <button type="button" class="btn" id="pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte à mão o que o OCR não detectou" data-i18n-title="pencilTip"><svg class="ic"><use href="#i-pencil"/></svg><span data-i18n="pencil">Lápis</span></button>
             <div class="pop" id="penpop" hidden>
-              <div class="pop-h"><span>Espessura do lápis</span><output id="penv">20px</output></div>
-              <input type="range" id="pen" min="4" max="120" value="20" aria-label="Espessura do lápis">
+              <div class="pop-h"><span data-i18n="penWidth">Espessura do lápis</span><output id="penv">20px</output></div>
+              <input type="range" id="pen" min="4" max="120" value="20" aria-label="Espessura do lápis" data-i18n-aria="penWidth">
             </div>
           </div>
           <div class="tool">
-            <button type="button" class="btn" id="eraser" aria-pressed="false" aria-expanded="false" title="Borracha: apague partes do traço feito com o lápis"><svg class="ic"><use href="#i-rubber"/></svg>Borracha</button>
+            <button type="button" class="btn" id="eraser" aria-pressed="false" aria-expanded="false" title="Borracha: apague partes do traço feito com o lápis" data-i18n-title="eraserTip"><svg class="ic"><use href="#i-rubber"/></svg><span data-i18n="eraser">Borracha</span></button>
             <div class="pop" id="erapop" hidden>
-              <div class="pop-h"><span>Largura da borracha</span><output id="erav">20px</output></div>
-              <input type="range" id="era" min="4" max="120" value="20" aria-label="Largura da borracha">
+              <div class="pop-h"><span data-i18n="eraserWidth">Largura da borracha</span><output id="erav">20px</output></div>
+              <input type="range" id="era" min="4" max="120" value="20" aria-label="Largura da borracha" data-i18n-aria="eraserWidth">
             </div>
           </div>
-          <button type="button" class="btn danger" id="reset"><svg class="ic"><use href="#i-trash"/></svg>Remover imagem</button>
+          <button type="button" class="btn danger" id="reset"><svg class="ic"><use href="#i-trash"/></svg><span data-i18n="removeImage">Remover imagem</span></button>
         </div>
       </div>
       <div class="stage"><div id="wrap"><canvas id="cnv"></canvas><div id="boxes"></div><canvas id="ov"></canvas><div id="laser" hidden><i></i></div><div id="pcur" hidden></div></div></div>
-      <div id="scanbar" hidden><progress id="prog" max="1" value="0"></progress><button type="button" class="btn ghost" id="cancel"><svg class="ic"><use href="#i-x"/></svg>Cancelar escaneamento</button></div>
+      <div id="scanbar" hidden><progress id="prog" max="1" value="0"></progress><button type="button" class="btn ghost" id="cancel"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="cancelScan">Cancelar escaneamento</span></button></div>
 
       <div id="bar">
         <div class="row">
-          <button type="button" class="btn ghost" id="all"><svg class="ic"><use href="#i-checks"/></svg>Selecionar todos</button>
-          <button type="button" class="btn ghost" id="none"><svg class="ic"><use href="#i-x"/></svg>Limpar seleção</button>
-          <button type="button" class="btn" id="draw" aria-pressed="false" title="Arraste sobre a imagem para marcar uma área que não foi detectada"><svg class="ic"><use href="#i-box"/></svg>Desenhar caixa</button>
-          <button type="button" class="btn" id="rescan"><svg class="ic"><use href="#i-refresh"/></svg>Reescanear</button>
+          <button type="button" class="btn ghost" id="all"><svg class="ic"><use href="#i-checks"/></svg><span data-i18n="selectAll">Selecionar todos</span></button>
+          <button type="button" class="btn ghost" id="none"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="clearSel">Limpar seleção</span></button>
+          <button type="button" class="btn" id="draw" aria-pressed="false" title="Arraste sobre a imagem para marcar uma área que não foi detectada" data-i18n-title="drawBoxTip"><svg class="ic"><use href="#i-box"/></svg><span data-i18n="drawBox">Desenhar caixa</span></button>
+          <button type="button" class="btn" id="rescan"><svg class="ic"><use href="#i-refresh"/></svg><span data-i18n="rescan">Reescanear</span></button>
         </div>
         <div class="row actions">
-          <button type="button" class="btn" id="undo" disabled><svg class="ic"><use href="#i-undo"/></svg>Desfazer</button>
-          <button type="button" class="btn primary" id="go" disabled><svg class="ic"><use href="#i-eraser"/></svg>Remover selecionados</button>
-          <button type="button" class="btn" id="save"><svg class="ic"><use href="#i-download"/></svg>Baixar PNG</button>
+          <button type="button" class="btn" id="undo" disabled><svg class="ic"><use href="#i-undo"/></svg><span data-i18n="undo">Desfazer</span></button>
+          <button type="button" class="btn primary" id="go" disabled><svg class="ic"><use href="#i-eraser"/></svg><span id="go-t">Remover selecionados</span></button>
+          <button type="button" class="btn" id="save"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="savePng">Baixar PNG</span></button>
         </div>
         <details>
-          <summary><svg class="ic"><use href="#i-sliders"/></svg>Ajustes</summary>
+          <summary><svg class="ic"><use href="#i-sliders"/></svg><span data-i18n="adjust">Ajustes</span></summary>
           <div class="adv">
-            <label class="field">Idioma
+            <label class="field"><span data-i18n="fLang">Idioma</span>
               <select id="lang">
-                <option value="por+eng">Português + Inglês</option>
-                <option value="eng">Inglês</option>
-                <option value="spa+eng">Espanhol + Inglês</option>
-                <option value="fra+eng">Francês + Inglês</option>
-                <option value="deu+eng">Alemão + Inglês</option>
-                <option value="ita+eng">Italiano + Inglês</option>
+                <option value="por+eng" data-i18n="ocrPorEng">Português + Inglês</option>
+                <option value="eng" data-i18n="ocrEng">Inglês</option>
+                <option value="spa+eng" data-i18n="ocrSpaEng">Espanhol + Inglês</option>
+                <option value="fra+eng" data-i18n="ocrFraEng">Francês + Inglês</option>
+                <option value="deu+eng" data-i18n="ocrDeuEng">Alemão + Inglês</option>
+                <option value="ita+eng" data-i18n="ocrItaEng">Italiano + Inglês</option>
               </select>
             </label>
-            <label class="field">Detectar por
-              <select id="gran"><option value="words">Palavras</option><option value="lines">Linhas</option></select>
+            <label class="field"><span data-i18n="fGran">Detectar por</span>
+              <select id="gran"><option value="words" data-i18n="gWords">Palavras</option><option value="lines" data-i18n="gLines">Linhas</option></select>
             </label>
-            <label class="field">Confiança mínima <input type="range" id="conf" min="0" max="95" value="45"><output id="confv">45</output></label>
-            <label class="field">Modo
-              <select id="mode"><option value="glyph">Só as letras</option><option value="box">Caixa inteira</option></select>
+            <label class="field"><span data-i18n="fConf">Confiança mínima</span> <input type="range" id="conf" min="0" max="95" value="45"><output id="confv">45</output></label>
+            <label class="field"><span data-i18n="fMode">Modo</span>
+              <select id="mode"><option value="glyph" data-i18n="mGlyph">Só as letras</option><option value="box" data-i18n="mBox">Caixa inteira</option></select>
             </label>
-            <label class="field">Algoritmo
-              <select id="algo"><option value="telea">Suave</option><option value="ns">Bordas</option></select>
+            <label class="field"><span data-i18n="fAlgo">Algoritmo</span>
+              <select id="algo"><option value="telea" data-i18n="aTelea">Suave</option><option value="ns" data-i18n="aNs">Bordas</option></select>
             </label>
-            <label class="field">Margem da caixa <input type="range" id="pad" min="0" max="20" value="3"><output id="padv">3</output></label>
-            <label class="field">Sensibilidade de cor <input type="range" id="thr" min="8" max="120" value="32"><output id="thrv">32</output></label>
-            <label class="field">Espessura extra <input type="range" id="dil" min="0" max="8" value="3"><output id="dilv">3</output></label>
-            <label class="field">Raio de reconstrução <input type="range" id="rad" min="1" max="15" value="5"><output id="radv">5</output></label>
-            <label class="field">Leitura do texto
-              <select id="psm"><option value="11" selected>Texto esparso (PSM 11)</option><option value="3">Página automática (PSM 3)</option><option value="6">Bloco único</option></select>
+            <label class="field"><span data-i18n="fPad">Margem da caixa</span> <input type="range" id="pad" min="0" max="20" value="3"><output id="padv">3</output></label>
+            <label class="field"><span data-i18n="fThr">Sensibilidade de cor</span> <input type="range" id="thr" min="8" max="120" value="32"><output id="thrv">32</output></label>
+            <label class="field"><span data-i18n="fDil">Espessura extra</span> <input type="range" id="dil" min="0" max="8" value="3"><output id="dilv">3</output></label>
+            <label class="field"><span data-i18n="fRad">Raio de reconstrução</span> <input type="range" id="rad" min="1" max="15" value="5"><output id="radv">5</output></label>
+            <label class="field"><span data-i18n="fPsm">Leitura do texto</span>
+              <select id="psm"><option value="11" selected data-i18n="psm11">Texto esparso (PSM 11)</option><option value="3" data-i18n="psm3">Página automática (PSM 3)</option><option value="6" data-i18n="psm6">Bloco único</option></select>
             </label>
-            <label class="field">Agrupar caixas <input type="range" id="merge" min="0" max="4" step="0.1" value="1.5"><output id="mergev">1.5</output></label>
-            <label class="field">Pré-processamento
-              <select id="prep"><option value="otsu" selected>Otsu (rígido)</option><option value="adaptive">Adaptativo</option><option value="off">Desligado</option></select>
+            <label class="field"><span data-i18n="fMerge">Agrupar caixas</span> <input type="range" id="merge" min="0" max="4" step="0.1" value="1.5"><output id="mergev">1.5</output></label>
+            <label class="field"><span data-i18n="fPrep">Pré-processamento</span>
+              <select id="prep"><option value="otsu" selected data-i18n="pOtsu">Otsu (rígido)</option><option value="adaptive" data-i18n="pAdaptive">Adaptativo</option><option value="off" data-i18n="pOff">Desligado</option></select>
             </label>
-            <label class="field">Rigor do filtro <input type="range" id="binc" min="3" max="24" value="10"><output id="bincv">10</output></label>
+            <label class="field"><span data-i18n="fBinc">Rigor do filtro</span> <input type="range" id="binc" min="3" max="24" value="10"><output id="bincv">10</output></label>
             <div class="pair">
-              <label class="field"><span>Recriar granulado</span><input type="checkbox" id="tex" checked></label>
-              <label class="field"><span>Remover metadados</span><input type="checkbox" id="meta" checked></label>
+              <label class="field"><span data-i18n="fTex">Recriar granulado</span><input type="checkbox" id="tex" checked></label>
+              <label class="field"><span data-i18n="fMeta">Remover metadados</span><input type="checkbox" id="meta" checked></label>
             </div>
           </div>
         </details>
@@ -306,15 +321,15 @@ h1{font-size:clamp(1.4rem,4.6vw,2.9rem);margin-bottom:clamp(4px,1.2dvh,10px)}
   </section>
 
   <footer>
-    Desenvolvido por <strong>AETIX DESIGN</strong><br>
-    © AETIX DESIGN. Todos os direitos reservados.
+    <span data-i18n="footerBy">Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
+    <span data-i18n="footerRights">© AETIX DESIGN. Todos os direitos reservados.</span>
   </footer>
 </main>
 
-<button type="button" class="help-fab" id="helpBtn" aria-label="Central de ajuda" aria-haspopup="dialog" title="Central de ajuda" hidden><svg class="ic"><use href="#i-help"/></svg></button>
+<button type="button" class="help-fab" id="helpBtn" aria-label="Central de ajuda" data-i18n-aria="helpTitle" aria-haspopup="dialog" title="Central de ajuda" data-i18n-title="helpTitle" hidden><svg class="ic"><use href="#i-help"/></svg></button>
 <div class="modal" id="help" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="help-t">
-    <div class="modal-h"><h2 id="help-t">Central de ajuda</h2><button type="button" class="x" id="helpX" aria-label="Fechar"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <div class="modal-h"><h2 id="help-t" data-i18n="helpTitle">Central de ajuda</h2><button type="button" class="x" id="helpX" aria-label="Fechar" data-i18n-aria="close"><svg class="ic"><use href="#i-x"/></svg></button></div>
     <ol class="acc" id="acc"></ol>
   </div>
 </div>
