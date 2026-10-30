@@ -4,7 +4,7 @@
   "private": true,
   "description": "AETIX DESIGN - site estático com função serverless para avaliações",
   "engines": {
-    "node": "20.x"
+    "node": "26.x"
   },
   "dependencies": {
     "firebase-admin": "^12.7.0"
