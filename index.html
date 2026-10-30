@@ -98,7 +98,7 @@ h1{margin:0 0 8px;font-size:clamp(1.5rem,4.4vw,2.6rem);font-weight:700;letter-sp
 
 /* ---------- dropzone ---------- */
 .drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:clamp(190px,34dvh,320px);padding:clamp(18px,4dvh,40px) clamp(14px,4vw,22px);text-align:center;cursor:pointer;border-radius:20px;border:1px solid var(--line);
-background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));transition:border-color .2s,box-shadow .2s,background .2s}
+position:relative;z-index:1;background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),#0E1016;transition:border-color .2s,box-shadow .2s,background .2s}
 .drop:hover,.drop.over{border-color:rgba(124,140,255,.6);box-shadow:0 0 0 4px rgba(124,140,255,.12),0 20px 60px -20px rgba(124,140,255,.35)}
 .up-ic{width:clamp(52px,9dvh,76px);height:clamp(52px,9dvh,76px);border-radius:24px;display:grid;place-items:center;margin-bottom:clamp(8px,2dvh,18px);color:#C9D0FF;border:1px solid rgba(124,140,255,.35);background:linear-gradient(145deg,rgba(124,140,255,.22),rgba(155,107,255,.1));transition:transform .25s}
 .up-ic .ic{width:34px;height:34px;stroke-width:1.6}
@@ -108,6 +108,27 @@ background:radial-gradient(420px 220px at 50% 0,rgba(124,140,255,.12),transparen
 .drop .fake{display:inline-flex;margin-top:clamp(10px,2.2dvh,20px);height:42px;align-items:center;padding:0 22px;border-radius:12px;font-weight:600;font-size:.92rem;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 10px 28px -10px rgba(124,140,255,.75);transition:filter .18s,transform .18s}
 .drop:hover .fake{filter:brightness(1.1);transform:translateY(-1px)}
 .drop .fmt{margin-top:clamp(8px,1.6dvh,14px);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+
+/* ---------- Dropzone · Premium Cyberpunk: estrela cadente neon na borda ---------- */
+.drop-fx{position:relative;padding:2px;border-radius:22px;isolation:isolate}
+.drop-fx:has(> .drop[hidden]){display:none}
+.drop-fx .fx{position:absolute;inset:0;z-index:0;border-radius:22px;overflow:hidden;pointer-events:none}
+.drop-fx .fx::before{content:"";position:absolute;left:-50%;top:50%;width:200%;aspect-ratio:1/1;translate:0 -50%;transform-origin:50% 50%;will-change:transform;
+background:conic-gradient(from 0deg,
+rgba(255,255,255,0) 0%,
+rgba(255,255,255,0) 52%,
+rgba(255,255,255,.55) 72%,
+rgba(255,255,255,.95) 84%,
+#D6C6FF 90%,
+#9B6BFF 95%,
+#2EE6FF 98.6%,
+rgba(46,230,255,0) 100%);
+animation:rotateGlow 4.4s linear infinite}
+.drop-fx .fx-glow{filter:blur(10px) saturate(1.4);opacity:.9}
+.drop-fx:has(.drop:hover) .fx::before,.drop-fx:has(.drop.over) .fx::before{animation-duration:3s}
+.drop-fx:has(.drop.over) .fx-glow{opacity:1;filter:blur(14px) saturate(1.7)}
+@keyframes rotateGlow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@media (max-width:600px){.drop-fx .fx-glow{filter:blur(7px) saturate(1.4)}}
 
 /* ---------- editor ---------- */
 .topbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 12px}
@@ -254,6 +275,15 @@ summary:hover{color:var(--ink);background:var(--panel)}
 .pay-f input::placeholder{color:var(--dim)}
 .pay-f input:focus,.pay-f input:focus-visible{outline:none!important;box-shadow:none!important}
 .pay-f.bad{border-color:var(--err)}
+.pay-amount-f{display:block;margin:0 0 14px}
+.pay-amount-f>span{display:block;margin:0 0 7px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.pay-amount-wrap{display:flex;align-items:center;gap:9px;height:54px;padding:0 16px;border-radius:16px;border:1px solid rgba(46,230,255,.4);background:linear-gradient(180deg,#1b1d24,#101117);box-shadow:0 0 0 1px rgba(46,230,255,.1) inset,0 0 18px 1px rgba(46,230,255,.2);transition:border-color .18s,box-shadow .18s}
+.pay-amount-wrap:focus-within{border-color:#2EE6FF;box-shadow:0 0 0 1px rgba(46,230,255,.3) inset,0 0 24px 3px rgba(46,230,255,.4)}
+.pay-amount-wrap.bad{border-color:var(--err);box-shadow:0 0 0 1px rgba(255,90,90,.25) inset}
+.pay-amount-prefix{font:700 1.05rem Inter,system-ui,sans-serif;color:#2EE6FF;text-shadow:0 0 10px rgba(46,230,255,.55)}
+.pay-amount-wrap input{flex:1;height:100%;border:0;outline:0;background:transparent;color:var(--ink);font:700 1.35rem Inter,system-ui,sans-serif;caret-color:#2EE6FF}
+.pay-amount-wrap input::placeholder{color:var(--dim);font-weight:500}
+.pay-amount-wrap input:focus,.pay-amount-wrap input:focus-visible{outline:none!important;box-shadow:none!important}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus{
@@ -417,6 +447,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
       <!-- =============== PAINEL: IMAGEM =============== -->
       <section class="card" id="panelImage" role="tabpanel" aria-labelledby="tabImage">
         <p class="msg" id="im-msg" role="status"></p>
+        <div class="drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i>
         <label class="drop" id="im-drop" tabindex="0">
           <span class="up-ic"><svg class="ic"><use href="#i-upload"/></svg></span>
           <strong data-i18n="img.dropTitle">Arraste sua imagem aqui</strong>
@@ -425,6 +456,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
           <span class="fmt">PNG · JPG · WebP</span>
           <input type="file" id="im-file" accept="image/*" hidden>
         </label>
+        </div>
 
         <div id="im-editor" hidden>
           <div class="topbar">
@@ -511,6 +543,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
       <!-- =============== PAINEL: VÍDEO =============== -->
       <section class="card hidden" id="panelVideo" role="tabpanel" aria-labelledby="tabVideo">
         <p class="msg" id="vd-msg" role="status"></p>
+        <div class="drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i>
         <label class="drop" id="vd-drop" tabindex="0">
           <span class="up-ic"><svg class="ic"><use href="#i-video"/></svg></span>
           <strong data-i18n="vid.dropTitle">Arraste seu vídeo aqui</strong>
@@ -519,6 +552,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
           <span class="fmt">MP4 · MOV · WEBM</span>
           <input type="file" id="vd-file" accept="video/mp4,video/quicktime,video/webm,video/*" hidden>
         </label>
+        </div>
 
         <div id="vd-editor" hidden>
           <div class="topbar">
@@ -646,13 +680,19 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 
     <div class="pay-step" id="payFormView" style="align-items:stretch;text-align:left">
       <div class="pay-form">
-        <label class="pay-f"><span>Nome</span><input id="payName" name="name" type="text" autocomplete="name" placeholder="Seu nome completo"></label>
-        <label class="pay-f"><span>E-mail</span><input id="payEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com"></label>
+        <label class="pay-f" style="grid-column:1/-1"><span>Nome</span><input id="payName" name="name" type="text" autocomplete="name" placeholder="Seu nome completo"></label>
         <label class="pay-f"><span>Telefone</span><input id="payPhone" name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="(83) 99999-8888"></label>
-        <label class="pay-f"><span>CPF</span><input id="payCpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00"></label>
+        <label class="pay-f"><span>E-mail</span><input id="payEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com"></label>
       </div>
+      <label class="pay-amount-f" for="payAmount">
+        <span>Valor da colaboração (mín. R$ 5,00)</span>
+        <div class="pay-amount-wrap">
+          <span class="pay-amount-prefix" aria-hidden="true">R$</span>
+          <input id="payAmount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="5,00" value="5,00">
+        </div>
+      </label>
       <p class="pay-err" id="payErr" role="alert"></p>
-      <button type="button" class="pay-btn" id="payBtn"><span id="payBtnTxt">R$ 5,49</span><small>PAGAR COM PIX</small></button>
+      <button type="button" class="pay-btn" id="payBtn"><span id="payBtnTxt">Gerar PIX de Colaboração</span></button>
     </div>
 
     <div class="pay-step" id="payPixView" hidden>
