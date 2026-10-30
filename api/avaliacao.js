@@ -7,7 +7,7 @@
 
    ANTI-SPAM: no máximo 1 avaliação por hora por visitante.
    O IP NUNCA é gravado. Só um HMAC-SHA256 (com chave secreta) dele é usado
-   como ID de um documento na coleção "limites", que expira em 1 hora.
+   como ID de um documento na coleção "limites", que expira em 1 hora e é apagado pelo servidor.
    Esse registro não tem nenhum vínculo com a nota ou o comentário.
    ========================================================================== */
 const crypto = require('crypto');
@@ -56,6 +56,24 @@ function chaveDoVisitante(req) {
   if (!ip) return null;
   const segredo = process.env.RATE_SALT || process.env.FIREBASE_PRIVATE_KEY || 'aetix';
   return crypto.createHmac('sha256', segredo).update(ip).digest('hex');
+}
+
+/* Limpeza: apaga registros vencidos da coleção "limites" (substitui a política TTL,
+   que exige faturamento ativo no Google Cloud). Roda a cada avaliação gravada,
+   em lotes pequenos, e nunca derruba a requisição se falhar. */
+async function limparExpirados(db) {
+  try {
+    const snap = await db.collection('limites')
+      .where('expiraEm', '<=', Timestamp.now())
+      .limit(50)
+      .get();
+    if (snap.empty) return;
+    const batch = db.batch();
+    snap.docs.forEach(d => batch.delete(d.ref));
+    await batch.commit();
+  } catch (e) {
+    console.error('[avaliacao] limpeza falhou:', e && e.message);
+  }
 }
 
 /* Filtro em memória (melhor esforço; some quando a instância é reciclada). */
@@ -136,7 +154,7 @@ module.exports = async function handler(req, res) {
         }
         tx.set(limiteRef, {
           ultimoEm: Timestamp.fromMillis(agora),
-          expiraEm: Timestamp.fromMillis(agora + HORA_MS)   // use como política TTL no console
+          expiraEm: Timestamp.fromMillis(agora + HORA_MS)   // usado pela limpeza (limparExpirados)
         });
       }
       tx.set(novaRef, {
@@ -146,6 +164,7 @@ module.exports = async function handler(req, res) {
       });
     });
 
+    await limparExpirados(db);
     return res.status(201).json({ ok: true });
   } catch (err) {
     if (err && err.codigo === 'hora') {
