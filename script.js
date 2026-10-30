@@ -1,1 +1,2453 @@
-'use strict';window['AetixApp']=window['AetixApp']||{},function(Y){const f={'pt':{'core':{'title':'Remover\x20marca\x20d’água\x20·\x20AETIX\x20DESIGN','navAria':'Navegação\x20principal','navImage':'Marca\x20d\x27água\x20imagem','navVideo':'Marca\x20d\x27água\x20vídeo','tabsAria':'Modo\x20de\x20processamento','tabImage':'Imagem','tabVideo':'Vídeo','h1_image':'Removedor\x20de\x20marca\x20d\x27água\x20em\x20imagens','sub_image':'Apague\x20textos\x20e\x20marcas\x20das\x20suas\x20imagens\x20em\x20poucos\x20cliques.','h1_video':'Removedor\x20de\x20marca\x20d\x27água\x20em\x20vídeos','sub_video':'Apague\x20marcas\x20d’água\x20em\x20movimento\x20dos\x20seus\x20vídeos,\x20direto\x20no\x20navegador.','helpItems':[['Enviar\x20um\x20arquivo','Arraste\x20o\x20arquivo\x20para\x20a\x20área\x20de\x20upload,\x20clique\x20em\x20“Escolher\x20arquivo”\x20ou\x20cole\x20com\x20Ctrl+V.\x20Imagens:\x20PNG,\x20JPG\x20e\x20WebP.\x20Vídeos:\x20MP4,\x20MOV\x20e\x20WEBM\x20(H.264\x20recomendado).'],['Privacidade\x20e\x20metadados','Tudo\x20roda\x20no\x20seu\x20navegador\x20e\x20nenhum\x20arquivo\x20é\x20enviado\x20a\x20servidores.\x20Os\x20metadados\x20do\x20arquivo\x20final\x20são\x20removidos\x20por\x20padrão;\x20você\x20pode\x20desativar\x20isso\x20nos\x20Ajustes.'],['Detecção\x20(OCR)','O\x20OCR\x20procura\x20textos\x20na\x20imagem.\x20Clique\x20nas\x20caixas\x20que\x20deseja\x20apagar,\x20use\x20“Selecionar\x20todos”\x20ou\x20“Limpar\x20seleção”\x20para\x20agilizar\x20e\x20“Reescanear”\x20para\x20repetir\x20a\x20busca.'],['Lápis\x20e\x20Borracha','Pinte\x20à\x20mão\x20o\x20que\x20o\x20OCR\x20não\x20detectou\x20(imagem)\x20ou\x20a\x20marca\x20d’água\x20no\x20instante\x20atual\x20(vídeo).\x20Ajuste\x20o\x20tamanho\x20no\x20controle\x20deslizante;\x20a\x20borracha\x20corrige\x20o\x20traço\x20feito\x20com\x20o\x20lápis.'],['Desenhar\x20caixa','Arraste\x20sobre\x20a\x20imagem\x20para\x20marcar\x20manualmente\x20uma\x20área\x20que\x20não\x20foi\x20detectada.\x20A\x20caixa\x20entra\x20na\x20seleção\x20e\x20é\x20removida\x20junto\x20com\x20as\x20demais\x20em\x20“Remover\x20selecionados”.'],['Ajustes\x20avançados','Mude\x20o\x20idioma\x20do\x20OCR,\x20a\x20confiança\x20mínima,\x20o\x20algoritmo\x20e\x20o\x20raio\x20de\x20reconstrução.\x20Marcar\x20só\x20a\x20área\x20da\x20marca,\x20com\x20margem\x20pequena,\x20deixa\x20o\x20resultado\x20mais\x20natural.'],['Vídeo:\x20marca\x20em\x20movimento','Pause\x20o\x20vídeo\x20no\x20tempo\x20desejado\x20e\x20pinte\x20a\x20marca\x20d’água.\x20Se\x20ela\x20se\x20move,\x20adicione\x20keyframes\x20em\x20outros\x20tempos:\x20a\x20máscara\x20é\x20interpolada\x20entre\x20eles.\x20Use\x20“Excluir\x20keyframe”\x20para\x20corrigir.'],['Vídeo:\x20renderizar\x20e\x20baixar','Clique\x20em\x20“Renderizar\x20vídeo”,\x20confira\x20o\x20resultado\x20e\x20baixe\x20o\x20MP4.\x20O\x20áudio\x20original\x20é\x20mantido\x20e\x20a\x20renderização\x20pode\x20ser\x20cancelada.\x20Módulo\x20em\x20BETA:\x20use\x20Chrome\x20ou\x20Edge\x20atualizados.'],['Desfazer\x20e\x20recomeçar','Use\x20“Desfazer”\x20para\x20voltar\x20uma\x20alteração.\x20“Remover\x20imagem”\x20ou\x20“Remover\x20vídeo”\x20descarta\x20o\x20arquivo\x20atual\x20para\x20você\x20recomeçar\x20do\x20zero.'],['Baixar\x20o\x20resultado','Imagem:\x20“Baixar\x20PNG”,\x20exportado\x20em\x20qualidade\x20máxima.\x20Vídeo:\x20“Baixar\x20MP4”\x20depois\x20de\x20renderizar.\x20Os\x20botões\x20ficam\x20ativos\x20quando\x20há\x20algo\x20pronto\x20para\x20salvar.']],'helpUp':'Tópicos\x20anteriores','helpDown':'Próximos\x20tópicos','helpOf':'de','help':'CENTRAL\x20DE\x20AJUDA','helpItem':'Central\x20de\x20Ajuda','helpTitle':'Central\x20de\x20ajuda','pricing':'SEJA\x20UM\x20COLABORADOR','pricingTitle':'SEJA\x20UM\x20COLABORADOR','uiLangLabel':'Idioma','profile':'Conta','profileTitle':'Minha\x20conta','close':'Fechar','uiLang':'Idioma\x20da\x20interface','engReady':'Pronto\x20para\x20usar','engErr':'Recursos\x20indisponíveis','engLoad':'Carregando\x20recursos…','footerBy':'Desenvolvido\x20por','footerRights':'©\x20AETIX\x20DESIGN.\x20Todos\x20os\x20direitos\x20reservados.'},'img':{'dropTitle':'Arraste\x20sua\x20imagem\x20aqui','dropHint':'ou\x20cole\x20com\x20Ctrl+V','dropBtn':'Escolher\x20arquivo','pencil':'Lápis','pencilTip':'Lápis:\x20pinte\x20à\x20mão\x20o\x20que\x20o\x20OCR\x20não\x20detectou','penWidth':'Espessura\x20do\x20lápis','eraser':'Borracha','eraserTip':'Borracha:\x20apague\x20partes\x20do\x20traço\x20feito\x20com\x20o\x20lápis','eraserWidth':'Largura\x20da\x20borracha','removeImage':'Remover\x20imagem','cancelScan':'Cancelar\x20escaneamento','selectAll':'Selecionar\x20todos','clearSel':'Limpar\x20seleção','drawBox':'Desenhar\x20caixa','drawBoxTip':'Arraste\x20sobre\x20a\x20imagem\x20para\x20marcar\x20uma\x20área\x20que\x20não\x20foi\x20detectada','rescan':'Reescanear','undo':'Desfazer','removeSel':'Remover\x20selecionados','removing':'Removendo…','savePng':'Baixar\x20PNG','adjust':'Ajustes','fLang':'Idioma','ocrPorEng':'Português\x20+\x20Inglês','ocrEng':'Inglês','ocrSpaEng':'Espanhol\x20+\x20Inglês','ocrFraEng':'Francês\x20+\x20Inglês','ocrDeuEng':'Alemão\x20+\x20Inglês','ocrItaEng':'Italiano\x20+\x20Inglês','fGran':'Detectar\x20por','gWords':'Palavras','gLines':'Linhas','fConf':'Confiança\x20mínima','fMode':'Modo','mGlyph':'Só\x20as\x20letras','mBox':'Caixa\x20inteira','fAlgo':'Algoritmo','aTelea':'Suave','aNs':'Bordas','fPad':'Margem\x20da\x20caixa','fThr':'Sensibilidade\x20de\x20cor','fDil':'Espessura\x20extra','fRad':'Raio\x20de\x20reconstrução','fPsm':'Leitura\x20do\x20texto','psm11':'Texto\x20esparso\x20(PSM\x2011)','psm3':'Página\x20automática\x20(PSM\x203)','psm6':'Bloco\x20único','fMerge':'Agrupar\x20caixas','fPrep':'Pré-processamento','pOtsu':'Otsu\x20(rígido)','pAdaptive':'Adaptativo','pOff':'Desligado','fBinc':'Rigor\x20do\x20filtro','fTex':'Recriar\x20granulado','fMeta':'Remover\x20metadados','countOne':'{n}\x20texto','countMany':'{n}\x20textos','selOne':'{n}\x20selecionado','selMany':'{n}\x20selecionados','manualStroke':'traço\x20manual','manualArea':'Área\x20marcada\x20à\x20mão','chooseImage':'Escolha\x20um\x20arquivo\x20de\x20imagem.','openFail':'Não\x20foi\x20possível\x20abrir\x20essa\x20imagem.\x20Tente\x20PNG,\x20JPG\x20ou\x20WebP.','preparing':'Preparando\x20a\x20detecção…','loadingCV':'Carregando\x20o\x20OpenCV\x20para\x20preparar\x20a\x20imagem…','searching':'Procurando\x20textos…\x20{p}%','downloading':'Baixando\x20dados\x20do\x20idioma…\x20{p}%','isolating':'Isolando\x20os\x20textos\x20do\x20fundo…','refining':'Reforçando\x20a\x20leitura\x20das\x20bordas…\x20{i}/4','scanDone':'Clique\x20nas\x20caixas\x20dos\x20textos\x20que\x20deseja\x20apagar\x20e\x20depois\x20em\x20“Remover\x20selecionados”.','scanNone':'Nenhum\x20texto\x20encontrado.\x20Diminua\x20a\x20confiança\x20mínima,\x20reduza\x20o\x20rigor\x20do\x20filtro\x20ou\x20use\x20“Desenhar\x20caixa”.','scanCancelled':'Escaneamento\x20cancelado.\x20Use\x20“Reescanear”,\x20o\x20lápis\x20ou\x20“Desenhar\x20caixa”\x20quando\x20quiser.','scanError':'Erro\x20na\x20detecção\x20de\x20texto:\x20{e}.\x20Você\x20ainda\x20pode\x20usar\x20“Desenhar\x20caixa”.','penHint':'Pinte\x20sobre\x20a\x20marca\x20que\x20deseja\x20apagar.\x20Ajuste\x20a\x20espessura\x20e\x20solte\x20o\x20controle\x20para\x20começar\x20a\x20pintar.','eraserHint':'Ajuste\x20a\x20largura\x20e\x20solte\x20o\x20controle\x20para\x20começar\x20a\x20apagar.','penActive':'Pinte\x20sobre\x20a\x20marca\x20que\x20deseja\x20apagar.\x20Clique\x20no\x20lápis\x20de\x20novo\x20para\x20desativar.','eraserActive':'Passe\x20a\x20borracha\x20sobre\x20o\x20traço\x20que\x20quiser\x20apagar.\x20Clique\x20na\x20borracha\x20de\x20novo\x20para\x20desativar.','drawHint':'Arraste\x20sobre\x20a\x20imagem\x20para\x20marcar\x20uma\x20área.','rebuilding':'Reconstruindo\x20o\x20fundo…','done':'Pronto.\x20Se\x20sobrar\x20algo,\x20selecione\x20de\x20novo\x20ou\x20use\x20“Reescanear”.','doneAlt':'Pronto.\x20(Usei\x20o\x20modo\x20de\x20reconstrução\x20alternativo.)\x20Se\x20sobrar\x20algo,\x20selecione\x20de\x20novo\x20ou\x20use\x20“Reescanear”.','procError':'Erro\x20ao\x20processar:\x20{e}','undone':'Alteração\x20desfeita.','pngFail':'Não\x20foi\x20possível\x20gerar\x20o\x20PNG.','saved':'Imagem\x20salva.','errLoad':'Falha\x20ao\x20carregar\x20{u}','errCvInpaint':'cv.inpaint\x20indisponível','errFull':'A\x20seleção\x20cobre\x20a\x20imagem\x20inteira.'},'vid':{'dropTitle':'Arraste\x20seu\x20vídeo\x20aqui','dropHint':'ou\x20cole\x20com\x20Ctrl+V','dropBtn':'Escolher\x20arquivo','pencil':'Lápis','pencilTip':'Lápis:\x20pinte\x20a\x20marca\x20d’água\x20na\x20posição\x20atual','penWidth':'Espessura\x20do\x20lápis','eraser':'Borracha','eraserTip':'Borracha:\x20apague\x20partes\x20do\x20traço\x20feito\x20com\x20o\x20lápis','eraserWidth':'Largura\x20da\x20borracha','removeVideo':'Remover\x20vídeo','cancelRender':'Cancelar\x20renderização','render':'Renderizar\x20vídeo','saveMp4':'Baixar\x20MP4','adjust':'Ajustes','fAlgo':'Algoritmo','aTelea':'Suave','aNs':'Bordas','fRad':'Raio\x20de\x20reconstrução','fDil':'Espessura\x20extra','fQuality':'Qualidade\x20do\x20MP4','qHigh':'Alta\x20(6\x20Mbps)','qMid':'Média\x20(3\x20Mbps)','qLow':'Leve\x20(1,5\x20Mbps)','fNoise':'Ruído\x20anti-forense','fMeta':'Remover\x20metadados','advNote':'A\x20máscara\x20é\x20interpolada\x20linearmente\x20entre\x20os\x20keyframes.\x20O\x20processamento\x20acontece\x20só\x20na\x20área\x20pintada,\x20em\x20480p,\x20para\x20terminar\x20rápido.','addKf':'Adicionar\x20keyframe','delKf':'Excluir\x20keyframe','kfHint':'Pause\x20o\x20vídeo\x20no\x20tempo\x20desejado\x20e\x20pinte\x20a\x20marca\x20d’água.\x20Repita\x20em\x20outros\x20tempos\x20para\x20criar\x20a\x20trajetória.','play':'Reproduzir','pause':'Pausar','prevFrame':'Quadro\x20anterior','nextFrame':'Próximo\x20quadro','seek':'Tempo\x20do\x20vídeo','resultTitle':'Vídeo\x20pronto','resultHint':'Confira\x20o\x20resultado\x20e\x20baixe\x20o\x20MP4.\x20O\x20áudio\x20original\x20foi\x20mantido.','resultNoAudio':'Confira\x20o\x20resultado\x20e\x20baixe\x20o\x20MP4.\x20Este\x20vídeo\x20não\x20tinha\x20áudio\x20ou\x20ele\x20não\x20pôde\x20ser\x20mantido.','countZero':'Nenhum\x20keyframe','countOne':'{n}\x20keyframe','countMany':'{n}\x20keyframes','kfNone':'Nenhum\x20keyframe\x20ainda','kfAt':'Keyframe\x20em\x20{t}','kfAdded':'Keyframe\x20adicionado.\x20Pinte\x20a\x20marca\x20d’água\x20nesta\x20posição.','kfExists':'Este\x20keyframe\x20já\x20existe.','kfRemoved':'Keyframe\x20excluído.','chooseVideo':'Escolha\x20um\x20arquivo\x20de\x20vídeo.','openFail':'Não\x20foi\x20possível\x20abrir\x20esse\x20vídeo.\x20Tente\x20MP4\x20ou\x20MOV.','loadingVideo':'Carregando\x20o\x20vídeo…','readyHint':'Pause\x20o\x20vídeo,\x20pinte\x20a\x20marca\x20d’água\x20e\x20adicione\x20keyframes\x20em\x20outros\x20tempos\x20para\x20acompanhar\x20o\x20movimento.','needMask':'Pinte\x20a\x20marca\x20d’água\x20em\x20pelo\x20menos\x20um\x20keyframe\x20antes\x20de\x20renderizar.','renderPreparing':'Preparando\x20a\x20renderização…','phaseAudio':'Preparando\x20o\x20áudio…','phaseDemux':'Lendo\x20o\x20vídeo…','phaseFrames':'Processando\x20quadros…\x20{p}%','phaseMux':'Montando\x20o\x20MP4…','phaseStrip':'Limpando\x20metadados…','renderDone':'Vídeo\x20pronto.','renderDoneMeta':'Vídeo\x20pronto.\x20Não\x20foi\x20possível\x20remover\x20todos\x20os\x20metadados.','renderCancelled':'Renderização\x20cancelada.','renderFail':'Não\x20foi\x20possível\x20renderizar\x20o\x20vídeo.\x20Tente\x20novamente.','formatFail':'Este\x20arquivo\x20não\x20pôde\x20ser\x20lido.\x20Por\x20enquanto,\x20use\x20MP4\x20ou\x20MOV\x20com\x20vídeo\x20H.264.','encodeFail':'Seu\x20navegador\x20não\x20conseguiu\x20codificar\x20este\x20vídeo.','engineFail':'Não\x20foi\x20possível\x20carregar\x20os\x20recursos\x20de\x20processamento.\x20Verifique\x20a\x20conexão\x20e\x20recarregue\x20a\x20página.','unsupported':'Seu\x20navegador\x20não\x20tem\x20os\x20recursos\x20necessários\x20para\x20processar\x20vídeos.\x20Use\x20o\x20Chrome\x20ou\x20o\x20Edge\x20atualizados.','saveDone':'Download\x20iniciado.','penHint':'Pinte\x20sobre\x20a\x20marca\x20d’água\x20na\x20posição\x20atual.','eraserHint':'Passe\x20a\x20borracha\x20sobre\x20o\x20traço\x20que\x20quiser\x20apagar.'}},'en':{'core':{'title':'Remove\x20watermark\x20·\x20AETIX\x20DESIGN','navAria':'Main\x20navigation','navImage':'Image\x20watermark','navVideo':'Video\x20watermark','tabsAria':'Processing\x20mode','tabImage':'Image','tabVideo':'Video','h1_image':'Remove\x20watermarks\x20from\x20images','sub_image':'Erase\x20text\x20and\x20marks\x20from\x20your\x20images\x20in\x20just\x20a\x20few\x20clicks.','h1_video':'Remove\x20watermarks\x20from\x20videos','sub_video':'Erase\x20moving\x20watermarks\x20right\x20in\x20your\x20browser.','helpItems':[['Upload\x20a\x20file','Drag\x20the\x20file\x20into\x20the\x20upload\x20area,\x20click\x20“Choose\x20file”\x20or\x20paste\x20with\x20Ctrl+V.\x20Images:\x20PNG,\x20JPG\x20and\x20WebP.\x20Videos:\x20MP4,\x20MOV\x20and\x20WEBM\x20(H.264\x20recommended).'],['Privacy\x20and\x20metadata','Everything\x20runs\x20in\x20your\x20browser\x20and\x20no\x20file\x20is\x20sent\x20to\x20any\x20server.\x20Metadata\x20is\x20stripped\x20from\x20the\x20final\x20file\x20by\x20default;\x20you\x20can\x20turn\x20that\x20off\x20in\x20Settings.'],['Detection\x20(OCR)','OCR\x20looks\x20for\x20text\x20in\x20the\x20image.\x20Click\x20the\x20boxes\x20you\x20want\x20to\x20erase,\x20use\x20“Select\x20all”\x20or\x20“Clear\x20selection”\x20to\x20speed\x20up\x20and\x20“Rescan”\x20to\x20search\x20again.'],['Pencil\x20and\x20Eraser','Paint\x20by\x20hand\x20what\x20the\x20OCR\x20missed\x20(image)\x20or\x20the\x20watermark\x20at\x20the\x20current\x20moment\x20(video).\x20Adjust\x20the\x20size\x20with\x20the\x20slider;\x20the\x20eraser\x20fixes\x20strokes\x20made\x20with\x20the\x20pencil.'],['Draw\x20box','Drag\x20over\x20the\x20image\x20to\x20manually\x20mark\x20an\x20area\x20that\x20wasn’t\x20detected.\x20The\x20box\x20joins\x20the\x20selection\x20and\x20is\x20removed\x20together\x20with\x20the\x20others\x20via\x20“Remove\x20selected”.'],['Advanced\x20settings','Change\x20the\x20OCR\x20language,\x20minimum\x20confidence,\x20algorithm\x20and\x20reconstruction\x20radius.\x20Marking\x20only\x20the\x20watermark\x20area\x20with\x20a\x20small\x20margin\x20gives\x20a\x20more\x20natural\x20result.'],['Video:\x20moving\x20marks','Pause\x20the\x20video\x20at\x20the\x20desired\x20time\x20and\x20paint\x20the\x20watermark.\x20If\x20it\x20moves,\x20add\x20keyframes\x20at\x20other\x20times:\x20the\x20mask\x20is\x20interpolated\x20between\x20them.\x20Use\x20“Delete\x20keyframe”\x20to\x20fix\x20mistakes.'],['Video:\x20render\x20and\x20download','Click\x20“Render\x20video”,\x20check\x20the\x20result\x20and\x20download\x20the\x20MP4.\x20The\x20original\x20audio\x20is\x20kept\x20and\x20rendering\x20can\x20be\x20cancelled.\x20BETA\x20module:\x20use\x20an\x20up-to-date\x20Chrome\x20or\x20Edge.'],['Undo\x20and\x20start\x20over','Use\x20“Undo”\x20to\x20step\x20back\x20a\x20change.\x20“Remove\x20image”\x20or\x20“Remove\x20video”\x20discards\x20the\x20current\x20file\x20so\x20you\x20can\x20start\x20from\x20scratch.'],['Download\x20the\x20result','Image:\x20“Download\x20PNG”,\x20exported\x20at\x20maximum\x20quality.\x20Video:\x20“Download\x20MP4”\x20after\x20rendering.\x20The\x20buttons\x20become\x20active\x20when\x20there\x20is\x20something\x20ready\x20to\x20save.']],'helpUp':'Previous\x20topics','helpDown':'Next\x20topics','helpOf':'of','help':'HELP\x20CENTER','helpItem':'Help\x20Center','helpTitle':'Help\x20center','pricing':'BECOME\x20A\x20SUPPORTER','pricingTitle':'BECOME\x20A\x20SUPPORTER','uiLangLabel':'Language','profile':'Account','profileTitle':'My\x20account','close':'Close','uiLang':'Interface\x20language','engReady':'Ready\x20to\x20use','engErr':'Resources\x20unavailable','engLoad':'Loading\x20resources…','footerBy':'Developed\x20by','footerRights':'©\x20AETIX\x20DESIGN.\x20All\x20rights\x20reserved.'},'img':{'dropTitle':'Drag\x20your\x20image\x20here','dropHint':'or\x20paste\x20with\x20Ctrl+V','dropBtn':'Choose\x20file','pencil':'Pencil','pencilTip':'Pencil:\x20paint\x20by\x20hand\x20what\x20the\x20OCR\x20didn’t\x20detect','penWidth':'Pencil\x20thickness','eraser':'Eraser','eraserTip':'Eraser:\x20erase\x20parts\x20of\x20the\x20stroke\x20made\x20with\x20the\x20pencil','eraserWidth':'Eraser\x20width','removeImage':'Remove\x20image','cancelScan':'Cancel\x20scan','selectAll':'Select\x20all','clearSel':'Clear\x20selection','drawBox':'Draw\x20box','drawBoxTip':'Drag\x20over\x20the\x20image\x20to\x20mark\x20an\x20area\x20that\x20wasn’t\x20detected','rescan':'Rescan','undo':'Undo','removeSel':'Remove\x20selected','removing':'Removing…','savePng':'Download\x20PNG','adjust':'Settings','fLang':'Language','ocrPorEng':'Portuguese\x20+\x20English','ocrEng':'English','ocrSpaEng':'Spanish\x20+\x20English','ocrFraEng':'French\x20+\x20English','ocrDeuEng':'German\x20+\x20English','ocrItaEng':'Italian\x20+\x20English','fGran':'Detect\x20by','gWords':'Words','gLines':'Lines','fConf':'Minimum\x20confidence','fMode':'Mode','mGlyph':'Letters\x20only','mBox':'Entire\x20box','fAlgo':'Algorithm','aTelea':'Smooth','aNs':'Edges','fPad':'Box\x20margin','fThr':'Color\x20sensitivity','fDil':'Extra\x20thickness','fRad':'Reconstruction\x20radius','fPsm':'Text\x20reading','psm11':'Sparse\x20text\x20(PSM\x2011)','psm3':'Automatic\x20page\x20(PSM\x203)','psm6':'Single\x20block','fMerge':'Group\x20boxes','fPrep':'Preprocessing','pOtsu':'Otsu\x20(strict)','pAdaptive':'Adaptive','pOff':'Off','fBinc':'Filter\x20strictness','fTex':'Recreate\x20grain','fMeta':'Remove\x20metadata','countOne':'{n}\x20text','countMany':'{n}\x20texts','selOne':'{n}\x20selected','selMany':'{n}\x20selected','manualStroke':'manual\x20stroke','manualArea':'Area\x20marked\x20by\x20hand','chooseImage':'Choose\x20an\x20image\x20file.','openFail':'Couldn’t\x20open\x20this\x20image.\x20Try\x20PNG,\x20JPG\x20or\x20WebP.','preparing':'Preparing\x20detection…','loadingCV':'Loading\x20OpenCV\x20to\x20prepare\x20the\x20image…','searching':'Searching\x20for\x20text…\x20{p}%','downloading':'Downloading\x20language\x20data…\x20{p}%','isolating':'Isolating\x20the\x20text\x20from\x20the\x20background…','refining':'Reinforcing\x20edge\x20reading…\x20{i}/4','scanDone':'Click\x20the\x20boxes\x20of\x20the\x20text\x20you\x20want\x20to\x20erase,\x20then\x20“Remove\x20selected”.','scanNone':'No\x20text\x20found.\x20Lower\x20the\x20minimum\x20confidence,\x20reduce\x20the\x20filter\x20strictness\x20or\x20use\x20“Draw\x20box”.','scanCancelled':'Scan\x20cancelled.\x20Use\x20“Rescan”,\x20the\x20pencil\x20or\x20“Draw\x20box”\x20whenever\x20you\x20like.','scanError':'Text\x20detection\x20error:\x20{e}.\x20You\x20can\x20still\x20use\x20“Draw\x20box”.','penHint':'Paint\x20over\x20the\x20mark\x20you\x20want\x20to\x20erase.\x20Adjust\x20the\x20thickness\x20and\x20release\x20the\x20control\x20to\x20start\x20painting.','eraserHint':'Adjust\x20the\x20width\x20and\x20release\x20the\x20control\x20to\x20start\x20erasing.','penActive':'Paint\x20over\x20the\x20mark\x20you\x20want\x20to\x20erase.\x20Click\x20the\x20pencil\x20again\x20to\x20turn\x20it\x20off.','eraserActive':'Run\x20the\x20eraser\x20over\x20the\x20stroke\x20you\x20want\x20to\x20erase.\x20Click\x20the\x20eraser\x20again\x20to\x20turn\x20it\x20off.','drawHint':'Drag\x20over\x20the\x20image\x20to\x20mark\x20an\x20area.','rebuilding':'Rebuilding\x20the\x20background…','done':'Done.\x20If\x20anything\x20is\x20left\x20over,\x20select\x20it\x20again\x20or\x20use\x20“Rescan”.','doneAlt':'Done.\x20(I\x20used\x20the\x20alternative\x20reconstruction\x20mode.)\x20If\x20anything\x20is\x20left\x20over,\x20select\x20it\x20again\x20or\x20use\x20“Rescan”.','procError':'Error\x20while\x20processing:\x20{e}','undone':'Change\x20undone.','pngFail':'Couldn’t\x20generate\x20the\x20PNG.','saved':'Image\x20saved.','errLoad':'Failed\x20to\x20load\x20{u}','errCvInpaint':'cv.inpaint\x20unavailable','errFull':'The\x20selection\x20covers\x20the\x20entire\x20image.'},'vid':{'dropTitle':'Drag\x20your\x20video\x20here','dropHint':'or\x20paste\x20with\x20Ctrl+V','dropBtn':'Choose\x20file','pencil':'Pencil','pencilTip':'Pencil:\x20paint\x20the\x20watermark\x20at\x20the\x20current\x20position','penWidth':'Pencil\x20thickness','eraser':'Eraser','eraserTip':'Eraser:\x20erase\x20parts\x20of\x20the\x20stroke\x20made\x20with\x20the\x20pencil','eraserWidth':'Eraser\x20width','removeVideo':'Remove\x20video','cancelRender':'Cancel\x20rendering','render':'Render\x20video','saveMp4':'Download\x20MP4','adjust':'Settings','fAlgo':'Algorithm','aTelea':'Smooth','aNs':'Edges','fRad':'Reconstruction\x20radius','fDil':'Extra\x20thickness','fQuality':'MP4\x20quality','qHigh':'High\x20(6\x20Mbps)','qMid':'Medium\x20(3\x20Mbps)','qLow':'Light\x20(1.5\x20Mbps)','fNoise':'Anti-forensic\x20noise','fMeta':'Remove\x20metadata','advNote':'The\x20mask\x20is\x20interpolated\x20linearly\x20between\x20keyframes.\x20Processing\x20runs\x20only\x20inside\x20the\x20painted\x20area,\x20at\x20480p,\x20to\x20finish\x20fast.','addKf':'Add\x20keyframe','delKf':'Delete\x20keyframe','kfHint':'Pause\x20the\x20video\x20at\x20the\x20desired\x20time\x20and\x20paint\x20the\x20watermark.\x20Repeat\x20at\x20other\x20times\x20to\x20create\x20the\x20trajectory.','play':'Play','pause':'Pause','prevFrame':'Previous\x20frame','nextFrame':'Next\x20frame','seek':'Video\x20time','resultTitle':'Video\x20ready','resultHint':'Check\x20the\x20result\x20and\x20download\x20the\x20MP4.\x20The\x20original\x20audio\x20was\x20kept.','resultNoAudio':'Check\x20the\x20result\x20and\x20download\x20the\x20MP4.\x20This\x20video\x20had\x20no\x20audio\x20or\x20it\x20could\x20not\x20be\x20kept.','countZero':'No\x20keyframes','countOne':'{n}\x20keyframe','countMany':'{n}\x20keyframes','kfNone':'No\x20keyframes\x20yet','kfAt':'Keyframe\x20at\x20{t}','kfAdded':'Keyframe\x20added.\x20Paint\x20the\x20watermark\x20at\x20this\x20position.','kfExists':'This\x20keyframe\x20already\x20exists.','kfRemoved':'Keyframe\x20deleted.','chooseVideo':'Choose\x20a\x20video\x20file.','openFail':'Couldn’t\x20open\x20this\x20video.\x20Try\x20MP4\x20or\x20MOV.','loadingVideo':'Loading\x20the\x20video…','readyHint':'Pause\x20the\x20video,\x20paint\x20the\x20watermark\x20and\x20add\x20keyframes\x20at\x20other\x20times\x20to\x20follow\x20the\x20movement.','needMask':'Paint\x20the\x20watermark\x20in\x20at\x20least\x20one\x20keyframe\x20before\x20rendering.','renderPreparing':'Preparing\x20the\x20render…','phaseAudio':'Preparing\x20the\x20audio…','phaseDemux':'Reading\x20the\x20video…','phaseFrames':'Processing\x20frames…\x20{p}%','phaseMux':'Building\x20the\x20MP4…','phaseStrip':'Stripping\x20metadata…','renderDone':'Video\x20ready.','renderDoneMeta':'Video\x20ready.\x20Some\x20metadata\x20could\x20not\x20be\x20removed.','renderCancelled':'Rendering\x20cancelled.','renderFail':'Couldn’t\x20render\x20the\x20video.\x20Please\x20try\x20again.','formatFail':'This\x20file\x20could\x20not\x20be\x20read.\x20For\x20now,\x20use\x20MP4\x20or\x20MOV\x20with\x20H.264\x20video.','encodeFail':'Your\x20browser\x20could\x20not\x20encode\x20this\x20video.','engineFail':'Couldn’t\x20load\x20the\x20processing\x20resources.\x20Check\x20your\x20connection\x20and\x20reload\x20the\x20page.','unsupported':'Your\x20browser\x20lacks\x20the\x20resources\x20needed\x20to\x20process\x20videos.\x20Use\x20an\x20up-to-date\x20Chrome\x20or\x20Edge.','saveDone':'Download\x20started.','penHint':'Paint\x20over\x20the\x20watermark\x20at\x20the\x20current\x20position.','eraserHint':'Run\x20the\x20eraser\x20over\x20the\x20stroke\x20you\x20want\x20to\x20erase.'}}},i=Y['State']={'activeTab':'image','lang':'pt','modal':null,'help':{'open':![],'scrollTop':0x0,'openIdx':-0x1},'tesseract':{'status':'idle'},'opencv':{'status':'idle','ready':![]},'videoEngine':{'status':'idle','supported':!![]},'ffmpeg':{'status':'idle'},'busy':{'image':![],'video':![]}},E=Y['Core']={'modules':{},'modalHooks':{},'LS_KEY':'aetix-lang','I18N':f},x=(c,e)=>(e||document)['querySelector'](c),a=(c,e)=>Array['from']((e||document)['querySelectorAll'](c)),R=(c,e,o)=>Math['min'](o,Math['max'](e,c));E['qs']=x,E['qsa']=a,E['clamp']=R,E['scope']=function(c){const e=o=>o['replace'](/#([A-Za-z][\w-]*)/g,'#'+c+'-$1');return{'$':o=>x(e(o)),'$$':o=>a(e(o))};},E['loadScript']=c=>new Promise((e,o)=>{const w=document['createElement']('script');w['src']=c,w['async']=!![],w['onload']=()=>e(),w['onerror']=()=>{w['remove'](),o(new Error('load\x20'+c));},document['head']['appendChild'](w);}),E['tr']=function(c,e){const o=c['indexOf']('.'),w=c['slice'](0x0,o),T=c['slice'](o+0x1),U=g=>{const P=f[g];if(!P)return undefined;const Q=P[w]&&P[w][T];return Q!=null?Q:P['core']&&P['core'][T];};let u=U(i['lang']);if(u==null)u=U('pt');if(u==null)u=T;if(typeof u!=='string'||!e)return u;return u['replace'](/\{(\w+)\}/g,(g,l)=>{const P=e[l];if(P==null)return'';if(typeof P==='object')return P['i18n']?E['tr'](w+'.'+P['i18n']['k'],P['i18n']['p']):P['message']||String(P);return P;});},E['applyLang']=function(c,o){if(!f[c])c='pt';i['lang']=c;if(o!==![])try{localStorage['setItem'](E['LS_KEY'],c);}catch(w){}document['documentElement']['lang']=c==='en'?'en':'pt-BR',document['title']=E['tr']('core.title'),a('[data-i18n]')['forEach'](T=>{T['textContent']=E['tr'](T['dataset']['i18n']);}),a('[data-i18n-title]')['forEach'](T=>{T['title']=E['tr'](T['dataset']['i18nTitle']);}),a('[data-i18n-aria]')['forEach'](T=>{T['setAttribute']('aria-label',E['tr'](T['dataset']['i18nAria']));}),x('#uiLang')['value']=c,E['renderHelp'](),Object['keys'](E['modules'])['forEach'](T=>{const U=E['modules'][T];if(U&&U['onLang'])U['onLang']();}),E['refreshEngine']();},E['renderHelp']=function(){const c=x('#helpList'),e=(f[i['lang']]||f['pt'])['core']['helpItems']||[];c['innerHTML']='',i['help']['openIdx']=-0x1,e['forEach']((o,w)=>{const T=document['createElement']('li'),U=document['createElement']('button'),u=document['createElement']('b'),g=document['createElement']('h3'),l=document['createElement']('div'),P=document['createElement']('div'),Q=document['createElement']('p');U['type']='button',U['className']='help-row',U['setAttribute']('aria-expanded','false'),U['id']='helpQ'+w,l['id']='helpA'+w,U['setAttribute']('aria-controls',l['id']),l['setAttribute']('role','region'),l['setAttribute']('aria-labelledby',U['id']),l['className']='help-ans',u['textContent']=String(w+0x1),g['textContent']=o[0x0],Q['textContent']=o[0x1];const S=document['createElementNS']('http://www.w3.org/2000/svg','svg');S['setAttribute']('class','ic\x20help-chev'),S['setAttribute']('aria-hidden','true');const G=document['createElementNS']('http://www.w3.org/2000/svg','use');G['setAttribute']('href','#i-chev'),S['appendChild'](G),U['appendChild'](u),U['appendChild'](g),U['appendChild'](S),P['appendChild'](Q),l['appendChild'](P),U['addEventListener']('click',()=>E['toggleHelpItem'](w)),T['appendChild'](U),T['appendChild'](l),c['appendChild'](T);}),E['updateHelpNav']();},E['toggleHelpItem']=function(c){const e=a('#helpList\x20li'),o=i['help']['openIdx'];e['forEach']((w,T)=>{const U=T===c&&o!==c;w['classList']['toggle']('open',U),w['firstChild']['setAttribute']('aria-expanded',U?'true':'false');}),i['help']['openIdx']=o===c?-0x1:c,E['updateHelpNav'](),setTimeout(()=>{if(i['help']['openIdx']>=0x0&&e[i['help']['openIdx']])e[i['help']['openIdx']]['scrollIntoView']({'block':'nearest','behavior':'smooth'});E['updateHelpNav']();},0x12c);},E['updateHelpNav']=function(){const c=x('#helpList'),e=a('#helpList\x20li'),o=e['length'];if(!o)return;const w=c['scrollTop'],T=w+c['clientHeight'],U=c['getBoundingClientRect']();let u=-0x1,g=-0x1;e['forEach']((l,P)=>{const Q=l['getBoundingClientRect'](),S=Q['top']-U['top']+w,G=Q['bottom']-U['top']+w;if(S>=w-0x2&&G<=T+0x2){if(u<0x0)u=P;g=P;}}),u<0x0&&(u=0x0,g=0x0),x('#helpCount')['textContent']=u+0x1+'–'+(g+0x1)+'\x20'+E['tr']('core.helpOf')+'\x20'+o,x('#helpUp')['disabled']=w<=0x2,x('#helpDown')['disabled']=w+c['clientHeight']>=c['scrollHeight']-0x2;},E['helpPage']=function(c){const e=x('#helpList');e['scrollBy']({'top':c*Math['max'](0x3c,e['clientHeight']-0x18),'behavior':'smooth'});},E['openHelp']=function(){E['closeProfile'](),x('#helpMenu')['hidden']=![],x('#helpOpen')['setAttribute']('aria-expanded','true'),i['help']['open']=!![],x('#helpList')['scrollTop']=i['help']['scrollTop']||0x0,E['updateHelpNav']();},E['closeHelp']=function(){const c=x('#helpMenu');if(c['hidden'])return;if(i['help']['openIdx']>=0x0)E['toggleHelpItem'](i['help']['openIdx']);i['help']['scrollTop']=x('#helpList')['scrollTop'],c['hidden']=!![],i['help']['open']=![],x('#helpOpen')['setAttribute']('aria-expanded','false');},E['refreshEngine']=function(){const e=x('#engine'),w=x('#engineText');let T='load';if(i['activeTab']==='image'){const U=i['tesseract']['status'],u=i['opencv']['status'];T=U==='err'?'err':U==='ok'&&(u==='ok'||u==='err')?'ok':'load';}else{const g=i['videoEngine']['status'];T=g==='ok'?'ok':g==='err'?'err':'load';}e['dataset']['s']=T,e['classList']['toggle']('hidden',i['activeTab']!=='image'&&T==='err'),w['textContent']=E['tr'](T==='ok'?'core.engReady':T==='err'?'core.engErr':'core.engLoad');},E['splashDone']=new Promise(c=>{E['_splashResolve']=c;}),E['initSplash']=function(){const c=x('#splash'),e=c['firstElementChild'],o=x('#app');let T=0x0;o['inert']=!![],'AETIX\x20DESIGN'['split']('')['forEach']((U,u)=>{const g=document['createElement']('span');if(U==='\x20')g['className']='gap';else{g['textContent']=U,g['style']['setProperty']('--i',T++);if(u>0x5)g['className']='w2';}e['appendChild'](g);}),setTimeout(()=>{c['classList']['add']('out'),document['documentElement']['classList']['remove']('splashing'),o['inert']=!!i['modal'],setTimeout(()=>{c['remove'](),E['_splashResolve']();},0x384);},0x8fc);};let F=null;E['openModal']=function(c,e){const o=x('#'+c);if(!o)return;E['closeProfile'](),E['closeHelp']();if(i['modal'])E['closeModal']();F=document['activeElement'],o['hidden']=![],i['modal']=c,x('#app')['inert']=!![];const w=e?x('#'+e):x('[data-close-modal]',o);if(w)w['focus']();},E['closeModal']=function(){const c=i['modal'];if(!c)return;x('#'+c)['hidden']=!![],i['modal']=null,x('#app')['inert']=![];if(E['modalHooks'][c])E['modalHooks'][c]();if(F&&F['focus']&&document['contains'](F))F['focus']();F=null;},E['openProfile']=function(){E['closeHelp'](),x('#profileMenu')['hidden']=![],x('#profileBtn')['setAttribute']('aria-expanded','true');},E['closeProfile']=function(){const c=x('#profileMenu');if(c['hidden'])return;c['hidden']=!![],x('#profileBtn')['setAttribute']('aria-expanded','false');},E['switchTab']=function(c,e){if(c!=='image'&&c!=='video')return;const o=i['activeTab'];if(!e&&c===o)return;if(o!==c&&E['modules'][o]&&E['modules'][o]['deactivate'])E['modules'][o]['deactivate']();i['activeTab']=c,a('[data-tab]')['forEach'](U=>{const u=U['dataset']['tab']===c;U['classList']['toggle']('active',u);if(U['getAttribute']('role')==='tab')U['setAttribute']('aria-selected',String(u)),U['tabIndex']=u?0x0:-0x1;else{if(u)U['setAttribute']('aria-current','page');else U['removeAttribute']('aria-current');}}),x('#panelImage')['classList']['toggle']('hidden',c!=='image'),x('#panelVideo')['classList']['toggle']('hidden',c!=='video');const w=x('#heroTitle'),T=x('#heroSub');w['dataset']['i18n']='core.h1_'+c,T['dataset']['i18n']='core.sub_'+c,w['textContent']=E['tr'](w['dataset']['i18n']),T['textContent']=E['tr'](T['dataset']['i18n']),E['modules'][c]['activate'](),E['refreshEngine'](),x('#page')['scrollTop']=0x0;},E['routeFile']=function(c){if(!c||i['modal'])return;const e=c['type']||'',o=(c['name']||'')['toLowerCase']();let w=i['activeTab'];if(/^image\//['test'](e))w='image';else{if(/^video\//['test'](e)||/\.(mp4|mov|m4v|webm)$/['test'](o))w='video';}E['switchTab'](w),E['modules'][w]['loadFile'](c);},E['setupHeader']=function(){if(!x('#aetixExtraCss')){const w=document['createElement']('style');w['id']='aetixExtraCss',w['textContent']=['.cta.cta-collab{height:38px;padding:0\x2016px;font:700\x20.74rem\x20Inter,system-ui,sans-serif;letter-spacing:.1em;color:#fff;border:1px\x20solid\x20rgba(124,140,255,.55);border-radius:12px;cursor:pointer;white-space:nowrap;background:linear-gradient(135deg,rgba(124,140,255,.22),rgba(155,107,255,.16));animation:aetixCollabGlow\x202.4s\x20ease-in-out\x20infinite}','.cta.cta-collab:hover{animation-play-state:paused}','@keyframes\x20aetixCollabGlow{0%,100%{box-shadow:0\x200\x2010px\x20-4px\x20rgba(124,140,255,.45),0\x200\x200\x200\x20rgba(155,107,255,0),inset\x200\x201px\x200\x20rgba(255,255,255,.1);border-color:rgba(124,140,255,.45);filter:brightness(1)}50%{box-shadow:0\x200\x2026px\x202px\x20rgba(155,107,255,.75),0\x200\x200\x205px\x20rgba(124,140,255,.16),inset\x200\x201px\x200\x20rgba(255,255,255,.18);border-color:rgba(155,107,255,.95);filter:brightness(1.16)}}','.dropdown\x20.langsw{width:100%;height:42px;margin-top:10px}','.dropdown\x20.langsw\x20select{width:100%;height:42px;font-size:.88rem}','.dropdown\x20.langsw\x20.ic{left:14px;margin-top:-8px}','.dropdown\x20.langsw\x20select{padding-left:38px}','@media\x20(max-width:700px){.helpwrap\x20.cta{display:none}}','@media\x20(max-width:560px){.hdr{padding-left:10px;padding-right:10px;gap:6px}.hdr-right{gap:6px;flex:none}.brand{flex:none;font-size:.8rem;letter-spacing:.08em}.brand\x20.logo{margin-right:.15em}.cta.cta-collab{height:32px;padding:0\x209px;font-size:.56rem;letter-spacing:.05em}.avatar-btn{width:32px;height:32px}}','@media\x20(max-width:400px){.hdr{padding-left:8px;padding-right:8px;gap:4px}.hdr-right{gap:5px}.brand{font-size:.72rem;letter-spacing:.06em}.cta.cta-collab{padding:0\x207px;font-size:.5rem;letter-spacing:.03em}.avatar-btn{width:30px;height:30px}}','@media\x20(max-width:350px){.brand{font-size:.66rem}.cta.cta-collab{font-size:.46rem;padding:0\x206px}}','#pricingModal{transition:opacity\x20.5s\x20ease}#pricingModal.fadeout{opacity:0;pointer-events:none}','.pay-card[data-step=\x22pix\x22]\x20.pay-step.aetix-paid{gap:14px;padding:6px\x200\x2010px}','.aetix-paid\x20.pay-qr{background:transparent;padding:0}','.aetix-paid\x20#payCode,.aetix-paid\x20#payCopy,.aetix-paid\x20.pay-thanks,.aetix-paid\x20.pay-status{display:none}','.pay-check{width:100%;height:100%;display:block;filter:drop-shadow(0\x200\x2014px\x20rgba(74,222,154,.75))\x20drop-shadow(0\x200\x2030px\x20rgba(74,222,154,.45));animation:payCheckPop\x20.5s\x20cubic-bezier(.2,1.4,.4,1)\x20both}','.pc-ring{stroke-dasharray:327;stroke-dashoffset:327;animation:payDraw\x20.6s\x20ease-out\x20.05s\x20forwards}','.pc-tick{stroke-dasharray:90;stroke-dashoffset:90;animation:payDraw\x20.45s\x20ease-out\x20.5s\x20forwards}','@keyframes\x20payDraw{to{stroke-dashoffset:0}}','@keyframes\x20payCheckPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}','.pay-paid-txt{margin:0;text-align:center;font:700\x201.3rem\x20Inter,system-ui,sans-serif;color:#4ADE9A;text-shadow:0\x200\x2016px\x20rgba(74,222,154,.55);animation:fadein\x20.5s\x20ease\x20.6s\x20both}','.aetix-thanks{position:fixed;left:50%;bottom:max(22px,env(safe-area-inset-bottom,0px));z-index:300;display:flex;align-items:flex-start;gap:14px;width:min(460px,calc(100vw\x20-\x2024px));padding:16px\x2014px\x2016px\x2016px;border-radius:20px;border:1px\x20solid\x20rgba(155,107,255,.55);background:linear-gradient(145deg,rgba(32,24,62,.96),rgba(15,17,28,.97));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0\x2030px\x2070px\x20-20px\x20rgba(0,0,0,.9),0\x200\x2040px\x20-6px\x20rgba(155,107,255,.6),inset\x200\x201px\x200\x20rgba(255,255,255,.08);color:var(--ink);cursor:pointer;transform:translate(-50%,0);animation:thanksIn\x20.6s\x20cubic-bezier(.2,.9,.3,1.1)\x20both}','.aetix-thanks.out{animation:thanksOut\x20.55s\x20ease\x20forwards}','.aetix-thanks\x20.at-ic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;font-size:1.4rem;background:linear-gradient(135deg,rgba(124,140,255,.3),rgba(155,107,255,.2));border:1px\x20solid\x20rgba(155,107,255,.5);box-shadow:0\x200\x2020px\x20-4px\x20rgba(155,107,255,.8)}','.aetix-thanks\x20.at-tx{flex:1;min-width:0}','.aetix-thanks\x20strong{display:block;margin-bottom:3px;font-size:1rem;letter-spacing:.02em;background:linear-gradient(135deg,#C9D0FF,#9B6BFF);-webkit-background-clip:text;background-clip:text;color:transparent}','.aetix-thanks\x20p{margin:0;font-size:.88rem;line-height:1.5;color:#D8DCEA}','.aetix-thanks\x20.at-x{flex:none;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:1.3rem;line-height:1;cursor:pointer}','.aetix-thanks\x20.at-x:hover{color:#fff;background:rgba(255,255,255,.1)}','@keyframes\x20thanksIn{from{opacity:0;transform:translate(-50%,24px)\x20scale(.96)}to{opacity:1;transform:translate(-50%,0)\x20scale(1)}}','@keyframes\x20thanksOut{to{opacity:0;transform:translate(-50%,16px)\x20scale(.97)}}','@media\x20(prefers-reduced-motion:reduce){.aetix-thanks{animation:none!important}.pc-ring,.pc-tick{stroke-dashoffset:0!important}.cta.cta-collab{animation:none!important}}']['join']('\x0a'),document['head']['appendChild'](w);}const c=x('#pricingOpen');c&&(c['className']='cta\x20cta-collab',c['setAttribute']('data-i18n','core.pricing'),c['textContent']=E['tr']('core.pricing'));const e=x('#langsw'),o=x('#profileBody');if(e&&o&&e['parentNode']!==o)o['appendChild'](e);},E['bind']=function(){a('[data-tab]')['forEach'](o=>o['addEventListener']('click',()=>E['switchTab'](o['dataset']['tab']))),x('#brand')['addEventListener']('click',()=>E['switchTab']('image')),x('.tabs')['addEventListener']('keydown',o=>{if(o['key']!=='ArrowLeft'&&o['key']!=='ArrowRight')return;const w=i['activeTab']==='image'?'video':'image';E['switchTab'](w),x('#tab'+(w==='image'?'Image':'Video'))['focus']();}),x('#helpOpen')['addEventListener']('click',()=>{x('#helpMenu')['hidden']?E['openHelp']():E['closeHelp']();}),x('#helpClose')['addEventListener']('click',E['closeHelp']),x('#helpUp')['addEventListener']('click',()=>E['helpPage'](-0x1)),x('#helpDown')['addEventListener']('click',()=>E['helpPage'](0x1)),x('#helpList')['addEventListener']('scroll',E['updateHelpNav'],{'passive':!![]}),x('#profileHelp')['addEventListener']('click',()=>{E['closeProfile'](),E['openHelp']();}),document['addEventListener']('pointerdown',o=>{if(!o['target']['closest']('.helpwrap'))E['closeHelp']();}),x('#pricingOpen')['addEventListener']('click',()=>E['openModal']('pricingModal')),a('[data-close-modal]')['forEach'](o=>o['addEventListener']('click',E['closeModal'])),a('.modal')['forEach'](o=>o['addEventListener']('pointerdown',w=>{if(w['target']===o)E['closeModal']();})),x('#profileBtn')['addEventListener']('click',()=>{x('#profileMenu')['hidden']?E['openProfile']():E['closeProfile']();}),x('#profileClose')['addEventListener']('click',E['closeProfile']),document['addEventListener']('pointerdown',o=>{if(!o['target']['closest']('.profile'))E['closeProfile']();}),x('#uiLang')['addEventListener']('change',o=>E['applyLang'](o['target']['value'])),document['addEventListener']('keydown',o=>{if(o['key']!=='Escape')return;if(i['modal']){E['closeModal']();return;}if(!x('#helpMenu')['hidden']){E['closeHelp']();if(x('#helpOpen')['offsetParent'])x('#helpOpen')['focus']();return;}if(!x('#profileMenu')['hidden']){E['closeProfile']();return;}const w=E['modules'][i['activeTab']];if(w&&w['onEscape'])w['onEscape']();});const c=o=>o['dataTransfer']&&Array['from'](o['dataTransfer']['types']||[])['indexOf']('Files')>=0x0,e=o=>{const w=E['modules'][i['activeTab']];if(w&&w['setDragOver'])w['setDragOver'](o);};['dragenter','dragover']['forEach'](o=>window['addEventListener'](o,w=>{w['preventDefault']();if(c(w)&&!i['modal'])e(!![]);})),window['addEventListener']('dragleave',o=>{o['preventDefault']();if(!o['relatedTarget'])e(![]);}),window['addEventListener']('drop',o=>{o['preventDefault'](),e(![]);const w=o['dataTransfer']&&o['dataTransfer']['files']&&o['dataTransfer']['files'][0x0];if(w)E['routeFile'](w);}),window['addEventListener']('paste',o=>{const w=Array['from'](o['clipboardData']&&o['clipboardData']['files']||[])[0x0];w&&(o['preventDefault'](),E['routeFile'](w));});},E['modules']['image']=Y['ImageProcessor']=(function(){const {$:c}=E['scope']('im'),e=(YC,Yt)=>E['tr']('img.'+YC,Yt),o=(YC,Yt)=>{const Yd=new Error(e(YC,Yt));return Yd['i18n']={'k':YC,'p':Yt},Yd;},w=0x1000,T='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js',U=['https://docs.opencv.org/4.x/opencv.js','https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js'],u=c('#cnv'),g=u['getContext']('2d',{'willReadFrequently':!![]}),l=c('#boxes'),P=c('#ov'),Q=P['getContext']('2d',{'willReadFrequently':!![]}),S=c('#drop'),G={'pen':'#penpop','eraser':'#erapop'},D={'pen':'#pencil','eraser':'#eraser'},v={'pen':'#pen','eraser':'#era'};let h=0x0,m=0x0,j=[],B={'words':[],'lines':[]},b=0x1,J=[],N=null,M='',q=![],A=![],k=![],O=null,V=null,K=null,C=![],t=null,d=null,L='removeSel',z=null,n=null,Z=null,y=null;function p(){const YC=c('#msg');YC['textContent']=d?e(d['k'],d['p']):'',YC['className']='msg'+(d&&d['err']?'\x20err':'');}function r(YC,Yt,Yd){d=YC?{'k':YC,'err':!!Yt,'p':Yd}:null,p();}function I(YC,Yt){i[YC]['status']=Yt;if(YC==='opencv')i['opencv']['ready']=Yt==='ok';E['refreshEngine']();}const s=YC=>E['loadScript'](YC)['catch'](()=>{throw o('errLoad',{'u':YC});});async function Y0(YC){await s(YC);let Yt=window['cv'];if(!Yt)throw new Error('cv\x20ausente');typeof Yt['then']==='function'&&(Yt=await new Promise((Yd,YL)=>{Yt['then'](Yz=>{try{delete Yz['then'];}catch(Yn){}Yd(Yz);},YL);}),window['cv']=Yt);!Yt['Mat']&&await new Promise((Yd,YL)=>{const Yz=setTimeout(()=>{clearInterval(YZ),YL(new Error('timeout'));},0x15f90),Yn=()=>{clearTimeout(Yz),clearInterval(YZ),Yd();},YZ=setInterval(()=>{if(Yt['Mat'])Yn();},0xfa);Yt['onRuntimeInitialized']=Yn;});if(!window['cv']['inpaint'])throw o('errCvInpaint');}function Y1(){if(z)return;I('tesseract','load'),I('opencv','load');const YC=E['splashDone']['then'](()=>new Promise(Yt=>setTimeout(Yt,0x50)));z=YC['then'](()=>s(T))['then'](()=>I('tesseract','ok'))['catch'](Yt=>{I('tesseract','err');throw Yt;}),z['catch'](()=>{}),n=((async()=>{await YC;for(const Yt of U){try{await Y0(Yt),k=!![],I('opencv','ok');return;}catch(Yd){console['warn'](Yd);}}I('opencv','err');})());}function Y2(YC){const Yt=()=>new Promise((YL,Yz)=>{const Yn=new FileReader();Yn['onerror']=()=>Yz(new Error('leitura')),Yn['onload']=()=>{const YZ=new Image();YZ['onload']=()=>YL(YZ),YZ['onerror']=()=>Yz(new Error('decodificação')),YZ['src']=Yn['result'];},Yn['readAsDataURL'](YC);}),Yd=()=>typeof createImageBitmap==='function'?createImageBitmap(YC):Promise['reject'](new Error('sem\x20createImageBitmap'));return Yd()['catch'](Yt);}async function Y3(YC){if(q)return;if(!YC||!YC['type']['startsWith']('image/')){r('chooseImage',!![]);return;}let Yt;try{Yt=await Y2(YC);}catch(Yn){console['error'](Yn),r('openFail',!![]);return;}const Yd=Yt['naturalWidth']||Yt['width'],YL=Yt['naturalHeight']||Yt['height'],Yz=Math['min'](0x1,w/Math['max'](Yd,YL));h=Math['round'](Yd*Yz),m=Math['round'](YL*Yz),u['width']=h,u['height']=m,P['width']=h,P['height']=m,C=![],g['clearRect'](0x0,0x0,h,m),g['drawImage'](Yt,0x0,0x0,h,m);if(Yt['close'])Yt['close']();J=[],j=[],B={'words':[],'lines':[]},Yc(),S['hidden']=!![],c('#editor')['hidden']=![],c('#undo')['disabled']=!![],YT(null),Yf();}function Y4(){if(q)return;h=0x0,m=0x0,j=[],B={'words':[],'lines':[]},J=[],A=![],c('#draw')['setAttribute']('aria-pressed','false'),l['classList']['remove']('draw'),u['width']=0x1,u['height']=0x1,P['width']=0x1,P['height']=0x1,C=![],YT(null),Yc(),c('#editor')['hidden']=!![],S['hidden']=![],c('#undo')['disabled']=!![],r('');}function Y5(YC,Yt){q=YC,i['busy']['image']=YC,['#rescan','#all','#none','#undo','#save','#reset','#draw','#pencil','#eraser','#lang']['forEach'](Yd=>{c(Yd)['disabled']=YC;}),c('#go')['disabled']=YC||!(C||j['some'](Yd=>Yd['sel']));if(!YC)c('#undo')['disabled']=!J['length'];L=YC&&Yt==='rem'?'removing':'removeSel',c('#go-t')['textContent']=e(L);}const Y6=()=>new Promise(YC=>setTimeout(YC,0x1e));function Y7(YC,Yt){if(YC[Yt]&&YC[Yt]['length'])return YC[Yt];const Yd=[];return(YC['blocks']||[])['forEach'](YL=>(YL['paragraphs']||[])['forEach'](Yz=>(Yz['lines']||[])['forEach'](Yn=>{if(Yt==='lines')Yd['push'](Yn);else(Yn['words']||[])['forEach'](YZ=>Yd['push'](YZ));}))),Yd;}function Y8(YC,Yt,Yd){const YL=window['cv'];if(!k||!YL||Yt==='off')return YC;const Yz=[],Yn=()=>{const YZ=new YL['Mat']();return Yz['push'](YZ),YZ;};try{const YZ=YL['imread'](YC);Yz['push'](YZ);const Yy=Yn(),Yp=Yn();YL['cvtColor'](YZ,Yy,YL['COLOR_RGBA2GRAY']),YL['GaussianBlur'](Yy,Yy,new YL['Size'](0x3,0x3),0x0);if(Yt==='otsu'){YL['threshold'](Yy,Yp,0x0,0xff,YL['THRESH_BINARY']|YL['THRESH_OTSU']);if(YL['countNonZero'](Yp)<Yp['rows']*Yp['cols']/0x2)YL['bitwise_not'](Yp,Yp);}else{const YH=R(Math['round'](Math['min'](YC['width'],YC['height'])/0x6),0x1f,0xff)|0x1,YI=Yn(),Ys=Yn();YL['adaptiveThreshold'](Yy,YI,0xff,YL['ADAPTIVE_THRESH_GAUSSIAN_C'],YL['THRESH_BINARY'],YH,Yd),YL['adaptiveThreshold'](Yy,Ys,0xff,YL['ADAPTIVE_THRESH_GAUSSIAN_C'],YL['THRESH_BINARY'],YH,-Yd),YL['bitwise_not'](Ys,Ys),YL['bitwise_and'](YI,Ys,Yp);}const YW=Yn();YL['medianBlur'](Yp,YW,0x3);const Yr=document['createElement']('canvas');return Yr['width']=YC['width'],Yr['height']=YC['height'],YL['imshow'](Yr,YW),Yr;}catch(f0){return console['warn']('binarização',f0),YC;}finally{Yz['forEach'](f1=>{try{f1['delete']();}catch(f2){}});}}function Y9(YC,Yt){const Yd=YC['getContext']('2d',{'willReadFrequently':!![]})['getImageData'](0x0,0x0,YC['width'],YC['height'])['data'],YL=YC['width']*YC['height'],Yz=new Uint8Array(YL);for(let Yn=0x0;Yn<YL;Yn++)Yz[Yn]=Yd[Yn*0x4]<0x80?0x1:0x0;return{'w':YC['width'],'h':YC['height'],'sc':Yt,'d':Yz};}function YY(YC){if(!O)return!![];const Yt=O['sc'],Yd=R(Math['floor'](YC['x']*Yt),0x0,O['w']-0x1),YL=R(Math['floor'](YC['y']*Yt),0x0,O['h']-0x1),Yz=R(Math['ceil']((YC['x']+YC['w'])*Yt),Yd+0x1,O['w']),Yn=R(Math['ceil']((YC['y']+YC['h'])*Yt),YL+0x1,O['h']);let YZ=0x0;for(let Yp=YL;Yp<Yn;Yp++){const YW=Yp*O['w'];for(let Yr=Yd;Yr<Yz;Yr++)YZ+=O['d'][YW+Yr];}const Yy=YZ/((Yz-Yd)*(Yn-YL));return Yy>=0.03&&Yy<=0.85;}async function Yf(){if(!h||q)return;Y1();const YC={'cancelled':![],'rej':null};YC['p']=new Promise((Yz,Yn)=>{YC['rej']=Yn;}),YC['p']['catch'](()=>{}),V=YC;const Yt=Yz=>Promise['race']([Yz,YC['p']]);Y5(!![]);const Yd=c('#prog'),YL=c('#scanbar');YL['hidden']=![],Yd['removeAttribute']('value'),c('#laser')['hidden']=![],r('preparing');try{await Yt(z);if(i['opencv']['status']==='load')r('loadingCV');await Yt(n),r('preparing');const Yz=c('#lang')['value'];if(!N||M!==Yz){if(N){const f8=N;N=null,M='',await Yt(Promise['resolve'](f8['terminate']())['catch'](()=>{}));}const f7=Tesseract['createWorker'](Yz,0x1,{'logger':f9=>{if(YC['cancelled'])return;typeof f9['progress']==='number'&&(Yd['value']=f9['progress'],r(f9['status']==='recognizing\x20text'?'searching':'downloading',![],{'p':Math['round'](f9['progress']*0x64)}));}});try{N=await Yt(f7),M=Yz;}catch(f9){if(YC['cancelled'])f7['then'](fY=>fY['terminate']())['catch'](()=>{});throw f9;}}const Yn=N;await Yt(Yn['setParameters']({'tessedit_pageseg_mode':c('#psm')['value'],'preserve_interword_spaces':'1','user_defined_dpi':'300'}));const YZ=c('#prep')['value'],Yy=+c('#binc')['value'],Yp=k&&YZ!=='off',YW=Math['max'](h,m);b=YW<0x640?0x2:YW>0xc80?0xc80/YW:0x1;const Yr=document['createElement']('canvas');Yr['width']=Math['round'](h*b),Yr['height']=Math['round'](m*b);const YH=Yr['getContext']('2d');YH['fillStyle']='#fff',YH['fillRect'](0x0,0x0,Yr['width'],Yr['height']),YH['imageSmoothingQuality']='high';try{YH['filter']='grayscale(1)\x20contrast(1.25)';}catch(fY){}YH['drawImage'](u,0x0,0x0,Yr['width'],Yr['height']);let YI=Yr,Ys=null;if(Yp){r('isolating'),await Y6(),YI=Y8(Yr,YZ,Yy);if(YI!==Yr)Ys=Y9(YI,b);}if(YC['cancelled'])throw new Error('cancelado');Yd['removeAttribute']('value');const {data:f0}=await Yt(Yn['recognize'](YI)),f1=(ff,fi,fE,fx,fa)=>ff['filter'](fR=>fR['bbox'])['map'](fR=>({'text':fR['text']||'','confidence':fR['confidence'],'edge':fa,'bbox':{'x0':fi+fR['bbox']['x0']/fx,'y0':fE+fR['bbox']['y0']/fx,'x1':fi+fR['bbox']['x1']/fx,'y1':fE+fR['bbox']['y1']/fx}})),f2={'words':f1(Y7(f0,'words'),0x0,0x0,b,![]),'lines':f1(Y7(f0,'lines'),0x0,0x0,b,![])},f3=Math['round'](h*0.15),f4=Math['round'](m*0.15),f5=[[0x0,0x0,h,f4],[0x0,m-f4,h,f4],[0x0,0x0,f3,m],[h-f3,0x0,f3,m]];for(let ff=0x0;ff<f5['length'];ff++){if(YC['cancelled'])throw new Error('cancelado');const [fi,fE,fx,fa]=f5[ff];if(fx<0x8||fa<0x8)continue;try{r('refining',![],{'i':ff+0x1});const fR=R(0x7d0/Math['max'](fx,fa),0x1,0x3),fF=document['createElement']('canvas');fF['width']=Math['round'](fx*fR),fF['height']=Math['round'](fa*fR);const fX=fF['getContext']('2d');fX['fillStyle']='#fff',fX['fillRect'](0x0,0x0,fF['width'],fF['height']),fX['imageSmoothingQuality']='high';try{fX['filter']='grayscale(1)\x20contrast(1.8)';}catch(fo){}fX['drawImage'](u,fi,fE,fx,fa,0x0,0x0,fF['width'],fF['height']);const fc=Yp?Y8(fF,YZ,Math['max'](0x3,Math['round'](Yy*0.6))):fF,fe=await Yt(Yn['recognize'](fc));f2['words']['push'](...f1(Y7(fe['data'],'words'),fi,fE,fR,!![])),f2['lines']['push'](...f1(Y7(fe['data'],'lines'),fi,fE,fR,!![]));}catch(fw){if(YC['cancelled'])throw fw;console['warn']('faixa',ff,fw);}}B=f2,O=Ys,YR();const f6=j['filter'](fT=>!fT['manual'])['length'];r(f6?'scanDone':'scanNone',!f6);}catch(fT){if(YC['cancelled'])r('scanCancelled');else console['error'](fT),r('scanError',!![],{'e':fT});}YL['hidden']=!![],c('#laser')['hidden']=!![],V=null,Y5(![]);}function Yi(){const YC=V;if(!YC||YC['cancelled'])return;YC['cancelled']=!![];if(N){const Yt=N;N=null,M='',Promise['resolve']()['then'](()=>Yt['terminate']())['catch'](()=>{});}YC['rej'](new Error('cancelado'));}function YE(YC,Yt){const Yd=YC['length'];if(Yd<0x2||Yt<=0x0)return YC;const YL=YC['map']((YZ,Yy)=>Yy),Yz=YZ=>{while(YL[YZ]!==YZ){YL[YZ]=YL[YL[YZ]],YZ=YL[YZ];}return YZ;};for(let YZ=0x0;YZ<Yd;YZ++)for(let Yy=YZ+0x1;Yy<Yd;Yy++){const Yp=YC[YZ],YW=YC[Yy],Yr=Math['min'](Yp['h'],YW['h']),YH=Math['max'](Yp['h'],YW['h']);if(Math['min'](Yp['y']+Yp['h'],YW['y']+YW['h'])-Math['max'](Yp['y'],YW['y'])<Yr*0.5)continue;if(YH>Yr*2.2)continue;if(Math['max'](Yp['x'],YW['x'])-Math['min'](Yp['x']+Yp['w'],YW['x']+YW['w'])<=YH*Yt)YL[Yz(YZ)]=Yz(Yy);}const Yn=new Map();return YC['forEach']((YI,Ys)=>{const f0=Yz(Ys);if(!Yn['has'](f0))Yn['set'](f0,[]);Yn['get'](f0)['push'](YI);}),[...Yn['values']()]['map'](YI=>{if(YI['length']===0x1)return YI[0x0];YI['sort']((f4,f5)=>f4['x']-f5['x']);const Ys=Math['min'](...YI['map'](f4=>f4['x'])),f0=Math['min'](...YI['map'](f4=>f4['y'])),f1=Math['max'](...YI['map'](f4=>f4['x']+f4['w'])),f2=Math['max'](...YI['map'](f4=>f4['y']+f4['h'])),f3=YI['reduce']((f4,f5)=>f4+f5['text']['length'],0x0);return{'x':Ys,'y':f0,'w':f1-Ys,'h':f2-f0,'text':YI['map'](f4=>f4['text'])['join']('\x20'),'conf':YI['reduce']((f4,f5)=>f4+f5['conf']*f5['text']['length'],0x0)/f3,'sel':![]};});}function Yx(YC,Yt=4.5){const Yd=Math['max'](0x0,Math['floor'](YC['x'])),YL=Math['max'](0x0,Math['floor'](YC['y'])),Yz=Math['min'](h-Yd,Math['ceil'](YC['w'])),Yn=Math['min'](m-YL,Math['ceil'](YC['h']));if(Yz<0x2||Yn<0x2)return![];const YZ=g['getImageData'](Yd,YL,Yz,Yn)['data'],Yy=Yz*Yn;let Yp=0x0,YW=0x0;for(let YH=0x0;YH<Yy;YH++){const YI=YZ[YH*0x4]*0.299+YZ[YH*0x4+0x1]*0.587+YZ[YH*0x4+0x2]*0.114;Yp+=YI,YW+=YI*YI;}const Yr=Yp/Yy;return Math['sqrt'](Math['max'](0x0,YW/Yy-Yr*Yr))>=Yt;}function Ya(YC){const Yt=[];return YC['slice']()['sort']((Yd,YL)=>YL['conf']-Yd['conf'])['forEach'](Yd=>{const YL=Yd['w']*Yd['h'];if(Yt['some'](Yz=>{const Yn=Math['min'](Yz['x']+Yz['w'],Yd['x']+Yd['w'])-Math['max'](Yz['x'],Yd['x']),YZ=Math['min'](Yz['y']+Yz['h'],Yd['y']+Yd['h'])-Math['max'](Yz['y'],Yd['y']);return Yn>0x0&&YZ>0x0&&Yn*YZ>YL*0.5;}))return;Yt['push'](Yd);}),Yt;}function YR(){const YC=B[c('#gran')['value']]||[],Yt=+c('#conf')['value'],Yd=Math['min'](h,m),YL=Yn=>{const YZ=Yn['x']+Yn['w']/0x2,Yy=Yn['y']+Yn['h']/0x2;return YZ<h*0.15||YZ>h*0.85||Yy<m*0.15||Yy>m*0.85;};let Yz=[];for(const Yn of YC){if(!Yn['bbox'])continue;const YZ=(Yn['text']||'')['trim'](),Yy=Yn['confidence'];if(!YZ)continue;const Yp={'x':Yn['bbox']['x0'],'y':Yn['bbox']['y0'],'w':Yn['bbox']['x1']-Yn['bbox']['x0'],'h':Yn['bbox']['y1']-Yn['bbox']['y0'],'text':YZ,'conf':Yy,'sel':![]},YW=YL(Yp);if(Yy<(YW?Math['max'](0xa,Yt*0.4):Yt))continue;const Yr=YZ['replace'](/\s/g,''),YH=(Yr['match'](/[\p{L}\p{N}]/gu)||[])['length'];if(YH/Yr['length']<(YW?0.5:0.6))continue;if(YH<0x2&&Yy<(YW?0x37:0x50))continue;if(Yp['h']<Yd*(YW?0.005:0.008)||Yp['h']>m*0.4||Yp['w']<0x2)continue;if(Yp['h']>Yp['w']*0x3&&YH<0x3)continue;Yz['push'](Yp);}Yz=YE(Ya(Yz),+c('#merge')['value'])['filter'](YI=>YL(YI)||YY(YI))['filter'](YI=>Yx(YI,YL(YI)?2.2:4.5))['map'](YI=>({...YI,'conf':Math['round'](YI['conf'])})),j=j['filter'](YI=>YI['manual'])['concat'](Yz),Yc();}const YF=YC=>YC['manual']?e('manualArea'):'“'+YC['text']+'”\x20('+YC['conf']+'%)';function YX(){l['querySelectorAll']('.box:not(.tmp)')['forEach']((YC,Yt)=>{const Yd=j[Yt];if(!Yd)return;const YL=YF(Yd);YC['title']=YL,YC['setAttribute']('aria-label',YL);});}function Yc(){l['querySelectorAll']('.box')['forEach'](YC=>YC['remove']()),j['forEach'](YC=>{const Yt=document['createElement']('button');Yt['type']='button',Yt['className']='box',Yt['style']['cssText']='left:'+''['concat'](YC['x']/h*0x64)+'%;top:'+''['concat'](YC['y']/m*0x64)+'%;width:'+''['concat'](YC['w']/h*0x64)+'%;height:'+''['concat'](YC['h']/m*0x64)+'%',Yt['setAttribute']('aria-pressed',String(YC['sel']));const Yd=YF(YC);Yt['title']=Yd,Yt['setAttribute']('aria-label',Yd),Yt['onclick']=()=>{YC['sel']=!YC['sel'],Yt['setAttribute']('aria-pressed',String(YC['sel'])),Ye();},l['appendChild'](Yt);}),Ye();}function Ye(){const YC=j['filter'](Yt=>Yt['sel'])['length'];c('#count')['textContent']=e(j['length']===0x1?'countOne':'countMany',{'n':j['length']})+'\x20·\x20'+e(YC===0x1?'selOne':'selMany',{'n':YC})+(C?'\x20·\x20'+e('manualStroke'):''),c('#go')['disabled']=q||!(YC||C);}function Yo(){for(const YC in G){c(G[YC])['hidden']=!![],c(D[YC])['setAttribute']('aria-expanded','false');}}function Yw(YC){Yo();const Yt=c(G[YC]);Yt['style']['setProperty']('--dx','0px'),Yt['hidden']=![];const Yd=Yt['getBoundingClientRect'](),YL=0xa;let Yz=0x0;if(Yd['left']<YL)Yz=YL-Yd['left'];else{if(Yd['right']>innerWidth-YL)Yz=innerWidth-YL-Yd['right'];}Yt['style']['setProperty']('--dx',Yz+'px'),c(D[YC])['setAttribute']('aria-expanded','true');}function YT(YC){K=YC,Yo();for(const Yt in D)c(D[Yt])['setAttribute']('aria-pressed',String(Yt===YC));c('#wrap')['classList']['toggle']('pen',!!YC);YC&&A&&(A=![],c('#draw')['setAttribute']('aria-pressed','false'),l['classList']['remove']('draw'));if(YC)Yw(YC);else c('#pcur')['hidden']=!![],t=null;r(YC==='pen'?'penHint':YC==='eraser'?'eraserHint':null);}const YU=YC=>YT(K===YC?null:YC);function Yu(YC){Yo(),r(YC==='pen'?'penActive':'eraserActive');}function Yg(){Q['clearRect'](0x0,0x0,P['width'],P['height']),C=![];}function Yl(){const YC=Math['min'](0x1,0xa0/Math['max'](h,m)),Yt=document['createElement']('canvas');Yt['width']=Math['max'](0x1,Math['round'](h*YC)),Yt['height']=Math['max'](0x1,Math['round'](m*YC));const Yd=Yt['getContext']('2d',{'willReadFrequently':!![]});Yd['imageSmoothingQuality']='high',Yd['drawImage'](P,0x0,0x0,Yt['width'],Yt['height']);const YL=Yd['getImageData'](0x0,0x0,Yt['width'],Yt['height'])['data'];let Yz=![];for(let Yn=0x3;Yn<YL['length'];Yn+=0x4)if(YL[Yn]>0x6){Yz=!![];break;}C=Yz,Ye();}const YP=YC=>{const Yt=P['getBoundingClientRect']();return{'x':(YC['clientX']-Yt['left'])*h/Yt['width'],'y':(YC['clientY']-Yt['top'])*m/Yt['height'],'k':h/Yt['width']};};function YQ(YC,Yt){const Yd=K==='eraser';Q['globalCompositeOperation']=Yd?'destination-out':'source-over',Q['strokeStyle']='#FF4D8D',Q['lineCap']='round',Q['lineJoin']='round',Q['lineWidth']=+c(v[K])['value']*Yt['k'],Q['beginPath'](),Q['moveTo'](YC['x'],YC['y']),Q['lineTo'](Yt['x']+0.01,Yt['y']),Q['stroke'](),Q['globalCompositeOperation']='source-over';}function YS(YC){const Yt=c('#pcur'),Yd=c('#wrap')['getBoundingClientRect'](),YL=K?+c(v[K])['value']:0x14;Yt['hidden']=!K||YC['pointerType']==='touch',Yt['classList']['toggle']('era',K==='eraser'),Yt['style']['width']=Yt['style']['height']=YL+'px',Yt['style']['left']=YC['clientX']-Yd['left']+'px',Yt['style']['top']=YC['clientY']-Yd['top']+'px';}function YG(YC){if(!C)return;const Yt=Q['getImageData'](0x0,0x0,h,m)['data'];for(let Yd=0x0;Yd<h*m;Yd++)if(Yt[Yd*0x4+0x3]>0x28)YC[Yd]=0x1;}function YD(YC){const Yt=0x8,Yd=Math['ceil'](h/Yt),YL=Math['ceil'](m/Yt),Yz=new Uint8Array(Yd*YL);for(let Yp=0x0;Yp<m;Yp++){const YW=(Yp/Yt|0x0)*Yd,Yr=Yp*h;for(let YH=0x0;YH<h;YH++)if(YC[Yr+YH])Yz[YW+(YH/Yt|0x0)]=0x1;}const Yn=new Uint8Array(Yd*YL),YZ=new Int32Array(Yd*YL),Yy=[];for(let YI=0x0;YI<Yz['length'];YI++){if(!Yz[YI]||Yn[YI])continue;let Ys=0x0,f0=Yd,f1=YL,f2=0x0,f3=0x0;YZ[Ys++]=YI,Yn[YI]=0x1;while(Ys){const f4=YZ[--Ys],f5=f4%Yd,f6=f4/Yd|0x0;if(f5<f0)f0=f5;if(f5>f2)f2=f5;if(f6<f1)f1=f6;if(f6>f3)f3=f6;for(let f7=-0x1;f7<=0x1;f7++)for(let f8=-0x1;f8<=0x1;f8++){const f9=f5+f8,fY=f6+f7;if(f9<0x0||fY<0x0||f9>=Yd||fY>=YL)continue;const ff=fY*Yd+f9;Yz[ff]&&!Yn[ff]&&(Yn[ff]=0x1,YZ[Ys++]=ff);}}Yy['push']({'x':f0*Yt,'y':f1*Yt,'w':(f2-f0+0x1)*Yt,'h':(f3-f1+0x1)*Yt});}return Yy;}const Yv=YC=>{const Yt=l['getBoundingClientRect']();return{'x':R((YC['clientX']-Yt['left'])*h/Yt['width'],0x0,h),'y':R((YC['clientY']-Yt['top'])*m/Yt['height'],0x0,m)};},Yh=(YC,Yt)=>({'x':Math['min'](YC['x'],Yt['x']),'y':Math['min'](YC['y'],Yt['y']),'w':Math['abs'](YC['x']-Yt['x']),'h':Math['abs'](YC['y']-Yt['y'])});function Ym(YC){if(!Z)return;const Yt=Yh(Z,Yv(YC));Z=null,y&&(y['remove'](),y=null),Yt['w']>0x6&&Yt['h']>0x6&&(j['unshift']({...Yt,'text':'','conf':0x64,'sel':!![],'manual':!![]}),Yc());}function Yj(YC){const Yt=g['getImageData'](0x0,0x0,h,m)['data'],Yd=new Uint8Array(h*m),YL=+c('#pad')['value'],Yz=+c('#thr')['value'],Yn=c('#mode')['value']==='box';for(const YZ of YC){const Yy=Math['max'](0x0,Math['floor'](YZ['x']-YL)),Yp=Math['max'](0x0,Math['floor'](YZ['y']-YL)),YW=Math['min'](h,Math['ceil'](YZ['x']+YZ['w']+YL)),Yr=Math['min'](m,Math['ceil'](YZ['y']+YZ['h']+YL)),YH=()=>{for(let ff=Yp;ff<Yr;ff++)Yd['fill'](0x1,ff*h+Yy,ff*h+YW);};if(Yn){YH();continue;}const YI=0x5,Ys=Math['max'](0x0,Yy-YI),f0=Math['max'](0x0,Yp-YI),f1=Math['min'](h,YW+YI),f2=Math['min'](m,Yr+YI),f3=[],f4=[],f5=[];for(let ff=f0;ff<f2;ff++)for(let fi=Ys;fi<f1;fi++){if(fi>=Yy&&fi<YW&&ff>=Yp&&ff<Yr)continue;const fE=(ff*h+fi)*0x4;f3['push'](Yt[fE]),f4['push'](Yt[fE+0x1]),f5['push'](Yt[fE+0x2]);}if(f3['length']<0x8){YH();continue;}const f6=fx=>{return fx['sort']((fa,fR)=>fa-fR),fx[fx['length']>>0x1];},f7=f6(f3),f8=f6(f4),f9=f6(f5),fY=[];for(let fx=Yp;fx<Yr;fx++)for(let fa=Yy;fa<YW;fa++){const fR=(fx*h+fa)*0x4;if(Math['max'](Math['abs'](Yt[fR]-f7),Math['abs'](Yt[fR+0x1]-f8),Math['abs'](Yt[fR+0x2]-f9))>Yz)fY['push'](fx*h+fa);}if(!fY['length']||fY['length']>(YW-Yy)*(Yr-Yp)*0.7){YH();continue;}for(const fF of fY)Yd[fF]=0x1;}return Yd;}const YB=()=>Math['sqrt'](-0x2*Math['log'](Math['random']()+1e-9))*Math['cos'](6.2831853*Math['random']());function Yb(YC,Yt){const Yd=new Uint8Array(0x10000);let YL=Yd['length'];const Yz=()=>{try{crypto['getRandomValues'](Yd);}catch(Yn){for(let YZ=0x0;YZ<Yd['length'];YZ++)Yd[YZ]=Math['random']()*0x100|0x0;}YL=0x0;};for(let Yn=0x0;Yn<h*m;Yn++){if(!Yt[Yn])continue;for(let YZ=0x0;YZ<0x3;YZ++){if(YL>=Yd['length'])Yz();const Yy=YC[Yn*0x4+YZ]+(Yd[YL++]%0x3-0x1);YC[Yn*0x4+YZ]=Yy<0x0?0x0:Yy>0xff?0xff:Yy;}}}function YJ(YC,Yt){const Yd=[],YL=Yz=>YC[Yz*0x4]*0.3+YC[Yz*0x4+0x1]*0.59+YC[Yz*0x4+0x2]*0.11;if(h<0x4||m<0x4)return 0x0;for(let Yz=0x0;Yz<0x4e20;Yz++){const Yn=0x1+Math['floor'](Math['random']()*(h-0x2)),YZ=0x1+Math['floor'](Math['random']()*(m-0x2)),Yy=YZ*h+Yn;if(Yt[Yy]||Yt[Yy-0x1]||Yt[Yy+0x1]||Yt[Yy-h]||Yt[Yy+h])continue;Yd['push'](Math['abs'](YL(Yy)-(YL(Yy-0x1)+YL(Yy+0x1)+YL(Yy-h)+YL(Yy+h))/0x4));}if(!Yd['length'])return 0x0;return Yd['sort']((Yp,YW)=>Yp-YW),Yd[Yd['length']>>0x1]*1.2;}function YN(YC,Yt){const Yd=window['cv'],YL=g['getImageData'](0x0,0x0,h,m),Yz=c('#tex')['checked']?YJ(YL['data'],Yt):0x0,Yn=new Uint8Array(h*m);for(let YH=0x0;YH<Yt['length'];YH++)if(Yt[YH])Yn[YH]=0xff;const YZ=Yd['matFromImageData'](YL),Yy=new Yd['Mat'](),Yp=Yd['matFromArray'](m,h,Yd['CV_8UC1'],Yn),YW=new Yd['Mat']();let Yr=null;try{Yd['cvtColor'](YZ,Yy,Yd['COLOR_RGBA2RGB']);const YI=+c('#dil')['value'],Ys=+c('#rad')['value'],f0=c('#algo')['value']==='ns'?Yd['INPAINT_NS']:Yd['INPAINT_TELEA'];YI>0x0&&(Yr=Yd['Mat']['ones'](0x3,0x3,Yd['CV_8U']),Yd['dilate'](Yp,Yp,Yr,new Yd['Point'](-0x1,-0x1),YI));const f1=+c('#pad')['value']+YI+Ys*0x3+0x6;for(const f4 of YD(Yt)){const f5=Math['max'](0x0,Math['floor'](f4['x']-f1)),f6=Math['max'](0x0,Math['floor'](f4['y']-f1)),f7=Math['min'](h,Math['ceil'](f4['x']+f4['w']+f1)),f8=Math['min'](m,Math['ceil'](f4['y']+f4['h']+f1));if(f7-f5<0x2||f8-f6<0x2)continue;const f9=new Yd['Rect'](f5,f6,f7-f5,f8-f6),fY=Yy['roi'](f9),ff=Yp['roi'](f9),fi=new Yd['Mat']();try{Yd['inpaint'](fY,ff,fi,Ys,f0),fi['copyTo'](fY);}finally{fY['delete'](),ff['delete'](),fi['delete']();}}Yd['cvtColor'](Yy,YW,Yd['COLOR_RGB2RGBA']);const f2=new ImageData(new Uint8ClampedArray(YW['data']),h,m),f3=Yp['data'];if(Yz>0x0)for(let fE=0x0;fE<h*m;fE++){if(!f3[fE])continue;const fx=YB()*Yz;for(let fa=0x0;fa<0x3;fa++)f2['data'][fE*0x4+fa]=R(f2['data'][fE*0x4+fa]+fx+YB()*Yz*0.25,0x0,0xff);}if(c('#meta')['checked'])Yb(f2['data'],f3);g['putImageData'](f2,0x0,0x0);}finally{[YZ,Yy,Yp,YW,Yr]['forEach'](fR=>fR&&fR['delete']());}}function YM(YC){const Yt=new Uint8Array(h*m),Yd=new Uint8Array(h*m);for(let YL=0x0;YL<m;YL++)for(let Yz=0x0;Yz<h;Yz++){const Yn=YL*h+Yz;Yt[Yn]=YC[Yn]|(Yz>0x0?YC[Yn-0x1]:0x0)|(Yz<h-0x1?YC[Yn+0x1]:0x0);}for(let YZ=0x0;YZ<m;YZ++)for(let Yy=0x0;Yy<h;Yy++){const Yp=YZ*h+Yy;Yd[Yp]=Yt[Yp]|(YZ>0x0?Yt[Yp-h]:0x0)|(YZ<m-0x1?Yt[Yp+h]:0x0);}return Yd;}function Yq(YC,Yt){const Yd=[];let YL=new Float32Array(h*m*0x3),Yz=new Float32Array(h*m),Yn=new Float32Array(h*m)['fill'](0x1),YZ=0x0;for(let Yp=0x0;Yp<h*m;Yp++)!Yt[Yp]&&(YZ++,Yz[Yp]=0x1,YL[Yp*0x3]=YC[Yp*0x4],YL[Yp*0x3+0x1]=YC[Yp*0x4+0x1],YL[Yp*0x3+0x2]=YC[Yp*0x4+0x2]);if(!YZ)return null;Yd['push']({'w':h,'h':m,'c':YL,'a':Yz,'n':Yn});while(Yd[Yd['length']-0x1]['w']>0x1||Yd[Yd['length']-0x1]['h']>0x1){const YW=Yd[Yd['length']-0x1],Yr=YW['w']+0x1>>0x1,YH=YW['h']+0x1>>0x1,YI={'w':Yr,'h':YH,'c':new Float32Array(Yr*YH*0x3),'a':new Float32Array(Yr*YH),'n':new Float32Array(Yr*YH)};for(let Ys=0x0;Ys<YW['h'];Ys++)for(let f0=0x0;f0<YW['w'];f0++){const f1=Ys*YW['w']+f0,f2=(Ys>>0x1)*Yr+(f0>>0x1);YI['a'][f2]+=YW['a'][f1],YI['n'][f2]+=YW['n'][f1],YI['c'][f2*0x3]+=YW['c'][f1*0x3],YI['c'][f2*0x3+0x1]+=YW['c'][f1*0x3+0x1],YI['c'][f2*0x3+0x2]+=YW['c'][f1*0x3+0x2];}Yd['push'](YI);}let Yy=null;for(let f3=Yd['length']-0x1;f3>=0x0;f3--){const f4=Yd[f3],f5=new Float32Array(f4['w']*f4['h']*0x3),f6=Yd[f3+0x1];for(let f7=0x0;f7<f4['h'];f7++)for(let f8=0x0;f8<f4['w'];f8++){const f9=f7*f4['w']+f8,fY=f4['a'][f9]/f4['n'][f9];for(let ff=0x0;ff<0x3;ff++){let fi=0x0;if(Yy){const fa=Math['min'](Math['max']((f8+0.5)/0x2-0.5,0x0),f6['w']-0x1),fR=Math['min'](Math['max']((f7+0.5)/0x2-0.5,0x0),f6['h']-0x1),fF=fa|0x0,fX=fR|0x0,fc=Math['min'](fF+0x1,f6['w']-0x1),fe=Math['min'](fX+0x1,f6['h']-0x1),fo=fa-fF,fw=fR-fX;fi=(Yy[(fX*f6['w']+fF)*0x3+ff]*(0x1-fo)+Yy[(fX*f6['w']+fc)*0x3+ff]*fo)*(0x1-fw)+(Yy[(fe*f6['w']+fF)*0x3+ff]*(0x1-fo)+Yy[(fe*f6['w']+fc)*0x3+ff]*fo)*fw;}const fE=f4['a'][f9]>0x0?f4['c'][f9*0x3+ff]/f4['a'][f9]:fi;f5[f9*0x3+ff]=fY*fE+(0x1-fY)*fi;}}Yy=f5;}return Yy;}function YA(YC){const Yt=g['getImageData'](0x0,0x0,h,m),Yd=Yt['data'];let YL=YC;for(let Yy=0x0;Yy<+c('#dil')['value'];Yy++)YL=YM(YL);const Yz=Yq(Yd,YL);if(!Yz)throw o('errFull');const Yn=c('#tex')['checked']?YJ(Yd,YL):0x0,YZ=new Float32Array(h*m);for(let Yp=0x0;Yp<m;Yp++)for(let YW=0x0;YW<h;YW++){let Yr=0x0,YH=0x0;for(let YI=-0x1;YI<=0x1;YI++)for(let Ys=-0x1;Ys<=0x1;Ys++){const f0=YW+Ys,f1=Yp+YI;f0>=0x0&&f1>=0x0&&f0<h&&f1<m&&(Yr+=YL[f1*h+f0],YH++);}YZ[Yp*h+YW]=Yr/YH;}for(let f2=0x0;f2<h*m;f2++){const f3=YZ[f2];if(!f3)continue;const f4=YB()*Yn;for(let f5=0x0;f5<0x3;f5++){const f6=Yz[f2*0x3+f5]+f4+YB()*Yn*0.25;Yd[f2*0x4+f5]=Yd[f2*0x4+f5]*(0x1-f3)+R(f6,0x0,0xff)*f3;}}if(c('#meta')['checked'])Yb(Yd,YL);g['putImageData'](Yt,0x0,0x0);}async function Yk(){const YC=j['filter'](Yt=>Yt['sel']);if(!YC['length']&&!C||q)return;Y5(!![],'rem'),r('rebuilding'),await Y6(),J['push']({'img':g['getImageData'](0x0,0x0,h,m),'boxes':j['map'](Yt=>({...Yt}))});if(J['length']>0x4)J['shift']();try{const Yt=Yj(YC);YG(Yt);if(k)YN(YC,Yt);else YA(Yt);Yg(),j=j['filter'](Yd=>!Yd['sel']),Yc(),r(k?'done':'doneAlt');}catch(Yd){console['error'](Yd);const YL=J['pop']();if(YL)g['putImageData'](YL['img'],0x0,0x0);r('procError',!![],{'e':Yd});}Y5(![]);}function YO(){const YC=J['pop']();if(!YC)return;g['putImageData'](YC['img'],0x0,0x0),j=YC['boxes'],Yc(),c('#undo')['disabled']=!J['length'],r('undone');}function YV(){let YC=u;if(c('#meta')['checked']){YC=document['createElement']('canvas'),YC['width']=h,YC['height']=m;const Yt=YC['getContext']('2d');Yt['imageSmoothingEnabled']=![],Yt['drawImage'](u,0x0,0x0);}YC['toBlob'](Yd=>{if(!Yd){r('pngFail',!![]);return;}const YL=document['createElement']('a'),Yz=URL['createObjectURL'](Yd);YL['href']=Yz,YL['download']='Aetix\x20Design.png',document['body']['appendChild'](YL),YL['click'](),YL['remove'](),setTimeout(()=>URL['revokeObjectURL'](Yz),0xfa0),r('saved'),E['payment']['promptAfterDownload']();},'image/png',0x1);}function YK(){c('#file')['onchange']=YC=>{Y3(YC['target']['files'][0x0]),YC['target']['value']='';},c('#reset')['onclick']=Y4,S['addEventListener']('keydown',YC=>{(YC['key']==='Enter'||YC['key']==='\x20')&&(YC['preventDefault'](),c('#file')['click']());}),c('#cancel')['onclick']=Yi,c('#rescan')['onclick']=Yf,c('#lang')['onchange']=Yf,c('#psm')['onchange']=Yf,c('#prep')['onchange']=Yf,c('#binc')['onchange']=Yf,c('#gran')['onchange']=()=>{j=j['filter'](YC=>YC['manual']),YR();},c('#conf')['oninput']=YC=>{c('#confv')['textContent']=YC['target']['value'];if(B['words']['length']||B['lines']['length'])YR();},['pad','thr','dil','rad','merge','binc']['forEach'](YC=>{c('#'+YC)['oninput']=Yt=>{c('#'+YC+'v')['textContent']=Yt['target']['value'];};}),c('#merge')['addEventListener']('input',()=>{if(B['words']['length']||B['lines']['length'])YR();}),['pen','eraser']['forEach'](YC=>{const Yt=c(v[YC]);Yt['addEventListener']('change',()=>Yu(YC)),Yt['addEventListener']('pointerup',()=>Yu(YC));}),c('#pencil')['onclick']=()=>YU('pen'),c('#eraser')['onclick']=()=>YU('eraser'),c('#pen')['oninput']=YC=>{c('#penv')['textContent']=YC['target']['value']+'px';},c('#era')['oninput']=YC=>{c('#erav')['textContent']=YC['target']['value']+'px';},document['addEventListener']('pointerdown',YC=>{if(!YC['target']['closest']('.tool'))Yo();}),P['addEventListener']('pointerdown',YC=>{if(!K||!h||q)return;P['setPointerCapture'](YC['pointerId']),t=YP(YC),YQ(t,t),K==='pen'&&(C=!![],Ye());}),P['addEventListener']('pointermove',YC=>{YS(YC);if(!t)return;const Yt=YP(YC);YQ(t,Yt),t=Yt;}),P['addEventListener']('pointerleave',()=>{c('#pcur')['hidden']=!![];}),['pointerup','pointercancel']['forEach'](YC=>P['addEventListener'](YC,()=>{const Yt=t;t=null;if(Yt&&K==='eraser'&&C)Yl();})),c('#all')['onclick']=()=>{j['forEach'](YC=>{YC['sel']=!![];}),Yc();},c('#none')['onclick']=()=>{j['forEach'](YC=>{YC['sel']=![];}),Yg(),Yc();},c('#draw')['onclick']=()=>{A=!A;if(A&&K)YT(null);c('#draw')['setAttribute']('aria-pressed',String(A)),l['classList']['toggle']('draw',A),r(A?'drawHint':null);},l['addEventListener']('pointerdown',YC=>{if(!A||YC['target']!==l)return;l['setPointerCapture'](YC['pointerId']),Z=Yv(YC),y=document['createElement']('div'),y['className']='box\x20tmp',l['appendChild'](y);}),l['addEventListener']('pointermove',YC=>{if(!Z)return;const Yt=Yh(Z,Yv(YC));y['style']['cssText']='left:'+''['concat'](Yt['x']/h*0x64)+'%;top:'+''['concat'](Yt['y']/m*0x64)+'%;width:'+''['concat'](Yt['w']/h*0x64)+'%;height:'+''['concat'](Yt['h']/m*0x64)+'%';}),l['addEventListener']('pointerup',Ym),l['addEventListener']('pointercancel',()=>{Z=null,y&&(y['remove'](),y=null);}),c('#go')['onclick']=Yk,c('#undo')['onclick']=YO,c('#save')['onclick']=YV;}return YK(),{'activate':Y1,'deactivate':Yo,'loadFile':Y3,'setDragOver':YC=>S['classList']['toggle']('over',YC),'onEscape':()=>{if(K)YT(null);},'onLang':()=>{c('#go-t')['textContent']=e(L),p(),YX(),Ye();}};}()),E['modules']['video']=Y['VideoProcessor']=(function(){const {$:c}=E['scope']('vd'),e=(fS,fG)=>E['tr']('vid.'+fS,fG),o=(fS,fG)=>{if(!isFinite(fS)||fS<0x0)fS=0x0;const fD=Math['floor'](fS/0x3c),fv=Math['floor'](fS%0x3c),fh=fD+':'+String(fv)['padStart'](0x2,'0');return fG?fh+'.'+Math['floor'](fS%0x1*0xa):fh;},w=c('#drop'),T=c('#file'),U=c('#editor'),u=c('#msg'),g=c('#vid'),l=c('#ov'),P=c('#wrap'),Q=c('#pcur'),S=c('#pencil'),G=c('#eraser'),D=c('#penpop'),v=c('#erapop'),h=c('#pen'),m=c('#era'),j=c('#penv'),B=c('#erav'),b=c('#reset'),J=c('#play'),N=c('#playic'),M=c('#prevf'),q=c('#nextf'),A=c('#seek'),k=c('#marks'),O=c('#time'),V=c('#addkf'),K=c('#delkf'),C=c('#kflist'),t=c('#count'),d=c('#scanbar'),L=c('#prog'),z=c('#cancel'),n=c('#render'),Z=c('#save'),y=c('#algo'),p=c('#rad'),W=c('#radv'),r=c('#dil'),H=c('#dilv'),I=c('#quality'),s=c('#noise'),Y0=c('#meta'),Y1=c('#resvid'),Y2=c('#resultSub'),Y3=c('#resultSave');y['value']='ns';let Y4=null,Y5=null,Y6=0x0,Y7=0x0,Y8=[],Y9=-0x1,YY=null,Yf=null,Yi=null,YE=null,Yx=null,Ya=![],YR=[],YF='pen',YX=0x1,Yc=null,Ye=![],Yo=null,Yw=![],YT=![],YU=null,Yu=0x0,Yg=0x0,Yl=null,YP=null,YQ=null,YS=null,YG=0x0;function YD(){u['textContent']=YU?e(YU['k'],YU['p']):'',u['className']='msg'+(YU&&YU['err']?'\x20err':'');}function Yv(fS,fG,fD){YU=fS?{'k':fS,'err':!!fG,'p':fD||null}:null,YD();}function Yh(fS){i['videoEngine']['status']=fS,E['refreshEngine']();}function Ym(){const fS=typeof Worker!=='undefined'&&typeof VideoDecoder!=='undefined'&&typeof VideoEncoder!=='undefined'&&typeof OffscreenCanvas!=='undefined'&&typeof Blob!=='undefined'&&typeof URL!=='undefined'&&!!URL['createObjectURL'];return!fS&&i['videoEngine']['supported']&&(i['videoEngine']['supported']=![],Yh('err'),Yv('unsupported',!![])),i['videoEngine']['supported']=fS,fS;}const Yj='function\x20processFrameOpenCVImpl(cv,\x20frameCanvas,\x20bbox,\x20maskCanvas,\x20opts)\x20{\x0a\x20\x20\x20\x20opts\x20=\x20opts\x20||\x20{};\x0a\x20\x20\x20\x20/*\x20Instancia\x20do\x20OpenCV:\x20usa\x20o\x20objeto\x20injetado\x20(obrigatorio\x20dentro\x20do\x20Web\x20Worker,\x20onde\x20\x27window\x27\x20NAO\x20existe)\x0a\x20\x20\x20\x20\x20\x20\x20e\x20cai\x20para\x20o\x20global\x20da\x20thread\x20atual\x20(self\x20===\x20window\x20na\x20thread\x20principal).\x20*/\x0a\x20\x20\x20\x20const\x20opencvInstance\x20=\x20cv\x20||\x20(typeof\x20self\x20!==\x20\x27undefined\x27\x20?\x20self[\x27cv\x27]\x20:\x20null);\x0a\x20\x20\x20\x20if\x20(!opencvInstance\x20||\x20!opencvInstance[\x27inpaint\x27])\x20return\x20false;\x0a\x20\x20\x20\x20var\x20radius\x20=\x20opts[\x27radius\x27]\x20>\x200\x20?\x20opts[\x27radius\x27]\x20:\x203;\x0a\x20\x20\x20\x20var\x20dil\x20=\x20opts[\x27dil\x27]\x20>\x200\x20?\x20opts[\x27dil\x27]\x20:\x200;\x0a\x20\x20\x20\x20var\x20addNoise\x20=\x20!!opts[\x27noise\x27];\x0a\x20\x20\x20\x20var\x20src\x20=\x20null,\x20mask\x20=\x20null,\x20maskGray\x20=\x20null,\x20eroded\x20=\x20null,\x20rgb\x20=\x20null,\x20dst\x20=\x20null,\x20out\x20=\x20null,\x20kernel\x20=\x20null,\x20grown\x20=\x20null;\x0a\x20\x20\x20\x20try\x20{\x0a\x20\x20\x20\x20\x20\x20/*\x20A.\x20sub-bloco:\x20so\x20os\x20pixels\x20dentro\x20da\x20bounding\x20box\x20*/\x0a\x20\x20\x20\x20\x20\x20var\x20fctx\x20=\x20frameCanvas[\x27getContext\x27](\x272d\x27,\x20{\x20willReadFrequently:\x20true\x20});\x0a\x20\x20\x20\x20\x20\x20var\x20mctx\x20=\x20maskCanvas[\x27getContext\x27](\x272d\x27,\x20{\x20willReadFrequently:\x20true\x20});\x0a\x20\x20\x20\x20\x20\x20var\x20x\x20=\x20Math.max(0,\x20Math.floor(bbox[\x27x\x27])),\x20y\x20=\x20Math.max(0,\x20Math.floor(bbox[\x27y\x27]));\x0a\x20\x20\x20\x20\x20\x20var\x20w\x20=\x20Math.min(frameCanvas[\x27width\x27]\x20-\x20x,\x20Math.ceil(bbox[\x27width\x27]));\x0a\x20\x20\x20\x20\x20\x20var\x20h\x20=\x20Math.min(frameCanvas[\x27height\x27]\x20-\x20y,\x20Math.ceil(bbox[\x27height\x27]));\x0a\x20\x20\x20\x20\x20\x20if\x20(w\x20<\x202\x20||\x20h\x20<\x202)\x20return\x20false;\x0a\x20\x20\x20\x20\x20\x20var\x20frameData\x20=\x20fctx[\x27getImageData\x27](x,\x20y,\x20w,\x20h);\x0a\x20\x20\x20\x20\x20\x20var\x20maskData\x20=\x20mctx[\x27getImageData\x27](x,\x20y,\x20w,\x20h);\x0a\x0a\x20\x20\x20\x20\x20\x20/*\x20B.\x20matrizes\x20do\x20OpenCV\x20*/\x0a\x20\x20\x20\x20\x20\x20src\x20=\x20opencvInstance[\x27matFromImageData\x27](frameData);\x0a\x20\x20\x20\x20\x20\x20mask\x20=\x20opencvInstance[\x27matFromImageData\x27](maskData);\x0a\x0a\x20\x20\x20\x20\x20\x20/*\x20C.\x20mascara\x20em\x20cinza\x20+\x20binarizacao\x20obrigatoria\x20(CV_8UC1,\x20valores\x200/255)\x20*/\x0a\x20\x20\x20\x20\x20\x20maskGray\x20=\x20new\x20opencvInstance[\x27Mat\x27]();\x0a\x20\x20\x20\x20\x20\x20opencvInstance[\x27cvtColor\x27](mask,\x20maskGray,\x20opencvInstance[\x27COLOR_RGBA2GRAY\x27]);\x0a\x20\x20\x20\x20\x20\x20opencvInstance[\x27threshold\x27](maskGray,\x20maskGray,\x2010,\x20255,\x20opencvInstance[\x27THRESH_BINARY\x27]);\x0a\x0a\x20\x20\x20\x20\x20\x20/*\x20so\x20executa\x20o\x20inpaint\x20se\x20ha\x20pixels\x20desenhados\x20nesta\x20area\x20*/\x0a\x20\x20\x20\x20\x20\x20if\x20(opencvInstance[\x27countNonZero\x27](maskGray)\x20>\x200)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20kernel\x20=\x20opencvInstance[\x27Mat\x27][\x27ones\x27](3,\x203,\x20opencvInstance[\x27CV_8U\x27]);\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20work\x20=\x20maskGray;\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(dil\x20>\x200)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20grown\x20=\x20new\x20opencvInstance[\x27Mat\x27]();\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20opencvInstance[\x27dilate\x27](maskGray,\x20grown,\x20kernel,\x20new\x20opencvInstance[\x27Point\x27](-1,\x20-1),\x20dil);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20work\x20=\x20grown;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20eroded\x20=\x20new\x20opencvInstance[\x27Mat\x27]();\x0a\x20\x20\x20\x20\x20\x20\x20\x20opencvInstance[\x27erode\x27](work,\x20eroded,\x20kernel,\x20new\x20opencvInstance[\x27Point\x27](-1,\x20-1),\x202);\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(opencvInstance[\x27countNonZero\x27](eroded)\x20===\x200)\x20{\x20\x20\x20/*\x20traco\x20muito\x20fino:\x20nao\x20perde\x20a\x20mascara\x20*/\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20work[\x27copyTo\x27](eroded);\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20/*\x20D.\x20inpaint\x20Navier-Stokes\x20(INPAINT_NS)\x20-\x20inpaint\x20exige\x20imagem\x208UC3\x20e\x20mascara\x208UC1\x20*/\x0a\x20\x20\x20\x20\x20\x20\x20\x20rgb\x20=\x20new\x20opencvInstance[\x27Mat\x27]();\x0a\x20\x20\x20\x20\x20\x20\x20\x20opencvInstance[\x27cvtColor\x27](src,\x20rgb,\x20opencvInstance[\x27COLOR_RGBA2RGB\x27]);\x0a\x20\x20\x20\x20\x20\x20\x20\x20dst\x20=\x20new\x20opencvInstance[\x27Mat\x27]();\x0a\x20\x20\x20\x20\x20\x20\x20\x20opencvInstance[\x27inpaint\x27](rgb,\x20eroded,\x20dst,\x20radius,\x20opencvInstance[\x27INPAINT_NS\x27]);\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20/*\x20E.\x20recomposicao:\x20volta\x20a\x20RGBA\x20e\x20devolve\x20ao\x20canvas\x20nas\x20coordenadas\x20x,\x20y\x20*/\x0a\x20\x20\x20\x20\x20\x20\x20\x20out\x20=\x20new\x20opencvInstance[\x27Mat\x27]();\x0a\x20\x20\x20\x20\x20\x20\x20\x20opencvInstance[\x27cvtColor\x27](dst,\x20out,\x20opencvInstance[\x27COLOR_RGB2RGBA\x27]);\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20od\x20=\x20out[\x27data\x27],\x20md\x20=\x20eroded[\x27data\x27],\x20n\x20=\x20w\x20*\x20h;\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(addNoise)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20for\x20(var\x20i\x20=\x200;\x20i\x20<\x20n;\x20i++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(md[i]\x20<=\x20127)\x20continue;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20j\x20=\x20i\x20*\x204;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20for\x20(var\x20c\x20=\x200;\x20c\x20<\x203;\x20c++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20v\x20=\x20od[j\x20+\x20c]\x20+\x20((Math.random()\x20*\x203)\x20|\x200)\x20-\x201;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20od[j\x20+\x20c]\x20=\x20v\x20<\x200\x20?\x200\x20:\x20v\x20>\x20255\x20?\x20255\x20:\x20v;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20fctx[\x27putImageData\x27](new\x20ImageData(new\x20Uint8ClampedArray(od),\x20w,\x20h),\x20x,\x20y);\x0a\x20\x20\x20\x20\x20\x20\x20\x20return\x20true;\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20return\x20false;\x20\x20\x20/*\x20area\x20vazia\x20neste\x20frame:\x20segue\x20o\x20loop\x20sem\x20erro\x20*/\x0a\x20\x20\x20\x20}\x20catch\x20(e)\x20{\x0a\x20\x20\x20\x20\x20\x20console[\x27warn\x27](\x27processFrameOpenCV\x27,\x20e);\x0a\x20\x20\x20\x20\x20\x20return\x20false;\x0a\x20\x20\x20\x20}\x20finally\x20{\x0a\x20\x20\x20\x20\x20\x20/*\x20GC\x20estrito\x20do\x20WebAssembly:\x20libera\x20tudo\x20a\x20cada\x20frame\x20*/\x0a\x20\x20\x20\x20\x20\x20if\x20(src)\x20{\x20try\x20{\x20src[\x27delete\x27]();\x20}\x20catch\x20(e1)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(mask)\x20{\x20try\x20{\x20mask[\x27delete\x27]();\x20}\x20catch\x20(e2)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(maskGray)\x20{\x20try\x20{\x20maskGray[\x27delete\x27]();\x20}\x20catch\x20(e3)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(eroded)\x20{\x20try\x20{\x20eroded[\x27delete\x27]();\x20}\x20catch\x20(e4)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(rgb)\x20{\x20try\x20{\x20rgb[\x27delete\x27]();\x20}\x20catch\x20(e5)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(dst)\x20{\x20try\x20{\x20dst[\x27delete\x27]();\x20}\x20catch\x20(e6)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(out)\x20{\x20try\x20{\x20out[\x27delete\x27]();\x20}\x20catch\x20(e7)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(kernel)\x20{\x20try\x20{\x20kernel[\x27delete\x27]();\x20}\x20catch\x20(e8)\x20{}\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(grown)\x20{\x20try\x20{\x20grown[\x27delete\x27]();\x20}\x20catch\x20(e9)\x20{}\x20}\x0a\x20\x20\x20\x20}\x0a\x20\x20}',YB=new Function('return\x20('+Yj+')')(),Yb='function\x20renderWorkerMain()\x20{\x0a\x20\x20\x20\x20\x27use\x20strict\x27;\x0a\x20\x20\x20\x20var\x20cv\x20=\x20null,\x20booted\x20=\x20false,\x20busy\x20=\x20false;\x0a\x20\x20\x20\x20var\x20CV_URLS\x20=\x20[\x0a\x20\x20\x20\x20\x20\x20\x27https://docs.opencv.org/4.x/opencv.js\x27,\x0a\x20\x20\x20\x20\x20\x20\x27https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js\x27\x0a\x20\x20\x20\x20];\x0a\x20\x20\x20\x20function\x20post(m,\x20t)\x20{\x20self.postMessage(m,\x20t\x20||\x20[]);\x20}\x0a\x20\x20\x20\x20function\x20sleep(ms)\x20{\x20return\x20new\x20Promise(function\x20(r)\x20{\x20setTimeout(r,\x20ms);\x20});\x20}\x0a\x20\x20\x20\x20function\x20codeErr(code)\x20{\x20var\x20e\x20=\x20new\x20Error(code);\x20e.code\x20=\x20code;\x20return\x20e;\x20}\x0a\x0a\x20\x20\x20\x20function\x20boot()\x20{\x0a\x20\x20\x20\x20\x20\x20try\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20importScripts(\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x27https://cdn.jsdelivr.net/npm/mp4box@0.5.2/dist/mp4box.all.min.js\x27,\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x27https://cdn.jsdelivr.net/npm/mp4-muxer@5.2.1/build/mp4-muxer.min.js\x27\x0a\x20\x20\x20\x20\x20\x20\x20\x20);\x0a\x20\x20\x20\x20\x20\x20}\x20catch\x20(e)\x20{\x20post({\x20type:\x20\x27bootfail\x27,\x20step:\x20\x27libs\x27,\x20err:\x20String((e\x20&&\x20e.message)\x20||\x20e)\x20});\x20return;\x20}\x0a\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27boot\x27,\x20step:\x20\x27libs\x27\x20});\x0a\x20\x20\x20\x20\x20\x20loadCv(0);\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20function\x20loadCv(i)\x20{\x0a\x20\x20\x20\x20\x20\x20if\x20(i\x20>=\x20CV_URLS.length)\x20{\x20post({\x20type:\x20\x27bootfail\x27,\x20step:\x20\x27cv\x27,\x20err:\x20\x27cv\x27\x20});\x20return;\x20}\x0a\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27boot\x27,\x20step:\x20\x27cv\x27\x20});\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20importScripts(CV_URLS[i]);\x20}\x20catch\x20(e)\x20{\x20loadCv(i\x20+\x201);\x20return;\x20}\x0a\x20\x20\x20\x20\x20\x20(async\x20function\x20()\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20c\x20=\x20self[\x27cv\x27];\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(typeof\x20c\x20===\x20\x27function\x27)\x20c\x20=\x20await\x20c();\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(c\x20&&\x20typeof\x20c.then\x20===\x20\x27function\x27)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20c\x20=\x20await\x20new\x20Promise(function\x20(res,\x20rej)\x20{\x20c.then(function\x20(m)\x20{\x20try\x20{\x20delete\x20m.then;\x20}\x20catch\x20(e)\x20{}\x20res(m);\x20},\x20rej);\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(!c\x20||\x20!c[\x27Mat\x27])\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20await\x20new\x20Promise(function\x20(res,\x20rej)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20n\x20=\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20iv\x20=\x20setInterval(function\x20()\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(c\x20&&\x20c[\x27Mat\x27])\x20{\x20clearInterval(iv);\x20res();\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20else\x20if\x20(++n\x20>\x201800)\x20{\x20clearInterval(iv);\x20rej(new\x20Error(\x27timeout\x27));\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20},\x20100);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(!c\x20||\x20!c[\x27inpaint\x27])\x20throw\x20new\x20Error(\x27inpaint\x27);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20cv\x20=\x20c;\x20booted\x20=\x20true;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27ready\x27\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x20catch\x20(e)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x20self[\x27cv\x27]\x20=\x20undefined;\x20}\x20catch\x20(err)\x20{}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20loadCv(i\x20+\x201);\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20})();\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20/*\x20----------\x20m\u00e1scara\x20----------\x20*/\x0a\x20\x20\x20\x20function\x20stats(mask,\x20W,\x20H)\x20{\x0a\x20\x20\x20\x20\x20\x20var\x20x0\x20=\x20W,\x20y0\x20=\x20H,\x20x1\x20=\x20-1,\x20y1\x20=\x20-1,\x20n\x20=\x200,\x20sx\x20=\x200,\x20sy\x20=\x200;\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20y\x20=\x200;\x20y\x20<\x20H;\x20y++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20row\x20=\x20y\x20*\x20W;\x0a\x20\x20\x20\x20\x20\x20\x20\x20for\x20(var\x20x\x20=\x200;\x20x\x20<\x20W;\x20x++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(mask[row\x20+\x20x]\x20>\x20127)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20n++;\x20sx\x20+=\x20x;\x20sy\x20+=\x20y;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(x\x20<\x20x0)\x20x0\x20=\x20x;\x20if\x20(x\x20>\x20x1)\x20x1\x20=\x20x;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(y\x20<\x20y0)\x20y0\x20=\x20y;\x20if\x20(y\x20>\x20y1)\x20y1\x20=\x20y;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20return\x20n\x20?\x20{\x20x0:\x20x0,\x20y0:\x20y0,\x20x1:\x20x1,\x20y1:\x20y1,\x20n:\x20n,\x20cx:\x20sx\x20/\x20n,\x20cy:\x20sy\x20/\x20n\x20}\x20:\x20null;\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20var\x20scratch\x20=\x20null;\x0a\x0a\x20\x20\x20\x20function\x20maskAt(t,\x20kfs,\x20W,\x20H)\x20{\x0a\x20\x20\x20\x20\x20\x20if\x20(!kfs.length)\x20return\x20null;\x0a\x20\x20\x20\x20\x20\x20if\x20(t\x20<=\x20kfs[0].t)\x20return\x20kfs[0].st\x20?\x20{\x20mask:\x20kfs[0].mask,\x20st:\x20kfs[0].st\x20}\x20:\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20last\x20=\x20kfs[kfs.length\x20-\x201];\x0a\x20\x20\x20\x20\x20\x20if\x20(t\x20>=\x20last.t)\x20return\x20last.st\x20?\x20{\x20mask:\x20last.mask,\x20st:\x20last.st\x20}\x20:\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20i\x20=\x200;\x0a\x20\x20\x20\x20\x20\x20while\x20(i\x20<\x20kfs.length\x20-\x201\x20&&\x20kfs[i\x20+\x201].t\x20<=\x20t)\x20i++;\x0a\x20\x20\x20\x20\x20\x20var\x20a\x20=\x20kfs[i],\x20b\x20=\x20kfs[i\x20+\x201];\x0a\x20\x20\x20\x20\x20\x20if\x20(!a.st)\x20return\x20b.st\x20?\x20{\x20mask:\x20b.mask,\x20st:\x20b.st\x20}\x20:\x20null;\x0a\x20\x20\x20\x20\x20\x20if\x20(!b.st)\x20return\x20a.st\x20?\x20{\x20mask:\x20a.mask,\x20st:\x20a.st\x20}\x20:\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20al\x20=\x20(t\x20-\x20a.t)\x20/\x20(b.t\x20-\x20a.t);\x0a\x20\x20\x20\x20\x20\x20if\x20(al\x20<\x200)\x20al\x20=\x200;\x20if\x20(al\x20>\x201)\x20al\x20=\x201;\x0a\x20\x20\x20\x20\x20\x20if\x20(!scratch)\x20scratch\x20=\x20new\x20Uint8Array(W\x20*\x20H);\x0a\x20\x20\x20\x20\x20\x20var\x20out\x20=\x20scratch;\x20out.fill(0);\x0a\x20\x20\x20\x20\x20\x20var\x20ca\x20=\x20a.st,\x20cb\x20=\x20b.st;\x0a\x20\x20\x20\x20\x20\x20var\x20cx\x20=\x20ca.cx\x20+\x20(cb.cx\x20-\x20ca.cx)\x20*\x20al,\x20cy\x20=\x20ca.cy\x20+\x20(cb.cy\x20-\x20ca.cy)\x20*\x20al;\x0a\x20\x20\x20\x20\x20\x20var\x20dax\x20=\x20Math.round(cx\x20-\x20ca.cx),\x20day\x20=\x20Math.round(cy\x20-\x20ca.cy);\x0a\x20\x20\x20\x20\x20\x20var\x20dbx\x20=\x20Math.round(cx\x20-\x20cb.cx),\x20dby\x20=\x20Math.round(cy\x20-\x20cb.cy);\x0a\x20\x20\x20\x20\x20\x20var\x20ux0\x20=\x20Math.min(ca.x0\x20+\x20dax,\x20cb.x0\x20+\x20dbx),\x20uy0\x20=\x20Math.min(ca.y0\x20+\x20day,\x20cb.y0\x20+\x20dby);\x0a\x20\x20\x20\x20\x20\x20var\x20ux1\x20=\x20Math.max(ca.x1\x20+\x20dax,\x20cb.x1\x20+\x20dbx),\x20uy1\x20=\x20Math.max(ca.y1\x20+\x20day,\x20cb.y1\x20+\x20dby);\x0a\x20\x20\x20\x20\x20\x20if\x20(ux0\x20<\x200)\x20ux0\x20=\x200;\x20if\x20(uy0\x20<\x200)\x20uy0\x20=\x200;\x0a\x20\x20\x20\x20\x20\x20if\x20(ux1\x20>\x20W\x20-\x201)\x20ux1\x20=\x20W\x20-\x201;\x20if\x20(uy1\x20>\x20H\x20-\x201)\x20uy1\x20=\x20H\x20-\x201;\x0a\x20\x20\x20\x20\x20\x20var\x20am\x20=\x20a.mask,\x20bm\x20=\x20b.mask;\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20y\x20=\x20uy0;\x20y\x20<=\x20uy1;\x20y++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20ay\x20=\x20y\x20-\x20day,\x20by\x20=\x20y\x20-\x20dby,\x20row\x20=\x20y\x20*\x20W;\x0a\x20\x20\x20\x20\x20\x20\x20\x20for\x20(var\x20x\x20=\x20ux0;\x20x\x20<=\x20ux1;\x20x++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20va\x20=\x200,\x20vb\x20=\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20ax\x20=\x20x\x20-\x20dax;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(ax\x20>=\x200\x20&&\x20ax\x20<\x20W\x20&&\x20ay\x20>=\x200\x20&&\x20ay\x20<\x20H\x20&&\x20am[ay\x20*\x20W\x20+\x20ax]\x20>\x20127)\x20va\x20=\x20255;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20bx\x20=\x20x\x20-\x20dbx;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(bx\x20>=\x200\x20&&\x20bx\x20<\x20W\x20&&\x20by\x20>=\x200\x20&&\x20by\x20<\x20H\x20&&\x20bm[by\x20*\x20W\x20+\x20bx]\x20>\x20127)\x20vb\x20=\x20255;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(va\x20+\x20vb\x20>=\x20255)\x20out[row\x20+\x20x]\x20=\x20255;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20return\x20{\x20mask:\x20out,\x20st:\x20{\x20x0:\x20ux0,\x20y0:\x20uy0,\x20x1:\x20ux1,\x20y1:\x20uy1,\x20n:\x201\x20}\x20};\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20/*\x20----------\x20pipeline\x20OpenCV\x20(Navier-Stokes\x20+\x20sub-bloco\x20isolado)\x20----------\x0a\x20\x20\x20\x20\x20\x20\x20processFrameOpenCVImpl\x20\u00e9\x20injetada\x20neste\x20worker\x20(ver\x20ensureWorker).\x20*/\x0a\x20\x20\x20\x20function\x20processFrameOpenCV(frameCanvas,\x20bbox,\x20maskCanvas,\x20opts)\x20{\x0a\x20\x20\x20\x20\x20\x20return\x20processFrameOpenCVImpl(cv,\x20frameCanvas,\x20bbox,\x20maskCanvas,\x20opts);\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20/*\x20escreve\x20a\x20m\u00e1scara\x20(Uint8Array\x20W*H)\x20do\x20bbox\x20no\x20canvas\x20de\x20m\u00e1scara\x20(branco\x20=\x20remover)\x20*/\x0a\x20\x20\x20\x20var\x20maskCv\x20=\x20null,\x20maskCtx\x20=\x20null;\x0a\x20\x20\x20\x20function\x20paintMaskCanvas(mask,\x20W,\x20H,\x20bb)\x20{\x0a\x20\x20\x20\x20\x20\x20if\x20(!maskCv\x20||\x20maskCv.width\x20!==\x20W\x20||\x20maskCv.height\x20!==\x20H)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20maskCv\x20=\x20new\x20OffscreenCanvas(W,\x20H);\x0a\x20\x20\x20\x20\x20\x20\x20\x20maskCtx\x20=\x20maskCv.getContext(\x272d\x27,\x20{\x20willReadFrequently:\x20true\x20});\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20var\x20w\x20=\x20bb.width,\x20h\x20=\x20bb.height;\x0a\x20\x20\x20\x20\x20\x20var\x20img\x20=\x20maskCtx.createImageData(w,\x20h),\x20d\x20=\x20img.data;\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20yy\x20=\x200;\x20yy\x20<\x20h;\x20yy++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20mrow\x20=\x20(bb.y\x20+\x20yy)\x20*\x20W\x20+\x20bb.x,\x20drow\x20=\x20yy\x20*\x20w\x20*\x204;\x0a\x20\x20\x20\x20\x20\x20\x20\x20for\x20(var\x20xx\x20=\x200;\x20xx\x20<\x20w;\x20xx++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20v\x20=\x20mask[mrow\x20+\x20xx]\x20>\x20127\x20?\x20255\x20:\x200,\x20j\x20=\x20drow\x20+\x20xx\x20*\x204;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20d[j]\x20=\x20v;\x20d[j\x20+\x201]\x20=\x20v;\x20d[j\x20+\x202]\x20=\x20v;\x20d[j\x20+\x203]\x20=\x20255;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20maskCtx.putImageData(img,\x20bb.x,\x20bb.y);\x0a\x20\x20\x20\x20\x20\x20return\x20maskCv;\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20/*\x20bounding\x20box\x20(com\x20folga\x20para\x20o\x20inpaint)\x20a\x20partir\x20das\x20estat\u00edsticas\x20da\x20m\u00e1scara\x20*/\x0a\x20\x20\x20\x20function\x20bboxFrom(st,\x20W,\x20H,\x20pad)\x20{\x0a\x20\x20\x20\x20\x20\x20var\x20x0\x20=\x20Math.max(0,\x20st.x0\x20-\x20pad),\x20y0\x20=\x20Math.max(0,\x20st.y0\x20-\x20pad);\x0a\x20\x20\x20\x20\x20\x20var\x20x1\x20=\x20Math.min(W,\x20st.x1\x20+\x201\x20+\x20pad),\x20y1\x20=\x20Math.min(H,\x20st.y1\x20+\x201\x20+\x20pad);\x0a\x20\x20\x20\x20\x20\x20return\x20{\x20x:\x20x0,\x20y:\x20y0,\x20width:\x20x1\x20-\x20x0,\x20height:\x20y1\x20-\x20y0\x20};\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20/*\x20----------\x20\u00e1udio\x20----------\x20*/\x0a\x20\x20\x20\x20async\x20function\x20encodeAudio(a,\x20id)\x20{\x0a\x20\x20\x20\x20\x20\x20if\x20(!a\x20||\x20!a.channels\x20||\x20!a.channels.length)\x20return\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20sr\x20=\x20a.sampleRate,\x20nch\x20=\x20Math.min(2,\x20a.channels.length),\x20total\x20=\x20a.channels[0].length;\x0a\x20\x20\x20\x20\x20\x20var\x20cfg\x20=\x20{\x20codec:\x20\x27mp4a.40.2\x27,\x20sampleRate:\x20sr,\x20numberOfChannels:\x20nch,\x20bitrate:\x20192000\x20};\x0a\x20\x20\x20\x20\x20\x20var\x20sup\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20sup\x20=\x20await\x20AudioEncoder.isConfigSupported(cfg);\x20}\x20catch\x20(e)\x20{\x20return\x20null;\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(!sup\x20||\x20!sup.supported)\x20return\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20chunks\x20=\x20[],\x20err\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20enc\x20=\x20new\x20AudioEncoder({\x0a\x20\x20\x20\x20\x20\x20\x20\x20output:\x20function\x20(c,\x20m)\x20{\x20chunks.push({\x20chunk:\x20c,\x20meta:\x20m\x20});\x20},\x0a\x20\x20\x20\x20\x20\x20\x20\x20error:\x20function\x20(e)\x20{\x20err\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20enc.configure(cfg);\x0a\x20\x20\x20\x20\x20\x20var\x20block\x20=\x201024;\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20off\x20=\x200;\x20off\x20<\x20total;\x20off\x20+=\x20block)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(err)\x20break;\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20n\x20=\x20Math.min(block,\x20total\x20-\x20off);\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20data\x20=\x20new\x20Float32Array(n\x20*\x20nch);\x0a\x20\x20\x20\x20\x20\x20\x20\x20for\x20(var\x20c\x20=\x200;\x20c\x20<\x20nch;\x20c++)\x20data.set(a.channels[c].subarray(off,\x20off\x20+\x20n),\x20c\x20*\x20n);\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20ad\x20=\x20new\x20AudioData({\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20format:\x20\x27f32-planar\x27,\x20sampleRate:\x20sr,\x20numberOfFrames:\x20n,\x20numberOfChannels:\x20nch,\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20timestamp:\x20Math.round(off\x20/\x20sr\x20*\x201e6),\x20data:\x20data\x0a\x20\x20\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20enc.encode(ad);\x20ad.close();\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(enc.encodeQueueSize\x20>\x2024)\x20await\x20sleep(2);\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(off\x20%\x20(block\x20*\x20200)\x20===\x200)\x20post({\x20type:\x20\x27progress\x27,\x20id:\x20id,\x20phase:\x20\x27audio\x27,\x20p:\x20off\x20/\x20total\x20});\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20await\x20enc.flush();\x0a\x20\x20\x20\x20\x20\x20if\x20(err)\x20throw\x20err;\x0a\x20\x20\x20\x20\x20\x20return\x20{\x20chunks:\x20chunks,\x20sampleRate:\x20sr,\x20channels:\x20nch\x20};\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20/*\x20----------\x20render\x20----------\x20*/\x0a\x20\x20\x20\x20async\x20function\x20doRender(job)\x20{\x0a\x20\x20\x20\x20\x20\x20var\x20id\x20=\x20job.id,\x20W\x20=\x20job.W,\x20H\x20=\x20job.H;\x0a\x20\x20\x20\x20\x20\x20var\x20kfs\x20=\x20job.keyframes.map(function\x20(k)\x20{\x20return\x20{\x20t:\x20k.t,\x20mask:\x20new\x20Uint8Array(k.mask)\x20};\x20});\x0a\x20\x20\x20\x20\x20\x20kfs.sort(function\x20(a,\x20b)\x20{\x20return\x20a.t\x20-\x20b.t;\x20});\x0a\x20\x20\x20\x20\x20\x20kfs.forEach(function\x20(k)\x20{\x20k.st\x20=\x20stats(k.mask,\x20W,\x20H);\x20});\x0a\x0a\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27progress\x27,\x20id:\x20id,\x20phase:\x20\x27demux\x27,\x20p:\x200\x20});\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20buf\x20=\x20job.file;\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20buf.fileStart\x20=\x200;\x20}\x20catch\x20(e)\x20{}\x0a\x20\x20\x20\x20\x20\x20var\x20mp4\x20=\x20MP4Box.createFile();\x0a\x20\x20\x20\x20\x20\x20var\x20info\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20mp4.onReady\x20=\x20function\x20(i)\x20{\x20info\x20=\x20i;\x20};\x0a\x20\x20\x20\x20\x20\x20mp4.onError\x20=\x20function\x20()\x20{};\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20mp4.appendBuffer(buf);\x20mp4.flush();\x20}\x0a\x20\x20\x20\x20\x20\x20catch\x20(e)\x20{\x20throw\x20codeErr(\x27format\x27);\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(!info\x20||\x20!info.videoTracks\x20||\x20!info.videoTracks.length)\x20throw\x20codeErr(\x27format\x27);\x0a\x20\x20\x20\x20\x20\x20var\x20vt\x20=\x20info.videoTracks[0];\x0a\x20\x20\x20\x20\x20\x20var\x20trak\x20=\x20mp4.getTrackById(vt.id);\x0a\x20\x20\x20\x20\x20\x20var\x20entry\x20=\x20trak.mdia.minf.stbl.stsd.entries[0];\x0a\x20\x20\x20\x20\x20\x20var\x20box\x20=\x20entry.avcC\x20||\x20entry.hvcC\x20||\x20entry.vpcC\x20||\x20entry.av1C;\x0a\x20\x20\x20\x20\x20\x20if\x20(!box)\x20throw\x20codeErr(\x27format\x27);\x0a\x20\x20\x20\x20\x20\x20var\x20ds\x20=\x20new\x20DataStream(undefined,\x200,\x20DataStream.BIG_ENDIAN);\x0a\x20\x20\x20\x20\x20\x20box.write(ds);\x0a\x20\x20\x20\x20\x20\x20var\x20desc\x20=\x20new\x20Uint8Array(ds.buffer,\x208);\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20decCfg\x20=\x20{\x20codec:\x20vt.codec,\x20description:\x20desc,\x20codedWidth:\x20vt.video.width,\x20codedHeight:\x20vt.video.height\x20};\x0a\x20\x20\x20\x20\x20\x20var\x20dsup\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20dsup\x20=\x20await\x20VideoDecoder.isConfigSupported(decCfg);\x20}\x20catch\x20(e)\x20{\x20dsup\x20=\x20null;\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(!dsup\x20||\x20!dsup.supported)\x20throw\x20codeErr(\x27decode\x27);\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20samples\x20=\x20[];\x0a\x20\x20\x20\x20\x20\x20mp4.onSamples\x20=\x20function\x20(tid,\x20u,\x20ss)\x20{\x20for\x20(var\x20i\x20=\x200;\x20i\x20<\x20ss.length;\x20i++)\x20samples.push(ss[i]);\x20};\x0a\x20\x20\x20\x20\x20\x20mp4.setExtractionOptions(vt.id,\x20null,\x20{\x20nbSamples:\x20Math.max(1,\x20Math.min(vt.nb_samples\x20||\x20100000,\x20100000))\x20});\x0a\x20\x20\x20\x20\x20\x20mp4.start();\x0a\x20\x20\x20\x20\x20\x20var\x20want\x20=\x20vt.nb_samples\x20||\x200,\x20dl\x20=\x20Date.now()\x20+\x2030000;\x0a\x20\x20\x20\x20\x20\x20while\x20(Date.now()\x20<\x20dl\x20&&\x20(want\x20?\x20samples.length\x20<\x20want\x20:\x20samples.length\x20===\x200))\x20await\x20sleep(10);\x0a\x20\x20\x20\x20\x20\x20if\x20(!samples.length)\x20throw\x20codeErr(\x27format\x27);\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20t0\x20=\x20Infinity;\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20si\x20=\x200;\x20si\x20<\x20samples.length;\x20si++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20cts\x20=\x20samples[si].cts\x20*\x201e6\x20/\x20vt.timescale;\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(cts\x20<\x20t0)\x20t0\x20=\x20cts;\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(!isFinite(t0))\x20t0\x20=\x200;\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20durSec\x20=\x20vt.duration\x20/\x20vt.timescale;\x0a\x20\x20\x20\x20\x20\x20var\x20fps\x20=\x20vt.nb_samples\x20&&\x20durSec\x20>\x200\x20?\x20vt.nb_samples\x20/\x20durSec\x20:\x2030;\x0a\x20\x20\x20\x20\x20\x20if\x20(!isFinite(fps)\x20||\x20fps\x20<\x201\x20||\x20fps\x20>\x20240)\x20fps\x20=\x2030;\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20bitrate\x20=\x20job.bitrate\x20||\x206000000;\x0a\x20\x20\x20\x20\x20\x20var\x20cands\x20=\x20[\x0a\x20\x20\x20\x20\x20\x20\x20\x20{\x20codec:\x20\x27avc1.42001f\x27,\x20width:\x20W,\x20height:\x20H,\x20bitrate:\x20bitrate,\x20framerate:\x20fps,\x20avc:\x20{\x20format:\x20\x27avc\x27\x20}\x20},\x0a\x20\x20\x20\x20\x20\x20\x20\x20{\x20codec:\x20\x27avc1.4d0028\x27,\x20width:\x20W,\x20height:\x20H,\x20bitrate:\x20bitrate,\x20framerate:\x20fps,\x20avc:\x20{\x20format:\x20\x27avc\x27\x20}\x20},\x0a\x20\x20\x20\x20\x20\x20\x20\x20{\x20codec:\x20\x27avc1.640028\x27,\x20width:\x20W,\x20height:\x20H,\x20bitrate:\x20bitrate,\x20framerate:\x20fps,\x20avc:\x20{\x20format:\x20\x27avc\x27\x20}\x20}\x0a\x20\x20\x20\x20\x20\x20];\x0a\x20\x20\x20\x20\x20\x20var\x20encCfg\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20ci\x20=\x200;\x20ci\x20<\x20cands.length;\x20ci++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20esup\x20=\x20await\x20VideoEncoder.isConfigSupported(cands[ci]);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(esup\x20&&\x20esup.supported)\x20{\x20encCfg\x20=\x20cands[ci];\x20break;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x20catch\x20(e)\x20{}\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(!encCfg)\x20throw\x20codeErr(\x27encode\x27);\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20aud\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20aud\x20=\x20await\x20encodeAudio(job.audio,\x20id);\x20}\x20catch\x20(e)\x20{\x20aud\x20=\x20null;\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20muxer\x20=\x20new\x20Mp4Muxer.Muxer({\x0a\x20\x20\x20\x20\x20\x20\x20\x20target:\x20new\x20Mp4Muxer.ArrayBufferTarget(),\x0a\x20\x20\x20\x20\x20\x20\x20\x20video:\x20{\x20codec:\x20\x27avc\x27,\x20width:\x20W,\x20height:\x20H,\x20frameRate:\x20fps\x20},\x0a\x20\x20\x20\x20\x20\x20\x20\x20audio:\x20aud\x20?\x20{\x20codec:\x20\x27aac\x27,\x20sampleRate:\x20aud.sampleRate,\x20numberOfChannels:\x20aud.channels\x20}\x20:\x20undefined,\x0a\x20\x20\x20\x20\x20\x20\x20\x20fastStart:\x20\x27in-memory\x27,\x0a\x20\x20\x20\x20\x20\x20\x20\x20firstTimestampBehavior:\x20\x27offset\x27\x0a\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20if\x20(aud)\x20{\x20for\x20(var\x20ai\x20=\x200;\x20ai\x20<\x20aud.chunks.length;\x20ai++)\x20muxer.addAudioChunk(aud.chunks[ai].chunk,\x20aud.chunks[ai].meta);\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20frameCanvas\x20=\x20new\x20OffscreenCanvas(W,\x20H);\x0a\x20\x20\x20\x20\x20\x20var\x20fctx\x20=\x20frameCanvas.getContext(\x272d\x27,\x20{\x20willReadFrequently:\x20true\x20});\x0a\x20\x20\x20\x20\x20\x20var\x20encErr\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20enc\x20=\x20new\x20VideoEncoder({\x0a\x20\x20\x20\x20\x20\x20\x20\x20output:\x20function\x20(chunk,\x20m)\x20{\x20muxer.addVideoChunk(chunk,\x20m);\x20},\x0a\x20\x20\x20\x20\x20\x20\x20\x20error:\x20function\x20(e)\x20{\x20encErr\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20enc.configure(encCfg);\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20pending\x20=\x200,\x20processed\x20=\x200,\x20frameIndex\x20=\x200,\x20fatal\x20=\x20null,\x20chain\x20=\x20Promise.resolve();\x0a\x20\x20\x20\x20\x20\x20var\x20keyEvery\x20=\x20Math.max(1,\x20Math.round(fps\x20*\x202));\x0a\x0a\x20\x20\x20\x20\x20\x20async\x20function\x20processFrame(frame)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20t\x20=\x20(frame.timestamp\x20-\x20t0)\x20/\x201e6;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20hit\x20=\x20maskAt(t,\x20kfs,\x20W,\x20H);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20fctx.drawImage(frame,\x200,\x200,\x20W,\x20H);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(hit\x20&&\x20hit.st)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20bb\x20=\x20bboxFrom(hit.st,\x20W,\x20H,\x20job.radius\x20+\x20job.dil\x20+\x206);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20if\x20(bb.width\x20>=\x202\x20&&\x20bb.height\x20>=\x202)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20mc\x20=\x20paintMaskCanvas(hit.mask,\x20W,\x20H,\x20bb);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20processFrameOpenCV(frameCanvas,\x20bb,\x20mc,\x20{\x20radius:\x20job.radius,\x20dil:\x20job.dil,\x20noise:\x20job.noise\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20var\x20out\x20=\x20new\x20VideoFrame(frameCanvas,\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20timestamp:\x20Math.max(0,\x20frame.timestamp\x20-\x20t0),\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20duration:\x20frame.duration\x20||\x20Math.round(1e6\x20/\x20fps)\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20while\x20(enc.encodeQueueSize\x20>\x2012\x20&&\x20!fatal)\x20await\x20sleep(1);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20enc.encode(out,\x20{\x20keyFrame:\x20frameIndex\x20===\x200\x20||\x20frameIndex\x20%\x20keyEvery\x20===\x200\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20frameIndex++;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20out.close();\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x20finally\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x20frame.close();\x20}\x20catch\x20(e)\x20{}\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20var\x20decErr\x20=\x20null;\x0a\x20\x20\x20\x20\x20\x20var\x20dec\x20=\x20new\x20VideoDecoder({\x0a\x20\x20\x20\x20\x20\x20\x20\x20output:\x20function\x20(frame)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20pending++;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20chain\x20=\x20chain.then(async\x20function\x20()\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x20await\x20processFrame(frame);\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20catch\x20(e)\x20{\x20if\x20(!fatal)\x20fatal\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20finally\x20{\x20pending--;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20},\x0a\x20\x20\x20\x20\x20\x20\x20\x20error:\x20function\x20(e)\x20{\x20decErr\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20});\x0a\x20\x20\x20\x20\x20\x20dec.configure(decCfg);\x0a\x0a\x20\x20\x20\x20\x20\x20for\x20(var\x20i\x20=\x200;\x20i\x20<\x20samples.length;\x20i++)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(fatal\x20||\x20decErr)\x20break;\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20s\x20=\x20samples[i];\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20ts\x20=\x20Math.round(s.cts\x20*\x201e6\x20/\x20vt.timescale);\x0a\x20\x20\x20\x20\x20\x20\x20\x20var\x20du\x20=\x20Math.round((s.duration\x20||\x200)\x20*\x201e6\x20/\x20vt.timescale)\x20||\x20Math.round(1e6\x20/\x20fps);\x0a\x20\x20\x20\x20\x20\x20\x20\x20try\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20dec.decode(new\x20EncodedVideoChunk({\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20type:\x20s.is_sync\x20?\x20\x27key\x27\x20:\x20\x27delta\x27,\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20timestamp:\x20ts,\x20duration:\x20du,\x20data:\x20s.data\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}));\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x20catch\x20(e)\x20{\x20fatal\x20=\x20e;\x20break;\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20while\x20((dec.decodeQueueSize\x20>\x2016\x20||\x20pending\x20>\x206)\x20&&\x20!fatal\x20&&\x20!decErr)\x20await\x20sleep(2);\x0a\x20\x20\x20\x20\x20\x20\x20\x20if\x20(i\x20%\x204\x20===\x200)\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20processed++;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27progress\x27,\x20id:\x20id,\x20phase:\x20\x27frames\x27,\x20p:\x20Math.min(0.98,\x20i\x20/\x20samples.length)\x20});\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20await\x20dec.flush();\x20}\x20catch\x20(e)\x20{\x20if\x20(!fatal)\x20fatal\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20await\x20chain;\x20}\x20catch\x20(e)\x20{\x20if\x20(!fatal)\x20fatal\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(fatal)\x20throw\x20fatal;\x0a\x20\x20\x20\x20\x20\x20if\x20(decErr)\x20throw\x20decErr;\x0a\x20\x20\x20\x20\x20\x20try\x20{\x20await\x20enc.flush();\x20}\x20catch\x20(e)\x20{\x20if\x20(!encErr)\x20encErr\x20=\x20e;\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(encErr)\x20throw\x20encErr;\x0a\x0a\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27progress\x27,\x20id:\x20id,\x20phase:\x20\x27mux\x27,\x20p:\x200.99\x20});\x0a\x20\x20\x20\x20\x20\x20muxer.finalize();\x0a\x20\x20\x20\x20\x20\x20var\x20outBuf\x20=\x20muxer.target.buffer;\x0a\x20\x20\x20\x20\x20\x20post({\x20type:\x20\x27result\x27,\x20id:\x20id,\x20buffer:\x20outBuf,\x20hasAudio:\x20!!aud\x20},\x20[outBuf]);\x0a\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20self.onmessage\x20=\x20function\x20(ev)\x20{\x0a\x20\x20\x20\x20\x20\x20var\x20d\x20=\x20ev.data;\x0a\x20\x20\x20\x20\x20\x20if\x20(!d\x20||\x20d.cmd\x20!==\x20\x27render\x27)\x20return;\x0a\x20\x20\x20\x20\x20\x20if\x20(!booted)\x20{\x20post({\x20type:\x20\x27error\x27,\x20id:\x20d.id,\x20code:\x20\x27boot\x27\x20});\x20return;\x20}\x0a\x20\x20\x20\x20\x20\x20if\x20(busy)\x20{\x20post({\x20type:\x20\x27error\x27,\x20id:\x20d.id,\x20code:\x20\x27busy\x27\x20});\x20return;\x20}\x0a\x20\x20\x20\x20\x20\x20busy\x20=\x20true;\x0a\x20\x20\x20\x20\x20\x20doRender(d)\x0a\x20\x20\x20\x20\x20\x20\x20\x20.catch(function\x20(e)\x20{\x20post({\x20type:\x20\x27error\x27,\x20id:\x20d.id,\x20code:\x20(e\x20&&\x20typeof\x20e.code\x20===\x20\x27string\x27\x20&&\x20e.code)\x20||\x20\x27render\x27,\x20detail:\x20String((e\x20&&\x20(e.name\x20+\x20\x27:\x20\x27\x20+\x20e.message))\x20||\x20e)\x20});\x20})\x0a\x20\x20\x20\x20\x20\x20\x20\x20.then(function\x20()\x20{\x20busy\x20=\x20false;\x20});\x0a\x20\x20\x20\x20};\x0a\x0a\x20\x20\x20\x20boot();\x0a\x20\x20}';function YJ(fS){if(!fS||!fS['type'])return;if(fS['type']==='boot'){Yh('load');return;}if(fS['type']==='ready'){Yh('ok');if(YQ){const fG=YQ;YQ=null,fG['resolve'](!![]);}return;}if(fS['type']==='bootfail'){Yh('err');if(!Y4)Yv('engineFail',!![]);const fD=YQ;YQ=null,YP=null;if(fD)fD['reject'](new Error('boot'));return;}if(!YS||fS['id']!==YS['id'])return;if(fS['type']==='progress'){YA(fS);return;}if(fS['type']==='result'){const fv=YS;YS=null,fv['resolve'](fS);return;}if(fS['type']==='error'){const fh=YS;YS=null,console['warn']('[AETIX]\x20erro\x20no\x20worker\x20de\x20render:',fS['code'],fS['detail']),fh['reject'](new Error(fS['code']||'render'));}}function YN(){if(YP)return YP;return Yh('load'),YP=new Promise((fS,fG)=>{YQ={'resolve':fS,'reject':fG};let fD=null;const fv='var\x20processFrameOpenCVImpl\x20=\x20'+Yj+';\x0a('+Yb+')()',fh=URL['createObjectURL'](new Blob([fv],{'type':'text/javascript'}));try{fD=new Worker(fh);}catch(fm){URL['revokeObjectURL'](fh),YQ=null,YP=null,Yh('err'),fG(fm);return;}URL['revokeObjectURL'](fh),Yl=fD,fD['onmessage']=fj=>YJ(fj['data']),fD['onerror']=fj=>{const fB=fj&&fj['message']||'worker';if(YQ){const fb=YQ;YQ=null,YP=null,fb['reject'](new Error(fB));}if(YS){const fJ=YS;YS=null,fJ['reject'](new Error(fB));}Yh('err');try{fD['terminate']();}catch(fN){}if(Yl===fD)Yl=null;};}),YP;}function YM(){if(Yl){try{Yl['terminate']();}catch(fS){}Yl=null;}YP=null,YQ=null,YS=null;}function Yq(fS,fG){return new Promise((fD,fv)=>{YS={'id':fS['id'],'resolve':fD,'reject':fv};try{Yl['postMessage'](fS,fG);}catch(fh){YS=null,fv(fh);}});}function YA(fS){if(fS['phase']==='frames'){const fG=E['clamp'](fS['p']||0x0,0x0,0x1);L['value']=0.15+0.75*fG,Yv('phaseFrames',![],{'p':Math['round'](fG*0x64)});}else{if(fS['phase']==='audio')L['value']=0.06+0.04*E['clamp'](fS['p']||0x0,0x0,0x1),Yv('phaseAudio');else{if(fS['phase']==='demux')L['value']=0.12,Yv('phaseDemux');else fS['phase']==='mux'&&(L['value']=0.95,Yv('phaseMux'));}}}const Yk=E['clamp'];function YO(){Y8=[],Y9=-0x1,Yc=null,Ye=![],YY=null,Yf=null,Yi=null,YE=null,YR=[],Ya=![],C['innerHTML']='',k['innerHTML']='',t['textContent']='',A['value']=0x0,O['textContent']='0:00\x20/\x200:00',d['hidden']=!![],L['value']=0x0;}function YV(fS){return new Promise((fG,fD)=>{if(fS['readyState']>=0x1&&fS['videoWidth'])return fG();let fv=![];const fh=setTimeout(()=>{if(fv)return;fv=!![],fm(),fD(new Error('timeout'));},0x4e20);function fm(){clearTimeout(fh),fS['removeEventListener']('loadedmetadata',fj),fS['removeEventListener']('error',fB);}function fj(){if(fv)return;fv=!![],fm(),fG();}function fB(){if(fv)return;fv=!![],fm(),fD(new Error('media'));}fS['addEventListener']('loadedmetadata',fj),fS['addEventListener']('error',fB);});}function YK(){const fS=g['videoWidth'],fG=g['videoHeight'],fD=Math['min'](0x1,0x356/fS,0x1e0/fG);Y6=Math['max'](0x2,Math['round'](fS*fD/0x2)*0x2),Y7=Math['max'](0x2,Math['round'](fG*fD/0x2)*0x2),l['width']=Y6,l['height']=Y7,YY=new Uint8Array(Y6*Y7),Yf=l['getContext']('2d')['createImageData'](Y6,Y7),Yi=document['createElement']('canvas'),Yi['width']=Y6,Yi['height']=Y7,YE=Yi['getContext']('2d',{'willReadFrequently':!![]});}function YC(fS){if(!fS||Yw)return;const fG=(fS['name']||'')['toLowerCase'](),fD=/^video\//['test'](fS['type']||'')||/\.(mp4|mov|m4v|webm)$/['test'](fG);if(!fD){Yv('chooseVideo',!![]);return;}Yv('loadingVideo'),Y5&&(URL['revokeObjectURL'](Y5),Y5=null),Y4=fS,Y5=URL['createObjectURL'](fS),YO(),g['pause'](),g['src']=Y5,g['load'](),YV(g)['then'](()=>{if(!g['videoWidth']||!g['videoHeight']){Yt(),Yv('openFail',!![]);return;}YK(),w['hidden']=!![],U['hidden']=![],Y8=[],Y9=-0x1,Yc=null,Ye=![],Z['disabled']=!![],f4(),Yr(),Yz(),f3(),fX(),fY(null),Yv('readyHint');})['catch'](()=>{Yt(),Yv('openFail',!![]);});}function Yt(){if(Yw)return;g['pause'](),g['removeAttribute']('src');try{g['load']();}catch(fS){}Y5&&(URL['revokeObjectURL'](Y5),Y5=null),Y4=null,YO(),U['hidden']=!![],w['hidden']=![],Yv(null),fY(null),fX();}function Yd(fS){const fG=Y6,fD=Y7;let fv=fG,fh=fD,fm=-0x1,fj=-0x1,fB=0x0,fb=0x0,fJ=0x0;for(let fN=0x0;fN<fD;fN++){const fM=fN*fG;for(let fq=0x0;fq<fG;fq++){if(fS[fM+fq]>0x7f){fB++,fb+=fq,fJ+=fN;if(fq<fv)fv=fq;if(fq>fm)fm=fq;if(fN<fh)fh=fN;if(fN>fj)fj=fN;}}}return fB?{'x0':fv,'y0':fh,'x1':fm,'y1':fj,'n':fB,'cx':fb/fB,'cy':fJ/fB}:null;}function YL(fS){if(!fS['stats'])fS['stats']=Yd(fS['mask']);return fS['stats'];}function Yz(){if(!l['width'])return;l['getContext']('2d')['clearRect'](0x0,0x0,l['width'],l['height']);}function Yn(fS){const fG=Y8['length'];if(!fG)return null;if(fS<=Y8[0x0]['t']+0.0001){const fz=Y8[0x0];return fz['stats']?fz['mask']:null;}const fD=Y8[fG-0x1];if(fS>=fD['t']-0.0001)return fD['stats']?fD['mask']:null;let fv=0x0;while(fv<fG-0x1&&Y8[fv+0x1]['t']<=fS)fv++;const fh=Y8[fv],fm=Y8[fv+0x1],fj=YL(fh),fB=YL(fm);if(!fj)return fB?fm['mask']:null;if(!fB)return fh['mask'];let fb=(fS-fh['t'])/(fm['t']-fh['t']);fb=Yk(fb,0x0,0x1);const fJ=YY;if(!fJ)return null;fJ['fill'](0x0);const fN=fj['cx']+(fB['cx']-fj['cx'])*fb,fM=fj['cy']+(fB['cy']-fj['cy'])*fb,fq=Math['round'](fN-fj['cx']),fA=Math['round'](fM-fj['cy']),fk=Math['round'](fN-fB['cx']),fO=Math['round'](fM-fB['cy']);let fV=Math['min'](fj['x0']+fq,fB['x0']+fk),fK=Math['min'](fj['y0']+fA,fB['y0']+fO),fC=Math['max'](fj['x1']+fq,fB['x1']+fk),ft=Math['max'](fj['y1']+fA,fB['y1']+fO);fV=Math['max'](0x0,fV),fK=Math['max'](0x0,fK),fC=Math['min'](Y6-0x1,fC),ft=Math['min'](Y7-0x1,ft);const fd=fh['mask'],fL=fm['mask'];for(let fn=fK;fn<=ft;fn++){const fZ=fn-fA,fy=fn-fO,fp=fn*Y6;for(let fW=fV;fW<=fC;fW++){let fr=0x0,fH=0x0;const fI=fW-fq;if(fI>=0x0&&fI<Y6&&fZ>=0x0&&fZ<Y7&&fd[fZ*Y6+fI]>0x7f)fr=0xff;const fs=fW-fk;if(fs>=0x0&&fs<Y6&&fy>=0x0&&fy<Y7&&fL[fy*Y6+fs]>0x7f)fH=0xff;if(fr+fH>=0xff)fJ[fp+fW]=0xff;}}return fJ;}function YZ(fS){if(!Yf)return;const fG=Yf['data'];if(!fS){l['getContext']('2d')['clearRect'](0x0,0x0,Y6,Y7);return;}for(let fD=0x0,fv=0x0;fD<fS['length'];fD++,fv+=0x4){if(fS[fD]>0x7f)fG[fv]=0xff,fG[fv+0x1]=0x4d,fG[fv+0x2]=0x8d,fG[fv+0x3]=0xbe;else fG[fv+0x3]=0x0;}l['getContext']('2d')['putImageData'](Yf,0x0,0x0);}function Yy(){if(Ya||!Y6)return;const fS=g['currentTime']||0x0;let fG=null;if(Y9>=0x0&&Y8[Y9]&&Math['abs'](Y8[Y9]['t']-fS)<0.06){const fD=Y8[Y9];fG=YL(fD)?fD['mask']:null;}else fG=Yn(fS);YZ(fG);}const Yp=()=>Y8['sort']((fS,fG)=>fS['t']-fG['t']);function YW(fS,fG){let fD=-0x1,fv=fG;return Y8['forEach']((fh,fm)=>{const fj=Math['abs'](fh['t']-fS);fj<=fv&&(fv=fj,fD=fm);}),fD;}function Yr(){Y9=YW(g['currentTime']||0x0,0.05),f1(),fX();}function YH(){if(!Y4||Yw)return;const fS=g['currentTime']||0x0,fG=YW(fS,0.05);if(fG>=0x0){Y9=fG,Yv('kfExists'),f1(),f2(),fX(),Yy();return;}const fD={'t':fS,'mask':new Uint8Array(Y6*Y7),'stats':null};Y8['push'](fD),Yp(),Y9=Y8['indexOf'](fD),Yz(),f1(),f2(),f3(),fX(),Yv('kfAdded');}function YI(){const fS=g['currentTime']||0x0;if(Y9>=0x0&&Y8[Y9]&&Math['abs'](Y8[Y9]['t']-fS)<0.06)return Y8[Y9];const fG=YW(fS,0.06);if(fG>=0x0)return Y9=fG,Y8[fG];const fD={'t':fS,'mask':new Uint8Array(Y6*Y7),'stats':null};return Y8['push'](fD),Yp(),Y9=Y8['indexOf'](fD),Yz(),f1(),f2(),f3(),fX(),fD;}function Ys(fS){if(!Y8[fS])return;Y9=fS,g['pause'](),g['currentTime']=Y8[fS]['t'],Yy(),f1(),f2(),fX();}function f0(fS){if(!Y8[fS])return;Y8['splice'](fS,0x1),Y9=-0x1,Yr(),Yy(),f2(),f3(),Yv('kfRemoved');}function f1(){C['innerHTML']='';if(!Y8['length']){const fS=document['createElement']('span');fS['className']='kf-empty',fS['textContent']=e('kfNone'),C['appendChild'](fS);return;}Y8['forEach']((fG,fD)=>{const fv=document['createElement']('button');fv['type']='button',fv['className']='kf',fv['setAttribute']('role','listitem');if(fD===Y9)fv['setAttribute']('aria-current','true');const fh=e('kfAt',{'t':o(fG['t'],!![])});fv['title']=fh,fv['setAttribute']('aria-label',fh);const fm=document['createElement']('span');fm['textContent']=o(fG['t'],!![]),fv['appendChild'](fm);const fj=document['createElement']('span');fj['className']='kx',fj['setAttribute']('aria-hidden','true'),fj['innerHTML']='<svg\x20class=\x22ic\x22><use\x20href=\x22#i-x\x22/></svg>',fv['appendChild'](fj),fv['addEventListener']('click',fB=>{if(fB['target']['closest']('.kx'))f0(fD);else Ys(fD);}),C['appendChild'](fv);});}function f2(){k['innerHTML']='';const fS=g['duration']||0x0;if(!fS)return;Y8['forEach']((fG,fD)=>{const fv=document['createElement']('span');fv['className']='mark'+(fD===Y9?'\x20active':''),fv['style']['left']=Yk(fG['t']/fS,0x0,0x1)*0x64+'%',k['appendChild'](fv);});}function f3(){const fS=Y8['length'];t['textContent']=fS?e(fS===0x1?'countOne':'countMany',{'n':fS}):e('countZero');}function f4(){const fS=g['duration']||0x0,fG=g['currentTime']||0x0;A['max']=fS||0x0,A['value']=fG,O['textContent']=o(fG)+'\x20/\x20'+o(fS),f2();}function f5(){const fS=!g['paused']&&!g['ended'];N['setAttribute']('href',fS?'#i-pause':'#i-play'),J['setAttribute']('aria-label',e(fS?'pause':'play'));}function f6(){if(g['paused']||g['ended']){Yu=0x0;return;}const fS=performance['now']();fS-Yg>0x5a&&(Yg=fS,Yy()),Yu=requestAnimationFrame(f6);}function f7(){if(!Yu)Yu=requestAnimationFrame(f6);}function f8(){[D,v]['forEach'](fS=>{if(fS)fS['hidden']=!![];}),[S,G]['forEach'](fS=>{if(fS)fS['setAttribute']('aria-expanded','false');});}function f9(fS){f8();const fG=fS==='pen'?D:v,fD=fS==='pen'?S:G;fG['style']['setProperty']('--dx','0px'),fG['hidden']=![];const fv=fG['getBoundingClientRect'](),fh=0xa;let fm=0x0;if(fv['left']<fh)fm=fh-fv['left'];else{if(fv['right']>innerWidth-fh)fm=innerWidth-fh-fv['right'];}fG['style']['setProperty']('--dx',fm+'px'),fD['setAttribute']('aria-expanded','true');}function fY(fS){Yx=fS,f8(),S['setAttribute']('aria-pressed',String(fS==='pen')),G['setAttribute']('aria-pressed',String(fS==='eraser')),P['classList']['toggle']('pen',!!fS);if(fS)f9(fS);else Q['hidden']=!![];if(fS)Yv(fS==='pen'?'penHint':'eraserHint');else{if(YU&&(YU['k']==='penHint'||YU['k']==='eraserHint'))Yv(null);}}const ff=fS=>fY(Yx===fS?null:fS);function fi(fS){const fG=l['getBoundingClientRect']();return{'x':(fS['clientX']-fG['left'])*Y6/fG['width'],'y':(fS['clientY']-fG['top'])*Y7/fG['height']};}const fE=()=>+(Yx==='eraser'?m:h)['value']||0x14;function fx(){const fS=l['getBoundingClientRect']();return Math['max'](0x1,fE()*(fS['width']?Y6/fS['width']:0x1));}function fa(fS,fG){const fD=l['getContext']('2d'),fv=YF==='eraser';fD['save'](),fD['globalCompositeOperation']=fv?'destination-out':'source-over',fD['strokeStyle']='rgba(255,77,141,.78)',fD['fillStyle']='rgba(255,77,141,.78)',fD['lineCap']='round',fD['lineJoin']='round',fD['lineWidth']=YX,fD['beginPath'](),fS['x']===fG['x']&&fS['y']===fG['y']?(fD['arc'](fS['x'],fS['y'],YX/0x2,0x0,Math['PI']*0x2),fD['fill']()):(fD['moveTo'](fS['x'],fS['y']),fD['lineTo'](fG['x']+0.01,fG['y']),fD['stroke']()),fD['restore']();}function fR(){const fS=Y8[Y9];if(!fS)return;YE['clearRect'](0x0,0x0,Y6,Y7),YE['strokeStyle']='#fff',YE['fillStyle']='#fff',YE['lineCap']='round',YE['lineJoin']='round',YE['lineWidth']=YX,YE['beginPath']();if(YR['length']===0x1)YE['arc'](YR[0x0]['x'],YR[0x0]['y'],YX/0x2,0x0,Math['PI']*0x2),YE['fill']();else{YE['moveTo'](YR[0x0]['x'],YR[0x0]['y']);for(let fv=0x1;fv<YR['length'];fv++)YE['lineTo'](YR[fv]['x'],YR[fv]['y']);YE['stroke']();}const fG=YE['getImageData'](0x0,0x0,Y6,Y7)['data'],fD=YF==='eraser';for(let fh=0x0,fm=0x3;fh<fS['mask']['length'];fh++,fm+=0x4){if(fG[fm]>0x18)fS['mask'][fh]=fD?0x0:0xff;}fS['stats']=null,Yy(),f1(),f3(),fX();}function fF(fS){if(!Yx){Q['hidden']=!![];return;}const fG=P['getBoundingClientRect'](),fD=fE();Q['hidden']=fS['pointerType']==='touch',Q['classList']['toggle']('era',Yx==='eraser'),Q['style']['width']=Q['style']['height']=fD+'px',Q['style']['left']=fS['clientX']-fG['left']+'px',Q['style']['top']=fS['clientY']-fG['top']+'px';}function fX(){const fS=!!Y4,fG=Y8['some'](fD=>{if(!fD['stats'])fD['stats']=Yd(fD['mask']);return!!(fD['stats']&&fD['stats']['n']);});n['disabled']=!fS||!fG||Yw,Z['disabled']=!Yc||Yw,b['disabled']=Yw,S['disabled']=!fS||Yw,G['disabled']=!fS||Yw,V['disabled']=!fS||Yw,K['disabled']=!fS||Yw||Y9<0x0,J['disabled']=!fS||Yw,M['disabled']=!fS||Yw,q['disabled']=!fS||Yw,A['disabled']=!fS||Yw;if(!Yw)z['disabled']=![];}async function fc(fS){const fG=window['AudioContext']||window['webkitAudioContext'];if(!fG)return null;let fD=null;try{try{fD=new fG({'sampleRate':0xbb80});}catch(fB){fD=new fG();}const fv=await fS['arrayBuffer'](),fh=await fD['decodeAudioData'](fv),fm=Math['min'](0x2,fh['numberOfChannels']);if(!fm)return null;const fj=[];for(let fb=0x0;fb<fm;fb++)fj['push'](new Float32Array(fh['getChannelData'](fb)));return{'sampleRate':fh['sampleRate'],'channels':fj};}catch(fJ){return null;}finally{if(fD)try{fD['close']();}catch(fN){}}}let fe=null;function fo(){if(fe)return fe;return fe=E['loadScript']('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js')['catch'](fS=>{fe=null;throw fS;}),fe;}async function fw(){i['ffmpeg']['status']='loading';try{await fo();const fS=window['FFmpeg'];if(!fS||!fS['createFFmpeg'])throw new Error('ffmpeg');const fG=fS['createFFmpeg']({'log':![],'mainName':'main','corePath':'https://cdn.jsdelivr.net/npm/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js'});return await fG['load'](),i['ffmpeg']['status']='ready',fG;}catch(fD){i['ffmpeg']['status']='error';throw fD;}}async function fT(fS){const fG=await fw();try{i['ffmpeg']['status']='running',fG['FS']('writeFile','aetix_in.mp4',new Uint8Array(fS)),await fG['run']('-i','aetix_in.mp4','-map','0','-c','copy','-map_metadata','-1','-map_chapters','-1','-fflags','+bitexact','-movflags','+faststart','aetix_out.mp4');const fD=fG['FS']('readFile','aetix_out.mp4');return fD['buffer']['slice'](fD['byteOffset'],fD['byteOffset']+fD['byteLength']);}catch(fv){i['ffmpeg']['status']='error';throw fv;}finally{try{fG['exit']();}catch(fh){}if(i['ffmpeg']['status']!=='error')i['ffmpeg']['status']='idle';}}function fU(fS,fG){L['value']=fS,Yv(fG);}async function fu(){if(Yw||!Y4)return;const fS=Y8['filter'](fD=>{if(!fD['stats'])fD['stats']=Yd(fD['mask']);return!!(fD['stats']&&fD['stats']['n']);});if(!fS['length']){Yv('needMask',!![]);return;}YT=![],Yw=!![],i['busy']['video']=!![],fX(),d['hidden']=![],L['value']=0x0,z['disabled']=![],Yv('renderPreparing'),g['pause']();let fG=!![];try{fU(0.03,'phaseDemux');const fD=await YN();if(!fD)throw new Error('boot');fU(0.05,'phaseAudio');const fv=await fc(Y4);if(YT)return;const fh=await Y4['arrayBuffer']();if(YT)return;const fm=[fh],fj=Y8['map'](fN=>{const fM=new Uint8Array(fN['mask']);return fm['push'](fM['buffer']),{'t':fN['t'],'mask':fM['buffer']};});if(fv)fv['channels']['forEach'](fN=>fm['push'](fN['buffer']));const fB=++YG;L['value']=0.12;const fb=await Yq({'cmd':'render','id':fB,'file':fh,'W':Y6,'H':Y7,'radius':+p['value'],'dil':+r['value'],'algo':y['value'],'noise':!!s['checked'],'bitrate':+I['value'],'audio':fv,'keyframes':fj},fm);if(YT)return;let fJ=fb['buffer'];if(Y0['checked']){L['value']=0.94,Yv('phaseStrip'),z['disabled']=!![];try{fJ=await fT(fJ);}catch(fN){console['warn']('metadata\x20strip',fN),fG=![];}z['disabled']=![];}Yc=new Blob([fJ],{'type':'video/mp4'}),Ye=!!fb['hasAudio'],Yv(fG?'renderDone':'renderDoneMeta'),fl(Yc);}catch(fM){if(YT)return;console['warn'](fM);const fq=fM&&fM['message'];if(fq==='boot')Yv('engineFail',!![]);else{if(fq==='encode')Yv('encodeFail',!![]);else{if(fq==='format'||fq==='decode'||fq==='samples')Yv('formatFail',!![]);else Yv('renderFail',!![]);}}}finally{!YT&&(Yw=![],i['busy']['video']=![],d['hidden']=!![],L['value']=0x0,z['disabled']=![],fX());}}function fg(){if(!Yw||z['disabled'])return;YT=!![];if(YS){const fS=YS;YS=null;try{fS['reject'](new Error('cancel'));}catch(fG){}}YM(),Yw=![],i['busy']['video']=![],d['hidden']=!![],L['value']=0x0,z['disabled']=![],fX(),Yv('renderCancelled');}function fl(fS){Yo&&(URL['revokeObjectURL'](Yo),Yo=null),Yo=URL['createObjectURL'](fS),Y1['src']=Yo,Y2['textContent']=e(Ye?'resultHint':'resultNoAudio'),g['pause'](),E['openModal']('vd-result','vd-resultX');}E['modalHooks']['vd-result']=function(){try{Y1['pause']();}catch(fS){}Y1['removeAttribute']('src');try{Y1['load']();}catch(fG){}Yo&&(URL['revokeObjectURL'](Yo),Yo=null);};function fP(){if(!Yc)return;const fS=URL['createObjectURL'](Yc),fG=document['createElement']('a');fG['href']=fS,fG['download']='Aetix\x20Design.mp4',document['body']['appendChild'](fG),fG['click'](),fG['remove'](),setTimeout(()=>{try{URL['revokeObjectURL'](fS);}catch(fD){}},0x1388),Yv('saveDone'),E['payment']['promptAfterDownload']();}function fQ(){T['addEventListener']('change',fD=>{const fv=fD['target']['files']&&fD['target']['files'][0x0];fD['target']['value']='';if(fv)YC(fv);}),w['addEventListener']('keydown',fD=>{(fD['key']==='Enter'||fD['key']==='\x20')&&(fD['preventDefault'](),T['click']());}),S['addEventListener']('click',()=>ff('pen')),G['addEventListener']('click',()=>ff('eraser')),document['addEventListener']('pointerdown',fD=>{if(!fD['target']['closest']('.tool'))f8();}),h['addEventListener']('input',()=>{j['textContent']=h['value']+'px';}),m['addEventListener']('input',()=>{B['textContent']=m['value']+'px';}),['pointerup','change']['forEach'](fD=>{h['addEventListener'](fD,()=>{D['hidden']=!![],S['setAttribute']('aria-expanded','false');}),m['addEventListener'](fD,()=>{v['hidden']=!![],G['setAttribute']('aria-expanded','false');});}),l['addEventListener']('pointerdown',fD=>{if(!Yx||!Y4||Yw)return;fD['preventDefault'](),g['pause'](),Ya=!![],YF=Yx,YX=fx();const fv=fi(fD);YR=[fv],YI(),fa(fv,fv);try{l['setPointerCapture'](fD['pointerId']);}catch(fh){}fF(fD);}),l['addEventListener']('pointermove',fD=>{fF(fD);if(!Ya)return;const fv=fi(fD),fh=YR[YR['length']-0x1]||fv;YR['push'](fv),fa(fh,fv);});const fS=()=>{if(!Ya)return;Ya=![],fR();};l['addEventListener']('pointerup',fS),l['addEventListener']('pointercancel',fS),l['addEventListener']('pointerleave',()=>{Q['hidden']=!![];}),J['addEventListener']('click',()=>{if(!Y4||Yw)return;if(g['paused'])g['play']()['catch'](()=>{});else g['pause']();}),g['addEventListener']('play',()=>{Y9=-0x1,f5(),f7();}),g['addEventListener']('pause',()=>{f5(),Yr(),Yy();}),g['addEventListener']('ended',()=>{f5(),Yr(),Yy();}),g['addEventListener']('timeupdate',f4),g['addEventListener']('seeked',()=>{f4(),Yr(),Yy();}),g['addEventListener']('loadedmetadata',()=>{f4(),Yr();}),A['addEventListener']('input',()=>{if(!Y4||Yw)return;g['currentTime']=+A['value'],f4();});const fG=fD=>{if(!Y4||Yw)return;g['pause'](),g['currentTime']=Yk((g['currentTime']||0x0)+fD*(0x1/0x1e),0x0,g['duration']||0x0);};M['addEventListener']('click',()=>fG(-0x1)),q['addEventListener']('click',()=>fG(0x1)),V['addEventListener']('click',YH),K['addEventListener']('click',()=>{if(Y9>=0x0)f0(Y9);}),b['addEventListener']('click',Yt),n['addEventListener']('click',fu),Z['addEventListener']('click',fP),Y3['addEventListener']('click',fP),z['addEventListener']('click',fg),p['addEventListener']('input',()=>{W['textContent']=p['value'];}),r['addEventListener']('input',()=>{H['textContent']=r['value'];}),j['textContent']=h['value']+'px',B['textContent']=m['value']+'px',W['textContent']=p['value'],H['textContent']=r['value'],fX();}return fQ(),{'activate'(){if(!Ym())return;if(i['videoEngine']['status']==='idle')Yh('load'),E['splashDone']['then'](()=>new Promise(fS=>setTimeout(fS,0x50)))['then'](()=>YN()['catch'](()=>{}));else E['refreshEngine']();},'deactivate'(){g['pause'](),f8();},'loadFile':YC,'processFrameOpenCV':function(fS,fG,fD,fv){if(!window['cv']||!window['cv']['inpaint'])throw new Error('OpenCV\x20indisponível');return YB(window['cv'],fS,fG,fD,fv);},'setDragOver':fS=>w['classList']['toggle']('over',fS),'onEscape'(){if(Yx)fY(null);},'onLang'(){YD(),f3(),f1(),f2(),f5(),Y2['textContent']=e(Ye?'resultHint':'resultNoAudio');}};}()),E['payment']=(function(){const c={'baseUrl':'https://bravopay.club/api/v1','apiKey':'bp_live_HiVjl6x4GXE7SBlRmXbQS0S4VRlrf9X5pn_Oew','productId':'','minAmountCents':0x1f4,'defaultAmount':'5,00','pollMs':0xbb8,'timeoutMs':0x4e20,'redirectUrl':'','redirectDelayMs':0x708,'qrLibUrl':'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js'},e='aetix-utm',o={'utm_source':'source','utm_medium':'medium','utm_campaign':'campaign','utm_content':'content','utm_term':'term','fbclid':'fbclid','ttclid':'ttclid','gclid':'gclid'},w={'EXPIRED':'O\x20Pix\x20expirou.\x20Gere\x20um\x20novo.','FAILED':'O\x20pagamento\x20falhou.\x20Tente\x20novamente.','CANCELED':'O\x20pagamento\x20foi\x20cancelado.','REFUNDED':'O\x20pagamento\x20foi\x20reembolsado.'};let T=null,U=0x0,u=![],g=null;function l(){const H={};try{const I=new URLSearchParams(location['search']);Object['keys'](o)['forEach'](s=>{const Y0=I['get'](s);if(Y0)H[o[s]]=Y0;});}catch(s){}return H;}function P(){let H={};try{H=JSON['parse'](localStorage['getItem'](e)||'{}')||{};}catch(I){}return H;}function Q(){const H=P();if(Object['keys'](H)['length'])return H;const I=l();if(Object['keys'](I)['length'])try{localStorage['setItem'](e,JSON['stringify'](I));}catch(s){}return I;}const S=H=>String(H||'')['replace'](/\D+/g,'');function G(H){let I=String(H==null?'':H)['trim']()['replace'](/[^\d.,]/g,'');if(!I)return NaN;const Y0=I['indexOf'](',')!==-0x1,Y1=I['indexOf']('.')!==-0x1;if(Y0&&Y1)I=I['lastIndexOf'](',')>I['lastIndexOf']('.')?I['replace'](/\./g,'')['replace'](',','.'):I['replace'](/,/g,'');else Y0&&(I=I['replace'](',','.'));const Y2=parseFloat(I);if(!isFinite(Y2)||Y2<0x0)return NaN;return Math['round'](Y2*0x64);}function D(H){const I=Math['max'](0x0,Math['round'](H))/0x64;return I['toFixed'](0x2)['replace']('.',',');}function v(H){const I=S(H)['slice'](0x0,0xb);if(I['length']<=0x2)return I?'('+I:'';if(I['length']<=0x6)return'('+I['slice'](0x0,0x2)+')\x20'+I['slice'](0x2);if(I['length']<=0xa)return'('+I['slice'](0x0,0x2)+')\x20'+I['slice'](0x2,0x6)+'-'+I['slice'](0x6);return'('+I['slice'](0x0,0x2)+')\x20'+I['slice'](0x2,0x7)+'-'+I['slice'](0x7);}const h=H=>x('#'+H);function m(H){['payFormView','payPixView','payOkView']['forEach'](I=>{h(I)['hidden']=I!==H;}),x('.pay-card')['dataset']['step']=H==='payFormView'?'form':H==='payPixView'?'pix':'ok';}function j(H,I){h('payErr')['textContent']=H||'',a('.pay-f')['forEach'](s=>s['classList']['remove']('bad')),a('.pay-amount-wrap')['forEach'](s=>s['classList']['remove']('bad'));if(I){const s=h(I),Y0=s['closest']('.pay-f')||s['closest']('.pay-amount-wrap');if(Y0)Y0['classList']['add']('bad');s['focus']();}}function B(H){u=H,h('payBtn')['disabled']=H,h('payBtnTxt')['textContent']=H?'Gerando\x20Pix…':'Gerar\x20PIX\x20de\x20Colaboração';}function b(H){const I=h('payStatus');I['lastElementChild']['textContent']=H,I['hidden']=!H;}function J(){if(window['qrcode'])return Promise['resolve'](window['qrcode']);if(g)return g;return g=new Promise((H,I)=>{const Y0=document['createElement']('script');Y0['src']=c['qrLibUrl'],Y0['async']=!![],Y0['onload']=()=>window['qrcode']?H(window['qrcode']):I(new Error('qr')),Y0['onerror']=()=>{g=null,I(new Error('qr'));},document['head']['appendChild'](Y0);}),g;}async function N(H){const I=h('payQr');I['textContent']='Gerando\x20QR…';try{const s=await J(),Y0=s(0x0,'M');Y0['addData'](H),Y0['make'](),I['innerHTML']=Y0['createSvgTag']({'cellSize':0x4,'margin':0x0,'scalable':!![]});}catch(Y1){I['textContent']='QR\x20indisponível.\x20Use\x20o\x20código\x20abaixo.';}}async function M(H,I){const s=new AbortController(),Y0=setTimeout(()=>s['abort'](),c['timeoutMs']);try{const Y1=await fetch(c['baseUrl']+H,Object['assign']({'signal':s['signal'],'headers':Object['assign']({'Authorization':'Bearer\x20'+c['apiKey']},I&&I['headers']||{})},I&&{'method':I['method'],'body':I['body']}));let Y2=null;try{Y2=await Y1['json']();}catch(Y3){}if(!Y1['ok']){const Y4=Y2&&(Y2['message']||Y2['error']&&(Y2['error']['message']||Y2['error']))||'Erro\x20'+Y1['status'];throw new Error(typeof Y4==='string'?Y4:'Erro\x20'+Y1['status']);}return Y2||{};}finally{clearTimeout(Y0);}}function q(H,I){const s={'amount_cents':I,'method':'pix','customer':{'name':H['name'],'email':H['email'],'phone':H['phone']},'external_reference':'aetix-'+Date['now']()+'-'+Math['random']()['toString'](0x24)['slice'](0x2,0x8)};if(c['productId'])s['product_id']=c['productId'];const Y0=Object['assign']({},P()),Y1=l();return Object['keys'](Y1)['forEach'](Y2=>{if(!Y0[Y2])Y0[Y2]=Y1[Y2];}),s['utm']=Y0,s;}function A(){U++,clearTimeout(T),T=null;}function k(H){A();const I=U;let s=0x0;const Y0=async()=>{if(I!==U)return;try{const Y1=await M('/transactions/'+encodeURIComponent(H));if(I!==U)return;s=0x0;const Y2=String(Y1['status']||'')['toUpperCase']();if(Y2==='PAID'){A(),z();return;}if(w[Y2]){A(),b(w[Y2]),h('payStatus')['firstElementChild']['style']['display']='none';return;}}catch(Y3){if(++s>=0xa){b('Sem\x20conexão\x20com\x20o\x20servidor.\x20Reabra\x20o\x20modal\x20para\x20tentar\x20de\x20novo.');return;}}T=setTimeout(Y0,c['pollMs']);};T=setTimeout(Y0,c['pollMs']);}let O=![],V=null,K=null,C=-0x1;const t=['Você\x20acabou\x20de\x20fazer\x20a\x20diferença.\x20Sua\x20colaboração\x20mantém\x20o\x20AETIX\x20DESIGN\x20no\x20ar,\x20rápido\x20e\x20livre\x20de\x20anúncios.\x20Gratidão\x20de\x20coração!\x20💜','Gente\x20como\x20você\x20transforma\x20projetos\x20em\x20realidade.\x20Obrigado\x20por\x20acreditar\x20no\x20nosso\x20trabalho\x20e\x20nos\x20ajudar\x20a\x20continuar\x20evoluindo!\x20✨','Cada\x20gesto\x20de\x20generosidade\x20vira\x20combustível\x20para\x20novas\x20ideias.\x20Muito\x20obrigado\x20por\x20fazer\x20parte\x20dessa\x20jornada\x20com\x20a\x20gente!\x20🚀','Sua\x20força\x20chegou\x20até\x20nós\x20e\x20vai\x20render\x20muito\x20mais\x20ferramentas\x20incríveis.\x20Valeu\x20demais\x20pela\x20confiança!\x20🌟','Bondade\x20como\x20a\x20sua\x20inspira\x20a\x20gente\x20a\x20ir\x20mais\x20longe\x20todos\x20os\x20dias.\x20Que\x20o\x20bem\x20que\x20você\x20faz\x20volte\x20em\x20dobro\x20para\x20você!\x20🥤💫'];function d(){let H=Math['floor'](Math['random']()*t['length']);if(t['length']>0x1&&H===C)H=(H+0x1+Math['floor'](Math['random']()*(t['length']-0x1)))%t['length'];return C=H,t[H];}function L(H){const I=x('#aetixThanks');if(I)I['remove']();clearTimeout(K);const s=document['createElement']('div');s['id']='aetixThanks',s['className']='aetix-thanks',s['setAttribute']('role','status'),s['setAttribute']('aria-live','polite');const Y0=document['createElement']('div');Y0['className']='at-ic',Y0['setAttribute']('aria-hidden','true'),Y0['textContent']='💜';const Y1=document['createElement']('div');Y1['className']='at-tx';const Y2=document['createElement']('strong');Y2['textContent']='Obrigado!';const Y3=document['createElement']('p');Y3['textContent']=H,Y1['appendChild'](Y2),Y1['appendChild'](Y3);const Y4=document['createElement']('button');Y4['type']='button',Y4['className']='at-x',Y4['setAttribute']('aria-label','Fechar'),Y4['textContent']='×',s['appendChild'](Y0),s['appendChild'](Y1),s['appendChild'](Y4);const Y5=()=>{clearTimeout(K),s['classList']['add']('out'),setTimeout(()=>{if(s['parentNode'])s['remove']();},0x258);};Y4['addEventListener']('click',Y5),s['addEventListener']('click',Y5),document['body']['appendChild'](s),K=setTimeout(Y5,0x1d4c);}function z(){O=!![],A();const H=h('payPixView'),I=h('payQr');H['classList']['add']('aetix-paid'),I['innerHTML']='<svg\x20class=\x22pay-check\x22\x20viewBox=\x220\x200\x20120\x20120\x22\x20aria-hidden=\x22true\x22><circle\x20class=\x22pc-ring\x22\x20cx=\x2260\x22\x20cy=\x2260\x22\x20r=\x2252\x22\x20fill=\x22none\x22\x20stroke=\x22#4ADE9A\x22\x20stroke-width=\x226\x22/><path\x20class=\x22pc-tick\x22\x20d=\x22M36\x2062l16\x2016\x2032-36\x22\x20fill=\x22none\x22\x20stroke=\x22#4ADE9A\x22\x20stroke-width=\x229\x22\x20stroke-linecap=\x22round\x22\x20stroke-linejoin=\x22round\x22/></svg>';let s=h('payPaidTxt');!s&&(s=document['createElement']('p'),s['id']='payPaidTxt',s['className']='pay-paid-txt',s['setAttribute']('role','status'),I['insertAdjacentElement']('afterend',s));s['textContent']='pagamento\x20confirmado',b('');const Y0=d();clearTimeout(V),V=setTimeout(()=>{const Y1=x('#pricingModal');if(i['modal']==='pricingModal'&&Y1)Y1['classList']['add']('fadeout'),setTimeout(()=>{if(i['modal']==='pricingModal')E['closeModal']();Y1['classList']['remove']('fadeout'),setTimeout(()=>L(Y0),0xfa);},0x208);else L(Y0);if(c['redirectUrl'])setTimeout(()=>{location['href']=c['redirectUrl'];},c['redirectDelayMs']);},0x898);}function n(){const H=h('payPhone');H['value']=v(H['value']);}async function Z(){if(u)return;n();const H={'name':h('payName')['value']['trim'](),'email':h('payEmail')['value']['trim'](),'phone':S(h('payPhone')['value'])},I=G(h('payAmount')['value']);if(H['name']['split'](/\s+/)['filter'](Boolean)['length']<0x2)return j('Informe\x20seu\x20nome\x20completo.','payName');if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/['test'](H['email']))return j('Informe\x20um\x20e-mail\x20válido.','payEmail');if(H['phone']['length']<0xa||H['phone']['length']>0xb)return j('Informe\x20o\x20telefone\x20com\x20DDD.','payPhone');if(!isFinite(I)||I<c['minAmountCents'])return j('Informe\x20um\x20valor\x20de\x20R$\x205,00\x20ou\x20mais.','payAmount');j(''),h('payAmount')['value']=D(I),H['phone']='55'+H['phone'],B(!![]);try{const s=await M('/transactions',{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON['stringify'](q(H,I))}),Y0=s['pix']&&s['pix']['copy_paste'];if(!s['id']||!Y0)throw new Error('Resposta\x20inesperada\x20da\x20BravoPay.');h('payCode')['value']=Y0,h('payStatus')['firstElementChild']['style']['display']='',b(''),m('payPixView'),N(Y0),k(s['id']);}catch(Y1){j(Y1&&Y1['name']==='AbortError'?'Tempo\x20esgotado.\x20Tente\x20de\x20novo.':Y1['message']||'Não\x20foi\x20possível\x20gerar\x20o\x20Pix.');}finally{B(![]);}}async function y(){const H=h('payCode'),I=h('payCopy');try{await navigator['clipboard']['writeText'](H['value']);}catch(s){H['select']();try{document['execCommand']('copy');}catch(Y0){}}I['textContent']='Copiado!',setTimeout(()=>{I['textContent']='Copiar\x20código\x20Pix';},0x708);}function p(){A(),B(![]),j(''),clearTimeout(V),V=null,m('payFormView'),h('payPixView')['classList']['remove']('aetix-paid');const H=h('payPaidTxt');if(H)H['remove']();h('payQr')['textContent']='',h('payCode')['value']='',h('payAmount')['value']=c['defaultAmount'],b('');}function W(){if(O)return;setTimeout(()=>{if(!O)E['openModal']('pricingModal');},0x2bc);}function r(){Q();const H=h('payPhone');H['addEventListener']('input',s=>{s['target']['value']=v(s['target']['value']);}),['change','blur']['forEach'](s=>{H['addEventListener'](s,n);});const I=h('payAmount');I['addEventListener']('input',s=>{s['target']['value']=s['target']['value']['replace'](/[^\d.,]/g,'');}),I['addEventListener']('blur',s=>{const Y0=G(s['target']['value']);s['target']['value']=isFinite(Y0)&&Y0>0x0?D(Y0):c['defaultAmount'];}),h('payBtn')['addEventListener']('click',Z),h('payCopy')['addEventListener']('click',y),a('.pay-form\x20input,\x20#payAmount')['forEach'](s=>s['addEventListener']('keydown',Y0=>{if(Y0['key']==='Enter')Z();})),E['modalHooks']['pricingModal']=p;}return{'init':r,'CFG':c,'promptAfterDownload':W};}());function X(){E['initSplash']();let c='pt';try{const o=localStorage['getItem'](E['LS_KEY']);if(o&&f[o])c=o;}catch(w){}E['setupHeader'](),E['bind'](),E['payment']['init'](),E['applyLang'](c,![]),E['switchTab']('image',!![]);}if(document['readyState']==='loading')document['addEventListener']('DOMContentLoaded',X);else X();}(window['AetixApp']);
+'use strict';
+/* ==========================================================================
+   AETIX DESIGN · script.js unificado
+   Tudo roda no navegador. Nenhum arquivo é enviado a servidor.
+
+   Namespaces:
+     AetixApp.State            estado central (aba ativa, OpenCV, Tesseract, FFmpeg…)
+     AetixApp.Core             i18n, abas, modais, splash, roteamento de arquivos
+     AetixApp.ImageProcessor   módulo de imagem (Tesseract.js + OpenCV.js)
+     AetixApp.VideoProcessor   módulo de vídeo (Web Worker + OpenCV.js + FFmpeg.wasm)
+     AetixApp.Payment          checkout Pix (BravoPay) + rastreamento UTMify
+   ========================================================================== */
+window.AetixApp = window.AetixApp || {};
+(function (App) {
+
+/* ==========================================================================
+   I18N  (pt/en) — separado por namespace: core, img, vid
+   ========================================================================== */
+const I18N = {
+pt: {
+core: {
+  title: 'Remover marca d’água · AETIX DESIGN',
+  navAria: 'Navegação principal',
+  navImage: 'Marca d\'água imagem', navVideo: 'Marca d\'água vídeo',
+  tabsAria: 'Modo de processamento',
+  tabImage: 'Imagem', tabVideo: 'Vídeo',
+  h1_image: 'Removedor de marca d\'água em imagens',
+  sub_image: 'Apague textos e marcas das suas imagens em poucos cliques.',
+  h1_video: 'Removedor de marca d\'água em vídeos',
+  sub_video: 'Apague marcas d’água em movimento dos seus vídeos, direto no navegador.',
+  helpItems: [
+    ['Enviar um arquivo', 'Arraste o arquivo para a área de upload, clique em “Escolher arquivo” ou cole com Ctrl+V. Imagens: PNG, JPG e WebP. Vídeos: MP4, MOV e WEBM (H.264 recomendado).'],
+    ['Privacidade e metadados', 'Tudo roda no seu navegador e nenhum arquivo é enviado a servidores. Os metadados do arquivo final são removidos por padrão; você pode desativar isso nos Ajustes.'],
+    ['Detecção (OCR)', 'O OCR procura textos na imagem. Clique nas caixas que deseja apagar, use “Selecionar todos” ou “Limpar seleção” para agilizar e “Reescanear” para repetir a busca.'],
+    ['Lápis e Borracha', 'Pinte à mão o que o OCR não detectou (imagem) ou a marca d’água no instante atual (vídeo). Ajuste o tamanho no controle deslizante; a borracha corrige o traço feito com o lápis.'],
+    ['Desenhar caixa', 'Arraste sobre a imagem para marcar manualmente uma área que não foi detectada. A caixa entra na seleção e é removida junto com as demais em “Remover selecionados”.'],
+    ['Ajustes avançados', 'Mude o idioma do OCR, a confiança mínima, o algoritmo e o raio de reconstrução. Marcar só a área da marca, com margem pequena, deixa o resultado mais natural.'],
+    ['Vídeo: marca em movimento', 'Pause o vídeo no tempo desejado e pinte a marca d’água. Se ela se move, adicione keyframes em outros tempos: a máscara é interpolada entre eles. Use “Excluir keyframe” para corrigir.'],
+    ['Vídeo: renderizar e baixar', 'Clique em “Renderizar vídeo”, confira o resultado e baixe o MP4. O áudio original é mantido e a renderização pode ser cancelada. Módulo em BETA: use Chrome ou Edge atualizados.'],
+    ['Desfazer e recomeçar', 'Use “Desfazer” para voltar uma alteração. “Remover imagem” ou “Remover vídeo” descarta o arquivo atual para você recomeçar do zero.'],
+    ['Baixar o resultado', 'Imagem: “Baixar PNG”, exportado em qualidade máxima. Vídeo: “Baixar MP4” depois de renderizar. Os botões ficam ativos quando há algo pronto para salvar.']
+  ],
+  helpUp: 'Tópicos anteriores', helpDown: 'Próximos tópicos', helpOf: 'de',
+  help: 'CENTRAL DE AJUDA', helpItem: 'Central de Ajuda', helpTitle: 'Central de ajuda',
+  pricing: 'SEJA UM COLABORADOR', pricingTitle: 'SEJA UM COLABORADOR', uiLangLabel: 'Idioma', waLabel: 'FALAR COM CRIADOR', waTip: 'Falar com Criador',
+  profile: 'Conta', profileTitle: 'Minha conta',
+  close: 'Fechar', uiLang: 'Idioma da interface',
+  engReady: 'Pronto para usar', engErr: 'Recursos indisponíveis', engLoad: 'Carregando recursos…',
+  footerBy: 'Desenvolvido por',
+  footerRights: '© AETIX DESIGN. Todos os direitos reservados.'
+},
+img: {
+  dropTitle: 'Arraste sua imagem aqui', dropHint: 'ou cole com Ctrl+V', dropBtn: 'Escolher arquivo',
+  pencil: 'Lápis', pencilTip: 'Lápis: pinte à mão o que o OCR não detectou', penWidth: 'Espessura do lápis',
+  eraser: 'Borracha', eraserTip: 'Borracha: apague partes do traço feito com o lápis', eraserWidth: 'Largura da borracha',
+  removeImage: 'Remover imagem', cancelScan: 'Cancelar escaneamento',
+  selectAll: 'Selecionar todos', clearSel: 'Limpar seleção',
+  drawBox: 'Desenhar caixa', drawBoxTip: 'Arraste sobre a imagem para marcar uma área que não foi detectada',
+  rescan: 'Reescanear', undo: 'Desfazer', removeSel: 'Remover selecionados', removing: 'Removendo…', savePng: 'Baixar PNG',
+  adjust: 'Ajustes', fLang: 'Idioma',
+  ocrPorEng: 'Português + Inglês', ocrEng: 'Inglês', ocrSpaEng: 'Espanhol + Inglês', ocrFraEng: 'Francês + Inglês', ocrDeuEng: 'Alemão + Inglês', ocrItaEng: 'Italiano + Inglês',
+  fGran: 'Detectar por', gWords: 'Palavras', gLines: 'Linhas',
+  fConf: 'Confiança mínima', fMode: 'Modo', mGlyph: 'Só as letras', mBox: 'Caixa inteira',
+  fAlgo: 'Algoritmo', aTelea: 'Suave', aNs: 'Bordas',
+  fPad: 'Margem da caixa', fThr: 'Sensibilidade de cor', fDil: 'Espessura extra', fRad: 'Raio de reconstrução',
+  fPsm: 'Leitura do texto', psm11: 'Texto esparso (PSM 11)', psm3: 'Página automática (PSM 3)', psm6: 'Bloco único',
+  fMerge: 'Agrupar caixas', fPrep: 'Pré-processamento', pOtsu: 'Otsu (rígido)', pAdaptive: 'Adaptativo', pOff: 'Desligado',
+  fBinc: 'Rigor do filtro', fTex: 'Recriar granulado', fMeta: 'Remover metadados',
+  countOne: '{n} texto', countMany: '{n} textos', selOne: '{n} selecionado', selMany: '{n} selecionados',
+  manualStroke: 'traço manual', manualArea: 'Área marcada à mão',
+  chooseImage: 'Escolha um arquivo de imagem.',
+  openFail: 'Não foi possível abrir essa imagem. Tente PNG, JPG ou WebP.',
+  preparing: 'Preparando a detecção…', loadingCV: 'Carregando o OpenCV para preparar a imagem…',
+  searching: 'Procurando textos… {p}%', downloading: 'Baixando dados do idioma… {p}%',
+  isolating: 'Isolando os textos do fundo…', refining: 'Reforçando a leitura das bordas… {i}/4',
+  scanDone: 'Clique nas caixas dos textos que deseja apagar e depois em “Remover selecionados”.',
+  scanNone: 'Nenhum texto encontrado. Diminua a confiança mínima, reduza o rigor do filtro ou use “Desenhar caixa”.',
+  scanCancelled: 'Escaneamento cancelado. Use “Reescanear”, o lápis ou “Desenhar caixa” quando quiser.',
+  scanError: 'Erro na detecção de texto: {e}. Você ainda pode usar “Desenhar caixa”.',
+  penHint: 'Pinte sobre a marca que deseja apagar. Ajuste a espessura e solte o controle para começar a pintar.',
+  eraserHint: 'Ajuste a largura e solte o controle para começar a apagar.',
+  penActive: 'Pinte sobre a marca que deseja apagar. Clique no lápis de novo para desativar.',
+  eraserActive: 'Passe a borracha sobre o traço que quiser apagar. Clique na borracha de novo para desativar.',
+  drawHint: 'Arraste sobre a imagem para marcar uma área.',
+  rebuilding: 'Reconstruindo o fundo…',
+  done: 'Pronto. Se sobrar algo, selecione de novo ou use “Reescanear”.',
+  doneAlt: 'Pronto. (Usei o modo de reconstrução alternativo.) Se sobrar algo, selecione de novo ou use “Reescanear”.',
+  procError: 'Erro ao processar: {e}', undone: 'Alteração desfeita.',
+  pngFail: 'Não foi possível gerar o PNG.', saved: 'Imagem salva.',
+  errLoad: 'Falha ao carregar {u}', errCvInpaint: 'cv.inpaint indisponível', errFull: 'A seleção cobre a imagem inteira.'
+},
+vid: {
+  dropTitle: 'Arraste seu vídeo aqui', dropHint: 'ou cole com Ctrl+V', dropBtn: 'Escolher arquivo',
+  pencil: 'Lápis', pencilTip: 'Lápis: pinte a marca d’água na posição atual', penWidth: 'Espessura do lápis',
+  eraser: 'Borracha', eraserTip: 'Borracha: apague partes do traço feito com o lápis', eraserWidth: 'Largura da borracha',
+  removeVideo: 'Remover vídeo', cancelRender: 'Cancelar renderização', render: 'Renderizar vídeo', saveMp4: 'Baixar MP4',
+  adjust: 'Ajustes', fAlgo: 'Algoritmo', aTelea: 'Suave', aNs: 'Bordas',
+  fRad: 'Raio de reconstrução', fDil: 'Espessura extra', fQuality: 'Qualidade do MP4',
+  qHigh: 'Alta (6 Mbps)', qMid: 'Média (3 Mbps)', qLow: 'Leve (1,5 Mbps)',
+  fNoise: 'Ruído anti-forense', fMeta: 'Remover metadados',
+  advNote: 'A máscara é interpolada linearmente entre os keyframes. O processamento acontece só na área pintada, em 480p, para terminar rápido.',
+  addKf: 'Adicionar keyframe', delKf: 'Excluir keyframe',
+  kfHint: 'Pause o vídeo no tempo desejado e pinte a marca d’água. Repita em outros tempos para criar a trajetória.',
+  play: 'Reproduzir', pause: 'Pausar', prevFrame: 'Quadro anterior', nextFrame: 'Próximo quadro', seek: 'Tempo do vídeo',
+  resultTitle: 'Vídeo pronto',
+  resultHint: 'Confira o resultado e baixe o MP4. O áudio original foi mantido.',
+  resultNoAudio: 'Confira o resultado e baixe o MP4. Este vídeo não tinha áudio ou ele não pôde ser mantido.',
+  countZero: 'Nenhum keyframe', countOne: '{n} keyframe', countMany: '{n} keyframes',
+  kfNone: 'Nenhum keyframe ainda', kfAt: 'Keyframe em {t}',
+  kfAdded: 'Keyframe adicionado. Pinte a marca d’água nesta posição.',
+  kfExists: 'Este keyframe já existe.', kfRemoved: 'Keyframe excluído.',
+  chooseVideo: 'Escolha um arquivo de vídeo.',
+  openFail: 'Não foi possível abrir esse vídeo. Tente MP4 ou MOV.',
+  loadingVideo: 'Carregando o vídeo…',
+  readyHint: 'Pause o vídeo, pinte a marca d’água e adicione keyframes em outros tempos para acompanhar o movimento.',
+  needMask: 'Pinte a marca d’água em pelo menos um keyframe antes de renderizar.',
+  renderPreparing: 'Preparando a renderização…', phaseAudio: 'Preparando o áudio…', phaseDemux: 'Lendo o vídeo…',
+  phaseFrames: 'Processando quadros… {p}%', phaseMux: 'Montando o MP4…', phaseStrip: 'Limpando metadados…',
+  renderDone: 'Vídeo pronto.', renderDoneMeta: 'Vídeo pronto. Não foi possível remover todos os metadados.',
+  renderCancelled: 'Renderização cancelada.', renderFail: 'Não foi possível renderizar o vídeo. Tente novamente.',
+  formatFail: 'Este arquivo não pôde ser lido. Por enquanto, use MP4 ou MOV com vídeo H.264.',
+  encodeFail: 'Seu navegador não conseguiu codificar este vídeo.',
+  engineFail: 'Não foi possível carregar os recursos de processamento. Verifique a conexão e recarregue a página.',
+  unsupported: 'Seu navegador não tem os recursos necessários para processar vídeos. Use o Chrome ou o Edge atualizados.',
+  saveDone: 'Download iniciado.',
+  penHint: 'Pinte sobre a marca d’água na posição atual.',
+  eraserHint: 'Passe a borracha sobre o traço que quiser apagar.'
+}
+},
+en: {
+core: {
+  title: 'Remove watermark · AETIX DESIGN',
+  navAria: 'Main navigation',
+  navImage: 'Image watermark', navVideo: 'Video watermark',
+  tabsAria: 'Processing mode',
+  tabImage: 'Image', tabVideo: 'Video',
+  h1_image: 'Remove watermarks from images',
+  sub_image: 'Erase text and marks from your images in just a few clicks.',
+  h1_video: 'Remove watermarks from videos',
+  sub_video: 'Erase moving watermarks right in your browser.',
+  helpItems: [
+    ['Upload a file', 'Drag the file into the upload area, click “Choose file” or paste with Ctrl+V. Images: PNG, JPG and WebP. Videos: MP4, MOV and WEBM (H.264 recommended).'],
+    ['Privacy and metadata', 'Everything runs in your browser and no file is sent to any server. Metadata is stripped from the final file by default; you can turn that off in Settings.'],
+    ['Detection (OCR)', 'OCR looks for text in the image. Click the boxes you want to erase, use “Select all” or “Clear selection” to speed up and “Rescan” to search again.'],
+    ['Pencil and Eraser', 'Paint by hand what the OCR missed (image) or the watermark at the current moment (video). Adjust the size with the slider; the eraser fixes strokes made with the pencil.'],
+    ['Draw box', 'Drag over the image to manually mark an area that wasn’t detected. The box joins the selection and is removed together with the others via “Remove selected”.'],
+    ['Advanced settings', 'Change the OCR language, minimum confidence, algorithm and reconstruction radius. Marking only the watermark area with a small margin gives a more natural result.'],
+    ['Video: moving marks', 'Pause the video at the desired time and paint the watermark. If it moves, add keyframes at other times: the mask is interpolated between them. Use “Delete keyframe” to fix mistakes.'],
+    ['Video: render and download', 'Click “Render video”, check the result and download the MP4. The original audio is kept and rendering can be cancelled. BETA module: use an up-to-date Chrome or Edge.'],
+    ['Undo and start over', 'Use “Undo” to step back a change. “Remove image” or “Remove video” discards the current file so you can start from scratch.'],
+    ['Download the result', 'Image: “Download PNG”, exported at maximum quality. Video: “Download MP4” after rendering. The buttons become active when there is something ready to save.']
+  ],
+  helpUp: 'Previous topics', helpDown: 'Next topics', helpOf: 'of',
+  help: 'HELP CENTER', helpItem: 'Help Center', helpTitle: 'Help center',
+  pricing: 'BECOME A SUPPORTER', pricingTitle: 'BECOME A SUPPORTER', uiLangLabel: 'Language', waLabel: 'TALK TO THE CREATOR', waTip: 'Talk to the creator',
+  profile: 'Account', profileTitle: 'My account',
+  close: 'Close', uiLang: 'Interface language',
+  engReady: 'Ready to use', engErr: 'Resources unavailable', engLoad: 'Loading resources…',
+  footerBy: 'Developed by',
+  footerRights: '© AETIX DESIGN. All rights reserved.'
+},
+img: {
+  dropTitle: 'Drag your image here', dropHint: 'or paste with Ctrl+V', dropBtn: 'Choose file',
+  pencil: 'Pencil', pencilTip: 'Pencil: paint by hand what the OCR didn’t detect', penWidth: 'Pencil thickness',
+  eraser: 'Eraser', eraserTip: 'Eraser: erase parts of the stroke made with the pencil', eraserWidth: 'Eraser width',
+  removeImage: 'Remove image', cancelScan: 'Cancel scan',
+  selectAll: 'Select all', clearSel: 'Clear selection',
+  drawBox: 'Draw box', drawBoxTip: 'Drag over the image to mark an area that wasn’t detected',
+  rescan: 'Rescan', undo: 'Undo', removeSel: 'Remove selected', removing: 'Removing…', savePng: 'Download PNG',
+  adjust: 'Settings', fLang: 'Language',
+  ocrPorEng: 'Portuguese + English', ocrEng: 'English', ocrSpaEng: 'Spanish + English', ocrFraEng: 'French + English', ocrDeuEng: 'German + English', ocrItaEng: 'Italian + English',
+  fGran: 'Detect by', gWords: 'Words', gLines: 'Lines',
+  fConf: 'Minimum confidence', fMode: 'Mode', mGlyph: 'Letters only', mBox: 'Entire box',
+  fAlgo: 'Algorithm', aTelea: 'Smooth', aNs: 'Edges',
+  fPad: 'Box margin', fThr: 'Color sensitivity', fDil: 'Extra thickness', fRad: 'Reconstruction radius',
+  fPsm: 'Text reading', psm11: 'Sparse text (PSM 11)', psm3: 'Automatic page (PSM 3)', psm6: 'Single block',
+  fMerge: 'Group boxes', fPrep: 'Preprocessing', pOtsu: 'Otsu (strict)', pAdaptive: 'Adaptive', pOff: 'Off',
+  fBinc: 'Filter strictness', fTex: 'Recreate grain', fMeta: 'Remove metadata',
+  countOne: '{n} text', countMany: '{n} texts', selOne: '{n} selected', selMany: '{n} selected',
+  manualStroke: 'manual stroke', manualArea: 'Area marked by hand',
+  chooseImage: 'Choose an image file.',
+  openFail: 'Couldn’t open this image. Try PNG, JPG or WebP.',
+  preparing: 'Preparing detection…', loadingCV: 'Loading OpenCV to prepare the image…',
+  searching: 'Searching for text… {p}%', downloading: 'Downloading language data… {p}%',
+  isolating: 'Isolating the text from the background…', refining: 'Reinforcing edge reading… {i}/4',
+  scanDone: 'Click the boxes of the text you want to erase, then “Remove selected”.',
+  scanNone: 'No text found. Lower the minimum confidence, reduce the filter strictness or use “Draw box”.',
+  scanCancelled: 'Scan cancelled. Use “Rescan”, the pencil or “Draw box” whenever you like.',
+  scanError: 'Text detection error: {e}. You can still use “Draw box”.',
+  penHint: 'Paint over the mark you want to erase. Adjust the thickness and release the control to start painting.',
+  eraserHint: 'Adjust the width and release the control to start erasing.',
+  penActive: 'Paint over the mark you want to erase. Click the pencil again to turn it off.',
+  eraserActive: 'Run the eraser over the stroke you want to erase. Click the eraser again to turn it off.',
+  drawHint: 'Drag over the image to mark an area.',
+  rebuilding: 'Rebuilding the background…',
+  done: 'Done. If anything is left over, select it again or use “Rescan”.',
+  doneAlt: 'Done. (I used the alternative reconstruction mode.) If anything is left over, select it again or use “Rescan”.',
+  procError: 'Error while processing: {e}', undone: 'Change undone.',
+  pngFail: 'Couldn’t generate the PNG.', saved: 'Image saved.',
+  errLoad: 'Failed to load {u}', errCvInpaint: 'cv.inpaint unavailable', errFull: 'The selection covers the entire image.'
+},
+vid: {
+  dropTitle: 'Drag your video here', dropHint: 'or paste with Ctrl+V', dropBtn: 'Choose file',
+  pencil: 'Pencil', pencilTip: 'Pencil: paint the watermark at the current position', penWidth: 'Pencil thickness',
+  eraser: 'Eraser', eraserTip: 'Eraser: erase parts of the stroke made with the pencil', eraserWidth: 'Eraser width',
+  removeVideo: 'Remove video', cancelRender: 'Cancel rendering', render: 'Render video', saveMp4: 'Download MP4',
+  adjust: 'Settings', fAlgo: 'Algorithm', aTelea: 'Smooth', aNs: 'Edges',
+  fRad: 'Reconstruction radius', fDil: 'Extra thickness', fQuality: 'MP4 quality',
+  qHigh: 'High (6 Mbps)', qMid: 'Medium (3 Mbps)', qLow: 'Light (1.5 Mbps)',
+  fNoise: 'Anti-forensic noise', fMeta: 'Remove metadata',
+  advNote: 'The mask is interpolated linearly between keyframes. Processing runs only inside the painted area, at 480p, to finish fast.',
+  addKf: 'Add keyframe', delKf: 'Delete keyframe',
+  kfHint: 'Pause the video at the desired time and paint the watermark. Repeat at other times to create the trajectory.',
+  play: 'Play', pause: 'Pause', prevFrame: 'Previous frame', nextFrame: 'Next frame', seek: 'Video time',
+  resultTitle: 'Video ready',
+  resultHint: 'Check the result and download the MP4. The original audio was kept.',
+  resultNoAudio: 'Check the result and download the MP4. This video had no audio or it could not be kept.',
+  countZero: 'No keyframes', countOne: '{n} keyframe', countMany: '{n} keyframes',
+  kfNone: 'No keyframes yet', kfAt: 'Keyframe at {t}',
+  kfAdded: 'Keyframe added. Paint the watermark at this position.',
+  kfExists: 'This keyframe already exists.', kfRemoved: 'Keyframe deleted.',
+  chooseVideo: 'Choose a video file.',
+  openFail: 'Couldn’t open this video. Try MP4 or MOV.',
+  loadingVideo: 'Loading the video…',
+  readyHint: 'Pause the video, paint the watermark and add keyframes at other times to follow the movement.',
+  needMask: 'Paint the watermark in at least one keyframe before rendering.',
+  renderPreparing: 'Preparing the render…', phaseAudio: 'Preparing the audio…', phaseDemux: 'Reading the video…',
+  phaseFrames: 'Processing frames… {p}%', phaseMux: 'Building the MP4…', phaseStrip: 'Stripping metadata…',
+  renderDone: 'Video ready.', renderDoneMeta: 'Video ready. Some metadata could not be removed.',
+  renderCancelled: 'Rendering cancelled.', renderFail: 'Couldn’t render the video. Please try again.',
+  formatFail: 'This file could not be read. For now, use MP4 or MOV with H.264 video.',
+  encodeFail: 'Your browser could not encode this video.',
+  engineFail: 'Couldn’t load the processing resources. Check your connection and reload the page.',
+  unsupported: 'Your browser lacks the resources needed to process videos. Use an up-to-date Chrome or Edge.',
+  saveDone: 'Download started.',
+  penHint: 'Paint over the watermark at the current position.',
+  eraserHint: 'Run the eraser over the stroke you want to erase.'
+}
+}
+};
+
+/* ==========================================================================
+   STATE — objeto central
+   ========================================================================== */
+const State = App.State = {
+  activeTab: 'image',                     // 'image' | 'video'
+  lang: 'pt',
+  modal: null,                            // id do modal aberto
+  help: { open: false, scrollTop: 0, openIdx: -1 },    // Central de Ajuda (guia suspensa; rolagem oculta)
+  tesseract:   { status: 'idle' },        // idle | load | ok | err
+  opencv:      { status: 'idle', ready: false },        // OpenCV.js (thread principal, módulo de imagem)
+  videoEngine: { status: 'idle', supported: true },     // Web Worker + OpenCV do worker (módulo de vídeo)
+  ffmpeg:      { status: 'idle' },        // idle | loading | ready | running | error
+  busy:        { image: false, video: false }
+};
+
+/* ==========================================================================
+   CORE
+   ========================================================================== */
+const Core = App.Core = { modules: {}, modalHooks: {}, LS_KEY: 'aetix-lang', I18N };
+
+const qs = (s, r) => (r || document).querySelector(s);
+const qsa = (s, r) => Array.from((r || document).querySelectorAll(s));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+Core.qs = qs; Core.qsa = qsa; Core.clamp = clamp;
+
+/* seletor com escopo: '#x' vira '#<prefix>-x' (IDs do módulo) */
+Core.scope = function (prefix) {
+  const m = s => s.replace(/#([A-Za-z][\w-]*)/g, '#' + prefix + '-$1');
+  return { $: s => qs(m(s)), $$: s => qsa(m(s)) };
+};
+
+Core.loadScript = u => new Promise((res, rej) => {
+  const s = document.createElement('script');
+  s.src = u; s.async = true;
+  s.onload = () => res();
+  s.onerror = () => { s.remove(); rej(new Error('load ' + u)); };
+  document.head.appendChild(s);
+});
+
+/* tr('img.pencil', {n}) — procura no namespace, depois em core, depois em pt */
+Core.tr = function (path, p) {
+  const i = path.indexOf('.'), ns = path.slice(0, i), k = path.slice(i + 1);
+  const pick = l => { const d = I18N[l]; if (!d) return undefined; const v = d[ns] && d[ns][k]; return v != null ? v : (d.core && d.core[k]); };
+  let s = pick(State.lang);
+  if (s == null) s = pick('pt');
+  if (s == null) s = k;
+  if (typeof s !== 'string' || !p) return s;
+  return s.replace(/\{(\w+)\}/g, (_, n) => {
+    const v = p[n];
+    if (v == null) return '';
+    if (typeof v === 'object') return v.i18n ? Core.tr(ns + '.' + v.i18n.k, v.i18n.p) : (v.message || String(v));
+    return v;
+  });
+};
+
+Core.applyLang = function (l, save) {
+  if (!I18N[l]) l = 'pt';
+  State.lang = l;
+  if (save !== false) { try { localStorage.setItem(Core.LS_KEY, l); } catch (e) {} }
+  document.documentElement.lang = l === 'en' ? 'en' : 'pt-BR';
+  document.title = Core.tr('core.title');
+  qsa('[data-i18n]').forEach(n => { n.textContent = Core.tr(n.dataset.i18n); });
+  qsa('[data-i18n-title]').forEach(n => { n.title = Core.tr(n.dataset.i18nTitle); });
+  qsa('[data-i18n-aria]').forEach(n => { n.setAttribute('aria-label', Core.tr(n.dataset.i18nAria)); });
+  qs('#uiLang').value = l;
+  Core.renderHelp();
+  Object.keys(Core.modules).forEach(k => { const m = Core.modules[k]; if (m && m.onLang) m.onLang(); });
+  Core.refreshEngine();
+  if (Core.refreshWhatsApp) Core.refreshWhatsApp();
+};
+
+/* ---------- Central de Ajuda (dropdown acoplado ao botão) ---------- */
+Core.renderHelp = function () {
+  const ul = qs('#helpList'), items = (I18N[State.lang] || I18N.pt).core.helpItems || [];
+  ul.innerHTML = ''; State.help.openIdx = -1;
+  items.forEach((it, i) => {
+    const li = document.createElement('li'), btn = document.createElement('button'), b = document.createElement('b'),
+      h = document.createElement('h3'), ans = document.createElement('div'), inner = document.createElement('div'), p = document.createElement('p');
+    btn.type = 'button'; btn.className = 'help-row'; btn.setAttribute('aria-expanded', 'false');
+    btn.id = 'helpQ' + i; ans.id = 'helpA' + i; btn.setAttribute('aria-controls', ans.id);
+    ans.setAttribute('role', 'region'); ans.setAttribute('aria-labelledby', btn.id); ans.className = 'help-ans';
+    b.textContent = String(i + 1); h.textContent = it[0]; p.textContent = it[1];
+    const chev = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    chev.setAttribute('class', 'ic help-chev'); chev.setAttribute('aria-hidden', 'true');
+    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use'); use.setAttribute('href', '#i-chev'); chev.appendChild(use);
+    btn.appendChild(b); btn.appendChild(h); btn.appendChild(chev);
+    inner.appendChild(p); ans.appendChild(inner);
+    btn.addEventListener('click', () => Core.toggleHelpItem(i));
+    li.appendChild(btn); li.appendChild(ans); ul.appendChild(li);
+  });
+  Core.updateHelpNav();
+};
+/* accordion: abre um tópico por vez; clicar de novo (ou em outro) recolhe */
+Core.toggleHelpItem = function (i) {
+  const lis = qsa('#helpList li'), was = State.help.openIdx;
+  lis.forEach((li, k) => {
+    const on = k === i && was !== i;
+    li.classList.toggle('open', on);
+    li.firstChild.setAttribute('aria-expanded', on ? 'true' : 'false');
+  });
+  State.help.openIdx = was === i ? -1 : i;
+  Core.updateHelpNav();
+  setTimeout(() => {
+    if (State.help.openIdx >= 0 && lis[State.help.openIdx]) lis[State.help.openIdx].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    Core.updateHelpNav();
+  }, 300);
+};
+/* setas ^ / v e contador "1–6 de 10" */
+Core.updateHelpNav = function () {
+  const ul = qs('#helpList'), lis = qsa('#helpList li'), n = lis.length;
+  if (!n) return;
+  const top = ul.scrollTop, bottom = top + ul.clientHeight, ur = ul.getBoundingClientRect();
+  let first = -1, last = -1;
+  lis.forEach((li, k) => {
+    const r = li.getBoundingClientRect(), t = r.top - ur.top + top, bt = r.bottom - ur.top + top;
+    if (t >= top - 2 && bt <= bottom + 2) { if (first < 0) first = k; last = k; }
+  });
+  if (first < 0) { first = 0; last = 0; }
+  qs('#helpCount').textContent = (first + 1) + '–' + (last + 1) + ' ' + Core.tr('core.helpOf') + ' ' + n;
+  qs('#helpUp').disabled = top <= 2;
+  qs('#helpDown').disabled = top + ul.clientHeight >= ul.scrollHeight - 2;
+};
+Core.helpPage = function (dir) {
+  const ul = qs('#helpList');
+  ul.scrollBy({ top: dir * Math.max(60, ul.clientHeight - 24), behavior: 'smooth' });
+};
+Core.openHelp = function () {
+  Core.closeProfile();
+  qs('#helpMenu').hidden = false;
+  qs('#helpOpen').setAttribute('aria-expanded', 'true');
+  State.help.open = true;
+  qs('#helpList').scrollTop = State.help.scrollTop || 0;
+  Core.updateHelpNav();
+};
+Core.closeHelp = function () {
+  const m = qs('#helpMenu');
+  if (m.hidden) return;
+  if (State.help.openIdx >= 0) Core.toggleHelpItem(State.help.openIdx);
+  State.help.scrollTop = qs('#helpList').scrollTop;
+  m.hidden = true; State.help.open = false;
+  qs('#helpOpen').setAttribute('aria-expanded', 'false');
+};
+
+/* pílula de status do motor (depende da aba ativa) */
+Core.refreshEngine = function () {
+  const pill = qs('#engine'), t = qs('#engineText');
+  let st = 'load';
+  if (State.activeTab === 'image') {
+    const o = State.tesseract.status, c = State.opencv.status;
+    st = o === 'err' ? 'err' : (o === 'ok' && (c === 'ok' || c === 'err')) ? 'ok' : 'load';
+  } else {
+    const v = State.videoEngine.status;
+    st = v === 'ok' ? 'ok' : v === 'err' ? 'err' : 'load';
+  }
+  pill.dataset.s = st;
+  /* aba Vídeo: o aviso de erro do motor não deve ficar parado na tela */
+  pill.classList.toggle('hidden', State.activeTab !== 'image' && st === 'err');
+  t.textContent = Core.tr(st === 'ok' ? 'core.engReady' : st === 'err' ? 'core.engErr' : 'core.engLoad');
+};
+
+/* ---------- splash ---------- */
+Core.splashDone = new Promise(r => { Core._splashResolve = r; });
+Core.initSplash = function () {
+  const sp = qs('#splash'), w = sp.firstElementChild, app = qs('#app');
+  let idx = 0;
+  app.inert = true;
+  'AETIX DESIGN'.split('').forEach((ch, n) => {
+    const e = document.createElement('span');
+    if (ch === ' ') e.className = 'gap';
+    else { e.textContent = ch; e.style.setProperty('--i', idx++); if (n > 5) e.className = 'w2'; }
+    w.appendChild(e);
+  });
+  setTimeout(() => {
+    sp.classList.add('out');
+    document.documentElement.classList.remove('splashing');
+    app.inert = !!State.modal;
+    setTimeout(() => { sp.remove(); Core._splashResolve(); }, 900);
+  }, 2300);
+};
+
+/* ---------- modais ---------- */
+let modalFrom = null;
+Core.openModal = function (id, focusId) {
+  const m = qs('#' + id);
+  if (!m) return;
+  Core.closeProfile(); Core.closeHelp();
+  if (State.modal) Core.closeModal();
+  modalFrom = document.activeElement;
+  m.hidden = false; State.modal = id;
+  qs('#app').inert = true;
+  const f = focusId ? qs('#' + focusId) : qs('[data-close-modal]', m);
+  if (f) f.focus();
+};
+Core.closeModal = function () {
+  const id = State.modal;
+  if (!id) return;
+  qs('#' + id).hidden = true;
+  State.modal = null;
+  qs('#app').inert = false;
+  if (Core.modalHooks[id]) Core.modalHooks[id]();
+  if (modalFrom && modalFrom.focus && document.contains(modalFrom)) modalFrom.focus();
+  modalFrom = null;
+};
+Core.openProfile = function () {
+  Core.closeHelp();
+  qs('#profileMenu').hidden = false;
+  qs('#profileBtn').setAttribute('aria-expanded', 'true');
+};
+Core.closeProfile = function () {
+  const m = qs('#profileMenu');
+  if (m.hidden) return;
+  m.hidden = true;
+  qs('#profileBtn').setAttribute('aria-expanded', 'false');
+};
+
+/* ---------- abas ---------- */
+Core.switchTab = function (tab, force) {
+  if (tab !== 'image' && tab !== 'video') return;
+  const prev = State.activeTab;
+  if (!force && tab === prev) return;
+  if (prev !== tab && Core.modules[prev] && Core.modules[prev].deactivate) Core.modules[prev].deactivate();
+  State.activeTab = tab;
+  qsa('[data-tab]').forEach(b => {
+    const on = b.dataset.tab === tab;
+    b.classList.toggle('active', on);
+    if (b.getAttribute('role') === 'tab') { b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; }
+    else if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+  });
+  qs('#panelImage').classList.toggle('hidden', tab !== 'image');
+  qs('#panelVideo').classList.toggle('hidden', tab !== 'video');
+  const h = qs('#heroTitle'), s = qs('#heroSub');
+  h.dataset.i18n = 'core.h1_' + tab; s.dataset.i18n = 'core.sub_' + tab;
+  h.textContent = Core.tr(h.dataset.i18n); s.textContent = Core.tr(s.dataset.i18n);
+  Core.modules[tab].activate();
+  Core.refreshEngine();
+  qs('#page').scrollTop = 0;
+};
+
+/* roteia um arquivo para o módulo certo (por tipo) */
+Core.routeFile = function (f) {
+  if (!f || State.modal) return;
+  const t = f.type || '', n = (f.name || '').toLowerCase();
+  let tab = State.activeTab;
+  if (/^image\//.test(t)) tab = 'image';
+  else if (/^video\//.test(t) || /\.(mp4|mov|m4v|webm)$/.test(n)) tab = 'video';
+  Core.switchTab(tab);
+  Core.modules[tab].loadFile(f);
+};
+
+/* ---------- header: botão colaborador, idioma no perfil, CSS extra ---------- */
+Core.setupHeader = function () {
+  if (!qs('#aetixExtraCss')) {
+    const st = document.createElement('style');
+    st.id = 'aetixExtraCss';
+    st.textContent = [
+      '.cta.cta-collab{height:38px;padding:0 16px;font:700 .74rem Inter,system-ui,sans-serif;letter-spacing:.1em;color:#fff;border:1px solid rgba(124,140,255,.55);border-radius:12px;cursor:pointer;white-space:nowrap;background:linear-gradient(135deg,rgba(124,140,255,.22),rgba(155,107,255,.16));animation:aetixCollabGlow 2.4s ease-in-out infinite}',
+      '.cta.cta-collab:hover{animation-play-state:paused}',
+      '@keyframes aetixCollabGlow{0%,100%{box-shadow:0 0 10px -4px rgba(124,140,255,.45),0 0 0 0 rgba(155,107,255,0),inset 0 1px 0 rgba(255,255,255,.1);border-color:rgba(124,140,255,.45);filter:brightness(1)}50%{box-shadow:0 0 26px 2px rgba(155,107,255,.75),0 0 0 5px rgba(124,140,255,.16),inset 0 1px 0 rgba(255,255,255,.18);border-color:rgba(155,107,255,.95);filter:brightness(1.16)}}',
+      '.dropdown .langsw{width:100%;height:42px;margin-top:10px}',
+      '.dropdown .langsw select{width:100%;height:42px;font-size:.88rem}',
+      '.dropdown .langsw .ic{left:14px;margin-top:-8px}',
+      '.dropdown .langsw select{padding-left:38px}',
+      '@media (max-width:700px){.helpwrap .cta{display:none}}',
+      '@media (max-width:560px){.hdr{padding-left:10px;padding-right:10px;gap:6px}.hdr-right{gap:6px;flex:none}.brand{flex:none;font-size:.8rem;letter-spacing:.08em}.brand .logo{margin-right:.15em}.cta.cta-collab{height:32px;padding:0 9px;font-size:.56rem;letter-spacing:.05em}.avatar-btn{width:32px;height:32px}}',
+      '@media (max-width:400px){.hdr{padding-left:8px;padding-right:8px;gap:4px}.hdr-right{gap:5px}.brand{font-size:.72rem;letter-spacing:.06em}.cta.cta-collab{padding:0 7px;font-size:.5rem;letter-spacing:.03em}.avatar-btn{width:30px;height:30px}}',
+      '@media (max-width:350px){.brand{font-size:.66rem}.cta.cta-collab{font-size:.46rem;padding:0 6px}}',
+      '#pricingModal{transition:opacity .5s ease}#pricingModal.fadeout{opacity:0;pointer-events:none}',
+      '.pay-card[data-step="pix"] .pay-step.aetix-paid{gap:14px;padding:6px 0 10px}',
+      '.aetix-paid .pay-qr{background:transparent;padding:0}',
+      '.aetix-paid #payCode,.aetix-paid #payCopy,.aetix-paid .pay-thanks,.aetix-paid .pay-status{display:none}',
+      '.pay-check{width:100%;height:100%;display:block;filter:drop-shadow(0 0 14px rgba(74,222,154,.75)) drop-shadow(0 0 30px rgba(74,222,154,.45));animation:payCheckPop .5s cubic-bezier(.2,1.4,.4,1) both}',
+      '.pc-ring{stroke-dasharray:327;stroke-dashoffset:327;animation:payDraw .6s ease-out .05s forwards}',
+      '.pc-tick{stroke-dasharray:90;stroke-dashoffset:90;animation:payDraw .45s ease-out .5s forwards}',
+      '@keyframes payDraw{to{stroke-dashoffset:0}}',
+      '@keyframes payCheckPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}',
+      '.pay-paid-txt{margin:0;text-align:center;font:700 1.3rem Inter,system-ui,sans-serif;color:#4ADE9A;text-shadow:0 0 16px rgba(74,222,154,.55);animation:fadein .5s ease .6s both}',
+      '.aetix-thanks{position:fixed;left:50%;bottom:max(22px,env(safe-area-inset-bottom,0px));z-index:300;display:flex;align-items:flex-start;gap:14px;width:min(460px,calc(100vw - 24px));padding:16px 14px 16px 16px;border-radius:20px;border:1px solid rgba(155,107,255,.55);background:linear-gradient(145deg,rgba(32,24,62,.96),rgba(15,17,28,.97));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 30px 70px -20px rgba(0,0,0,.9),0 0 40px -6px rgba(155,107,255,.6),inset 0 1px 0 rgba(255,255,255,.08);color:var(--ink);cursor:pointer;transform:translate(-50%,0);animation:thanksIn .6s cubic-bezier(.2,.9,.3,1.1) both}',
+      '.aetix-thanks.out{animation:thanksOut .55s ease forwards}',
+      '.aetix-thanks .at-ic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;font-size:1.4rem;background:linear-gradient(135deg,rgba(124,140,255,.3),rgba(155,107,255,.2));border:1px solid rgba(155,107,255,.5);box-shadow:0 0 20px -4px rgba(155,107,255,.8)}',
+      '.aetix-thanks .at-tx{flex:1;min-width:0}',
+      '.aetix-thanks strong{display:block;margin-bottom:3px;font-size:1rem;letter-spacing:.02em;background:linear-gradient(135deg,#C9D0FF,#9B6BFF);-webkit-background-clip:text;background-clip:text;color:transparent}',
+      '.aetix-thanks p{margin:0;font-size:.88rem;line-height:1.5;color:#D8DCEA}',
+      '.aetix-thanks .at-x{flex:none;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:1.3rem;line-height:1;cursor:pointer}',
+      '.aetix-thanks .at-x:hover{color:#fff;background:rgba(255,255,255,.1)}',
+      '@keyframes thanksIn{from{opacity:0;transform:translate(-50%,24px) scale(.96)}to{opacity:1;transform:translate(-50%,0) scale(1)}}',
+      '@keyframes thanksOut{to{opacity:0;transform:translate(-50%,16px) scale(.97)}}',
+      '@media (prefers-reduced-motion:reduce){.aetix-thanks{animation:none!important}.pc-ring,.pc-tick{stroke-dashoffset:0!important}.cta.cta-collab{animation:none!important}}'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+  /* "Preços" vira o botão premium "SEJA UM COLABORADOR" */
+  const pb = qs('#pricingOpen');
+  if (pb) {
+    pb.className = 'cta cta-collab';
+    pb.setAttribute('data-i18n', 'core.pricing');
+    pb.textContent = Core.tr('core.pricing');
+  }
+  /* seletor de idioma sai do topo e entra no menu de perfil (PC e celular) */
+  const sw = qs('#langsw'), body = qs('#profileBody');
+  if (sw && body && sw.parentNode !== body) body.appendChild(sw);
+};
+
+/* ---------- WhatsApp: suporte direto (menu do perfil + ícone flutuante) ---------- */
+Core.whatsapp = (function () {
+  const number = '5581973300288';
+  const message = 'Olá Victor! Estou usando o removedor de marcas da  AETIX DESIGN e gostaria de tirar uma dúvida ou dar um feedback sobre a plataforma. 🌟';
+  return { number: number, message: message, url: 'https://wa.me/' + number + '?text=' + encodeURIComponent(message) };
+})();
+Core.WA_ICON = '<svg class="wa-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+
+Core.refreshWhatsApp = function () {
+  const fab = qs('#waFab');
+  if (fab) { const t = Core.tr('core.waTip'); fab.setAttribute('data-tip', t); fab.setAttribute('aria-label', t); }
+};
+
+Core.setupWhatsApp = function () {
+  if (!qs('#aetixWaCss')) {
+    const st = document.createElement('style');
+    st.id = 'aetixWaCss';
+    st.textContent = [
+      '.wa-item{text-decoration:none;color:var(--ink)}',
+      '.wa-item .wa-svg{width:18px;height:18px;flex:none;color:#2EE6FF;filter:drop-shadow(0 0 5px rgba(46,230,255,.7))}',
+      '.wa-item:hover{background:rgba(46,230,255,.12);border-color:rgba(46,230,255,.55)}',
+      '.wa-fab{position:fixed;right:18px;bottom:max(18px,env(safe-area-inset-bottom,0px));z-index:40;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;color:#2EE6FF;text-decoration:none;background:radial-gradient(circle at 50% 35%,rgba(46,230,255,.16),rgba(10,12,26,.92));border:1.5px solid rgba(46,230,255,.85);box-shadow:0 0 0 1px rgba(46,230,255,.25) inset,0 0 16px 1px rgba(46,230,255,.65),0 0 38px 4px rgba(155,107,255,.45);animation:waGlow 2.8s ease-in-out infinite;transition:transform .18s,filter .18s;-webkit-tap-highlight-color:transparent}',
+      '.wa-fab .wa-svg{width:26px;height:26px;filter:drop-shadow(0 0 6px rgba(46,230,255,.95))}',
+      '.wa-fab:hover,.wa-fab:focus-visible{transform:translateY(-2px) scale(1.06);filter:brightness(1.15);animation-play-state:paused;box-shadow:0 0 0 1px rgba(46,230,255,.35) inset,0 0 22px 3px rgba(46,230,255,.85),0 0 50px 8px rgba(155,107,255,.65)}',
+      '.wa-fab::after{content:attr(data-tip);position:absolute;right:calc(100% + 12px);top:50%;transform:translate(6px,-50%);padding:7px 12px;border-radius:10px;border:1px solid rgba(46,230,255,.5);background:#0B1019;color:#E2F9FF;font:600 .78rem/1 Inter,system-ui,sans-serif;letter-spacing:.02em;white-space:nowrap;box-shadow:0 10px 26px -10px rgba(0,0,0,.9),0 0 18px -4px rgba(46,230,255,.55);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s,transform .18s,visibility .18s}',
+      '.wa-fab:hover::after,.wa-fab:focus-visible::after{opacity:1;visibility:visible;transform:translate(0,-50%)}',
+      '@keyframes waGlow{0%,100%{box-shadow:0 0 0 1px rgba(46,230,255,.25) inset,0 0 14px 1px rgba(46,230,255,.55),0 0 32px 3px rgba(155,107,255,.38)}50%{box-shadow:0 0 0 1px rgba(46,230,255,.35) inset,0 0 22px 3px rgba(46,230,255,.8),0 0 46px 7px rgba(155,107,255,.6)}}',
+      '.page-in{padding-bottom:calc(clamp(12px,3dvh,32px) + 56px)}',
+      '@media (max-width:700px){.wa-fab{width:44px;height:44px;right:12px;bottom:max(12px,env(safe-area-inset-bottom,0px))}.wa-fab .wa-svg{width:22px;height:22px}.page-in{padding-bottom:calc(clamp(12px,3dvh,32px) + 64px)}}',
+      '@media (hover:none){.wa-fab::after{display:none}}',
+      '@media (prefers-reduced-motion:reduce){.wa-fab{animation:none!important}}'
+    ].join('\n');
+    document.head.appendChild(st);
+  }
+  const url = Core.whatsapp.url;
+
+  /* item no menu do perfil */
+  const body = qs('#profileBody');
+  if (body && !qs('#waProfile')) {
+    const a = document.createElement('a');
+    a.id = 'waProfile'; a.className = 'menu-item wa-item';
+    a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.innerHTML = Core.WA_ICON;
+    const sp = document.createElement('span');
+    sp.setAttribute('data-i18n', 'core.waLabel'); sp.textContent = Core.tr('core.waLabel');
+    a.appendChild(sp);
+    a.addEventListener('click', () => { Core.closeProfile(); });
+    const sw = qs('#langsw');
+    if (sw && sw.parentNode === body) body.insertBefore(a, sw); else body.appendChild(a);
+  }
+
+  /* ícone flutuante fixo (visível em todas as etapas das telas de imagem e vídeo) */
+  if (!qs('#waFab')) {
+    const f = document.createElement('a');
+    f.id = 'waFab'; f.className = 'wa-fab';
+    f.href = url; f.target = '_blank'; f.rel = 'noopener noreferrer';
+    f.innerHTML = Core.WA_ICON;
+    document.body.appendChild(f);
+  }
+  Core.refreshWhatsApp();
+};
+
+Core.bind = function () {
+  qsa('[data-tab]').forEach(b => b.addEventListener('click', () => Core.switchTab(b.dataset.tab)));
+  qs('#brand').addEventListener('click', () => Core.switchTab('image'));
+  qs('.tabs').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const next = State.activeTab === 'image' ? 'video' : 'image';
+    Core.switchTab(next); qs('#tab' + (next === 'image' ? 'Image' : 'Video')).focus();
+  });
+
+  qs('#helpOpen').addEventListener('click', () => { qs('#helpMenu').hidden ? Core.openHelp() : Core.closeHelp(); });
+  qs('#helpClose').addEventListener('click', Core.closeHelp);
+  qs('#helpUp').addEventListener('click', () => Core.helpPage(-1));
+  qs('#helpDown').addEventListener('click', () => Core.helpPage(1));
+  qs('#helpList').addEventListener('scroll', Core.updateHelpNav, { passive: true });
+  qs('#profileHelp').addEventListener('click', () => { Core.closeProfile(); Core.openHelp(); });
+  document.addEventListener('pointerdown', e => { if (!e.target.closest('.helpwrap')) Core.closeHelp(); });
+  qs('#pricingOpen').addEventListener('click', () => Core.openModal('pricingModal'));
+  qsa('[data-close-modal]').forEach(b => b.addEventListener('click', Core.closeModal));
+  qsa('.modal').forEach(m => m.addEventListener('pointerdown', e => { if (e.target === m) Core.closeModal(); }));
+
+  qs('#profileBtn').addEventListener('click', () => { qs('#profileMenu').hidden ? Core.openProfile() : Core.closeProfile(); });
+  qs('#profileClose').addEventListener('click', Core.closeProfile);
+  document.addEventListener('pointerdown', e => { if (!e.target.closest('.profile')) Core.closeProfile(); });
+
+  qs('#uiLang').addEventListener('change', e => Core.applyLang(e.target.value));
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (State.modal) { Core.closeModal(); return; }
+    if (!qs('#helpMenu').hidden) { Core.closeHelp(); if (qs('#helpOpen').offsetParent) qs('#helpOpen').focus(); return; }
+    if (!qs('#profileMenu').hidden) { Core.closeProfile(); return; }
+    const m = Core.modules[State.activeTab];
+    if (m && m.onEscape) m.onEscape();
+  });
+
+  /* drag & drop / paste globais */
+  const hasFiles = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).indexOf('Files') >= 0;
+  const setOver = b => { const m = Core.modules[State.activeTab]; if (m && m.setDragOver) m.setDragOver(b); };
+  ['dragenter', 'dragover'].forEach(t => window.addEventListener(t, e => { e.preventDefault(); if (hasFiles(e) && !State.modal) setOver(true); }));
+  window.addEventListener('dragleave', e => { e.preventDefault(); if (!e.relatedTarget) setOver(false); });
+  window.addEventListener('drop', e => {
+    e.preventDefault(); setOver(false);
+    const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) Core.routeFile(f);
+  });
+  window.addEventListener('paste', e => {
+    const f = Array.from((e.clipboardData && e.clipboardData.files) || [])[0];
+    if (f) { e.preventDefault(); Core.routeFile(f); }
+  });
+};
+
+/* ==========================================================================
+   IMAGE PROCESSOR  (OCR com Tesseract.js + reconstrução com OpenCV.js)
+   ========================================================================== */
+Core.modules.image = App.ImageProcessor = (function () {
+  const { $ } = Core.scope('im');
+  const tr = (k, p) => Core.tr('img.' + k, p);
+  const i18nError = (k, p) => { const e = new Error(tr(k, p)); e.i18n = { k, p }; return e; };
+
+  const MAX = 4096;
+  const TESS_URL = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+  const CV_URLS = ['https://docs.opencv.org/4.x/opencv.js', 'https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js'];
+
+  const cnv = $('#cnv'), cx = cnv.getContext('2d', { willReadFrequently: true });
+  const layer = $('#boxes'), ov = $('#ov'), ox = ov.getContext('2d', { willReadFrequently: true });
+  const drop = $('#drop');
+  const POPS = { pen: '#penpop', eraser: '#erapop' }, BTNS = { pen: '#pencil', eraser: '#eraser' }, SIZE = { pen: '#pen', eraser: '#era' };
+
+  let W = 0, H = 0, boxes = [], raw = { words: [], lines: [] }, rawScale = 1, hist = [];
+  let worker = null, workerLang = '', busy = false, drawMode = false, cvOK = false, ink = null, scanCtl = null;
+  let tool = null, penDirty = false, pl = null, curMsg = null, goKey = 'removeSel';
+  let tessP = null, cvP = null, ds = null, tmp = null;
+
+  /* ---------- mensagens ---------- */
+  function renderMsg() {
+    const m = $('#msg');
+    m.textContent = curMsg ? tr(curMsg.k, curMsg.p) : '';
+    m.className = 'msg' + (curMsg && curMsg.err ? ' err' : '');
+  }
+  function setMsg(k, err, p) { curMsg = k ? { k, err: !!err, p } : null; renderMsg(); }
+
+  /* ---------- ciclo de vida dos motores ---------- */
+  function setEngine(key, status) {
+    State[key].status = status;
+    if (key === 'opencv') State.opencv.ready = status === 'ok';
+    Core.refreshEngine();
+  }
+  const loadScript = u => Core.loadScript(u).catch(() => { throw i18nError('errLoad', { u }); });
+
+  async function loadOpenCV(u) {
+    await loadScript(u);
+    let c = window.cv;
+    if (!c) throw new Error('cv ausente');
+    if (typeof c.then === 'function') {
+      c = await new Promise((res, rej) => { c.then(m => { try { delete m.then; } catch (e) {} res(m); }, rej); });
+      window.cv = c;
+    }
+    if (!c.Mat) {
+      await new Promise((res, rej) => {
+        const t = setTimeout(() => { clearInterval(p); rej(new Error('timeout')); }, 90000);
+        const done = () => { clearTimeout(t); clearInterval(p); res(); };
+        const p = setInterval(() => { if (c.Mat) done(); }, 250);
+        c.onRuntimeInitialized = done;
+      });
+    }
+    if (!window.cv.inpaint) throw i18nError('errCvInpaint');
+  }
+
+  function bootEngines() {
+    if (tessP) return;
+    setEngine('tesseract', 'load'); setEngine('opencv', 'load');
+    const wait = Core.splashDone.then(() => new Promise(r => setTimeout(r, 80)));
+    tessP = wait.then(() => loadScript(TESS_URL)).then(() => setEngine('tesseract', 'ok')).catch(e => { setEngine('tesseract', 'err'); throw e; });
+    tessP.catch(() => {});
+    cvP = (async () => {
+      await wait;
+      for (const u of CV_URLS) { try { await loadOpenCV(u); cvOK = true; setEngine('opencv', 'ok'); return; } catch (e) { console.warn(e); } }
+      setEngine('opencv', 'err');
+    })();
+  }
+
+  /* ---------- abrir imagem ---------- */
+  function openImageSource(file) {
+    const viaReader = () => new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onerror = () => rej(new Error('leitura'));
+      fr.onload = () => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('decodificação')); im.src = fr.result; };
+      fr.readAsDataURL(file);
+    });
+    const viaBitmap = () => typeof createImageBitmap === 'function' ? createImageBitmap(file) : Promise.reject(new Error('sem createImageBitmap'));
+    return viaBitmap().catch(viaReader);
+  }
+
+  async function loadFile(file) {
+    if (busy) return;
+    if (!file || !file.type.startsWith('image/')) { setMsg('chooseImage', true); return; }
+    let im;
+    try { im = await openImageSource(file); }
+    catch (e) { console.error(e); setMsg('openFail', true); return; }
+    const iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height;
+    const s = Math.min(1, MAX / Math.max(iw, ih));
+    W = Math.round(iw * s); H = Math.round(ih * s);
+    cnv.width = W; cnv.height = H; ov.width = W; ov.height = H; penDirty = false;
+    cx.clearRect(0, 0, W, H); cx.drawImage(im, 0, 0, W, H);
+    if (im.close) im.close();
+    hist = []; boxes = []; raw = { words: [], lines: [] }; renderBoxes();
+    drop.hidden = true; $('#editor').hidden = false; $('#undo').disabled = true; setTool(null);
+    scan();
+  }
+
+  function resetImage() {
+    if (busy) return;
+    W = 0; H = 0; boxes = []; raw = { words: [], lines: [] }; hist = [];
+    drawMode = false; $('#draw').setAttribute('aria-pressed', 'false'); layer.classList.remove('draw');
+    cnv.width = 1; cnv.height = 1; ov.width = 1; ov.height = 1; penDirty = false; setTool(null); renderBoxes();
+    $('#editor').hidden = true; drop.hidden = false; $('#undo').disabled = true; setMsg('');
+  }
+
+  function setBusy(b, label) {
+    busy = b; State.busy.image = b;
+    ['#rescan', '#all', '#none', '#undo', '#save', '#reset', '#draw', '#pencil', '#eraser', '#lang'].forEach(s => { $(s).disabled = b; });
+    $('#go').disabled = b || !(penDirty || boxes.some(x => x.sel));
+    if (!b) $('#undo').disabled = !hist.length;
+    goKey = b && label === 'rem' ? 'removing' : 'removeSel';
+    $('#go-t').textContent = tr(goKey);
+  }
+
+  /* ---------- OCR ---------- */
+  const tick = () => new Promise(r => setTimeout(r, 30));
+
+  function pickItems(data, kind) {
+    if (data[kind] && data[kind].length) return data[kind];
+    const out = [];
+    (data.blocks || []).forEach(b => (b.paragraphs || []).forEach(p => (p.lines || []).forEach(l => {
+      if (kind === 'lines') out.push(l); else (l.words || []).forEach(w => out.push(w));
+    })));
+    return out;
+  }
+
+  function binarize(src, mode, c) {
+    const k = window.cv;
+    if (!cvOK || !k || mode === 'off') return src;
+    const mats = [], mk = () => { const m = new k.Mat(); mats.push(m); return m; };
+    try {
+      const rgba = k.imread(src); mats.push(rgba);
+      const g = mk(), o = mk();
+      k.cvtColor(rgba, g, k.COLOR_RGBA2GRAY);
+      k.GaussianBlur(g, g, new k.Size(3, 3), 0);
+      if (mode === 'otsu') {
+        k.threshold(g, o, 0, 255, k.THRESH_BINARY | k.THRESH_OTSU);
+        if (k.countNonZero(o) < o.rows * o.cols / 2) k.bitwise_not(o, o);
+      } else {
+        const bs = clamp(Math.round(Math.min(src.width, src.height) / 6), 31, 255) | 1, a = mk(), b = mk();
+        k.adaptiveThreshold(g, a, 255, k.ADAPTIVE_THRESH_GAUSSIAN_C, k.THRESH_BINARY, bs, c);
+        k.adaptiveThreshold(g, b, 255, k.ADAPTIVE_THRESH_GAUSSIAN_C, k.THRESH_BINARY, bs, -c);
+        k.bitwise_not(b, b); k.bitwise_and(a, b, o);
+      }
+      const t = mk(); k.medianBlur(o, t, 3);
+      const out = document.createElement('canvas'); out.width = src.width; out.height = src.height;
+      k.imshow(out, t); return out;
+    } catch (e) { console.warn('binarização', e); return src; }
+    finally { mats.forEach(m => { try { m.delete(); } catch (e) {} }); }
+  }
+
+  function buildInk(c, sc) {
+    const d = c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height).data, n = c.width * c.height, m = new Uint8Array(n);
+    for (let i = 0; i < n; i++) m[i] = d[i * 4] < 128 ? 1 : 0;
+    return { w: c.width, h: c.height, sc, d: m };
+  }
+
+  function inkOK(b) {
+    if (!ink) return true;
+    const s = ink.sc, x0 = clamp(Math.floor(b.x * s), 0, ink.w - 1), y0 = clamp(Math.floor(b.y * s), 0, ink.h - 1);
+    const x1 = clamp(Math.ceil((b.x + b.w) * s), x0 + 1, ink.w), y1 = clamp(Math.ceil((b.y + b.h) * s), y0 + 1, ink.h);
+    let n = 0; for (let y = y0; y < y1; y++) { const o = y * ink.w; for (let x = x0; x < x1; x++) n += ink.d[o + x]; }
+    const f = n / ((x1 - x0) * (y1 - y0)); return f >= .03 && f <= .85;
+  }
+
+  async function scan() {
+    if (!W || busy) return;
+    bootEngines();
+    const ctl = { cancelled: false, rej: null };
+    ctl.p = new Promise((_, rej) => { ctl.rej = rej; }); ctl.p.catch(() => {});
+    scanCtl = ctl;
+    const run = p => Promise.race([p, ctl.p]);
+    setBusy(true);
+    const pg = $('#prog'), sb = $('#scanbar');
+    sb.hidden = false; pg.removeAttribute('value'); $('#laser').hidden = false;
+    setMsg('preparing');
+    try {
+      await run(tessP);
+      if (State.opencv.status === 'load') setMsg('loadingCV');
+      await run(cvP);
+      setMsg('preparing');
+      const lang = $('#lang').value;
+      if (!worker || workerLang !== lang) {
+        if (worker) { const old = worker; worker = null; workerLang = ''; await run(Promise.resolve(old.terminate()).catch(() => {})); }
+        const mkw = Tesseract.createWorker(lang, 1, { logger: m => {
+          if (ctl.cancelled) return;
+          if (typeof m.progress === 'number') {
+            pg.value = m.progress;
+            setMsg(m.status === 'recognizing text' ? 'searching' : 'downloading', false, { p: Math.round(m.progress * 100) });
+          }
+        } });
+        try { worker = await run(mkw); workerLang = lang; }
+        catch (e) { if (ctl.cancelled) mkw.then(x => x.terminate()).catch(() => {}); throw e; }
+      }
+      const wk = worker;
+      await run(wk.setParameters({ tessedit_pageseg_mode: $('#psm').value, preserve_interword_spaces: '1', user_defined_dpi: '300' }));
+      const prep = $('#prep').value, bc = +$('#binc').value, useBin = cvOK && prep !== 'off';
+      const mx = Math.max(W, H); rawScale = mx < 1600 ? 2 : mx > 3200 ? 3200 / mx : 1;
+      const oc = document.createElement('canvas'); oc.width = Math.round(W * rawScale); oc.height = Math.round(H * rawScale);
+      const o = oc.getContext('2d'); o.fillStyle = '#fff'; o.fillRect(0, 0, oc.width, oc.height); o.imageSmoothingQuality = 'high';
+      try { o.filter = 'grayscale(1) contrast(1.25)'; } catch (e) {}
+      o.drawImage(cnv, 0, 0, oc.width, oc.height);
+      let inp = oc, newInk = null;
+      if (useBin) { setMsg('isolating'); await tick(); inp = binarize(oc, prep, bc); if (inp !== oc) newInk = buildInk(inp, rawScale); }
+      if (ctl.cancelled) throw new Error('cancelado');
+      pg.removeAttribute('value');
+      const { data } = await run(wk.recognize(inp));
+      const norm = (arr, x0, y0, sc, edge) => arr.filter(w => w.bbox).map(w => ({
+        text: w.text || '', confidence: w.confidence, edge,
+        bbox: { x0: x0 + w.bbox.x0 / sc, y0: y0 + w.bbox.y0 / sc, x1: x0 + w.bbox.x1 / sc, y1: y0 + w.bbox.y1 / sc }
+      }));
+      const nr = { words: norm(pickItems(data, 'words'), 0, 0, rawScale, false), lines: norm(pickItems(data, 'lines'), 0, 0, rawScale, false) };
+      const bx = Math.round(W * .15), by = Math.round(H * .15);
+      const strips = [[0, 0, W, by], [0, H - by, W, by], [0, 0, bx, H], [W - bx, 0, bx, H]];
+      for (let si = 0; si < strips.length; si++) {
+        if (ctl.cancelled) throw new Error('cancelado');
+        const [x, y, w, h] = strips[si]; if (w < 8 || h < 8) continue;
+        try {
+          setMsg('refining', false, { i: si + 1 });
+          const sc = clamp(2000 / Math.max(w, h), 1, 3), sc2 = document.createElement('canvas');
+          sc2.width = Math.round(w * sc); sc2.height = Math.round(h * sc);
+          const k = sc2.getContext('2d'); k.fillStyle = '#fff'; k.fillRect(0, 0, sc2.width, sc2.height); k.imageSmoothingQuality = 'high';
+          try { k.filter = 'grayscale(1) contrast(1.8)'; } catch (e) {}
+          k.drawImage(cnv, x, y, w, h, 0, 0, sc2.width, sc2.height);
+          const inp2 = useBin ? binarize(sc2, prep, Math.max(3, Math.round(bc * .6))) : sc2;
+          const r2 = await run(wk.recognize(inp2));
+          nr.words.push(...norm(pickItems(r2.data, 'words'), x, y, sc, true));
+          nr.lines.push(...norm(pickItems(r2.data, 'lines'), x, y, sc, true));
+        } catch (e) { if (ctl.cancelled) throw e; console.warn('faixa', si, e); }
+      }
+      raw = nr; ink = newInk;
+      buildBoxes();
+      const n = boxes.filter(b => !b.manual).length;
+      setMsg(n ? 'scanDone' : 'scanNone', !n);
+    } catch (e) {
+      if (ctl.cancelled) setMsg('scanCancelled');
+      else { console.error(e); setMsg('scanError', true, { e }); }
+    }
+    sb.hidden = true; $('#laser').hidden = true; scanCtl = null; setBusy(false);
+  }
+
+  function cancelScan() {
+    const c = scanCtl; if (!c || c.cancelled) return;
+    c.cancelled = true;
+    if (worker) { const w = worker; worker = null; workerLang = ''; Promise.resolve().then(() => w.terminate()).catch(() => {}); }
+    c.rej(new Error('cancelado'));
+  }
+
+  /* ---------- caixas ---------- */
+  function mergeBoxes(list, k) {
+    const n = list.length; if (n < 2 || k <= 0) return list;
+    const p = list.map((_, i) => i), f = i => { while (p[i] !== i) { p[i] = p[p[i]]; i = p[i]; } return i; };
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      const a = list[i], b = list[j], minH = Math.min(a.h, b.h), maxH = Math.max(a.h, b.h);
+      if (Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y) < minH * .5) continue;
+      if (maxH > minH * 2.2) continue;
+      if (Math.max(a.x, b.x) - Math.min(a.x + a.w, b.x + b.w) <= maxH * k) p[f(i)] = f(j);
+    }
+    const g = new Map();
+    list.forEach((b, i) => { const r = f(i); if (!g.has(r)) g.set(r, []); g.get(r).push(b); });
+    return [...g.values()].map(m => {
+      if (m.length === 1) return m[0];
+      m.sort((a, b) => a.x - b.x);
+      const x0 = Math.min(...m.map(b => b.x)), y0 = Math.min(...m.map(b => b.y)), x1 = Math.max(...m.map(b => b.x + b.w)), y1 = Math.max(...m.map(b => b.y + b.h));
+      const chars = m.reduce((t, b) => t + b.text.length, 0);
+      return { x: x0, y: y0, w: x1 - x0, h: y1 - y0, text: m.map(b => b.text).join(' '), conf: m.reduce((t, b) => t + b.conf * b.text.length, 0) / chars, sel: false };
+    });
+  }
+
+  function hasContrast(b, th = 4.5) {
+    const x = Math.max(0, Math.floor(b.x)), y = Math.max(0, Math.floor(b.y)), w = Math.min(W - x, Math.ceil(b.w)), h = Math.min(H - y, Math.ceil(b.h));
+    if (w < 2 || h < 2) return false;
+    const d = cx.getImageData(x, y, w, h).data, n = w * h; let s = 0, q = 0;
+    for (let i = 0; i < n; i++) { const l = d[i * 4] * .299 + d[i * 4 + 1] * .587 + d[i * 4 + 2] * .114; s += l; q += l * l; }
+    const m = s / n; return Math.sqrt(Math.max(0, q / n - m * m)) >= th;
+  }
+
+  function dedupe(list) {
+    const out = [];
+    list.slice().sort((a, b) => b.conf - a.conf).forEach(b => {
+      const A = b.w * b.h;
+      if (out.some(o => { const iw = Math.min(o.x + o.w, b.x + b.w) - Math.max(o.x, b.x), ih = Math.min(o.y + o.h, b.y + b.h) - Math.max(o.y, b.y); return iw > 0 && ih > 0 && iw * ih > A * .5; })) return;
+      out.push(b);
+    });
+    return out;
+  }
+
+  function buildBoxes() {
+    const items = raw[$('#gran').value] || [], minc = +$('#conf').value, minDim = Math.min(W, H);
+    const inEdge = b => { const cX = b.x + b.w / 2, cY = b.y + b.h / 2; return cX < W * .15 || cX > W * .85 || cY < H * .15 || cY > H * .85; };
+    let det = [];
+    for (const w of items) {
+      if (!w.bbox) continue;
+      const text = (w.text || '').trim(), conf = w.confidence;
+      if (!text) continue;
+      const b = { x: w.bbox.x0, y: w.bbox.y0, w: w.bbox.x1 - w.bbox.x0, h: w.bbox.y1 - w.bbox.y0, text, conf, sel: false }, e = inEdge(b);
+      if (conf < (e ? Math.max(10, minc * .4) : minc)) continue;
+      const chars = text.replace(/\s/g, ''), good = (chars.match(/[\p{L}\p{N}]/gu) || []).length;
+      if (good / chars.length < (e ? .5 : .6)) continue;
+      if (good < 2 && conf < (e ? 55 : 80)) continue;
+      if (b.h < minDim * (e ? .005 : .008) || b.h > H * .4 || b.w < 2) continue;
+      if (b.h > b.w * 3 && good < 3) continue;
+      det.push(b);
+    }
+    det = mergeBoxes(dedupe(det), +$('#merge').value)
+      .filter(b => inEdge(b) || inkOK(b))
+      .filter(b => hasContrast(b, inEdge(b) ? 2.2 : 4.5))
+      .map(b => ({ ...b, conf: Math.round(b.conf) }));
+    boxes = boxes.filter(b => b.manual).concat(det);
+    renderBoxes();
+  }
+
+  const boxLabel = b => b.manual ? tr('manualArea') : '“' + b.text + '” (' + b.conf + '%)';
+  function refreshLabels() {
+    layer.querySelectorAll('.box:not(.tmp)').forEach((e, i) => { const b = boxes[i]; if (!b) return; const l = boxLabel(b); e.title = l; e.setAttribute('aria-label', l); });
+  }
+  function renderBoxes() {
+    layer.querySelectorAll('.box').forEach(n => n.remove());
+    boxes.forEach(b => {
+      const e = document.createElement('button'); e.type = 'button'; e.className = 'box';
+      e.style.cssText = `left:${b.x / W * 100}%;top:${b.y / H * 100}%;width:${b.w / W * 100}%;height:${b.h / H * 100}%`;
+      e.setAttribute('aria-pressed', String(b.sel));
+      const lbl = boxLabel(b); e.title = lbl; e.setAttribute('aria-label', lbl);
+      e.onclick = () => { b.sel = !b.sel; e.setAttribute('aria-pressed', String(b.sel)); updateCount(); };
+      layer.appendChild(e);
+    });
+    updateCount();
+  }
+  function updateCount() {
+    const s = boxes.filter(b => b.sel).length;
+    $('#count').textContent = tr(boxes.length === 1 ? 'countOne' : 'countMany', { n: boxes.length }) + ' · ' + tr(s === 1 ? 'selOne' : 'selMany', { n: s }) + (penDirty ? ' · ' + tr('manualStroke') : '');
+    $('#go').disabled = busy || !(s || penDirty);
+  }
+
+  /* ---------- lápis / borracha ---------- */
+  function hidePops() { for (const k in POPS) { $(POPS[k]).hidden = true; $(BTNS[k]).setAttribute('aria-expanded', 'false'); } }
+  function openPop(t) {
+    hidePops(); const p = $(POPS[t]); p.style.setProperty('--dx', '0px'); p.hidden = false;
+    const r = p.getBoundingClientRect(), m = 10; let dx = 0;
+    if (r.left < m) dx = m - r.left; else if (r.right > innerWidth - m) dx = innerWidth - m - r.right;
+    p.style.setProperty('--dx', dx + 'px'); $(BTNS[t]).setAttribute('aria-expanded', 'true');
+  }
+  function setTool(t) {
+    tool = t; hidePops();
+    for (const k in BTNS) $(BTNS[k]).setAttribute('aria-pressed', String(k === t));
+    $('#wrap').classList.toggle('pen', !!t);
+    if (t && drawMode) { drawMode = false; $('#draw').setAttribute('aria-pressed', 'false'); layer.classList.remove('draw'); }
+    if (t) openPop(t); else { $('#pcur').hidden = true; pl = null; }
+    setMsg(t === 'pen' ? 'penHint' : t === 'eraser' ? 'eraserHint' : null);
+  }
+  const toggleTool = t => setTool(tool === t ? null : t);
+  function keepPopClosed(t) { hidePops(); setMsg(t === 'pen' ? 'penActive' : 'eraserActive'); }
+  function clearPen() { ox.clearRect(0, 0, ov.width, ov.height); penDirty = false; }
+  function recheckPen() {
+    const s = Math.min(1, 160 / Math.max(W, H)), c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(W * s)); c.height = Math.max(1, Math.round(H * s));
+    const k = c.getContext('2d', { willReadFrequently: true }); k.imageSmoothingQuality = 'high'; k.drawImage(ov, 0, 0, c.width, c.height);
+    const d = k.getImageData(0, 0, c.width, c.height).data; let any = false;
+    for (let i = 3; i < d.length; i += 4) if (d[i] > 6) { any = true; break; }
+    penDirty = any; updateCount();
+  }
+  const pp = e => { const r = ov.getBoundingClientRect(); return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height, k: W / r.width }; };
+  function paintSegment(a, b) {
+    const er = tool === 'eraser';
+    ox.globalCompositeOperation = er ? 'destination-out' : 'source-over';
+    ox.strokeStyle = '#FF4D8D'; ox.lineCap = 'round'; ox.lineJoin = 'round';
+    ox.lineWidth = +$(SIZE[tool]).value * b.k; ox.beginPath(); ox.moveTo(a.x, a.y); ox.lineTo(b.x + .01, b.y); ox.stroke();
+    ox.globalCompositeOperation = 'source-over';
+  }
+  function moveCursor(e) {
+    const c = $('#pcur'), r = $('#wrap').getBoundingClientRect(), d = tool ? +$(SIZE[tool]).value : 20;
+    c.hidden = !tool || e.pointerType === 'touch'; c.classList.toggle('era', tool === 'eraser');
+    c.style.width = c.style.height = d + 'px';
+    c.style.left = (e.clientX - r.left) + 'px'; c.style.top = (e.clientY - r.top) + 'px';
+  }
+  function mergePenIntoMask(m) {
+    if (!penDirty) return;
+    const od = ox.getImageData(0, 0, W, H).data;
+    for (let i = 0; i < W * H; i++) if (od[i * 4 + 3] > 40) m[i] = 1;
+  }
+
+  /* agrupa a máscara em retângulos (para inpaint por região) */
+  function maskRegions(m) {
+    const cell = 8, gw = Math.ceil(W / cell), gh = Math.ceil(H / cell), g = new Uint8Array(gw * gh);
+    for (let y = 0; y < H; y++) { const row = (y / cell | 0) * gw, o = y * W; for (let x = 0; x < W; x++) if (m[o + x]) g[row + (x / cell | 0)] = 1; }
+    const seen = new Uint8Array(gw * gh), st = new Int32Array(gw * gh), out = [];
+    for (let s0 = 0; s0 < g.length; s0++) {
+      if (!g[s0] || seen[s0]) continue;
+      let sp = 0, x0 = gw, y0 = gh, x1 = 0, y1 = 0; st[sp++] = s0; seen[s0] = 1;
+      while (sp) {
+        const i = st[--sp], x = i % gw, y = (i / gw) | 0;
+        if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const xx = x + dx, yy = y + dy; if (xx < 0 || yy < 0 || xx >= gw || yy >= gh) continue;
+          const j = yy * gw + xx; if (g[j] && !seen[j]) { seen[j] = 1; st[sp++] = j; }
+        }
+      }
+      out.push({ x: x0 * cell, y: y0 * cell, w: (x1 - x0 + 1) * cell, h: (y1 - y0 + 1) * cell });
+    }
+    return out;
+  }
+
+  /* ---------- desenhar caixa ---------- */
+  const lp = e => { const r = layer.getBoundingClientRect(); return { x: clamp((e.clientX - r.left) * W / r.width, 0, W), y: clamp((e.clientY - r.top) * H / r.height, 0, H) }; };
+  const dragRect = (a, b) => ({ x: Math.min(a.x, b.x), y: Math.min(a.y, b.y), w: Math.abs(a.x - b.x), h: Math.abs(a.y - b.y) });
+  function endDraw(e) {
+    if (!ds) return;
+    const r = dragRect(ds, lp(e)); ds = null; if (tmp) { tmp.remove(); tmp = null; }
+    if (r.w > 6 && r.h > 6) { boxes.unshift({ ...r, text: '', conf: 100, sel: true, manual: true }); renderBoxes(); }
+  }
+
+  /* ---------- remoção ---------- */
+  function buildMask(sel) {
+    const d = cx.getImageData(0, 0, W, H).data, m = new Uint8Array(W * H);
+    const pad = +$('#pad').value, thr = +$('#thr').value, whole = $('#mode').value === 'box';
+    for (const b of sel) {
+      const x0 = Math.max(0, Math.floor(b.x - pad)), y0 = Math.max(0, Math.floor(b.y - pad)), x1 = Math.min(W, Math.ceil(b.x + b.w + pad)), y1 = Math.min(H, Math.ceil(b.y + b.h + pad));
+      const fill = () => { for (let y = y0; y < y1; y++) m.fill(1, y * W + x0, y * W + x1); };
+      if (whole) { fill(); continue; }
+      const r = 5, ax0 = Math.max(0, x0 - r), ay0 = Math.max(0, y0 - r), ax1 = Math.min(W, x1 + r), ay1 = Math.min(H, y1 + r);
+      const R = [], G = [], B = [];
+      for (let y = ay0; y < ay1; y++) for (let x = ax0; x < ax1; x++) {
+        if (x >= x0 && x < x1 && y >= y0 && y < y1) continue;
+        const i = (y * W + x) * 4; R.push(d[i]); G.push(d[i + 1]); B.push(d[i + 2]);
+      }
+      if (R.length < 8) { fill(); continue; }
+      const med = a => { a.sort((p, q) => p - q); return a[a.length >> 1]; };
+      const mr = med(R), mg = med(G), mb = med(B), hit = [];
+      for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+        const i = (y * W + x) * 4;
+        if (Math.max(Math.abs(d[i] - mr), Math.abs(d[i + 1] - mg), Math.abs(d[i + 2] - mb)) > thr) hit.push(y * W + x);
+      }
+      if (!hit.length || hit.length > (x1 - x0) * (y1 - y0) * .7) { fill(); continue; }
+      for (const j of hit) m[j] = 1;
+    }
+    return m;
+  }
+
+  const gauss = () => Math.sqrt(-2 * Math.log(Math.random() + 1e-9)) * Math.cos(6.2831853 * Math.random());
+
+  function addMetaNoise(d, mk) {
+    const buf = new Uint8Array(65536); let bi = buf.length;
+    const fill = () => { try { crypto.getRandomValues(buf); } catch (e) { for (let i = 0; i < buf.length; i++) buf[i] = Math.random() * 256 | 0; } bi = 0; };
+    for (let i = 0; i < W * H; i++) {
+      if (!mk[i]) continue;
+      for (let ch = 0; ch < 3; ch++) {
+        if (bi >= buf.length) fill();
+        const v = d[i * 4 + ch] + (buf[bi++] % 3 - 1);
+        d[i * 4 + ch] = v < 0 ? 0 : v > 255 ? 255 : v;
+      }
+    }
+  }
+
+  function grainSigma(d, m) {
+    const diffs = [], l = j => d[j * 4] * .3 + d[j * 4 + 1] * .59 + d[j * 4 + 2] * .11;
+    if (W < 4 || H < 4) return 0;
+    for (let s = 0; s < 20000; s++) {
+      const x = 1 + Math.floor(Math.random() * (W - 2)), y = 1 + Math.floor(Math.random() * (H - 2)), i = y * W + x;
+      if (m[i] || m[i - 1] || m[i + 1] || m[i - W] || m[i + W]) continue;
+      diffs.push(Math.abs(l(i) - (l(i - 1) + l(i + 1) + l(i - W) + l(i + W)) / 4));
+    }
+    if (!diffs.length) return 0;
+    diffs.sort((a, b) => a - b); return diffs[diffs.length >> 1] * 1.2;
+  }
+
+  function inpaintCV(sel, m) {
+    const c = window.cv, img = cx.getImageData(0, 0, W, H);
+    const sg = $('#tex').checked ? grainSigma(img.data, m) : 0;
+    const m255 = new Uint8Array(W * H); for (let i = 0; i < m.length; i++) if (m[i]) m255[i] = 255;
+    const rgba = c.matFromImageData(img), rgb = new c.Mat(), mask = c.matFromArray(H, W, c.CV_8UC1, m255), out = new c.Mat(); let k = null;
+    try {
+      c.cvtColor(rgba, rgb, c.COLOR_RGBA2RGB);
+      const it = +$('#dil').value, rad = +$('#rad').value, flag = $('#algo').value === 'ns' ? c.INPAINT_NS : c.INPAINT_TELEA;
+      if (it > 0) { k = c.Mat.ones(3, 3, c.CV_8U); c.dilate(mask, mask, k, new c.Point(-1, -1), it); }
+      const px = +$('#pad').value + it + rad * 3 + 6;
+      for (const b of maskRegions(m)) {
+        const x0 = Math.max(0, Math.floor(b.x - px)), y0 = Math.max(0, Math.floor(b.y - px)), x1 = Math.min(W, Math.ceil(b.x + b.w + px)), y1 = Math.min(H, Math.ceil(b.y + b.h + px));
+        if (x1 - x0 < 2 || y1 - y0 < 2) continue;
+        const r = new c.Rect(x0, y0, x1 - x0, y1 - y0), s = rgb.roi(r), mk = mask.roi(r), o = new c.Mat();
+        try { c.inpaint(s, mk, o, rad, flag); o.copyTo(s); } finally { s.delete(); mk.delete(); o.delete(); }
+      }
+      c.cvtColor(rgb, out, c.COLOR_RGB2RGBA);
+      const res = new ImageData(new Uint8ClampedArray(out.data), W, H), md = mask.data;
+      if (sg > 0) for (let i = 0; i < W * H; i++) {
+        if (!md[i]) continue; const g = gauss() * sg;
+        for (let ch = 0; ch < 3; ch++) res.data[i * 4 + ch] = clamp(res.data[i * 4 + ch] + g + gauss() * sg * .25, 0, 255);
+      }
+      if ($('#meta').checked) addMetaNoise(res.data, md);
+      cx.putImageData(res, 0, 0);
+    } finally { [rgba, rgb, mask, out, k].forEach(x => x && x.delete()); }
+  }
+
+  /* alternativa sem OpenCV: preenchimento por pirâmide */
+  function dilateMask(m) {
+    const t = new Uint8Array(W * H), o = new Uint8Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i = y * W + x; t[i] = m[i] | (x > 0 ? m[i - 1] : 0) | (x < W - 1 ? m[i + 1] : 0); }
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i = y * W + x; o[i] = t[i] | (y > 0 ? t[i - W] : 0) | (y < H - 1 ? t[i + W] : 0); }
+    return o;
+  }
+
+  function pyramidFill(d, m) {
+    const L = []; let c = new Float32Array(W * H * 3), a = new Float32Array(W * H), n = new Float32Array(W * H).fill(1), known = 0;
+    for (let i = 0; i < W * H; i++) if (!m[i]) { known++; a[i] = 1; c[i * 3] = d[i * 4]; c[i * 3 + 1] = d[i * 4 + 1]; c[i * 3 + 2] = d[i * 4 + 2]; }
+    if (!known) return null;
+    L.push({ w: W, h: H, c, a, n });
+    while (L[L.length - 1].w > 1 || L[L.length - 1].h > 1) {
+      const p = L[L.length - 1], nw = (p.w + 1) >> 1, nh = (p.h + 1) >> 1, q = { w: nw, h: nh, c: new Float32Array(nw * nh * 3), a: new Float32Array(nw * nh), n: new Float32Array(nw * nh) };
+      for (let y = 0; y < p.h; y++) for (let x = 0; x < p.w; x++) {
+        const i = y * p.w + x, j = (y >> 1) * nw + (x >> 1); q.a[j] += p.a[i]; q.n[j] += p.n[i];
+        q.c[j * 3] += p.c[i * 3]; q.c[j * 3 + 1] += p.c[i * 3 + 1]; q.c[j * 3 + 2] += p.c[i * 3 + 2];
+      }
+      L.push(q);
+    }
+    let F = null;
+    for (let k = L.length - 1; k >= 0; k--) {
+      const l = L[k], f = new Float32Array(l.w * l.h * 3), P = L[k + 1];
+      for (let y = 0; y < l.h; y++) for (let x = 0; x < l.w; x++) {
+        const i = y * l.w + x, cov = l.a[i] / l.n[i];
+        for (let ch = 0; ch < 3; ch++) {
+          let up = 0;
+          if (F) {
+            const px = Math.min(Math.max((x + .5) / 2 - .5, 0), P.w - 1), py = Math.min(Math.max((y + .5) / 2 - .5, 0), P.h - 1),
+              x0 = px | 0, y0 = py | 0, x1 = Math.min(x0 + 1, P.w - 1), y1 = Math.min(y0 + 1, P.h - 1), fx = px - x0, fy = py - y0;
+            up = (F[(y0 * P.w + x0) * 3 + ch] * (1 - fx) + F[(y0 * P.w + x1) * 3 + ch] * fx) * (1 - fy) + (F[(y1 * P.w + x0) * 3 + ch] * (1 - fx) + F[(y1 * P.w + x1) * 3 + ch] * fx) * fy;
+          }
+          const mean = l.a[i] > 0 ? l.c[i * 3 + ch] / l.a[i] : up;
+          f[i * 3 + ch] = cov * mean + (1 - cov) * up;
+        }
+      }
+      F = f;
+    }
+    return F;
+  }
+
+  function inpaintJS(m) {
+    const src = cx.getImageData(0, 0, W, H), d = src.data;
+    let mm = m; for (let k = 0; k < +$('#dil').value; k++) mm = dilateMask(mm);
+    const F = pyramidFill(d, mm); if (!F) throw i18nError('errFull');
+    const sg = $('#tex').checked ? grainSigma(d, mm) : 0, bm = new Float32Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      let s = 0, k = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const xx = x + dx, yy = y + dy; if (xx >= 0 && yy >= 0 && xx < W && yy < H) { s += mm[yy * W + xx]; k++; } }
+      bm[y * W + x] = s / k;
+    }
+    for (let i = 0; i < W * H; i++) {
+      const b = bm[i]; if (!b) continue; const g = gauss() * sg;
+      for (let ch = 0; ch < 3; ch++) { const v = F[i * 3 + ch] + g + gauss() * sg * .25; d[i * 4 + ch] = d[i * 4 + ch] * (1 - b) + clamp(v, 0, 255) * b; }
+    }
+    if ($('#meta').checked) addMetaNoise(d, mm);
+    cx.putImageData(src, 0, 0);
+  }
+
+  async function removeSelected() {
+    const sel = boxes.filter(b => b.sel); if ((!sel.length && !penDirty) || busy) return;
+    setBusy(true, 'rem'); setMsg('rebuilding'); await tick();
+    hist.push({ img: cx.getImageData(0, 0, W, H), boxes: boxes.map(b => ({ ...b })) }); if (hist.length > 4) hist.shift();
+    try {
+      const m = buildMask(sel); mergePenIntoMask(m);
+      if (cvOK) inpaintCV(sel, m); else inpaintJS(m);
+      clearPen(); boxes = boxes.filter(b => !b.sel); renderBoxes();
+      setMsg(cvOK ? 'done' : 'doneAlt');
+    } catch (e) {
+      console.error(e); const h = hist.pop(); if (h) cx.putImageData(h.img, 0, 0);
+      setMsg('procError', true, { e });
+    }
+    setBusy(false);
+  }
+
+  function undo() {
+    const h = hist.pop(); if (!h) return;
+    cx.putImageData(h.img, 0, 0); boxes = h.boxes; renderBoxes();
+    $('#undo').disabled = !hist.length; setMsg('undone');
+  }
+
+  /* download: PNG sem perdas, nome 'Aetix Design.png' */
+  function savePng() {
+    let c = cnv;
+    if ($('#meta').checked) {
+      c = document.createElement('canvas'); c.width = W; c.height = H;
+      const k = c.getContext('2d'); k.imageSmoothingEnabled = false; k.drawImage(cnv, 0, 0);
+    }
+    c.toBlob(b => {
+      if (!b) { setMsg('pngFail', true); return; }
+      const a = document.createElement('a'), u = URL.createObjectURL(b);
+      a.href = u; a.download = 'Aetix Design.png'; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(u), 4000); setMsg('saved');
+      Core.payment.promptAfterDownload();
+    }, 'image/png', 1);
+  }
+
+  /* ---------- eventos ---------- */
+  function init() {
+    $('#file').onchange = e => { loadFile(e.target.files[0]); e.target.value = ''; };
+    $('#reset').onclick = resetImage;
+    drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#file').click(); } });
+
+    $('#cancel').onclick = cancelScan;
+    $('#rescan').onclick = scan;
+    $('#lang').onchange = scan; $('#psm').onchange = scan; $('#prep').onchange = scan; $('#binc').onchange = scan;
+    $('#gran').onchange = () => { boxes = boxes.filter(b => b.manual); buildBoxes(); };
+    $('#conf').oninput = e => { $('#confv').textContent = e.target.value; if (raw.words.length || raw.lines.length) buildBoxes(); };
+    ['pad', 'thr', 'dil', 'rad', 'merge', 'binc'].forEach(k => { $('#' + k).oninput = e => { $('#' + k + 'v').textContent = e.target.value; }; });
+    $('#merge').addEventListener('input', () => { if (raw.words.length || raw.lines.length) buildBoxes(); });
+
+    ['pen', 'eraser'].forEach(t => { const r = $(SIZE[t]); r.addEventListener('change', () => keepPopClosed(t)); r.addEventListener('pointerup', () => keepPopClosed(t)); });
+    $('#pencil').onclick = () => toggleTool('pen');
+    $('#eraser').onclick = () => toggleTool('eraser');
+    $('#pen').oninput = e => { $('#penv').textContent = e.target.value + 'px'; };
+    $('#era').oninput = e => { $('#erav').textContent = e.target.value + 'px'; };
+    document.addEventListener('pointerdown', e => { if (!e.target.closest('.tool')) hidePops(); });
+
+    ov.addEventListener('pointerdown', e => {
+      if (!tool || !W || busy) return;
+      ov.setPointerCapture(e.pointerId); pl = pp(e); paintSegment(pl, pl);
+      if (tool === 'pen') { penDirty = true; updateCount(); }
+    });
+    ov.addEventListener('pointermove', e => { moveCursor(e); if (!pl) return; const p = pp(e); paintSegment(pl, p); pl = p; });
+    ov.addEventListener('pointerleave', () => { $('#pcur').hidden = true; });
+    ['pointerup', 'pointercancel'].forEach(t => ov.addEventListener(t, () => { const was = pl; pl = null; if (was && tool === 'eraser' && penDirty) recheckPen(); }));
+
+    $('#all').onclick = () => { boxes.forEach(b => { b.sel = true; }); renderBoxes(); };
+    $('#none').onclick = () => { boxes.forEach(b => { b.sel = false; }); clearPen(); renderBoxes(); };
+    $('#draw').onclick = () => {
+      drawMode = !drawMode; if (drawMode && tool) setTool(null);
+      $('#draw').setAttribute('aria-pressed', String(drawMode)); layer.classList.toggle('draw', drawMode);
+      setMsg(drawMode ? 'drawHint' : null);
+    };
+    layer.addEventListener('pointerdown', e => {
+      if (!drawMode || e.target !== layer) return;
+      layer.setPointerCapture(e.pointerId); ds = lp(e);
+      tmp = document.createElement('div'); tmp.className = 'box tmp'; layer.appendChild(tmp);
+    });
+    layer.addEventListener('pointermove', e => {
+      if (!ds) return; const r = dragRect(ds, lp(e));
+      tmp.style.cssText = `left:${r.x / W * 100}%;top:${r.y / H * 100}%;width:${r.w / W * 100}%;height:${r.h / H * 100}%`;
+    });
+    layer.addEventListener('pointerup', endDraw);
+    layer.addEventListener('pointercancel', () => { ds = null; if (tmp) { tmp.remove(); tmp = null; } });
+
+    $('#go').onclick = removeSelected;
+    $('#undo').onclick = undo;
+    $('#save').onclick = savePng;
+  }
+  init();
+
+  /* ---------- API do módulo ---------- */
+  return {
+    activate: bootEngines,
+    deactivate: hidePops,
+    loadFile,
+    setDragOver: b => drop.classList.toggle('over', b),
+    onEscape: () => { if (tool) setTool(null); },
+    onLang: () => { $('#go-t').textContent = tr(goKey); renderMsg(); refreshLabels(); updateCount(); }
+  };
+})();
+
+/* ==========================================================================
+   VIDEO PROCESSOR  (Web Worker: MP4Box + WebCodecs + OpenCV.js + mp4-muxer; FFmpeg.wasm p/ metadados)
+   ========================================================================== */
+Core['modules']['video'] = App['VideoProcessor'] = (function () {
+  const { $ } = Core.scope('vd');
+  const tr = (k, p) => Core.tr('vid.' + k, p);
+  const fmtTime = (t, tenths) => {
+    if (!isFinite(t) || t < 0) t = 0;
+    const m = Math.floor(t / 60), s = Math.floor(t % 60), base = m + ':' + String(s).padStart(2, '0');
+    return tenths ? base + '.' + Math.floor((t % 1) * 10) : base;
+  };
+
+  /* ---------- DOM ---------- */
+  const drop = $('#drop'), fileInput = $('#file'), editor = $('#editor'), msgEl = $('#msg');
+  const vid = $('#vid'), ov = $('#ov'), wrap = $('#wrap'), pcur = $('#pcur');
+  const pencil = $('#pencil'), eraser = $('#eraser'), penpop = $('#penpop'), erapop = $('#erapop');
+  const pen = $('#pen'), era = $('#era'), penv = $('#penv'), erav = $('#erav');
+  const resetBtn = $('#reset'), playBtn = $('#play'), playIc = $('#playic'), prevf = $('#prevf'), nextf = $('#nextf');
+  const seek = $('#seek'), marks = $('#marks'), timeEl = $('#time');
+  const addkf = $('#addkf'), delkf = $('#delkf'), kflist = $('#kflist'), countEl = $('#count');
+  const scanbar = $('#scanbar'), prog = $('#prog'), cancelBtn = $('#cancel');
+  const renderBtn = $('#render'), saveBtn = $('#save');
+  const algo = $('#algo'), rad = $('#rad'), radv = $('#radv'), dil = $('#dil'), dilv = $('#dilv');
+  const quality = $('#quality'), noise = $('#noise'), meta = $('#meta');
+  const resvid = $('#resvid'), resultSub = $('#resultSub'), resultSave = $('#resultSave');
+
+  /* Navier-Stokes por padrão: preserva melhor textura e fundo em movimento */
+  algo.value = 'ns';
+
+  /* ---------- estado local ---------- */
+  let videoFile = null, videoUrl = null;
+  let PW = 0, PH = 0;
+  let keyframes = [];            // {t, mask:Uint8Array, stats}
+  let activeIdx = -1;
+  let previewBuf = null, ovData = null, paintCv = null, paintCtx = null;
+  let tool = null, painting = false, points = [], strokeMode = 'pen', brushPx = 1;
+  let lastBlob = null, lastHasAudio = false, resultUrl = null;
+  let rendering = false, cancelled = false;
+  let curMsg = null;
+  let rafId = 0, lastOv = 0;
+  let worker = null, bootP = null, bootWait = null, pendingJob = null, jobSeq = 0;
+
+  /* ---------- mensagens ---------- */
+  function renderMsg() {
+    msgEl.textContent = curMsg ? tr(curMsg.k, curMsg.p) : '';
+    msgEl.className = 'msg' + (curMsg && curMsg.err ? ' err' : '');
+  }
+  function setMsg(key, err, params) { curMsg = key ? { k: key, err: !!err, p: params || null } : null; renderMsg(); }
+
+  /* ---------- motor ---------- */
+  function setEngine(state) { State.videoEngine.status = state; Core.refreshEngine(); }
+  function checkSupport() {
+    const ok = typeof Worker !== 'undefined' && typeof VideoDecoder !== 'undefined' && typeof VideoEncoder !== 'undefined' &&
+      typeof OffscreenCanvas !== 'undefined' && typeof Blob !== 'undefined' && typeof URL !== 'undefined' && !!URL.createObjectURL;
+    if (!ok && State.videoEngine.supported) { State.videoEngine.supported = false; setEngine('err'); setMsg('unsupported', true); }
+    State.videoEngine.supported = ok;
+    return ok;
+  }
+
+  /* ============================================================
+     PIPELINE OPENCV — INPAINT NAVIER-STOKES EM SUB-BLOCO ISOLADO
+     Função pura (recebe o objeto cv). É usada dentro do Web Worker
+     (via toString) e exposta em AetixApp.VideoProcessor.processFrameOpenCV.
+     NÃO pode referenciar nada do escopo externo.
+     ============================================================ */
+  const IMPL_SRC = "function processFrameOpenCVImpl(cv, frameCanvas, bbox, maskCanvas, opts) {\n    opts = opts || {};\n    /* Instancia do OpenCV: usa o objeto injetado (obrigatorio dentro do Web Worker, onde 'window' NAO existe)\n       e cai para o global da thread atual (self === window na thread principal). */\n    const opencvInstance = cv || (typeof self !== 'undefined' ? self['cv'] : null);\n    if (!opencvInstance || !opencvInstance['inpaint']) return false;\n    var radius = opts['radius'] > 0 ? opts['radius'] : 3;\n    var dil = opts['dil'] > 0 ? opts['dil'] : 0;\n    var addNoise = !!opts['noise'];\n    var src = null, mask = null, maskGray = null, eroded = null, rgb = null, dst = null, out = null, kernel = null, grown = null;\n    try {\n      /* A. sub-bloco: so os pixels dentro da bounding box */\n      var fctx = frameCanvas['getContext']('2d', { willReadFrequently: true });\n      var mctx = maskCanvas['getContext']('2d', { willReadFrequently: true });\n      var x = Math.max(0, Math.floor(bbox['x'])), y = Math.max(0, Math.floor(bbox['y']));\n      var w = Math.min(frameCanvas['width'] - x, Math.ceil(bbox['width']));\n      var h = Math.min(frameCanvas['height'] - y, Math.ceil(bbox['height']));\n      if (w < 2 || h < 2) return false;\n      var frameData = fctx['getImageData'](x, y, w, h);\n      var maskData = mctx['getImageData'](x, y, w, h);\n\n      /* B. matrizes do OpenCV */\n      src = opencvInstance['matFromImageData'](frameData);\n      mask = opencvInstance['matFromImageData'](maskData);\n\n      /* C. mascara em cinza + binarizacao obrigatoria (CV_8UC1, valores 0/255) */\n      maskGray = new opencvInstance['Mat']();\n      opencvInstance['cvtColor'](mask, maskGray, opencvInstance['COLOR_RGBA2GRAY']);\n      opencvInstance['threshold'](maskGray, maskGray, 10, 255, opencvInstance['THRESH_BINARY']);\n\n      /* so executa o inpaint se ha pixels desenhados nesta area */\n      if (opencvInstance['countNonZero'](maskGray) > 0) {\n        kernel = opencvInstance['Mat']['ones'](3, 3, opencvInstance['CV_8U']);\n        var work = maskGray;\n        if (dil > 0) {\n          grown = new opencvInstance['Mat']();\n          opencvInstance['dilate'](maskGray, grown, kernel, new opencvInstance['Point'](-1, -1), dil);\n          work = grown;\n        }\n        eroded = new opencvInstance['Mat']();\n        opencvInstance['erode'](work, eroded, kernel, new opencvInstance['Point'](-1, -1), 2);\n        if (opencvInstance['countNonZero'](eroded) === 0) {   /* traco muito fino: nao perde a mascara */\n          work['copyTo'](eroded);\n        }\n\n        /* D. inpaint Navier-Stokes (INPAINT_NS) - inpaint exige imagem 8UC3 e mascara 8UC1 */\n        rgb = new opencvInstance['Mat']();\n        opencvInstance['cvtColor'](src, rgb, opencvInstance['COLOR_RGBA2RGB']);\n        dst = new opencvInstance['Mat']();\n        opencvInstance['inpaint'](rgb, eroded, dst, radius, opencvInstance['INPAINT_NS']);\n\n        /* E. recomposicao: volta a RGBA e devolve ao canvas nas coordenadas x, y */\n        out = new opencvInstance['Mat']();\n        opencvInstance['cvtColor'](dst, out, opencvInstance['COLOR_RGB2RGBA']);\n        var od = out['data'], md = eroded['data'], n = w * h;\n        if (addNoise) {\n          for (var i = 0; i < n; i++) {\n            if (md[i] <= 127) continue;\n            var j = i * 4;\n            for (var c = 0; c < 3; c++) {\n              var v = od[j + c] + ((Math.random() * 3) | 0) - 1;\n              od[j + c] = v < 0 ? 0 : v > 255 ? 255 : v;\n            }\n          }\n        }\n        fctx['putImageData'](new ImageData(new Uint8ClampedArray(od), w, h), x, y);\n        return true;\n      }\n      return false;   /* area vazia neste frame: segue o loop sem erro */\n    } catch (e) {\n      console['warn']('processFrameOpenCV', e);\n      return false;\n    } finally {\n      /* GC estrito do WebAssembly: libera tudo a cada frame */\n      if (src) { try { src['delete'](); } catch (e1) {} }\n      if (mask) { try { mask['delete'](); } catch (e2) {} }\n      if (maskGray) { try { maskGray['delete'](); } catch (e3) {} }\n      if (eroded) { try { eroded['delete'](); } catch (e4) {} }\n      if (rgb) { try { rgb['delete'](); } catch (e5) {} }\n      if (dst) { try { dst['delete'](); } catch (e6) {} }\n      if (out) { try { out['delete'](); } catch (e7) {} }\n      if (kernel) { try { kernel['delete'](); } catch (e8) {} }\n      if (grown) { try { grown['delete'](); } catch (e9) {} }\n    }\n  }";
+  const processFrameOpenCVImpl = new Function("return (" + IMPL_SRC + ")")();
+
+  /* ============================================================
+     WORKER (demux → decode → inpaint → encode → mux)
+     Esta função é convertida em texto e executada num Web Worker:
+     NÃO pode referenciar nada do escopo externo.
+     ============================================================ */
+  const MAIN_SRC = "function renderWorkerMain() {\n    'use strict';\n    var cv = null, booted = false, busy = false;\n    var CV_URLS = [\n      'https://docs.opencv.org/4.x/opencv.js',\n      'https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.js'\n    ];\n    function post(m, t) { self.postMessage(m, t || []); }\n    function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }\n    function codeErr(code) { var e = new Error(code); e.code = code; return e; }\n\n    function boot() {\n      try {\n        importScripts(\n          'https://cdn.jsdelivr.net/npm/mp4box@0.5.2/dist/mp4box.all.min.js',\n          'https://cdn.jsdelivr.net/npm/mp4-muxer@5.2.1/build/mp4-muxer.min.js'\n        );\n      } catch (e) { post({ type: 'bootfail', step: 'libs', err: String((e && e.message) || e) }); return; }\n      post({ type: 'boot', step: 'libs' });\n      loadCv(0);\n    }\n\n    function loadCv(i) {\n      if (i >= CV_URLS.length) { post({ type: 'bootfail', step: 'cv', err: 'cv' }); return; }\n      post({ type: 'boot', step: 'cv' });\n      try { importScripts(CV_URLS[i]); } catch (e) { loadCv(i + 1); return; }\n      (async function () {\n        try {\n          var c = self['cv'];\n          if (typeof c === 'function') c = await c();\n          if (c && typeof c.then === 'function') {\n            c = await new Promise(function (res, rej) { c.then(function (m) { try { delete m.then; } catch (e) {} res(m); }, rej); });\n          }\n          if (!c || !c['Mat']) {\n            await new Promise(function (res, rej) {\n              var n = 0;\n              var iv = setInterval(function () {\n                if (c && c['Mat']) { clearInterval(iv); res(); }\n                else if (++n > 1800) { clearInterval(iv); rej(new Error('timeout')); }\n              }, 100);\n            });\n          }\n          if (!c || !c['inpaint']) throw new Error('inpaint');\n          cv = c; booted = true;\n          post({ type: 'ready' });\n        } catch (e) {\n          try { self['cv'] = undefined; } catch (err) {}\n          loadCv(i + 1);\n        }\n      })();\n    }\n\n    /* ---------- m\u00e1scara ---------- */\n    function stats(mask, W, H) {\n      var x0 = W, y0 = H, x1 = -1, y1 = -1, n = 0, sx = 0, sy = 0;\n      for (var y = 0; y < H; y++) {\n        var row = y * W;\n        for (var x = 0; x < W; x++) {\n          if (mask[row + x] > 127) {\n            n++; sx += x; sy += y;\n            if (x < x0) x0 = x; if (x > x1) x1 = x;\n            if (y < y0) y0 = y; if (y > y1) y1 = y;\n          }\n        }\n      }\n      return n ? { x0: x0, y0: y0, x1: x1, y1: y1, n: n, cx: sx / n, cy: sy / n } : null;\n    }\n\n    var scratch = null;\n\n    function maskAt(t, kfs, W, H) {\n      if (!kfs.length) return null;\n      if (t <= kfs[0].t) return kfs[0].st ? { mask: kfs[0].mask, st: kfs[0].st } : null;\n      var last = kfs[kfs.length - 1];\n      if (t >= last.t) return last.st ? { mask: last.mask, st: last.st } : null;\n      var i = 0;\n      while (i < kfs.length - 1 && kfs[i + 1].t <= t) i++;\n      var a = kfs[i], b = kfs[i + 1];\n      if (!a.st) return b.st ? { mask: b.mask, st: b.st } : null;\n      if (!b.st) return a.st ? { mask: a.mask, st: a.st } : null;\n      var al = (t - a.t) / (b.t - a.t);\n      if (al < 0) al = 0; if (al > 1) al = 1;\n      if (!scratch) scratch = new Uint8Array(W * H);\n      var out = scratch; out.fill(0);\n      var ca = a.st, cb = b.st;\n      var cx = ca.cx + (cb.cx - ca.cx) * al, cy = ca.cy + (cb.cy - ca.cy) * al;\n      var dax = Math.round(cx - ca.cx), day = Math.round(cy - ca.cy);\n      var dbx = Math.round(cx - cb.cx), dby = Math.round(cy - cb.cy);\n      var ux0 = Math.min(ca.x0 + dax, cb.x0 + dbx), uy0 = Math.min(ca.y0 + day, cb.y0 + dby);\n      var ux1 = Math.max(ca.x1 + dax, cb.x1 + dbx), uy1 = Math.max(ca.y1 + day, cb.y1 + dby);\n      if (ux0 < 0) ux0 = 0; if (uy0 < 0) uy0 = 0;\n      if (ux1 > W - 1) ux1 = W - 1; if (uy1 > H - 1) uy1 = H - 1;\n      var am = a.mask, bm = b.mask;\n      for (var y = uy0; y <= uy1; y++) {\n        var ay = y - day, by = y - dby, row = y * W;\n        for (var x = ux0; x <= ux1; x++) {\n          var va = 0, vb = 0;\n          var ax = x - dax;\n          if (ax >= 0 && ax < W && ay >= 0 && ay < H && am[ay * W + ax] > 127) va = 255;\n          var bx = x - dbx;\n          if (bx >= 0 && bx < W && by >= 0 && by < H && bm[by * W + bx] > 127) vb = 255;\n          if (va + vb >= 255) out[row + x] = 255;\n        }\n      }\n      return { mask: out, st: { x0: ux0, y0: uy0, x1: ux1, y1: uy1, n: 1 } };\n    }\n\n    /* ---------- pipeline OpenCV (Navier-Stokes + sub-bloco isolado) ----------\n       processFrameOpenCVImpl \u00e9 injetada neste worker (ver ensureWorker). */\n    function processFrameOpenCV(frameCanvas, bbox, maskCanvas, opts) {\n      return processFrameOpenCVImpl(cv, frameCanvas, bbox, maskCanvas, opts);\n    }\n\n    /* escreve a m\u00e1scara (Uint8Array W*H) do bbox no canvas de m\u00e1scara (branco = remover) */\n    var maskCv = null, maskCtx = null;\n    function paintMaskCanvas(mask, W, H, bb) {\n      if (!maskCv || maskCv.width !== W || maskCv.height !== H) {\n        maskCv = new OffscreenCanvas(W, H);\n        maskCtx = maskCv.getContext('2d', { willReadFrequently: true });\n      }\n      var w = bb.width, h = bb.height;\n      var img = maskCtx.createImageData(w, h), d = img.data;\n      for (var yy = 0; yy < h; yy++) {\n        var mrow = (bb.y + yy) * W + bb.x, drow = yy * w * 4;\n        for (var xx = 0; xx < w; xx++) {\n          var v = mask[mrow + xx] > 127 ? 255 : 0, j = drow + xx * 4;\n          d[j] = v; d[j + 1] = v; d[j + 2] = v; d[j + 3] = 255;\n        }\n      }\n      maskCtx.putImageData(img, bb.x, bb.y);\n      return maskCv;\n    }\n\n    /* bounding box (com folga para o inpaint) a partir das estat\u00edsticas da m\u00e1scara */\n    function bboxFrom(st, W, H, pad) {\n      var x0 = Math.max(0, st.x0 - pad), y0 = Math.max(0, st.y0 - pad);\n      var x1 = Math.min(W, st.x1 + 1 + pad), y1 = Math.min(H, st.y1 + 1 + pad);\n      return { x: x0, y: y0, width: x1 - x0, height: y1 - y0 };\n    }\n\n    /* ---------- \u00e1udio ---------- */\n    async function encodeAudio(a, id) {\n      if (!a || !a.channels || !a.channels.length) return null;\n      var sr = a.sampleRate, nch = Math.min(2, a.channels.length), total = a.channels[0].length;\n      var cfg = { codec: 'mp4a.40.2', sampleRate: sr, numberOfChannels: nch, bitrate: 192000 };\n      var sup = null;\n      try { sup = await AudioEncoder.isConfigSupported(cfg); } catch (e) { return null; }\n      if (!sup || !sup.supported) return null;\n      var chunks = [], err = null;\n      var enc = new AudioEncoder({\n        output: function (c, m) { chunks.push({ chunk: c, meta: m }); },\n        error: function (e) { err = e; }\n      });\n      enc.configure(cfg);\n      var block = 1024;\n      for (var off = 0; off < total; off += block) {\n        if (err) break;\n        var n = Math.min(block, total - off);\n        var data = new Float32Array(n * nch);\n        for (var c = 0; c < nch; c++) data.set(a.channels[c].subarray(off, off + n), c * n);\n        var ad = new AudioData({\n          format: 'f32-planar', sampleRate: sr, numberOfFrames: n, numberOfChannels: nch,\n          timestamp: Math.round(off / sr * 1e6), data: data\n        });\n        enc.encode(ad); ad.close();\n        if (enc.encodeQueueSize > 24) await sleep(2);\n        if (off % (block * 200) === 0) post({ type: 'progress', id: id, phase: 'audio', p: off / total });\n      }\n      await enc.flush();\n      if (err) throw err;\n      return { chunks: chunks, sampleRate: sr, channels: nch };\n    }\n\n    /* ---------- render ---------- */\n    async function doRender(job) {\n      var id = job.id, W = job.W, H = job.H;\n      var kfs = job.keyframes.map(function (k) { return { t: k.t, mask: new Uint8Array(k.mask) }; });\n      kfs.sort(function (a, b) { return a.t - b.t; });\n      kfs.forEach(function (k) { k.st = stats(k.mask, W, H); });\n\n      post({ type: 'progress', id: id, phase: 'demux', p: 0 });\n\n      var buf = job.file;\n      try { buf.fileStart = 0; } catch (e) {}\n      var mp4 = MP4Box.createFile();\n      var info = null;\n      mp4.onReady = function (i) { info = i; };\n      mp4.onError = function () {};\n      try { mp4.appendBuffer(buf); mp4.flush(); }\n      catch (e) { throw codeErr('format'); }\n      if (!info || !info.videoTracks || !info.videoTracks.length) throw codeErr('format');\n      var vt = info.videoTracks[0];\n      var trak = mp4.getTrackById(vt.id);\n      var entry = trak.mdia.minf.stbl.stsd.entries[0];\n      var box = entry.avcC || entry.hvcC || entry.vpcC || entry.av1C;\n      if (!box) throw codeErr('format');\n      var ds = new DataStream(undefined, 0, DataStream.BIG_ENDIAN);\n      box.write(ds);\n      var desc = new Uint8Array(ds.buffer, 8);\n\n      var decCfg = { codec: vt.codec, description: desc, codedWidth: vt.video.width, codedHeight: vt.video.height };\n      var dsup = null;\n      try { dsup = await VideoDecoder.isConfigSupported(decCfg); } catch (e) { dsup = null; }\n      if (!dsup || !dsup.supported) throw codeErr('decode');\n\n      var samples = [];\n      mp4.onSamples = function (tid, u, ss) { for (var i = 0; i < ss.length; i++) samples.push(ss[i]); };\n      mp4.setExtractionOptions(vt.id, null, { nbSamples: Math.max(1, Math.min(vt.nb_samples || 100000, 100000)) });\n      mp4.start();\n      var want = vt.nb_samples || 0, dl = Date.now() + 30000;\n      while (Date.now() < dl && (want ? samples.length < want : samples.length === 0)) await sleep(10);\n      if (!samples.length) throw codeErr('format');\n\n      var t0 = Infinity;\n      for (var si = 0; si < samples.length; si++) {\n        var cts = samples[si].cts * 1e6 / vt.timescale;\n        if (cts < t0) t0 = cts;\n      }\n      if (!isFinite(t0)) t0 = 0;\n\n      var durSec = vt.duration / vt.timescale;\n      var fps = vt.nb_samples && durSec > 0 ? vt.nb_samples / durSec : 30;\n      if (!isFinite(fps) || fps < 1 || fps > 240) fps = 30;\n\n      var bitrate = job.bitrate || 6000000;\n      var cands = [\n        { codec: 'avc1.42001f', width: W, height: H, bitrate: bitrate, framerate: fps, avc: { format: 'avc' } },\n        { codec: 'avc1.4d0028', width: W, height: H, bitrate: bitrate, framerate: fps, avc: { format: 'avc' } },\n        { codec: 'avc1.640028', width: W, height: H, bitrate: bitrate, framerate: fps, avc: { format: 'avc' } }\n      ];\n      var encCfg = null;\n      for (var ci = 0; ci < cands.length; ci++) {\n        try {\n          var esup = await VideoEncoder.isConfigSupported(cands[ci]);\n          if (esup && esup.supported) { encCfg = cands[ci]; break; }\n        } catch (e) {}\n      }\n      if (!encCfg) throw codeErr('encode');\n\n      var aud = null;\n      try { aud = await encodeAudio(job.audio, id); } catch (e) { aud = null; }\n\n      var muxer = new Mp4Muxer.Muxer({\n        target: new Mp4Muxer.ArrayBufferTarget(),\n        video: { codec: 'avc', width: W, height: H, frameRate: fps },\n        audio: aud ? { codec: 'aac', sampleRate: aud.sampleRate, numberOfChannels: aud.channels } : undefined,\n        fastStart: 'in-memory',\n        firstTimestampBehavior: 'offset'\n      });\n      if (aud) { for (var ai = 0; ai < aud.chunks.length; ai++) muxer.addAudioChunk(aud.chunks[ai].chunk, aud.chunks[ai].meta); }\n\n      var frameCanvas = new OffscreenCanvas(W, H);\n      var fctx = frameCanvas.getContext('2d', { willReadFrequently: true });\n      var encErr = null;\n      var enc = new VideoEncoder({\n        output: function (chunk, m) { muxer.addVideoChunk(chunk, m); },\n        error: function (e) { encErr = e; }\n      });\n      enc.configure(encCfg);\n\n      var pending = 0, processed = 0, frameIndex = 0, fatal = null, chain = Promise.resolve();\n      var keyEvery = Math.max(1, Math.round(fps * 2));\n\n      async function processFrame(frame) {\n        try {\n          var t = (frame.timestamp - t0) / 1e6;\n          var hit = maskAt(t, kfs, W, H);\n          fctx.drawImage(frame, 0, 0, W, H);\n          if (hit && hit.st) {\n            var bb = bboxFrom(hit.st, W, H, job.radius + job.dil + 6);\n            if (bb.width >= 2 && bb.height >= 2) {\n              var mc = paintMaskCanvas(hit.mask, W, H, bb);\n              processFrameOpenCV(frameCanvas, bb, mc, { radius: job.radius, dil: job.dil, noise: job.noise });\n            }\n          }\n          var out = new VideoFrame(frameCanvas, {\n            timestamp: Math.max(0, frame.timestamp - t0),\n            duration: frame.duration || Math.round(1e6 / fps)\n          });\n          while (enc.encodeQueueSize > 12 && !fatal) await sleep(1);\n          enc.encode(out, { keyFrame: frameIndex === 0 || frameIndex % keyEvery === 0 });\n          frameIndex++;\n          out.close();\n        } finally {\n          try { frame.close(); } catch (e) {}\n        }\n      }\n\n      var decErr = null;\n      var dec = new VideoDecoder({\n        output: function (frame) {\n          pending++;\n          chain = chain.then(async function () {\n            try { await processFrame(frame); }\n            catch (e) { if (!fatal) fatal = e; }\n            finally { pending--; }\n          });\n        },\n        error: function (e) { decErr = e; }\n      });\n      dec.configure(decCfg);\n\n      for (var i = 0; i < samples.length; i++) {\n        if (fatal || decErr) break;\n        var s = samples[i];\n        var ts = Math.round(s.cts * 1e6 / vt.timescale);\n        var du = Math.round((s.duration || 0) * 1e6 / vt.timescale) || Math.round(1e6 / fps);\n        try {\n          dec.decode(new EncodedVideoChunk({\n            type: s.is_sync ? 'key' : 'delta',\n            timestamp: ts, duration: du, data: s.data\n          }));\n        } catch (e) { fatal = e; break; }\n        while ((dec.decodeQueueSize > 16 || pending > 6) && !fatal && !decErr) await sleep(2);\n        if (i % 4 === 0) {\n          processed++;\n          post({ type: 'progress', id: id, phase: 'frames', p: Math.min(0.98, i / samples.length) });\n        }\n      }\n\n      try { await dec.flush(); } catch (e) { if (!fatal) fatal = e; }\n      try { await chain; } catch (e) { if (!fatal) fatal = e; }\n      if (fatal) throw fatal;\n      if (decErr) throw decErr;\n      try { await enc.flush(); } catch (e) { if (!encErr) encErr = e; }\n      if (encErr) throw encErr;\n\n      post({ type: 'progress', id: id, phase: 'mux', p: 0.99 });\n      muxer.finalize();\n      var outBuf = muxer.target.buffer;\n      post({ type: 'result', id: id, buffer: outBuf, hasAudio: !!aud }, [outBuf]);\n    }\n\n    self.onmessage = function (ev) {\n      var d = ev.data;\n      if (!d || d.cmd !== 'render') return;\n      if (!booted) { post({ type: 'error', id: d.id, code: 'boot' }); return; }\n      if (busy) { post({ type: 'error', id: d.id, code: 'busy' }); return; }\n      busy = true;\n      doRender(d)\n        .catch(function (e) { post({ type: 'error', id: d.id, code: (e && typeof e.code === 'string' && e.code) || 'render', detail: String((e && (e.name + ': ' + e.message)) || e) }); })\n        .then(function () { busy = false; });\n    };\n\n    boot();\n  }";
+
+  /* ---------- ponte com o worker ---------- */
+  function onWorkerMessage(d) {
+    if (!d || !d.type) return;
+    if (d.type === 'boot') { setEngine('load'); return; }
+    if (d.type === 'ready') {
+      setEngine('ok');
+      if (bootWait) { const b = bootWait; bootWait = null; b.resolve(true); }
+      return;
+    }
+    if (d.type === 'bootfail') {
+      setEngine('err');
+      if (!videoFile) setMsg('engineFail', true);
+      const b = bootWait; bootWait = null; bootP = null;
+      if (b) b.reject(new Error('boot'));
+      return;
+    }
+    if (!pendingJob || d.id !== pendingJob.id) return;
+    if (d.type === 'progress') { updateProgress(d); return; }
+    if (d.type === 'result') { const p = pendingJob; pendingJob = null; p.resolve(d); return; }
+    if (d.type === 'error') { const p = pendingJob; pendingJob = null; console['warn']('[AETIX] erro no worker de render:', d['code'], d['detail']); p.reject(new Error(d.code || 'render')); }
+  }
+
+  function ensureWorker() {
+    if (bootP) return bootP;
+    setEngine('load');
+    bootP = new Promise((resolve, reject) => {
+      bootWait = { resolve, reject };
+      let w = null;
+      const src = 'var processFrameOpenCVImpl = ' + IMPL_SRC + ';\n(' + MAIN_SRC + ')()';
+      const u = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
+      try { w = new Worker(u); }
+      catch (e) { URL.revokeObjectURL(u); bootWait = null; bootP = null; setEngine('err'); reject(e); return; }
+      URL.revokeObjectURL(u);
+      worker = w;
+      w.onmessage = e => onWorkerMessage(e.data);
+      w.onerror = e => {
+        const m = (e && e.message) || 'worker';
+        if (bootWait) { const b = bootWait; bootWait = null; bootP = null; b.reject(new Error(m)); }
+        if (pendingJob) { const p = pendingJob; pendingJob = null; p.reject(new Error(m)); }
+        setEngine('err');
+        try { w.terminate(); } catch (err) {}
+        if (worker === w) worker = null;
+      };
+    });
+    return bootP;
+  }
+
+  function terminateWorker() {
+    if (worker) { try { worker.terminate(); } catch (e) {} worker = null; }
+    bootP = null; bootWait = null; pendingJob = null;
+  }
+
+  function runRender(payload, transfer) {
+    return new Promise((resolve, reject) => {
+      pendingJob = { id: payload.id, resolve, reject };
+      try { worker.postMessage(payload, transfer); }
+      catch (e) { pendingJob = null; reject(e); }
+    });
+  }
+
+  function updateProgress(d) {
+    if (d.phase === 'frames') { const p = Core.clamp(d.p || 0, 0, 1); prog.value = 0.15 + 0.75 * p; setMsg('phaseFrames', false, { p: Math.round(p * 100) }); }
+    else if (d.phase === 'audio') { prog.value = 0.06 + 0.04 * Core.clamp(d.p || 0, 0, 1); setMsg('phaseAudio'); }
+    else if (d.phase === 'demux') { prog.value = 0.12; setMsg('phaseDemux'); }
+    else if (d.phase === 'mux') { prog.value = 0.95; setMsg('phaseMux'); }
+  }
+
+  /* ============================================================
+     VÍDEO
+     ============================================================ */
+  const clamp = Core.clamp;
+
+  function resetEditorState() {
+    keyframes = []; activeIdx = -1; lastBlob = null; lastHasAudio = false;
+    previewBuf = null; ovData = null; paintCv = null; paintCtx = null;
+    points = []; painting = false;
+    kflist.innerHTML = ''; marks.innerHTML = '';
+    countEl.textContent = '';
+    seek.value = 0; timeEl.textContent = '0:00 / 0:00';
+    scanbar.hidden = true; prog.value = 0;
+  }
+
+  function mediaReady(v) {
+    return new Promise((res, rej) => {
+      if (v.readyState >= 1 && v.videoWidth) return res();
+      let done = false;
+      const t = setTimeout(() => { if (done) return; done = true; cleanup(); rej(new Error('timeout')); }, 20000);
+      function cleanup() { clearTimeout(t); v.removeEventListener('loadedmetadata', ok); v.removeEventListener('error', bad); }
+      function ok() { if (done) return; done = true; cleanup(); res(); }
+      function bad() { if (done) return; done = true; cleanup(); rej(new Error('media')); }
+      v.addEventListener('loadedmetadata', ok);
+      v.addEventListener('error', bad);
+    });
+  }
+
+  function setupDimensions() {
+    const w = vid.videoWidth, h = vid.videoHeight;
+    const scale = Math.min(1, 854 / w, 480 / h);
+    PW = Math.max(2, Math.round(w * scale / 2) * 2);
+    PH = Math.max(2, Math.round(h * scale / 2) * 2);
+    ov.width = PW; ov.height = PH;
+    previewBuf = new Uint8Array(PW * PH);
+    ovData = ov.getContext('2d').createImageData(PW, PH);
+    paintCv = document.createElement('canvas');
+    paintCv.width = PW; paintCv.height = PH;
+    paintCtx = paintCv.getContext('2d', { willReadFrequently: true });
+  }
+
+  function loadVideo(f) {
+    if (!f || rendering) return;
+    const name = (f.name || '').toLowerCase();
+    const okType = /^video\//.test(f.type || '') || /\.(mp4|mov|m4v|webm)$/.test(name);
+    if (!okType) { setMsg('chooseVideo', true); return; }
+    setMsg('loadingVideo');
+    if (videoUrl) { URL.revokeObjectURL(videoUrl); videoUrl = null; }
+    videoFile = f;
+    videoUrl = URL.createObjectURL(f);
+    resetEditorState();
+    vid.pause();
+    vid.src = videoUrl;
+    vid.load();
+    mediaReady(vid).then(() => {
+      if (!vid.videoWidth || !vid.videoHeight) { resetVideo(); setMsg('openFail', true); return; }
+      setupDimensions();
+      drop.hidden = true; editor.hidden = false;
+      keyframes = []; activeIdx = -1; lastBlob = null; lastHasAudio = false;
+      saveBtn.disabled = true;
+      syncTimeline(); syncActive(); clearOverlay(); syncCount(); syncUI(); setTool(null);
+      setMsg('readyHint');
+    }).catch(() => { resetVideo(); setMsg('openFail', true); });
+  }
+
+  function resetVideo() {
+    if (rendering) return;
+    vid.pause();
+    vid.removeAttribute('src');
+    try { vid.load(); } catch (e) {}
+    if (videoUrl) { URL.revokeObjectURL(videoUrl); videoUrl = null; }
+    videoFile = null;
+    resetEditorState();
+    editor.hidden = true; drop.hidden = false;
+    setMsg(null); setTool(null); syncUI();
+  }
+
+  /* ---------- máscara / overlay ---------- */
+  function maskStats(mask) {
+    const W = PW, H = PH;
+    let x0 = W, y0 = H, x1 = -1, y1 = -1, n = 0, sx = 0, sy = 0;
+    for (let y = 0; y < H; y++) {
+      const row = y * W;
+      for (let x = 0; x < W; x++) {
+        if (mask[row + x] > 127) {
+          n++; sx += x; sy += y;
+          if (x < x0) x0 = x; if (x > x1) x1 = x;
+          if (y < y0) y0 = y; if (y > y1) y1 = y;
+        }
+      }
+    }
+    return n ? { x0, y0, x1, y1, n, cx: sx / n, cy: sy / n } : null;
+  }
+  function statsOf(k) { if (!k.stats) k.stats = maskStats(k.mask); return k.stats; }
+  function clearOverlay() { if (!ov.width) return; ov.getContext('2d').clearRect(0, 0, ov.width, ov.height); }
+
+  function maskAtTime(t) {
+    const n = keyframes.length;
+    if (!n) return null;
+    if (t <= keyframes[0].t + 1e-4) { const k = keyframes[0]; return k.stats ? k.mask : null; }
+    const last = keyframes[n - 1];
+    if (t >= last.t - 1e-4) return last.stats ? last.mask : null;
+    let i = 0;
+    while (i < n - 1 && keyframes[i + 1].t <= t) i++;
+    const a = keyframes[i], b = keyframes[i + 1];
+    const sa = statsOf(a), sb = statsOf(b);
+    if (!sa) return sb ? b.mask : null;
+    if (!sb) return a.mask;
+    let al = (t - a.t) / (b.t - a.t);
+    al = clamp(al, 0, 1);
+    const out = previewBuf;
+    if (!out) return null;
+    out.fill(0);
+    const cx = sa.cx + (sb.cx - sa.cx) * al, cy = sa.cy + (sb.cy - sa.cy) * al;
+    const dax = Math.round(cx - sa.cx), day = Math.round(cy - sa.cy);
+    const dbx = Math.round(cx - sb.cx), dby = Math.round(cy - sb.cy);
+    let ux0 = Math.min(sa.x0 + dax, sb.x0 + dbx), uy0 = Math.min(sa.y0 + day, sb.y0 + dby);
+    let ux1 = Math.max(sa.x1 + dax, sb.x1 + dbx), uy1 = Math.max(sa.y1 + day, sb.y1 + dby);
+    ux0 = Math.max(0, ux0); uy0 = Math.max(0, uy0);
+    ux1 = Math.min(PW - 1, ux1); uy1 = Math.min(PH - 1, uy1);
+    const am = a.mask, bm = b.mask;
+    for (let y = uy0; y <= uy1; y++) {
+      const ay = y - day, by = y - dby, row = y * PW;
+      for (let x = ux0; x <= ux1; x++) {
+        let va = 0, vb = 0;
+        const ax = x - dax;
+        if (ax >= 0 && ax < PW && ay >= 0 && ay < PH && am[ay * PW + ax] > 127) va = 255;
+        const bx = x - dbx;
+        if (bx >= 0 && bx < PW && by >= 0 && by < PH && bm[by * PW + bx] > 127) vb = 255;
+        if (va + vb >= 255) out[row + x] = 255;
+      }
+    }
+    return out;
+  }
+
+  function drawOverlay(mask) {
+    if (!ovData) return;
+    const d = ovData.data;
+    if (!mask) { ov.getContext('2d').clearRect(0, 0, PW, PH); return; }
+    for (let i = 0, j = 0; i < mask.length; i++, j += 4) {
+      if (mask[i] > 127) { d[j] = 255; d[j + 1] = 77; d[j + 2] = 141; d[j + 3] = 190; }
+      else d[j + 3] = 0;
+    }
+    ov.getContext('2d').putImageData(ovData, 0, 0);
+  }
+
+  function drawOverlayNow() {
+    if (painting || !PW) return;
+    const t = vid.currentTime || 0;
+    let mask = null;
+    if (activeIdx >= 0 && keyframes[activeIdx] && Math.abs(keyframes[activeIdx].t - t) < 0.06) {
+      const k = keyframes[activeIdx];
+      mask = statsOf(k) ? k.mask : null;
+    } else mask = maskAtTime(t);
+    drawOverlay(mask);
+  }
+
+  /* ---------- keyframes ---------- */
+  const sortKeyframes = () => keyframes.sort((a, b) => a.t - b.t);
+  function nearestKf(t, tol) {
+    let best = -1, bd = tol;
+    keyframes.forEach((k, i) => { const d = Math.abs(k.t - t); if (d <= bd) { bd = d; best = i; } });
+    return best;
+  }
+  function syncActive() { activeIdx = nearestKf(vid.currentTime || 0, 0.05); renderKfList(); syncUI(); }
+
+  function addKeyframe() {
+    if (!videoFile || rendering) return;
+    const t = vid.currentTime || 0;
+    const near = nearestKf(t, 0.05);
+    if (near >= 0) { activeIdx = near; setMsg('kfExists'); renderKfList(); renderMarks(); syncUI(); drawOverlayNow(); return; }
+    const k = { t, mask: new Uint8Array(PW * PH), stats: null };
+    keyframes.push(k); sortKeyframes(); activeIdx = keyframes.indexOf(k);
+    clearOverlay(); renderKfList(); renderMarks(); syncCount(); syncUI(); setMsg('kfAdded');
+  }
+
+  function ensureActiveKf() {
+    const t = vid.currentTime || 0;
+    if (activeIdx >= 0 && keyframes[activeIdx] && Math.abs(keyframes[activeIdx].t - t) < 0.06) return keyframes[activeIdx];
+    const near = nearestKf(t, 0.06);
+    if (near >= 0) { activeIdx = near; return keyframes[near]; }
+    const k = { t, mask: new Uint8Array(PW * PH), stats: null };
+    keyframes.push(k); sortKeyframes(); activeIdx = keyframes.indexOf(k);
+    clearOverlay(); renderKfList(); renderMarks(); syncCount(); syncUI();
+    return k;
+  }
+
+  function selectKf(i) {
+    if (!keyframes[i]) return;
+    activeIdx = i; vid.pause(); vid.currentTime = keyframes[i].t;
+    drawOverlayNow(); renderKfList(); renderMarks(); syncUI();
+  }
+
+  function removeKf(i) {
+    if (!keyframes[i]) return;
+    keyframes.splice(i, 1); activeIdx = -1;
+    syncActive(); drawOverlayNow(); renderMarks(); syncCount(); setMsg('kfRemoved');
+  }
+
+  function renderKfList() {
+    kflist.innerHTML = '';
+    if (!keyframes.length) {
+      const s = document.createElement('span'); s.className = 'kf-empty'; s.textContent = tr('kfNone'); kflist.appendChild(s); return;
+    }
+    keyframes.forEach((k, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'kf'; b.setAttribute('role', 'listitem');
+      if (i === activeIdx) b.setAttribute('aria-current', 'true');
+      const label = tr('kfAt', { t: fmtTime(k.t, true) });
+      b.title = label; b.setAttribute('aria-label', label);
+      const sp = document.createElement('span'); sp.textContent = fmtTime(k.t, true); b.appendChild(sp);
+      const x = document.createElement('span'); x.className = 'kx'; x.setAttribute('aria-hidden', 'true');
+      x.innerHTML = '<svg class="ic"><use href="#i-x"/></svg>'; b.appendChild(x);
+      b.addEventListener('click', e => { if (e.target.closest('.kx')) removeKf(i); else selectKf(i); });
+      kflist.appendChild(b);
+    });
+  }
+
+  function renderMarks() {
+    marks.innerHTML = '';
+    const d = vid.duration || 0;
+    if (!d) return;
+    keyframes.forEach((k, i) => {
+      const m = document.createElement('span');
+      m.className = 'mark' + (i === activeIdx ? ' active' : '');
+      m.style.left = (clamp(k.t / d, 0, 1) * 100) + '%';
+      marks.appendChild(m);
+    });
+  }
+
+  function syncCount() {
+    const n = keyframes.length;
+    countEl.textContent = n ? tr(n === 1 ? 'countOne' : 'countMany', { n }) : tr('countZero');
+  }
+
+  /* ---------- timeline ---------- */
+  function syncTimeline() {
+    const d = vid.duration || 0, t = vid.currentTime || 0;
+    seek.max = d || 0; seek.value = t;
+    timeEl.textContent = fmtTime(t) + ' / ' + fmtTime(d);
+    renderMarks();
+  }
+  function setPlayIcon() {
+    const playing = !vid.paused && !vid.ended;
+    playIc.setAttribute('href', playing ? '#i-pause' : '#i-play');
+    playBtn.setAttribute('aria-label', tr(playing ? 'pause' : 'play'));
+  }
+  function loop() {
+    if (vid.paused || vid.ended) { rafId = 0; return; }
+    const now = performance.now();
+    if (now - lastOv > 90) { lastOv = now; drawOverlayNow(); }
+    rafId = requestAnimationFrame(loop);
+  }
+  function startLoop() { if (!rafId) rafId = requestAnimationFrame(loop); }
+
+  /* ---------- ferramentas ---------- */
+  function hidePops() {
+    [penpop, erapop].forEach(p => { if (p) p.hidden = true; });
+    [pencil, eraser].forEach(b => { if (b) b.setAttribute('aria-expanded', 'false'); });
+  }
+  function openPop(t) {
+    hidePops();
+    const p = t === 'pen' ? penpop : erapop, b = t === 'pen' ? pencil : eraser;
+    p.style.setProperty('--dx', '0px'); p.hidden = false;
+    const r = p.getBoundingClientRect(), m = 10; let dx = 0;
+    if (r.left < m) dx = m - r.left; else if (r.right > innerWidth - m) dx = innerWidth - m - r.right;
+    p.style.setProperty('--dx', dx + 'px'); b.setAttribute('aria-expanded', 'true');
+  }
+  function setTool(t) {
+    tool = t; hidePops();
+    pencil.setAttribute('aria-pressed', String(t === 'pen'));
+    eraser.setAttribute('aria-pressed', String(t === 'eraser'));
+    wrap.classList.toggle('pen', !!t);
+    if (t) openPop(t); else pcur.hidden = true;
+    if (t) setMsg(t === 'pen' ? 'penHint' : 'eraserHint');
+    else if (curMsg && (curMsg.k === 'penHint' || curMsg.k === 'eraserHint')) setMsg(null);
+  }
+  const toggleTool = t => setTool(tool === t ? null : t);
+
+  function toCanvas(e) {
+    const r = ov.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * PW / r.width, y: (e.clientY - r.top) * PH / r.height };
+  }
+  const brushValue = () => +(tool === 'eraser' ? era : pen).value || 20;
+  function strokeWidth() { const r = ov.getBoundingClientRect(); return Math.max(1, brushValue() * (r.width ? PW / r.width : 1)); }
+
+  function liveSegment(a, b) {
+    const c = ov.getContext('2d'), er = strokeMode === 'eraser';
+    c.save();
+    c.globalCompositeOperation = er ? 'destination-out' : 'source-over';
+    c.strokeStyle = 'rgba(255,77,141,.78)'; c.fillStyle = 'rgba(255,77,141,.78)';
+    c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = brushPx;
+    c.beginPath();
+    if (a.x === b.x && a.y === b.y) { c.arc(a.x, a.y, brushPx / 2, 0, Math.PI * 2); c.fill(); }
+    else { c.moveTo(a.x, a.y); c.lineTo(b.x + .01, b.y); c.stroke(); }
+    c.restore();
+  }
+
+  function commitStroke() {
+    const k = keyframes[activeIdx];
+    if (!k) return;
+    paintCtx.clearRect(0, 0, PW, PH);
+    paintCtx.strokeStyle = '#fff'; paintCtx.fillStyle = '#fff';
+    paintCtx.lineCap = 'round'; paintCtx.lineJoin = 'round'; paintCtx.lineWidth = brushPx;
+    paintCtx.beginPath();
+    if (points.length === 1) { paintCtx.arc(points[0].x, points[0].y, brushPx / 2, 0, Math.PI * 2); paintCtx.fill(); }
+    else {
+      paintCtx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) paintCtx.lineTo(points[i].x, points[i].y);
+      paintCtx.stroke();
+    }
+    const d = paintCtx.getImageData(0, 0, PW, PH).data, er = strokeMode === 'eraser';
+    for (let i = 0, j = 3; i < k.mask.length; i++, j += 4) { if (d[j] > 24) k.mask[i] = er ? 0 : 255; }
+    k.stats = null;
+    drawOverlayNow(); renderKfList(); syncCount(); syncUI();
+  }
+
+  function moveCursor(e) {
+    if (!tool) { pcur.hidden = true; return; }
+    const r = wrap.getBoundingClientRect(), d = brushValue();
+    pcur.hidden = e.pointerType === 'touch';
+    pcur.classList.toggle('era', tool === 'eraser');
+    pcur.style.width = pcur.style.height = d + 'px';
+    pcur.style.left = (e.clientX - r.left) + 'px'; pcur.style.top = (e.clientY - r.top) + 'px';
+  }
+
+  /* ---------- sincronização da UI ---------- */
+  function syncUI() {
+    const hasVideo = !!videoFile;
+    const hasPaint = keyframes.some(k => { if (!k.stats) k.stats = maskStats(k.mask); return !!(k.stats && k.stats.n); });
+    renderBtn.disabled = !hasVideo || !hasPaint || rendering;
+    saveBtn.disabled = !lastBlob || rendering;
+    resetBtn.disabled = rendering;
+    pencil.disabled = !hasVideo || rendering; eraser.disabled = !hasVideo || rendering;
+    addkf.disabled = !hasVideo || rendering;
+    delkf.disabled = !hasVideo || rendering || activeIdx < 0;
+    playBtn.disabled = !hasVideo || rendering; prevf.disabled = !hasVideo || rendering; nextf.disabled = !hasVideo || rendering;
+    seek.disabled = !hasVideo || rendering;
+    if (!rendering) cancelBtn.disabled = false;
+  }
+
+  /* ============================================================
+     RENDER
+     ============================================================ */
+  async function decodeAudio(f) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    let ac = null;
+    try {
+      try { ac = new AC({ sampleRate: 48000 }); } catch (e) { ac = new AC(); }
+      const ab = await f.arrayBuffer();
+      const buf = await ac.decodeAudioData(ab);
+      const nch = Math.min(2, buf.numberOfChannels);
+      if (!nch) return null;
+      const channels = [];
+      for (let i = 0; i < nch; i++) channels.push(new Float32Array(buf.getChannelData(i)));
+      return { sampleRate: buf.sampleRate, channels };
+    } catch (e) { return null; }
+    finally { if (ac) { try { ac.close(); } catch (e) {} } }
+  }
+
+  /* ---------- FFmpeg.wasm (metadados) — ciclo em State.ffmpeg ---------- */
+  let ffScriptP = null;
+  function loadFFmpegScript() {
+    if (ffScriptP) return ffScriptP;
+    ffScriptP = Core.loadScript('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js').catch(e => { ffScriptP = null; throw e; });
+    return ffScriptP;
+  }
+  async function createFFmpeg() {
+    State.ffmpeg.status = 'loading';
+    try {
+      await loadFFmpegScript();
+      const F = window['FFmpeg'];
+      if (!F || !F['createFFmpeg']) throw new Error('ffmpeg');
+      const ff = F['createFFmpeg']({ log: false, mainName: 'main', corePath: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js' });
+      await ff['load']();
+      State.ffmpeg.status = 'ready';
+      return ff;
+    } catch (e) { State.ffmpeg.status = 'error'; throw e; }
+  }
+  async function stripMetadata(buffer) {
+    const ff = await createFFmpeg();
+    try {
+      State.ffmpeg.status = 'running';
+      ff['FS']('writeFile', 'aetix_in.mp4', new Uint8Array(buffer));
+      await ff['run']('-i', 'aetix_in.mp4', '-map', '0', '-c', 'copy', '-map_metadata', '-1', '-map_chapters', '-1', '-fflags', '+bitexact', '-movflags', '+faststart', 'aetix_out.mp4');
+      const data = ff['FS']('readFile', 'aetix_out.mp4');
+      return data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
+    } catch (e) { State.ffmpeg.status = 'error'; throw e; }
+    finally {
+      try { ff['exit'](); } catch (e) {}
+      if (State.ffmpeg.status !== 'error') State.ffmpeg.status = 'idle';
+    }
+  }
+
+  function phase(p, key) { prog.value = p; setMsg(key); }
+
+  async function startRender() {
+    if (rendering || !videoFile) return;
+    const painted = keyframes.filter(k => { if (!k.stats) k.stats = maskStats(k.mask); return !!(k.stats && k.stats.n); });
+    if (!painted.length) { setMsg('needMask', true); return; }
+
+    cancelled = false; rendering = true; State.busy.video = true; syncUI();
+    scanbar.hidden = false; prog.value = 0; cancelBtn.disabled = false;
+    setMsg('renderPreparing');
+    vid.pause();
+    let metaOK = true;
+
+    try {
+      phase(0.03, 'phaseDemux');
+      const wk = await ensureWorker();
+      if (!wk) throw new Error('boot');
+
+      phase(0.05, 'phaseAudio');
+      const audio = await decodeAudio(videoFile);
+      if (cancelled) return;
+
+      const buf = await videoFile.arrayBuffer();
+      if (cancelled) return;
+
+      const transfer = [buf];
+      const masks = keyframes.map(k => { const c = new Uint8Array(k.mask); transfer.push(c.buffer); return { t: k.t, mask: c.buffer }; });
+      if (audio) audio.channels.forEach(c => transfer.push(c.buffer));
+
+      const id = ++jobSeq;
+      prog.value = 0.12;
+      const res = await runRender({
+        cmd: 'render', id, file: buf, W: PW, H: PH,
+        radius: +rad.value, dil: +dil.value,
+        algo: algo.value, noise: !!noise.checked, bitrate: +quality.value,
+        audio, keyframes: masks
+      }, transfer);
+      if (cancelled) return;
+
+      let out = res.buffer;
+      if (meta.checked) {
+        prog.value = 0.94; setMsg('phaseStrip'); cancelBtn.disabled = true;
+        try { out = await stripMetadata(out); }
+        catch (e) { console.warn('metadata strip', e); metaOK = false; }
+        cancelBtn.disabled = false;
+      }
+
+      lastBlob = new Blob([out], { type: 'video/mp4' });
+      lastHasAudio = !!res.hasAudio;
+      setMsg(metaOK ? 'renderDone' : 'renderDoneMeta');
+      showResult(lastBlob);
+    } catch (e) {
+      if (cancelled) return;
+      console.warn(e);
+      const code = e && e.message;
+      if (code === 'boot') setMsg('engineFail', true);
+      else if (code === 'encode') setMsg('encodeFail', true);
+      else if (code === 'format' || code === 'decode' || code === 'samples') setMsg('formatFail', true);
+      else setMsg('renderFail', true);
+    } finally {
+      if (!cancelled) {
+        rendering = false; State.busy.video = false;
+        scanbar.hidden = true; prog.value = 0; cancelBtn.disabled = false;
+        syncUI();
+      }
+    }
+  }
+
+  function cancelRender() {
+    if (!rendering || cancelBtn.disabled) return;
+    cancelled = true;
+    if (pendingJob) { const p = pendingJob; pendingJob = null; try { p.reject(new Error('cancel')); } catch (e) {} }
+    terminateWorker();
+    rendering = false; State.busy.video = false;
+    scanbar.hidden = true; prog.value = 0; cancelBtn.disabled = false;
+    syncUI(); setMsg('renderCancelled');
+  }
+
+  /* ---------- resultado ---------- */
+  function showResult(blob) {
+    if (resultUrl) { URL.revokeObjectURL(resultUrl); resultUrl = null; }
+    resultUrl = URL.createObjectURL(blob);
+    resvid.src = resultUrl;
+    resultSub.textContent = tr(lastHasAudio ? 'resultHint' : 'resultNoAudio');
+    vid.pause();
+    Core.openModal('vd-result', 'vd-resultX');
+  }
+  Core.modalHooks['vd-result'] = function () {
+    try { resvid.pause(); } catch (e) {}
+    resvid.removeAttribute('src');
+    try { resvid.load(); } catch (e) {}
+    if (resultUrl) { URL.revokeObjectURL(resultUrl); resultUrl = null; }
+  };
+
+  function saveMp4() {
+    if (!lastBlob) return;
+    const u = URL.createObjectURL(lastBlob), a = document.createElement('a');
+    a.href = u; a.download = 'Aetix Design.mp4';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => { try { URL.revokeObjectURL(u); } catch (e) {} }, 5000);
+    setMsg('saveDone');
+    Core.payment.promptAfterDownload();
+  }
+
+  /* ---------- eventos ---------- */
+  function init() {
+    fileInput.addEventListener('change', e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if (f) loadVideo(f); });
+    drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+
+    pencil.addEventListener('click', () => toggleTool('pen'));
+    eraser.addEventListener('click', () => toggleTool('eraser'));
+    document.addEventListener('pointerdown', e => { if (!e.target.closest('.tool')) hidePops(); });
+    pen.addEventListener('input', () => { penv.textContent = pen.value + 'px'; });
+    era.addEventListener('input', () => { erav.textContent = era.value + 'px'; });
+    ['pointerup', 'change'].forEach(ev => {
+      pen.addEventListener(ev, () => { penpop.hidden = true; pencil.setAttribute('aria-expanded', 'false'); });
+      era.addEventListener(ev, () => { erapop.hidden = true; eraser.setAttribute('aria-expanded', 'false'); });
+    });
+
+    ov.addEventListener('pointerdown', e => {
+      if (!tool || !videoFile || rendering) return;
+      e.preventDefault();
+      vid.pause();
+      painting = true; strokeMode = tool; brushPx = strokeWidth();
+      const p = toCanvas(e); points = [p];
+      ensureActiveKf();
+      liveSegment(p, p);
+      try { ov.setPointerCapture(e.pointerId); } catch (err) {}
+      moveCursor(e);
+    });
+    ov.addEventListener('pointermove', e => {
+      moveCursor(e);
+      if (!painting) return;
+      const p = toCanvas(e), prev = points[points.length - 1] || p;
+      points.push(p); liveSegment(prev, p);
+    });
+    const endStroke = () => { if (!painting) return; painting = false; commitStroke(); };
+    ov.addEventListener('pointerup', endStroke);
+    ov.addEventListener('pointercancel', endStroke);
+    ov.addEventListener('pointerleave', () => { pcur.hidden = true; });
+
+    playBtn.addEventListener('click', () => {
+      if (!videoFile || rendering) return;
+      if (vid.paused) vid.play().catch(() => {}); else vid.pause();
+    });
+    vid.addEventListener('play', () => { activeIdx = -1; setPlayIcon(); startLoop(); });
+    vid.addEventListener('pause', () => { setPlayIcon(); syncActive(); drawOverlayNow(); });
+    vid.addEventListener('ended', () => { setPlayIcon(); syncActive(); drawOverlayNow(); });
+    vid.addEventListener('timeupdate', syncTimeline);
+    vid.addEventListener('seeked', () => { syncTimeline(); syncActive(); drawOverlayNow(); });
+    vid.addEventListener('loadedmetadata', () => { syncTimeline(); syncActive(); });
+
+    seek.addEventListener('input', () => { if (!videoFile || rendering) return; vid.currentTime = +seek.value; syncTimeline(); });
+    const stepFrame = dir => {
+      if (!videoFile || rendering) return;
+      vid.pause();
+      vid.currentTime = clamp((vid.currentTime || 0) + dir * (1 / 30), 0, vid.duration || 0);
+    };
+    prevf.addEventListener('click', () => stepFrame(-1));
+    nextf.addEventListener('click', () => stepFrame(1));
+
+    addkf.addEventListener('click', addKeyframe);
+    delkf.addEventListener('click', () => { if (activeIdx >= 0) removeKf(activeIdx); });
+    resetBtn.addEventListener('click', resetVideo);
+    renderBtn.addEventListener('click', startRender);
+    saveBtn.addEventListener('click', saveMp4);
+    resultSave.addEventListener('click', saveMp4);
+    cancelBtn.addEventListener('click', cancelRender);
+
+    rad.addEventListener('input', () => { radv.textContent = rad.value; });
+    dil.addEventListener('input', () => { dilv.textContent = dil.value; });
+
+    penv.textContent = pen.value + 'px'; erav.textContent = era.value + 'px';
+    radv.textContent = rad.value; dilv.textContent = dil.value;
+    syncUI();
+  }
+  init();
+
+  /* ---------- API do módulo ---------- */
+  return {
+    activate() {
+      if (!checkSupport()) return;
+      if (State.videoEngine.status === 'idle') {
+        setEngine('load');
+        Core.splashDone.then(() => new Promise(r => setTimeout(r, 80))).then(() => ensureWorker().catch(() => {}));
+      } else Core.refreshEngine();
+    },
+    deactivate() { vid.pause(); hidePops(); },
+    loadFile: loadVideo,
+    /* pipeline OpenCV (NS + sub-bloco); usa o cv da thread principal quando disponível */
+    processFrameOpenCV: function (frameCanvas, bbox, maskCanvas, opts) {
+      if (!window['cv'] || !window['cv']['inpaint']) throw new Error('OpenCV indisponível');
+      return processFrameOpenCVImpl(window['cv'], frameCanvas, bbox, maskCanvas, opts);
+    },
+    setDragOver: b => drop.classList.toggle('over', b),
+    onEscape() { if (tool) setTool(null); },
+    onLang() {
+      renderMsg(); syncCount(); renderKfList(); renderMarks(); setPlayIcon();
+      resultSub.textContent = tr(lastHasAudio ? 'resultHint' : 'resultNoAudio');
+    }
+  };
+})();
+
+/* ==========================================================================
+   PAYMENT · checkout Pix (BravoPay) + rastreamento UTMify
+   - Lê os UTMs da URL e guarda em localStorage no 1º acesso
+   - POST /api/v1/transactions (method "pix", amount_cents fixo em 549)
+   - Mostra QR Code + copia-e-cola
+   - Polling GET /api/v1/transactions/{id} a cada 3 s até PAID
+   ========================================================================== */
+Core.payment = (function () {
+
+  /* ---------- CONFIGURAÇÃO (ajuste só aqui) ---------- */
+  const CFG = {
+    // URL base da API. Se criar um proxy/backend seu, troque aqui (a chave sai do navegador).
+    baseUrl: 'https://bravopay.club/api/v1',
+    // Chave de API. ATENÇÃO: ela fica visível no navegador de qualquer visitante.
+    apiKey: 'bp_live_HiVjl6x4GXE7SBlRmXbQS0S4VRlrf9X5pn_Oew',
+
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // >>> COLE AQUI O ID REAL DO PRODUTO (https://bravopay.club/dashboard/produtos)
+    // >>> Necessário para a UTMify atribuir a venda corretamente. Vazio = não envia.
+    productId: '',
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    minAmountCents: 500,       // R$ 5,00 — piso absoluto do valor digitado pelo usuário
+    defaultAmount: '5,00',     // valor inicial exibido no campo
+    pollMs: 3000,              // intervalo do polling
+    timeoutMs: 20000,          // timeout de cada requisição
+    redirectUrl: '',           // ex.: '/obrigado'. Vazio = mostra a tela de sucesso no modal
+    redirectDelayMs: 1800,
+    qrLibUrl: 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js'
+  };
+
+  const UTM_LS_KEY = 'aetix-utm';
+  // parâmetro da URL -> campo do objeto "utm" da BravoPay
+  const UTM_MAP = {
+    utm_source: 'source', utm_medium: 'medium', utm_campaign: 'campaign',
+    utm_content: 'content', utm_term: 'term',
+    fbclid: 'fbclid', ttclid: 'ttclid', gclid: 'gclid'
+  };
+  const FINAL_BAD = { EXPIRED: 'O Pix expirou. Gere um novo.', FAILED: 'O pagamento falhou. Tente novamente.',
+                      CANCELED: 'O pagamento foi cancelado.', REFUNDED: 'O pagamento foi reembolsado.' };
+
+  let pollTimer = null, pollGen = 0, busy = false, qrPromise = null;
+
+  /* ---------- rastreamento: guarda UTMs no 1º acesso ---------- */
+  function readUrlUtm() {
+    const out = {};
+    try {
+      const p = new URLSearchParams(location.search);
+      Object.keys(UTM_MAP).forEach(k => { const v = p.get(k); if (v) out[UTM_MAP[k]] = v; });
+    } catch (e) {}
+    return out;
+  }
+  function loadUtm() {
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(UTM_LS_KEY) || '{}') || {}; } catch (e) {}
+    return saved;
+  }
+  /** Chamado ao iniciar a página: só grava se ainda não houver UTMs guardados (1º acesso). */
+  function captureUtm() {
+    const saved = loadUtm();
+    if (Object.keys(saved).length) return saved;
+    const cur = readUrlUtm();
+    if (Object.keys(cur).length) { try { localStorage.setItem(UTM_LS_KEY, JSON.stringify(cur)); } catch (e) {} }
+    return cur;
+  }
+
+  /* ---------- máscaras e validação ---------- */
+  const digits = s => String(s || '').replace(/\D+/g, '');
+
+  /** Converte o texto digitado pelo usuário (ex.: "5,00", "10.50", "12,5") em centavos (inteiro).
+   *  Aceita vírgula ou ponto como separador decimal. Retorna NaN se não der para interpretar. */
+  function parseAmountToCents(raw) {
+    let s = String(raw == null ? '' : raw).trim().replace(/[^\d.,]/g, '');
+    if (!s) return NaN;
+    const hasComma = s.indexOf(',') !== -1, hasDot = s.indexOf('.') !== -1;
+    if (hasComma && hasDot) {
+      // ambos presentes: o último símbolo é o separador decimal, o outro é milhar e é descartado
+      s = s.lastIndexOf(',') > s.lastIndexOf('.')
+        ? s.replace(/\./g, '').replace(',', '.')
+        : s.replace(/,/g, '');
+    } else if (hasComma) {
+      s = s.replace(',', '.');
+    }
+    const n = parseFloat(s);
+    if (!isFinite(n) || n < 0) return NaN;
+    return Math.round(n * 100);
+  }
+
+  /** Formata um valor em centavos de volta para o texto "X,XX" exibido no campo. */
+  function formatCentsToAmount(cents) {
+    const n = Math.max(0, Math.round(cents)) / 100;
+    return n.toFixed(2).replace('.', ',');
+  }
+
+  function maskPhone(v) {
+    const d = digits(v).slice(0, 11);
+    if (d.length <= 2) return d ? '(' + d : '';
+    if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+    return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+  }
+
+  /* ---------- helpers de UI ---------- */
+  const el = id => qs('#' + id);
+  function showStep(name) {
+    ['payFormView', 'payPixView', 'payOkView'].forEach(id => { el(id).hidden = (id !== name); });
+    /* o CSS usa data-step para esconder a lata/texto e evitar rolagem nas etapas 2 e 3 */
+    qs('.pay-card').dataset.step = name === 'payFormView' ? 'form' : name === 'payPixView' ? 'pix' : 'ok';
+  }
+  function setErr(msg, fieldId) {
+    el('payErr').textContent = msg || '';
+    qsa('.pay-f').forEach(f => f.classList.remove('bad'));
+    qsa('.pay-amount-wrap').forEach(f => f.classList.remove('bad'));
+    if (fieldId) {
+      const i = el(fieldId);
+      const wrap = i.closest('.pay-f') || i.closest('.pay-amount-wrap');
+      if (wrap) wrap.classList.add('bad');
+      i.focus();
+    }
+  }
+  function setBusy(b) {
+    busy = b;
+    el('payBtn').disabled = b;
+    el('payBtnTxt').textContent = b ? 'Gerando Pix…' : 'Gerar PIX de Colaboração';
+  }
+  function setStatus(txt) {
+    const s = el('payStatus');
+    s.lastElementChild.textContent = txt;
+    s.hidden = !txt;
+  }
+
+  /* ---------- QR Code (biblioteca leve carregada sob demanda) ---------- */
+  function loadQrLib() {
+    if (window.qrcode) return Promise.resolve(window.qrcode);
+    if (qrPromise) return qrPromise;
+    qrPromise = new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = CFG.qrLibUrl; s.async = true;
+      s.onload = () => window.qrcode ? res(window.qrcode) : rej(new Error('qr'));
+      s.onerror = () => { qrPromise = null; rej(new Error('qr')); };
+      document.head.appendChild(s);
+    });
+    return qrPromise;
+  }
+  async function drawQr(text) {
+    const box = el('payQr');
+    box.textContent = 'Gerando QR…';
+    try {
+      const qrcode = await loadQrLib();
+      const q = qrcode(0, 'M');               // tipo automático, correção média
+      q.addData(text); q.make();
+      box.innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true }); // SVG gerado pela lib (texto do Pix não é HTML)
+    } catch (e) {
+      box.textContent = 'QR indisponível. Use o código abaixo.';
+    }
+  }
+
+  /* ---------- chamadas à API ---------- */
+  async function api(path, opts) {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), CFG.timeoutMs);
+    try {
+      const r = await fetch(CFG.baseUrl + path, Object.assign({
+        signal: ctl.signal,
+        headers: Object.assign({ 'Authorization': 'Bearer ' + CFG.apiKey }, (opts && opts.headers) || {})
+      }, opts && { method: opts.method, body: opts.body }));
+      let data = null;
+      try { data = await r.json(); } catch (e) {}
+      if (!r.ok) {
+        const m = data && (data.message || data.error && (data.error.message || data.error)) || ('Erro ' + r.status);
+        throw new Error(typeof m === 'string' ? m : 'Erro ' + r.status);
+      }
+      return data || {};
+    } finally { clearTimeout(t); }
+  }
+
+  /** Monta o corpo do POST conforme a documentação da BravoPay.
+   *  amountCents vem do valor digitado pelo usuário, já validado e convertido (ver submit()). */
+  function buildBody(c, amountCents) {
+    const body = {
+      amount_cents: amountCents,
+      method: 'pix',
+      customer: { name: c.name, email: c.email, phone: c.phone },
+      external_reference: 'aetix-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8)
+    };
+    if (CFG.productId) body.product_id = CFG.productId;   // ID real do produto (UTMify)
+    const utm = Object.assign({}, loadUtm());              // UTMs guardados no 1º acesso
+    const now = readUrlUtm();
+    Object.keys(now).forEach(k => { if (!utm[k]) utm[k] = now[k]; });
+    body.utm = utm;                                        // SEMPRE enviado
+    return body;
+  }
+
+  /* ---------- polling ---------- */
+  function stopPolling() { pollGen++; clearTimeout(pollTimer); pollTimer = null; }
+  function startPolling(id) {
+    stopPolling();
+    const gen = pollGen;
+    let fails = 0;
+    const tick = async () => {
+      if (gen !== pollGen) return;
+      try {
+        const tx = await api('/transactions/' + encodeURIComponent(id));
+        if (gen !== pollGen) return;
+        fails = 0;
+        const st = String(tx.status || '').toUpperCase();
+        if (st === 'PAID') { stopPolling(); onPaid(); return; }
+        if (FINAL_BAD[st]) { stopPolling(); setStatus(FINAL_BAD[st]); el('payStatus').firstElementChild.style.display = 'none'; return; }
+      } catch (e) { if (++fails >= 10) { setStatus('Sem conexão com o servidor. Reabra o modal para tentar de novo.'); return; } }
+      pollTimer = setTimeout(tick, CFG.pollMs);
+    };
+    pollTimer = setTimeout(tick, CFG.pollMs);
+  }
+  let paid = false, paidTimer = null, thanksTimer = null, lastThanks = -1;
+
+  /* 5 mensagens de agradecimento: uma é sorteada a cada doação confirmada */
+  const THANKS = [
+    'Você acabou de fazer a diferença. Sua colaboração mantém o AETIX DESIGN no ar, rápido e livre de anúncios. Gratidão de coração! 💜',
+    'Gente como você transforma projetos em realidade. Obrigado por acreditar no nosso trabalho e nos ajudar a continuar evoluindo! ✨',
+    'Cada gesto de generosidade vira combustível para novas ideias. Muito obrigado por fazer parte dessa jornada com a gente! 🚀',
+    'Sua força chegou até nós e vai render muito mais ferramentas incríveis. Valeu demais pela confiança! 🌟',
+    'Bondade como a sua inspira a gente a ir mais longe todos os dias. Que o bem que você faz volte em dobro para você! 🥤💫'
+  ];
+  function pickThanks() {
+    let i = Math.floor(Math.random() * THANKS.length);
+    if (THANKS.length > 1 && i === lastThanks) i = (i + 1 + Math.floor(Math.random() * (THANKS.length - 1))) % THANKS.length;
+    lastThanks = i;
+    return THANKS[i];
+  }
+
+  function showThanks(msg) {
+    const old = qs('#aetixThanks');
+    if (old) old.remove();
+    clearTimeout(thanksTimer);
+    const t = document.createElement('div');
+    t.id = 'aetixThanks'; t.className = 'aetix-thanks';
+    t.setAttribute('role', 'status'); t.setAttribute('aria-live', 'polite');
+    const ic = document.createElement('div'); ic.className = 'at-ic'; ic.setAttribute('aria-hidden', 'true'); ic.textContent = '💜';
+    const tx = document.createElement('div'); tx.className = 'at-tx';
+    const h = document.createElement('strong'); h.textContent = 'Obrigado!';
+    const p = document.createElement('p'); p.textContent = msg;
+    tx.appendChild(h); tx.appendChild(p);
+    const x = document.createElement('button'); x.type = 'button'; x.className = 'at-x'; x.setAttribute('aria-label', 'Fechar'); x.textContent = '×';
+    t.appendChild(ic); t.appendChild(tx); t.appendChild(x);
+    const hide = () => {
+      clearTimeout(thanksTimer);
+      t.classList.add('out');
+      setTimeout(() => { if (t.parentNode) t.remove(); }, 600);
+    };
+    x.addEventListener('click', hide);
+    t.addEventListener('click', hide);
+    document.body.appendChild(t);
+    thanksTimer = setTimeout(hide, 7500);
+  }
+
+  function onPaid() {
+    paid = true;
+    stopPolling();
+    /* troca o QR Code por um check verde + "pagamento confirmado" */
+    const view = el('payPixView'), qr = el('payQr');
+    view.classList.add('aetix-paid');
+    qr.innerHTML = '<svg class="pay-check" viewBox="0 0 120 120" aria-hidden="true"><circle class="pc-ring" cx="60" cy="60" r="52" fill="none" stroke="#4ADE9A" stroke-width="6"/><path class="pc-tick" d="M36 62l16 16 32-36" fill="none" stroke="#4ADE9A" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    let pt = el('payPaidTxt');
+    if (!pt) {
+      pt = document.createElement('p');
+      pt.id = 'payPaidTxt'; pt.className = 'pay-paid-txt'; pt.setAttribute('role', 'status');
+      qr.insertAdjacentElement('afterend', pt);
+    }
+    pt.textContent = 'pagamento confirmado';
+    setStatus('');
+    const msg = pickThanks();
+    clearTimeout(paidTimer);
+    paidTimer = setTimeout(() => {
+      const m = qs('#pricingModal');
+      if (State.modal === 'pricingModal' && m) {
+        m.classList.add('fadeout');
+        setTimeout(() => {
+          if (State.modal === 'pricingModal') Core.closeModal();
+          m.classList.remove('fadeout');
+          setTimeout(() => showThanks(msg), 250);
+        }, 520);
+      } else showThanks(msg);
+      if (CFG.redirectUrl) setTimeout(() => { location.href = CFG.redirectUrl; }, CFG.redirectDelayMs);
+    }, 2200);
+  }
+
+  /* ---------- fluxo principal ---------- */
+  /* aplica as máscaras (necessário quando o Chrome preenche sem disparar "input") */
+  function applyMasks() {
+    const ph = el('payPhone');
+    ph.value = maskPhone(ph.value);
+  }
+
+  async function submit() {
+    if (busy) return;
+    applyMasks();
+    const c = {
+      name: el('payName').value.trim(), email: el('payEmail').value.trim(),
+      phone: digits(el('payPhone').value)
+    };
+    const amountCents = parseAmountToCents(el('payAmount').value);
+    if (c.name.split(/\s+/).filter(Boolean).length < 2) return setErr('Informe seu nome completo.', 'payName');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c.email)) return setErr('Informe um e-mail válido.', 'payEmail');
+    if (c.phone.length < 10 || c.phone.length > 11) return setErr('Informe o telefone com DDD.', 'payPhone');
+    if (!isFinite(amountCents) || amountCents < CFG.minAmountCents) {
+      return setErr('Informe um valor de R$ 5,00 ou mais.', 'payAmount');
+    }
+    setErr('');
+    el('payAmount').value = formatCentsToAmount(amountCents);  // normaliza o que fica visível no campo
+    c.phone = '55' + c.phone;                              // formato 5511999999999
+    setBusy(true);
+    try {
+      const tx = await api('/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(buildBody(c, amountCents))
+      });
+      const code = tx.pix && tx.pix.copy_paste;
+      if (!tx.id || !code) throw new Error('Resposta inesperada da BravoPay.');
+      el('payCode').value = code;
+      el('payStatus').firstElementChild.style.display = '';
+      setStatus('');                       // status só aparece em caso de problema; o agradecimento é fixo no HTML
+      showStep('payPixView');
+      drawQr(code);
+      startPolling(tx.id);
+    } catch (e) {
+      setErr(e && e.name === 'AbortError' ? 'Tempo esgotado. Tente de novo.' : (e.message || 'Não foi possível gerar o Pix.'));
+    } finally { setBusy(false); }
+  }
+
+  async function copyCode() {
+    const ta = el('payCode'), b = el('payCopy');
+    try { await navigator.clipboard.writeText(ta.value); }
+    catch (e) { ta.select(); try { document.execCommand('copy'); } catch (e2) {} }
+    b.textContent = 'Copiado!';
+    setTimeout(() => { b.textContent = 'Copiar código Pix'; }, 1800);
+  }
+
+  /** Volta o modal ao estado inicial (ao fechar). */
+  function reset() {
+    stopPolling(); setBusy(false); setErr('');
+    clearTimeout(paidTimer); paidTimer = null;
+    showStep('payFormView');
+    el('payPixView').classList.remove('aetix-paid');
+    const ppt = el('payPaidTxt'); if (ppt) ppt.remove();
+    el('payQr').textContent = ''; el('payCode').value = '';
+    el('payAmount').value = CFG.defaultAmount;
+    setStatus('');
+  }
+
+  /** Abre o modal automaticamente após um download concluído (nunca depois de pago). */
+  function promptAfterDownload() {
+    if (paid) return;
+    setTimeout(() => { if (!paid) Core.openModal('pricingModal'); }, 700);
+  }
+
+  function init() {
+    captureUtm();
+    const ph = el('payPhone');
+    ph.addEventListener('input', e => { e.target.value = maskPhone(e.target.value); });
+    /* autofill nem sempre dispara "input": reaplica a máscara em change/blur */
+    ['change', 'blur'].forEach(ev => { ph.addEventListener(ev, applyMasks); });
+
+    const amt = el('payAmount');
+    /* só deixa dígitos, vírgula e ponto enquanto o usuário digita */
+    amt.addEventListener('input', e => { e.target.value = e.target.value.replace(/[^\d.,]/g, ''); });
+    /* ao sair do campo, normaliza para "X,XX" se der para interpretar; senão volta ao padrão */
+    amt.addEventListener('blur', e => {
+      const cents = parseAmountToCents(e.target.value);
+      e.target.value = isFinite(cents) && cents > 0 ? formatCentsToAmount(cents) : CFG.defaultAmount;
+    });
+
+    el('payBtn').addEventListener('click', submit);
+    el('payCopy').addEventListener('click', copyCode);
+    qsa('.pay-form input, #payAmount').forEach(i => i.addEventListener('keydown', e => { if (e.key === 'Enter') submit(); }));
+    Core.modalHooks.pricingModal = reset;
+  }
+
+  return { init, CFG, promptAfterDownload };
+})();
+
+/* ==========================================================================
+   BOOT
+   ========================================================================== */
+function boot() {
+  Core.initSplash();
+  let l = 'pt';
+  try { const v = localStorage.getItem(Core.LS_KEY); if (v && I18N[v]) l = v; } catch (e) {}
+  Core.setupHeader();
+  Core.setupWhatsApp();
+  Core.bind();
+  Core.payment.init();
+  Core.applyLang(l, false);
+  Core.switchTab('image', true);
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+else boot();
+
+})(window.AetixApp);
