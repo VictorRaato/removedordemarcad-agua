@@ -647,8 +647,8 @@ Core.rating = (function () {
      https://docs.google.com/forms/d/e/SEU_ID/formResponse  */
   const CFG = {
     formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeXZiTNsxjuac79_8RlbPRIPmv5Qxlh3WY-brX9aVih_3aveg/formResponse',
-    ratingField: 'entry.2026857112',
-    commentField: 'entry.402517036',
+    ratingField: 'entry.1166124911',
+    commentField: 'entry.782509689',
     timeoutMs: 15000,
     closeMs: 2000
   };
