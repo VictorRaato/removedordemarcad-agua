@@ -350,6 +350,52 @@ input:-webkit-autofill:focus{
   .pay-text{font-size:.88rem}
   .pay-thanks{font-size:.82rem}
 }
+/* ===== Popup de colaboração: versão compacta (PC e celular) ===== */
+.modal-card.pay-card{width:min(470px,100%);padding:15px 17px 14px;max-height:94dvh}
+.pay-card[data-step="pix"],.pay-card[data-step="ok"]{padding:12px 15px 11px}
+.pay-x{top:10px;right:10px;width:30px;height:30px}
+.pay-top{grid-template-columns:minmax(84px,.55fr) 1.45fr;gap:12px;margin-bottom:10px}
+.pay-img{padding:8px 6px;border-radius:14px}
+.pay-img svg{max-width:74px}
+.pay-info{gap:6px;padding-right:32px}
+.pay-text{font-size:.8rem;line-height:1.38}
+.pay-brand{font-size:clamp(.9rem,3.8vw,1.15rem)}
+.pay-form{gap:7px 9px;margin:0 0 9px}
+.pay-f{padding:5px 10px 4px;border-radius:10px}
+.pay-f span{font-size:.6rem}
+.pay-f input{height:20px;font-size:.86rem}
+.pay-amount-f{margin:0 0 9px}
+.pay-amount-f>span{margin:0 0 4px;font-size:.6rem}
+.pay-amount-wrap{height:42px;padding:0 13px;border-radius:12px}
+.pay-amount-prefix{font-size:.92rem}
+.pay-amount-wrap input{font-size:1.15rem}
+.pay-err{min-height:1em;margin:0 0 5px;font-size:.76rem}
+.pay-btn{height:44px;border-radius:12px;font-size:.95rem}
+.pay-qr{width:clamp(110px,24dvh,160px);height:clamp(110px,24dvh,160px)}
+.pay-thanks{font-size:.78rem}
+@media (max-width:600px){
+  .modal:has(.pay-card){padding:10px}
+  .modal-card.pay-card{width:min(360px,100%);padding:12px 12px 11px;border-radius:18px}
+  .pay-card[data-step="pix"],.pay-card[data-step="ok"]{padding:10px 11px 9px}
+  .pay-top{grid-template-columns:70px 1fr;gap:9px;margin-bottom:8px}
+  .pay-img{padding:6px 4px}
+  .pay-img svg{max-width:52px}
+  .pay-info{gap:4px;padding-right:26px}
+  .pay-text{font-size:.7rem;line-height:1.32}
+  .pay-brand{font-size:.8rem}
+  .pay-x{top:8px;right:8px;width:26px;height:26px}
+  .pay-form{grid-template-columns:1fr 1fr;gap:6px 7px;margin:0 0 7px}
+  .pay-f{padding:4px 8px 3px}
+  .pay-f input{height:18px;font-size:.78rem}
+  .pay-f span{font-size:.55rem}
+  .pay-amount-f{margin:0 0 7px}
+  .pay-amount-wrap{height:38px;padding:0 11px}
+  .pay-amount-wrap input{font-size:1.02rem}
+  .pay-btn{height:40px;font-size:.84rem}
+  .pay-qr{width:clamp(100px,22dvh,140px);height:clamp(100px,22dvh,140px)}
+  .pay-code{height:34px;font-size:.62rem}
+  .pay-thanks{font-size:.7rem}
+}
 /* ===== POP-UP DE AVALIAÇÃO ===== */
 #ratingModal{transition:opacity .5s ease}
 #ratingModal.fadeout{opacity:0;pointer-events:none}
