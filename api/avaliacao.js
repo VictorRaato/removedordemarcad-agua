@@ -4,10 +4,15 @@
    Recebe via POST { nota: 1..5, comentario?: string } e grava de forma
    anônima na coleção "avaliacoes" do Cloud Firestore.
    Nenhuma credencial vai para o navegador: tudo vem de variáveis de ambiente.
-   Não são gravados IP, user-agent, e-mail ou qualquer identificador.
+
+   ANTI-SPAM: no máximo 1 avaliação por hora por visitante.
+   O IP NUNCA é gravado. Só um HMAC-SHA256 (com chave secreta) dele é usado
+   como ID de um documento na coleção "limites", que expira em 1 hora.
+   Esse registro não tem nenhum vínculo com a nota ou o comentário.
    ========================================================================== */
+const crypto = require('crypto');
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
-const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { getFirestore, FieldValue, Timestamp } = require('firebase-admin/firestore');
 
 /* ID do banco no Firestore. Aqui o banco foi criado com o ID "default" (sem parênteses);
    o padrão do Firebase seria "(default)". Precisa ser igual ao ID mostrado no console. */
@@ -15,8 +20,9 @@ const FIRESTORE_DATABASE_ID = 'default';
 
 const MAX_COMENTARIO = 500;      // mesmo limite do campo no site (maxlength)
 const MAX_BODY_BYTES = 4096;     // evita lixo/abuso
-const JANELA_MS = 60 * 1000;     // limitador simples: 5 envios por minuto por visitante
+const JANELA_MS = 60 * 1000;     // filtro barato em memória: 5 requisições por minuto
 const MAX_POR_JANELA = 5;
+const HORA_MS = 60 * 60 * 1000;  // limite real: 1 avaliação por hora por visitante
 
 /* Inicializa o Firebase Admin uma única vez (instâncias "quentes" reaproveitam). */
 function getDb() {
@@ -36,12 +42,26 @@ function getDb() {
   return getDb._db || (getDb._db = getFirestore(FIRESTORE_DATABASE_ID));
 }
 
-/* Limitador em memória (melhor esforço; some quando a instância é reciclada).
-   A chave é usada só na memória, nunca é gravada. */
+function ipDoVisitante(req) {
+  const xff = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  return xff || String(req.headers['x-real-ip'] || '').trim() ||
+    (req.socket && req.socket.remoteAddress) || '';
+}
+
+/* Código irreversível do visitante. O IP em si nunca sai desta função.
+   Opcional: defina RATE_SALT na Vercel (qualquer texto longo e aleatório);
+   sem ela, usa a chave privada do Firebase como segredo. */
+function chaveDoVisitante(req) {
+  const ip = ipDoVisitante(req);
+  if (!ip) return null;
+  const segredo = process.env.RATE_SALT || process.env.FIREBASE_PRIVATE_KEY || 'aetix';
+  return crypto.createHmac('sha256', segredo).update(ip).digest('hex');
+}
+
+/* Filtro em memória (melhor esforço; some quando a instância é reciclada). */
 const hits = new Map();
 function excedeuLimite(req) {
-  const xff = String(req.headers['x-forwarded-for'] || '');
-  const chave = xff.split(',')[0].trim() || 'anon';
+  const chave = ipDoVisitante(req) || 'anon';
   const agora = Date.now();
   const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
   lista.push(agora);
@@ -96,13 +116,46 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    await getDb().collection('avaliacoes').add({
-      nota: nota,
-      comentario: comentario,
-      criadoEm: FieldValue.serverTimestamp()   // timestamp gerado no servidor
+    const db = getDb();
+    const chave = chaveDoVisitante(req);
+    const novaRef = db.collection('avaliacoes').doc();
+    const limiteRef = chave ? db.collection('limites').doc(chave) : null;
+    const agora = Date.now();
+
+    /* Transação: confere o limite e grava a avaliação de forma atômica.
+       Se algo falhar, o visitante não fica bloqueado sem ter avaliado. */
+    await db.runTransaction(async (tx) => {
+      if (limiteRef) {
+        const snap = await tx.get(limiteRef);
+        const ultimo = snap.exists ? snap.get('ultimoEm') : null;
+        if (ultimo && agora - ultimo.toMillis() < HORA_MS) {
+          const e = new Error('limite-hora');
+          e.codigo = 'hora';
+          e.restanteSeg = Math.ceil((HORA_MS - (agora - ultimo.toMillis())) / 1000);
+          throw e;
+        }
+        tx.set(limiteRef, {
+          ultimoEm: Timestamp.fromMillis(agora),
+          expiraEm: Timestamp.fromMillis(agora + HORA_MS)   // use como política TTL no console
+        });
+      }
+      tx.set(novaRef, {
+        nota: nota,
+        comentario: comentario,
+        criadoEm: FieldValue.serverTimestamp()   // timestamp gerado no servidor
+      });
     });
+
     return res.status(201).json({ ok: true });
   } catch (err) {
+    if (err && err.codigo === 'hora') {
+      res.setHeader('Retry-After', String(err.restanteSeg || 3600));
+      return res.status(429).json({
+        ok: false,
+        codigo: 'hora',
+        erro: 'Você já enviou uma avaliação há pouco. Tente novamente em até 1 hora.'
+      });
+    }
     console.error('[avaliacao] falha ao gravar:', err && err.message);
     return res.status(500).json({ ok: false, erro: 'Não foi possível salvar agora.' });
   }
