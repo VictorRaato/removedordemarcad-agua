@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AETIX DESIGN - Remover Marca d'Água de Imagens e Vídeos Online">
 <meta name="twitter:description" content="Remover marca d'água de imagens e vídeos online com a AETIX DESIGN. Apague textos e marcas direto no navegador, sem enviar seus arquivos a servidores.">
-<script type="application/ld+json">
+<script type="application/ld+json" id="aetixLd">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -416,6 +416,8 @@ input:-webkit-autofill:focus{
 }
 footer a{color:#6FB6FF;text-decoration:none;text-shadow:0 0 12px rgba(111,182,255,.45)}
 footer a:hover{text-decoration:underline}
+footer .rline{display:block;margin-top:6px;color:var(--muted)}
+footer .rline b{color:#FFC857;font-weight:700}
 footer .flinks{display:block;margin-top:4px}
 footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
 footer{margin-top:clamp(16px,4dvh,36px);text-align:center;color:var(--dim);font-size:.8rem;line-height:1.7}
@@ -736,6 +738,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
       <footer>
         <span data-i18n="core.footerBy">Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
         <span data-i18n="core.footerRights">© AETIX DESIGN. Todos os direitos reservados.</span>
+        <span class="rline" id="ratingLine" hidden>★ <b id="rMedia"></b> · <span id="rTotal"></span> <span data-i18n="core.ratingsWord">avaliações</span></span>
         <span class="flinks"><a href="termos.html" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="privacidade.html" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a></span>
       </footer>
     </div>
@@ -857,7 +860,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   </div>
 </div>
 
-<script src="script.js?v=20261030d" defer></script>
+<script src="script.js?v=20261030a" defer></script>
 <script>
 window.addEventListener('load',function(){
   var ok=window.AetixApp&&window.AetixApp.Core&&typeof window.AetixApp.Core.openHelp==='function';
@@ -868,6 +871,24 @@ window.addEventListener('load',function(){
   d.textContent='O arquivo script.js carregado está desatualizado ou com erro. Substitua-o pelo script.js mais recente, na mesma pasta do index.html, e recarregue com Ctrl+F5.';
   document.body.appendChild(d);
 });
+</script>
+<script>
+/* Nota média real (vinda do Firestore) -> linha visível no rodapé + aggregateRating no JSON-LD */
+(function(){
+  fetch('/api/avaliacoes-resumo').then(function(r){return r.json();}).then(function(d){
+    if(!d||!d.ok||!(d.total>=1)||!(d.media>=1)) return;
+    var media=String(d.media);
+    if(document.documentElement.lang!=='en') media=media.replace('.',',');
+    document.getElementById('rMedia').textContent=media;
+    document.getElementById('rTotal').textContent=d.total;
+    document.getElementById('ratingLine').hidden=false;
+    var el=document.getElementById('aetixLd');
+    if(!el) return;
+    var ld=JSON.parse(el.textContent);
+    ld.aggregateRating={'@type':'AggregateRating',ratingValue:d.media,ratingCount:d.total,bestRating:5,worstRating:1};
+    el.textContent=JSON.stringify(ld);
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>
