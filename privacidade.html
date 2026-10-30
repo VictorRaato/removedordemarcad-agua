@@ -15,6 +15,8 @@
 :root{--bg:#07080C;--panel:rgba(255,255,255,.045);--line:rgba(255,255,255,.09);--line-2:rgba(255,255,255,.18);--ink:#F2F4F8;--muted:#98A1B3;--dim:#6B7385;--accent:#7C8CFF;--accent-2:#9B6BFF;--link:#6FB6FF;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:none;width:0;height:0}
 body{margin:0;min-height:100vh;color:var(--ink);font:400 16px/1.7 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;
 background:radial-gradient(900px 520px at 12% -8%,rgba(124,140,255,.17),transparent 60%),radial-gradient(800px 520px at 92% 0,rgba(155,107,255,.12),transparent 60%),var(--bg);background-attachment:fixed}
 a{color:var(--link);text-decoration:none;text-shadow:0 0 12px rgba(111,182,255,.35)}
