@@ -9,6 +9,10 @@
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 
+/* ID do banco no Firestore. Aqui o banco foi criado com o ID "default" (sem parênteses);
+   o padrão do Firebase seria "(default)". Precisa ser igual ao ID mostrado no console. */
+const FIRESTORE_DATABASE_ID = 'default';
+
 const MAX_COMENTARIO = 500;      // mesmo limite do campo no site (maxlength)
 const MAX_BODY_BYTES = 4096;     // evita lixo/abuso
 const JANELA_MS = 60 * 1000;     // limitador simples: 5 envios por minuto por visitante
@@ -29,7 +33,7 @@ function getDb() {
     }
     initializeApp({ credential: cert({ projectId, clientEmail, privateKey }) });
   }
-  return getDb._db || (getDb._db = getFirestore());
+  return getDb._db || (getDb._db = getFirestore(FIRESTORE_DATABASE_ID));
 }
 
 /* Limitador em memória (melhor esforço; some quando a instância é reciclada).
