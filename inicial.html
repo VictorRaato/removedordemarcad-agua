@@ -660,6 +660,20 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .cr-box.lay .cr-h[data-h=n],.cr-box.lay .cr-h[data-h=e],.cr-box.lay .cr-h[data-h=s],.cr-box.lay .cr-h[data-h=w]{display:none}
 .cr-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
 .cr-actions .btn.primary{height:42px;padding:0 24px}
+
+/* ---------- pop-up Halloween (1x por usuário) ---------- */
+#halloweenModal{padding:16px}
+.hw-wrap{position:relative;width:min(860px,92vw);animation:hwIn .4s cubic-bezier(.2,.8,.2,1)}
+.hw-img{display:block;width:100%;height:auto;max-height:86dvh;object-fit:contain;-webkit-user-drag:none;user-select:none;filter:drop-shadow(0 26px 60px rgba(124,58,237,.5))}
+.hw-x{position:absolute;top:-4px;right:-4px;z-index:2;width:42px;height:42px;color:#fff;background:rgba(15,17,24,.9);border-color:var(--line-2)}
+@keyframes hwIn{from{opacity:0;transform:translateY(14px) scale(.94)}}
+@media (max-width:600px){
+  #halloweenModal{padding:10px}
+  .hw-wrap{width:100%}
+  .hw-img{max-height:80dvh}
+  .hw-x{top:6px;right:6px;width:38px;height:38px}
+}
+@media (max-height:460px){.hw-img{max-height:84dvh}.hw-wrap{width:auto}}
 </style>
 </head>
 <body>
@@ -1118,6 +1132,14 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   </div>
 </div>
 
+<!-- ===================== POP-UP HALLOWEEN ===================== -->
+<div class="modal" id="halloweenModal" hidden>
+  <div class="hw-wrap" role="dialog" aria-modal="true" aria-label="Gostosuras ou Travessuras">
+    <button type="button" class="x hw-x" id="halloweenX" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button>
+    <img class="hw-img" id="halloweenImg" alt="Gostosuras ou Travessuras" decoding="async" draggable="false">
+  </div>
+</div>
+
 <!-- ===================== POP-UP DE AVALIAÇÃO ===================== -->
 <div class="modal" id="ratingModal" hidden>
   <div class="drop-fx rate-wrap">
@@ -1160,7 +1182,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261031j" defer></script>
+<script src="/script.js?v=20261031k" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
@@ -1311,6 +1333,32 @@ window.addEventListener('load',function(){
     visible=false;
     new IntersectionObserver(function(en){visible=en[0].isIntersecting;visible?start():stop();},{threshold:.25}).observe(wrap);
   } else start();
+})();
+</script>
+<script>
+/* Pop-up de Halloween: aparece uma única vez por navegador (localStorage), depois do splash */
+(function(){
+  var KEY='aetix_halloween_2026',SRC='/img/og_hallowenn.png',tries=0;
+  function seen(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+  function mark(){try{localStorage.setItem(KEY,'1')}catch(e){}}
+  if(seen())return;
+  function go(){
+    var A=window.AetixApp,c=A&&A.Core;
+    if(!c||!c.openModal||!c.splashDone){if(tries++<150)setTimeout(go,100);return}
+    var modal=document.getElementById('halloweenModal'),img=document.getElementById('halloweenImg');
+    if(!modal||!img)return;
+    var pre=new Image();
+    pre.onload=function(){
+      c.splashDone.then(function(){
+        setTimeout(function(){
+          if(seen()||document.querySelector('.modal:not([hidden])'))return;
+          img.src=SRC;mark();c.openModal('halloweenModal','halloweenX');
+        },300);
+      });
+    };
+    pre.src=SRC;
+  }
+  if(document.readyState==='complete')go();else window.addEventListener('load',go);
 })();
 </script>
 </body>
