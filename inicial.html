@@ -533,7 +533,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .nudge.show .nudge-bar{animation-play-state:running}
 .nudge.show:hover .nudge-bar{animation-play-state:paused}
 @keyframes nudgeBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
-@media (max-width:600px){.nudge{left:auto;right:12px;width:min(192px,calc(100vw - 24px));padding:8px 10px 11px;border-radius:13px}.nudge-t{font-size:.76rem;margin:0 18px 3px 0;gap:6px}.nudge-t svg{width:12px;height:12px}.nudge-p{font-size:.68rem;line-height:1.4;margin-bottom:8px}.nudge-go{height:28px;font-size:.62rem;letter-spacing:.08em;border-radius:9px}.nudge-x{top:3px;right:3px;width:24px;height:24px;font-size:16px}.nudge-bar{height:2px}}
+@media (max-width:600px){.nudge{left:auto;right:12px;width:min(228px,calc(100vw - 24px));padding:8px 10px 11px;border-radius:13px}.nudge-t{font-size:.76rem;margin:0 18px 3px 0;gap:6px}.nudge-t svg{width:12px;height:12px}.nudge-p{font-size:.68rem;line-height:1.4;margin-bottom:8px}.nudge-go{height:28px;font-size:.62rem;letter-spacing:.08em;border-radius:9px}.nudge-x{top:3px;right:3px;width:24px;height:24px;font-size:16px}.nudge-bar{height:2px}}
 @media (prefers-reduced-motion:reduce){.nudge.show{animation:none}}
 </style>
 </head>
@@ -948,8 +948,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
-  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX',tm:'Apoie o AETIX',pm:'Um <b>Pix a partir de R$ 5</b> mantém o projeto no ar.',bm:'COLABORAR'},
-         en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX',tm:'Support AETIX',pm:'A <b>Pix from R$ 5</b> keeps the project online.',bm:'CONTRIBUTE'}};
+  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX',tm:'Apoie o AETIX',pm:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',bm:'COLABORAR'},
+         en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX',tm:'Support AETIX',pm:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',bm:'CONTRIBUTE'}};
   var box,tries=0,done=false;
   function $(i){return document.getElementById(i)}
   function mob(){return window.matchMedia&&window.matchMedia('(max-width:600px)').matches}
