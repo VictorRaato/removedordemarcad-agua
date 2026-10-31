@@ -38,8 +38,9 @@ module.exports = async function handler(req, res) {
     const d = snap.data();
     const total = Number(d.total) || 0;
     const media = total && d.media ? Math.round(d.media * 10) / 10 : 0;
-    /* cache de 1h na CDN da Vercel: o banco não é consultado a cada visita */
-    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    /* cache curto na CDN da Vercel: a nota nova aparece em até ~1 min e o banco
+       continua sem ser consultado a cada visita */
+    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({ ok: true, media: media, total: total });
   } catch (err) {
     console.error('[avaliacoes-resumo]', err && err.message);
