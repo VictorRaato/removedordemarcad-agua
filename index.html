@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="google-site-verification" content="9Chce9Iw4i8EwpfvPGQC2yLe8BXmGZMo0wd0HoAnKGM" />
-<title>Inicial · AETIX DESIGN - Remover Marca d'Água</title>
+<title>Remover Marca d'Água de Imagens e Vídeos · AETIX DESIGN</title>
 <meta property="og:url" content="https://aetixremove.vercel.app/">
 <meta property="og:image" content="https://aetixremove.vercel.app/logosapresentacao/og-image.png">
 <meta property="og:image:secure_url" content="https://aetixremove.vercel.app/logosapresentacao/og-image.png">
@@ -535,6 +535,49 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 @keyframes nudgeBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 @media (max-width:600px){.nudge{left:auto;right:12px;width:min(228px,calc(100vw - 24px));padding:8px 10px 11px;border-radius:13px}.nudge-t{font-size:.76rem;margin:0 18px 3px 0;gap:6px}.nudge-t svg{width:12px;height:12px}.nudge-p{font-size:.68rem;line-height:1.4;margin-bottom:8px}.nudge-go{height:28px;font-size:.62rem;letter-spacing:.08em;border-radius:9px}.nudge-x{top:3px;right:3px;width:24px;height:24px;font-size:16px}.nudge-bar{height:2px}}
 @media (prefers-reduced-motion:reduce){.nudge.show{animation:none}}
+
+/* ---------- SEÇÃO DE TEXTO (sx) ---------- */
+.sx{max-width:880px;margin:clamp(36px,7dvh,64px) auto 0;text-align:left;overflow-wrap:anywhere}
+.sx-sec{margin:0 0 clamp(40px,7dvh,64px)}
+.sx h2{margin:0 0 8px;text-align:center;font-size:clamp(1.4rem,5.4vw,2.05rem);font-weight:700;letter-spacing:-.02em;line-height:1.2;color:#fff}
+.sx-sub{max-width:60ch;margin:0 auto 24px;text-align:center;color:var(--muted);font-size:clamp(.88rem,3.4vw,1rem);line-height:1.6}
+.sx-card{padding:clamp(18px,4vw,28px);border-radius:18px;border:1px solid rgba(255,255,255,.07);background:#141417}
+.sx-card h3{margin:0 0 6px;font-size:1rem;font-weight:700;line-height:1.35;color:#fff}
+.sx-card p{margin:0 0 20px;color:#A1A1AA;font-size:.92rem;line-height:1.7}
+.sx-card p:last-child{margin-bottom:0}
+.sx-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.sx-step{padding:20px 18px 22px;border-radius:18px;border:1.5px solid var(--c);background:#101012;box-shadow:0 0 30px -16px var(--c)}
+.sx-n{display:grid;place-items:center;width:34px;height:34px;margin-bottom:14px;border-radius:50%;font-size:.95rem;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--c),var(--c2))}
+.sx-step h3{margin:0 0 6px;font-size:1rem;font-weight:700;color:#fff}
+.sx-step p{margin:0;color:#A1A1AA;font-size:.9rem;line-height:1.65}
+.sx-cta{display:block;width:fit-content;max-width:100%;margin:26px auto 0;padding:12px 28px;border:0;border-radius:12px;background:linear-gradient(135deg,#5B6BFF,#8A57F5);color:#fff;font:700 .9rem/1.2 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 0 26px -6px rgba(124,140,255,.85),inset 0 1px 0 rgba(255,255,255,.18);transition:filter .16s}
+.sx-cta:hover{filter:brightness(1.12)}
+.sx-fmt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sx-fcard{padding:22px 20px;border-radius:18px;border:1.5px solid var(--c);background:#101012;box-shadow:0 0 30px -16px var(--c)}
+.sx-fcard h3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px;font-size:1.05rem;font-weight:700;color:#fff}
+.sx-beta{padding:2px 8px;border-radius:999px;border:1px solid var(--c);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em}
+.sx-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+.sx-chips li{padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#fff;font-size:.85rem;font-weight:700;letter-spacing:.05em}
+.sx-fcard p{margin:0;color:#A1A1AA;font-size:.9rem;line-height:1.65}
+.sx-feat{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(18px,4vw,40px);align-items:center;padding:clamp(18px,4vw,30px);border-radius:18px;border:1px solid rgba(255,255,255,.07);background:#141417}
+.sx-feat h3{margin:0 0 12px;font-size:clamp(1.15rem,4.6vw,1.4rem);font-weight:700;line-height:1.25;color:#fff}
+.sx-feat p{margin:0 0 12px;color:#A1A1AA;font-size:.92rem;line-height:1.7}
+.sx-feat p:last-child{margin-bottom:0}
+.sx-ill{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
+.sx-faq{display:grid;gap:8px}
+.sx-faq details{width:100%;text-align:left;border-radius:10px;border:1px solid rgba(255,255,255,.05);background:#1a1a1d;overflow:hidden}
+.sx-faq summary{display:flex;width:100%;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border-radius:0;color:#fff;font-size:.92rem;font-weight:500;line-height:1.4;text-align:left}
+.sx-faq summary:hover{background:rgba(255,255,255,.04);color:#fff}
+.sx-faq summary::after{content:"";flex:none;width:7px;height:7px;margin-top:-3px;border-right:2px solid #A1A1AA;border-bottom:2px solid #A1A1AA;transform:rotate(45deg);transition:transform .2s}
+.sx-faq details[open] summary::after{margin-top:3px;transform:rotate(-135deg)}
+.sx-faq details p{margin:0;padding:0 16px 16px;color:#A1A1AA;font-size:.9rem;line-height:1.7}
+.sx-faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sx-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (max-width:760px){
+  .sx-steps,.sx-fmt,.sx-feat{grid-template-columns:minmax(0,1fr)}
+  .sx-ill{order:-1;max-width:240px}
+}
+@media (prefers-reduced-motion:reduce){.sx *{transition:none!important}}
 </style>
 </head>
 <body>
@@ -812,10 +855,76 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
         </div>
       </section>
 
+      <div class="sx" id="sobre-a-ferramenta">
+        <section class="sx-sec" aria-labelledby="sxH1">
+          <h2 id="sxH1" data-i18n="core.seoH">Remova marca d’água de imagens e vídeos direto no navegador</h2>
+          <p class="sx-sub" data-i18n="core.seoSub">Grátis, sem cadastro e sem enviar seus arquivos para nenhum servidor.</p>
+          <div class="sx-card">
+            <h3 data-i18n="core.seoWhatT">O que o AETIX DESIGN faz</h3><p data-i18n="core.seoWhatP">O AETIX DESIGN é uma ferramenta online para apagar textos e marcas d’água de imagens e vídeos. Nas imagens, ele procura os textos com OCR (leitura de texto), você escolhe quais apagar e o fundo é reconstruído; também dá para pintar à mão o que o OCR não detectou. Nos vídeos, você pinta a marca d’água e adiciona keyframes em outros momentos para acompanhar o movimento dela.</p><h3 data-i18n="core.seoFreeT">Gratuito e sem cadastro</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento nem de login. Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p><h3 data-i18n="core.seoBetaT">Módulo de vídeo em BETA</h3><p data-i18n="core.seoBetaP">O módulo de vídeo está em versão BETA e depende de recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados.</p>
+          </div>
+        </section>
+
+        <section class="sx-sec" aria-labelledby="sxH2">
+          <h2 id="sxH2" data-i18n="core.seoStepsH">Como usar em 3 passos</h2>
+          <p class="sx-sub" data-i18n="core.seoStepsSub">Do arquivo ao download, tudo na mesma página.</p>
+          <ol class="sx-steps"><li class="sx-step" style="--c:#2EE59A;--c2:#14B8A6"><div class="sx-n" aria-hidden="true">1</div><h3 data-i18n="core.seoS1T">Envie o arquivo</h3><p data-i18n="core.seoS1P">Arraste a imagem ou o vídeo para a área de envio, clique em “Escolher arquivo” ou cole com Ctrl+V.</p></li><li class="sx-step" style="--c:#A855F7;--c2:#6D28D9"><div class="sx-n" aria-hidden="true">2</div><h3 data-i18n="core.seoS2T">Marque o que apagar</h3><p data-i18n="core.seoS2P">Em imagens, clique nas caixas de texto detectadas ou use o lápis e “Desenhar caixa”. Em vídeos, pause, pinte a marca d’água e adicione keyframes se ela se mover.</p></li><li class="sx-step" style="--c:#3B9BFF;--c2:#1D6FE0"><div class="sx-n" aria-hidden="true">3</div><h3 data-i18n="core.seoS3T">Remova e baixe</h3><p data-i18n="core.seoS3P">Clique em “Remover selecionados” e baixe o PNG. Em vídeos, use “Renderizar vídeo” e depois “Baixar MP4”.</p></li></ol>
+          <button type="button" class="sx-cta" id="sxTop" data-i18n="core.seoCta">Usar a ferramenta agora</button>
+        </section>
+
+        <section class="sx-sec" aria-labelledby="sxH3">
+          <h2 id="sxH3" data-i18n="core.seoFmtH">Formatos aceitos</h2>
+          <p class="sx-sub" data-i18n="core.seoFmtSub">Imagens e vídeos nos formatos mais comuns.</p>
+          <div class="sx-fmt">
+            <div class="sx-fcard" style="--c:#A855F7">
+              <h3 data-i18n="core.seoFmtImgT">Imagens</h3>
+              <ul class="sx-chips"><li>PNG</li><li>JPG</li><li>WEBP</li></ul>
+              <p data-i18n="core.seoFmtImgP">A imagem final é baixada em PNG, em qualidade máxima.</p>
+            </div>
+            <div class="sx-fcard" style="--c:#3B9BFF">
+              <h3><span data-i18n="core.seoFmtVidT">Vídeos</span> <span class="sx-beta">BETA</span></h3>
+              <ul class="sx-chips"><li>MP4</li><li>MOV</li><li>WEBM</li></ul>
+              <p data-i18n="core.seoFmtVidP">O resultado é um MP4. O áudio original é mantido sempre que possível. Módulo em BETA: use o Chrome ou o Edge.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="sx-sec" aria-labelledby="sxH4">
+          <h2 id="sxH4" data-i18n="core.seoPrivH">Por que seus arquivos não saem do navegador</h2>
+          <p class="sx-sub" data-i18n="core.seoPrivSub">Processamento local: o trabalho acontece no seu dispositivo.</p>
+          <div class="sx-feat">
+            <div>
+              <h3 data-i18n="core.seoPrivT">Seus arquivos ficam com você</h3><p data-i18n="core.seoPrivP1">Toda a remoção acontece dentro do seu próprio dispositivo, com tecnologias do navegador (JavaScript e WebAssembly). Suas imagens e vídeos não são enviados, processados nem guardados em servidores.</p><p data-i18n="core.seoPrivP2">Não há cadastro nem login. O conteúdo existe só na memória do navegador enquanto a aba está aberta e é descartado ao fechar ou recarregar. O arquivo final é salvo direto no seu dispositivo quando você baixa.</p><p data-i18n="core.seoPrivP3">O site apenas baixa para o seu aparelho o código das bibliotecas, as fontes e os pacotes de idioma do OCR. Nada do seu conteúdo é enviado de volta.</p>
+            </div>
+            <svg class="sx-ill" viewBox="0 0 300 190" aria-hidden="true" focusable="false">
+  <rect x="8" y="22" width="196" height="146" rx="14" fill="#101012" stroke="#7C8CFF" stroke-opacity=".6" stroke-width="1.5"/>
+  <path d="M8 40h196" stroke="#7C8CFF" stroke-opacity=".25"/>
+  <circle cx="23" cy="31" r="3" fill="#FF6B83"/><circle cx="34" cy="31" r="3" fill="#FFC857"/><circle cx="45" cy="31" r="3" fill="#4ADE9A"/>
+  <rect x="24" y="56" width="92" height="64" rx="8" fill="#1a1a1d" stroke="#fff" stroke-opacity=".18"/>
+  <path d="M24 108l24-26 18 18 14-12 36 28v4a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8z" fill="#7C8CFF" fill-opacity=".35"/>
+  <circle cx="98" cy="72" r="6" fill="#EDE8FF" fill-opacity=".8"/>
+  <rect x="128" y="76" width="60" height="44" rx="10" fill="#4ADE9A" fill-opacity=".14" stroke="#4ADE9A" stroke-width="1.5"/>
+  <rect x="146" y="95" width="24" height="18" rx="4" fill="#4ADE9A"/>
+  <path d="M151 95v-6a6 6 0 0 1 12 0v6" fill="none" stroke="#4ADE9A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M24 140h164M24 152h110" stroke="#fff" stroke-opacity=".12" stroke-width="5" stroke-linecap="round"/>
+  <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M276 78a16 16 0 0 0-30-6 12 12 0 0 0-3 24h31a9 9 0 0 0 2-18z" stroke="#98A1B3" stroke-opacity=".7" stroke-width="2"/>
+    <path d="M238 108l46-48" stroke="#FF6B83" stroke-width="3.5"/>
+  </g>
+</svg>
+          </div>
+        </section>
+
+        <section class="sx-sec" aria-labelledby="sxH5">
+          <h2 id="sxH5" data-i18n="core.seoFaqH">Perguntas frequentes</h2>
+          <p class="sx-sub" data-i18n="core.seoFaqSub">Respostas rápidas sobre o uso do AETIX DESIGN.</p>
+          <div class="sx-faq"><details><summary><span data-i18n="core.seoQ1">O AETIX DESIGN é grátis?</span></summary><p data-i18n="core.seoA1">Sim. As ferramentas são gratuitas e não exigem cadastro. A colaboração por Pix é voluntária, com valor mínimo de R$ 5,00, e nunca é necessária para usar o site.</p></details><details><summary><span data-i18n="core.seoQ2">Meus arquivos são enviados para algum servidor?</span></summary><p data-i18n="core.seoA2">Não. O processamento é 100% local, no seu navegador. Seus arquivos nunca saem do seu dispositivo.</p></details><details><summary><span data-i18n="core.seoQ3">Quais formatos são aceitos?</span></summary><p data-i18n="core.seoA3">Imagens PNG, JPG e WEBP, e vídeos MP4, MOV e WEBM. A imagem final é baixada em PNG e o vídeo em MP4.</p></details><details><summary><span data-i18n="core.seoQ4">Preciso criar conta ou fazer login?</span></summary><p data-i18n="core.seoA4">Não. Não há cadastro nem login: basta abrir o site e enviar o arquivo.</p></details><details><summary><span data-i18n="core.seoQ5">O módulo de vídeo funciona em qualquer navegador?</span></summary><p data-i18n="core.seoA5">O módulo de vídeo é BETA e usa recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados. O funcionamento pode variar conforme o dispositivo, o formato e a codificação do vídeo.</p></details><details><summary><span data-i18n="core.seoQ6">O resultado fica perfeito?</span></summary><p data-i18n="core.seoA6">Nem sempre. O resultado depende do conteúdo, do tamanho e da posição da marca e pode não ser perfeito. Marcar só a área da marca, com margem pequena, deixa o resultado mais natural. Guarde sempre uma cópia do arquivo original.</p></details><details><summary><span data-i18n="core.seoQ7">Posso remover qualquer marca d’água?</span></summary><p data-i18n="core.seoA7">Use a ferramenta apenas em conteúdos que são seus ou que você tem autorização para editar. A responsabilidade pelo conteúdo editado e pelo uso do resultado é do usuário, conforme os Termos de Uso.</p></details></div>
+        </section>
+      </div>
+
       <footer>
         <span data-i18n="core.footerBy">Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
         <span data-i18n="core.footerRights">© AETIX DESIGN. Todos os direitos reservados.</span>
-        <span class="flinks"><a href="/termosprivacidade/termos" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="/termosprivacidade/privacidade" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a></span>
+        <span class="flinks"><a href="/termosprivacidade/termos" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="/termosprivacidade/privacidade" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/termosprivacidade/sobre" target="_blank" rel="noopener noreferrer" data-i18n="core.cbAbout">Sobre</a></span>
         <span class="rline"><span id="ratingLine" hidden>★ <b id="rMedia"></b> · <span id="rTotal"></span> <span data-i18n="core.ratingsWord">avaliações</span> · </span><span data-i18n="core.freeWord">Gratuito</span> · <span data-i18n="core.browserWord">Navegador da Internet</span></span>
       </footer>
     </div>
@@ -931,7 +1040,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     <div class="cb-in">
       <p class="cb-title"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span data-i18n="core.cbTitle">Sua privacidade em primeiro lugar</span></p>
       <p class="cb-text" id="cbText"><span class="cb-long" data-i18n="core.cbText">Seus arquivos nunca saem do seu dispositivo: todo o processamento é feito localmente, no seu navegador. Guardamos apenas preferências simples no próprio navegador, como o idioma. Ao continuar, você concorda com nossos termos.</span><span class="cb-short" data-i18n="core.cbTextShort">Seus arquivos nunca saem do seu dispositivo. Ao continuar, você aceita os termos.</span></p>
-      <p class="cb-links"><a href="/termosprivacidade/termos" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="/termosprivacidade/privacidade" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a></p>
+      <p class="cb-links"><a href="/termosprivacidade/termos" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="/termosprivacidade/privacidade" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/termosprivacidade/sobre" target="_blank" rel="noopener noreferrer" data-i18n="core.cbAbout">Sobre</a></p>
       <button type="button" class="cb-btn" id="cookieAccept" data-i18n="core.cbAccept">Aceitar e Continuar</button>
     </div>
   </div>
@@ -944,7 +1053,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261031a" defer></script>
+<script src="/script.js?v=20261031b" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
@@ -1009,6 +1118,14 @@ window.addEventListener('load',function(){
     el.textContent=JSON.stringify(ld);
   }).catch(function(){});
 })();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('#sxTop'); if(!b)return;
+  var p=document.getElementById('page'); if(!p)return;
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  p.scrollTo({top:0,behavior:calm?'auto':'smooth'});
+});
 </script>
 </body>
 </html>
