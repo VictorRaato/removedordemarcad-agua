@@ -58,6 +58,16 @@ footer{margin:26px auto 0;max-width:880px;padding:0 20px 36px;text-align:center;
 footer strong{color:var(--muted);letter-spacing:.08em}
 @media (max-width:520px){body{font-size:15px}.back{padding:0 12px;font-size:.66rem}.brand{font-size:.8rem;letter-spacing:.1em}}
 @media (max-width:400px){.hdr{padding:10px 10px;gap:8px}.brand{font-size:.7rem;letter-spacing:.05em}.brand .logo{width:2.1em;height:2.1em;margin-right:.1em}.back{height:34px;padding:0 9px;font-size:.58rem;letter-spacing:.03em}}
+
+/* rodapé igual ao da tela inicial */
+footer{margin:26px auto 0;max-width:880px;padding:0 20px 36px;text-align:center;color:var(--dim);font-size:.8rem;line-height:1.7}
+footer strong{color:var(--muted);font-weight:600;letter-spacing:.08em}
+footer a{color:#6FB6FF;text-decoration:none;text-shadow:0 0 12px rgba(111,182,255,.45)}
+footer a:hover{text-decoration:underline}
+footer .rline{display:block;margin-top:6px;color:var(--muted)}
+footer .rline b{color:#FFC857;font-weight:700}
+footer .flinks{display:block;margin-top:4px}
+footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
 </style>
 </head>
 <body>
@@ -179,9 +189,21 @@ footer strong{color:var(--muted);letter-spacing:.08em}
 </main>
 
 <footer>
-  <strong>AETIX DESIGN</strong><br>
-  © AETIX DESIGN. Todos os direitos reservados.
+  <span>Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
+  <span>© AETIX DESIGN. Todos os direitos reservados.</span>
+  <span class="flinks"><a href="/termosprivacidade/termos">Termos de Uso</a><i aria-hidden="true">·</i><a href="/termosprivacidade/privacidade">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/termosprivacidade/sobre">Sobre</a></span>
+  <span class="rline"><span id="ratingLine" hidden>★ <b id="rMedia"></b> · <span id="rTotal"></span> <span>avaliações</span> · </span><span>Gratuito</span> · <span>Navegador da Internet</span></span>
 </footer>
+<script>
+(function(){
+  fetch('/api/avaliacoes-resumo').then(function(r){return r.json();}).then(function(d){
+    if(!d||!d.ok||!(d.total>=1)||!(d.media>=1))return;
+    document.getElementById('rMedia').textContent=String(d.media).replace('.',',');
+    document.getElementById('rTotal').textContent=d.total;
+    document.getElementById('ratingLine').hidden=false;
+  }).catch(function(){});
+})();
+</script>
 <script>
 (function(){
   var home="/inicial/";
