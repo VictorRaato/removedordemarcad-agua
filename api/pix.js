@@ -12,8 +12,17 @@
    Variável de ambiente (Vercel > Settings > Environment Variables):
         BRAVOPAY_API_KEY   (obrigatória)
         BRAVOPAY_PRODUCT_ID (opcional)
-   Nenhum dado do cliente é gravado nem escrito em log por esta função.
+   E-mail e telefone nunca são gravados nem escritos em log por esta função.
+
+   MURAL DE COLABORADORES: só se o cliente marcar "Mostrar meu nome"
+   (show_name = true) guardamos no Firestore: primeiro e segundo nome, valor
+   e um código irreversível (HMAC) do e-mail, usado só para somar as
+   colaborações da mesma pessoa no ranking. O registro só fica público
+   depois que o processador confirma o pagamento (status PAID).
    ========================================================================== */
+const crypto = require('crypto');
+let _fb = null;
+function fb() { return _fb || (_fb = require('./_firebase')); }
 
 const BASE_URL = 'https://bravopay.club/api/v1';
 const MIN_CENTS = 500;            // R$ 5,00 (mesmo mínimo do site)
@@ -22,6 +31,74 @@ const TIMEOUT_MS = 20000;
 const MAX_BODY_CHARS = 8192;
 const JANELA_MS = 60 * 1000;      // limitador simples por visitante
 const MAX_POR_JANELA = 20;
+
+const PARTICULAS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'di', 'du']);
+
+/* "joão  DA silva souza" -> "João Silva" */
+function nomePublico(nome) {
+  const partes = String(nome || '').replace(/[^\p{L}'’\- ]/gu, ' ').split(/\s+/).filter(Boolean);
+  const uteis = partes.filter((w, i) => i === 0 || !PARTICULAS.has(w.toLowerCase()));
+  const cap = w => w.slice(0, 24).toLowerCase().replace(/(^|['’\-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
+  return uteis.slice(0, 2).map(cap).join(' ');
+}
+
+function chaveEmail(email) {
+  const segredo = process.env.RATE_SALT || process.env.FIREBASE_PRIVATE_KEY || 'aetix';
+  return crypto.createHmac('sha256', segredo).update(String(email).toLowerCase()).digest('hex');
+}
+
+/* Guarda o pedido de exibição até o pagamento ser confirmado. Nunca derruba a cobrança. */
+async function guardarPendente(id, nome, cents, email) {
+  try {
+    const db = fb().getDb();
+    const { FieldValue, Timestamp } = require('firebase-admin/firestore');
+    await db.collection('colab_pendentes').doc(String(id)).set({
+      nome: nome, centavos: cents, chave: chaveEmail(email), criadoEm: FieldValue.serverTimestamp()
+    });
+    const velhos = await db.collection('colab_pendentes')
+      .where('criadoEm', '<=', Timestamp.fromMillis(Date.now() - 3 * 24 * 3600 * 1000)).limit(20).get();
+    if (!velhos.empty) {
+      const batch = db.batch();
+      velhos.docs.forEach(d => batch.delete(d.ref));
+      await batch.commit();
+    }
+  } catch (e) { console.error('[pix] pendente não gravado:', e && e.message); }
+}
+
+/* Pagamento confirmado: publica no mural e soma no ranking (idempotente). */
+async function promover(id) {
+  try {
+    const db = fb().getDb();
+    const { FieldValue } = require('firebase-admin/firestore');
+    const pendRef = db.collection('colab_pendentes').doc(String(id));
+    const colRef = db.collection('colaboracoes').doc(String(id));
+    await db.runTransaction(async (tx) => {
+      const pend = await tx.get(pendRef);
+      const col = await tx.get(colRef);
+      if (col.exists || !pend.exists) return;
+      const d = pend.data();
+      const rankRef = d.chave ? db.collection('ranking').doc(d.chave) : null;
+      const rank = rankRef ? await tx.get(rankRef) : null;
+      tx.set(colRef, { nome: d.nome, centavos: d.centavos, criadoEm: FieldValue.serverTimestamp() });
+      if (rankRef) {
+        tx.set(rankRef, {
+          nome: d.nome,
+          centavos: (rank.exists ? Number(rank.get('centavos')) || 0 : 0) + d.centavos,
+          qtd: (rank.exists ? Number(rank.get('qtd')) || 0 : 0) + 1,
+          ultimoEm: FieldValue.serverTimestamp()
+        });
+      }
+      tx.delete(pendRef);
+    });
+    /* mantém só as 100 colaborações mais recentes no mural (o ranking é um doc por pessoa e fica) */
+    const excesso = await db.collection('colaboracoes').orderBy('criadoEm', 'desc').offset(100).limit(25).get();
+    if (!excesso.empty) {
+      const batch = db.batch();
+      excesso.docs.forEach(d => batch.delete(d.ref));
+      await batch.commit();
+    }
+  } catch (e) { console.error('[pix] promoção falhou:', e && e.message); }
+}
 
 const UTM_KEYS = ['source', 'medium', 'campaign', 'content', 'term', 'fbclid', 'ttclid', 'gclid'];
 
@@ -93,7 +170,9 @@ module.exports = async function handler(req, res) {
       }
       const r = await bravo('/transactions/' + encodeURIComponent(id));
       if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });
-      return res.status(200).json({ status: String(r.data.status || '') });
+      const status = String(r.data.status || '');
+      if (status.toUpperCase() === 'PAID') await promover(id);
+      return res.status(200).json({ status });
     }
 
     /* ---------- criação da cobrança ---------- */
@@ -135,6 +214,10 @@ module.exports = async function handler(req, res) {
 
     const copy = r.data.pix && r.data.pix.copy_paste;
     if (!r.data.id || !copy) return res.status(502).json({ message: 'Resposta inesperada do processador de pagamentos.' });
+    if (body.show_name === true) {
+      const publico = nomePublico(name);
+      if (publico) await guardarPendente(r.data.id, publico, cents, email);
+    }
     return res.status(201).json({ id: r.data.id, pix: { copy_paste: copy } });
   } catch (err) {
     if (err && err.code === 'config') {
