@@ -653,6 +653,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .cr-h[data-h=nw]{left:0;top:0;cursor:nwse-resize}.cr-h[data-h=n]{left:50%;top:0;cursor:ns-resize}.cr-h[data-h=ne]{left:100%;top:0;cursor:nesw-resize}.cr-h[data-h=e]{left:100%;top:50%;cursor:ew-resize}
 .cr-h[data-h=se]{left:100%;top:100%;cursor:nwse-resize}.cr-h[data-h=s]{left:50%;top:100%;cursor:ns-resize}.cr-h[data-h=sw]{left:0;top:100%;cursor:nesw-resize}.cr-h[data-h=w]{left:0;top:50%;cursor:ew-resize}
 @media (pointer:coarse){.cr-h{width:24px;height:24px;margin:-12px 0 0 -12px}}
+.cr-box.lay{box-shadow:none;border-style:dashed}
+.cr-box.lay .cr-h[data-h=n],.cr-box.lay .cr-h[data-h=e],.cr-box.lay .cr-h[data-h=s],.cr-box.lay .cr-h[data-h=w]{display:none}
 .cr-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
 .cr-actions .btn.primary{height:42px;padding:0 24px}
 </style>
@@ -1080,6 +1082,10 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
       <button type="button" class="btn chip" data-bg="blur" data-i18n="core.crBgBlur">Desfocado</button>
       <button type="button" class="btn chip" data-bg="black" data-i18n="core.crBgBlack">Preto</button>
     </div>
+    <div class="cr-bgrow" id="cr-fitrow" hidden>
+      <button type="button" class="btn chip" data-fit="fit" data-i18n="core.crFit">Ajustar</button>
+      <button type="button" class="btn chip" data-fit="fill" data-i18n="core.crFill">Preencher</button>
+    </div>
     <div class="cr-stage">
       <div class="cr-frame" id="cr-frame">
         <canvas id="cr-cv"></canvas>
@@ -1150,7 +1156,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261031f" defer></script>
+<script src="/script.js?v=20261031g" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
