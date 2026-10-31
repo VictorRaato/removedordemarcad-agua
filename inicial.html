@@ -1153,6 +1153,20 @@ window.addEventListener('load',function(){
 </script>
 <script>
 (function(){
+  /* fotos da seção: se o arquivo não abrir com a extensão esperada, tenta as outras extensões comuns */
+  var exts=['.jpg','.jpeg','.png','.webp','.JPG','.JPEG','.PNG','.WEBP'];
+  [].forEach.call(document.querySelectorAll('.sx-photo'),function(img){
+    var base=img.getAttribute('src').replace(/\.[A-Za-z]+$/,''),i=0;
+    img.addEventListener('error',function(){
+      while(i<exts.length&&base+exts[i]===img.getAttribute('src'))i++;
+      if(i<exts.length){var n=base+exts[i++];img.setAttribute('src',n);}
+    });
+    if(img.complete&&img.naturalWidth===0){var s=img.getAttribute('src');img.removeAttribute('src');img.setAttribute('src',s);}
+  });
+})();
+</script>
+<script>
+(function(){
   /* celular: títulos "Removedor de marca d'água em ..." sempre em uma linha só, no maior tamanho que couber */
   var h=document.getElementById('heroTitle'); if(!h)return;
   function fit(){
