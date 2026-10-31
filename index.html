@@ -49,6 +49,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/logosapresentacao/favicon-32.png">
 <link rel="icon" href="/logosapresentacao/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/logosapresentacao/favicon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/logosapresentacao/icon-192-maskable.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/logosapresentacao/icon-512-maskable.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1202,10 +1204,15 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     if(document.documentElement.classList.contains('splashing')||$('splash'))return false;
     return true;
   }
+  function after(){
+    setTimeout(function(){if(!done&&!document.querySelector('.modal:not([hidden])'))show()},700);
+  }
   function tick(){
     if(done)return;
     if(!ready()&&tries++<60)return setTimeout(tick,200);
-    setTimeout(function(){if(!done&&!document.querySelector('.modal:not([hidden])'))show()},700);
+    /* só aparece depois que o pop-up de Halloween for fechado */
+    if(window.__aetixHwDone)return after();
+    document.addEventListener('aetix:hw-done',function once(){document.removeEventListener('aetix:hw-done',once);after()});
   }
   function init(){
     box=$('nudge');if(!box)return;
@@ -1336,26 +1343,39 @@ window.addEventListener('load',function(){
 })();
 </script>
 <script>
-/* Pop-up de Halloween: aparece uma única vez por navegador (localStorage), depois do splash */
+/* Pop-up de Halloween: aparece a cada atualização da página, depois do splash.
+   Se vier de "Colaborar com o projeto" (?colaborar=1), abre o pop-up de colaboração no lugar. */
 (function(){
-  var KEY='aetix_halloween_2026',SRC='/img/og_hallowenn.png',tries=0;
-  function seen(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
-  function mark(){try{localStorage.setItem(KEY,'1')}catch(e){}}
-  if(seen())return;
+  var SRC='/img/og_hallowenn.png',tries=0,finished=false,opened=false;
+  var wantsColab=/[?&]colaborar=1(&|$)/.test(location.search);
+  function done(){
+    if(finished)return;finished=true;window.__aetixHwDone=true;
+    try{document.dispatchEvent(new Event('aetix:hw-done'))}catch(e){}
+  }
+  function cleanUrl(){try{var u=new URL(location.href);u.searchParams.delete('colaborar');history.replaceState(history.state,'',u.pathname+u.search+u.hash)}catch(e){}}
   function go(){
     var A=window.AetixApp,c=A&&A.Core;
-    if(!c||!c.openModal||!c.splashDone){if(tries++<150)setTimeout(go,100);return}
+    if(!c||!c.openModal||!c.splashDone){if(tries++<150)setTimeout(go,100);else done();return}
+    if(wantsColab){
+      c.splashDone.then(function(){setTimeout(function(){cleanUrl();c.openModal('pricingModal');done()},300)});
+      return;
+    }
     var modal=document.getElementById('halloweenModal'),img=document.getElementById('halloweenImg');
-    if(!modal||!img)return;
+    if(!modal||!img){done();return}
+    c.modalHooks['halloweenModal']=function(){done()};
+    var guard=setTimeout(function(){if(!opened)done()},12000);
     var pre=new Image();
     pre.onload=function(){
       c.splashDone.then(function(){
         setTimeout(function(){
-          if(seen()||document.querySelector('.modal:not([hidden])'))return;
-          img.src=SRC;mark();c.openModal('halloweenModal','halloweenX');
+          if(finished)return;
+          if(document.querySelector('.modal:not([hidden])')){done();return}
+          opened=true;clearTimeout(guard);
+          img.src=SRC;c.openModal('halloweenModal','halloweenX');
         },300);
       });
     };
+    pre.onerror=function(){clearTimeout(guard);done()};
     pre.src=SRC;
   }
   if(document.readyState==='complete')go();else window.addEventListener('load',go);
