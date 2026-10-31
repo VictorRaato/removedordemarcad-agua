@@ -537,45 +537,76 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 @media (prefers-reduced-motion:reduce){.nudge.show{animation:none}}
 
 /* ---------- SEÇÃO DE TEXTO (sx) ---------- */
-.sx{max-width:880px;margin:clamp(36px,7dvh,64px) auto 0;text-align:left;overflow-wrap:anywhere}
-.sx-sec{margin:0 0 clamp(40px,7dvh,64px)}
+.sx{max-width:920px;margin:clamp(36px,7dvh,64px) auto 0;text-align:left;overflow-wrap:anywhere}
+.sx-sec{margin:0 0 clamp(44px,7dvh,72px)}
 .sx h2{margin:0 0 8px;text-align:center;font-size:clamp(1.4rem,5.4vw,2.05rem);font-weight:700;letter-spacing:-.02em;line-height:1.2;color:#fff}
-.sx-sub{max-width:60ch;margin:0 auto 24px;text-align:center;color:var(--muted);font-size:clamp(.88rem,3.4vw,1rem);line-height:1.6}
-.sx-card{padding:clamp(18px,4vw,28px);border-radius:18px;border:1px solid rgba(255,255,255,.07);background:#141417}
-.sx-card h3{margin:0 0 6px;font-size:1rem;font-weight:700;line-height:1.35;color:#fff}
-.sx-card p{margin:0 0 20px;color:#A1A1AA;font-size:.92rem;line-height:1.7}
-.sx-card p:last-child{margin-bottom:0}
-.sx-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.sx-sub{max-width:60ch;margin:0 auto clamp(24px,5vw,40px);text-align:center;color:var(--muted);font-size:clamp(.88rem,3.4vw,1rem);line-height:1.6}
+
+/* linhas alternadas: imagem + texto, sem caixa */
+.sx-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(20px,5vw,64px);margin:0 0 clamp(32px,6vw,64px)}
+.sx-row:last-child{margin-bottom:0}
+.sx-ri,.sx-rt{min-width:0}
+.sx-ill{display:block;width:100%;max-width:400px;height:auto;margin:0 auto}
+.sx-rt h3{margin:0 0 10px;font-size:clamp(1.3rem,5.2vw,1.75rem);font-weight:700;line-height:1.2;letter-spacing:-.01em;color:#fff}
+.sx-rt p{margin:0;color:#B4B8C4;font-size:clamp(.92rem,3.6vw,1.02rem);line-height:1.7}
+.sx-rt p+p{margin-top:12px}
+
+/* passos: lista simples (sem JS) e carrossel (com JS) */
+.sx-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:0;padding:0;list-style:none}
 .sx-step{padding:20px 18px 22px;border-radius:18px;border:1.5px solid var(--c);background:#101012;box-shadow:0 0 30px -16px var(--c)}
-.sx-n{display:grid;place-items:center;width:34px;height:34px;margin-bottom:14px;border-radius:50%;font-size:.95rem;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--c),var(--c2))}
-.sx-step h3{margin:0 0 6px;font-size:1rem;font-weight:700;color:#fff}
-.sx-step p{margin:0;color:#A1A1AA;font-size:.9rem;line-height:1.65}
-.sx-cta{display:block;width:fit-content;max-width:100%;margin:26px auto 0;padding:12px 28px;border:0;border-radius:12px;background:linear-gradient(135deg,#5B6BFF,#8A57F5);color:#fff;font:700 .9rem/1.2 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 0 26px -6px rgba(124,140,255,.85),inset 0 1px 0 rgba(255,255,255,.18);transition:filter .16s}
+.sx-n{display:grid;place-items:center;width:34px;height:34px;margin-bottom:14px;border-radius:50%;font-size:.95rem;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--d),var(--e))}
+.sx-step h3{margin:0 0 6px;font-size:1.02rem;font-weight:700;line-height:1.3;color:#fff}
+.sx-step p{margin:0;color:#B4B8C4;font-size:.9rem;line-height:1.65}
+.is-car .sx-view{position:relative;overflow:hidden;padding:18px 0 20px;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.is-car .sx-steps{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+.is-car .sx-step{grid-area:1/1;justify-self:center;width:min(350px,40%);cursor:pointer;will-change:transform;transition:transform .7s cubic-bezier(.22,.8,.24,1),opacity .7s ease,filter .7s ease}
+.is-car .sx-step[data-o="0"]{z-index:5;opacity:1;cursor:default;transform:scale(1.04)}
+.is-car .sx-step[data-o="1"]{z-index:4;opacity:.85;filter:brightness(.78);transform:translateX(88%) scale(.86)}
+.is-car .sx-step[data-o="-1"]{z-index:4;opacity:.85;filter:brightness(.78);transform:translateX(-88%) scale(.86)}
+.is-car .sx-step[data-o="2"]{z-index:3;opacity:.55;filter:brightness(.6);transform:translateX(142%) scale(.72)}
+.is-car .sx-step[data-o="-2"]{z-index:3;opacity:.55;filter:brightness(.6);transform:translateX(-142%) scale(.72)}
+.sx-dots{display:none}
+.is-car .sx-dots{display:flex;justify-content:center;gap:2px;margin-top:2px}
+.sx-dot{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;background:none;cursor:pointer}
+.sx-dot::before{content:"";width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.28);transition:width .3s,background .3s}
+.sx-dot[aria-current="true"]::before{width:22px;background:linear-gradient(90deg,#7C8CFF,#9B6BFF)}
+.sx-dot:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:8px}
+.sx-cta{display:block;width:fit-content;max-width:100%;margin:22px auto 0;padding:12px 28px;border:0;border-radius:12px;background:linear-gradient(135deg,#5B6BFF,#8A57F5);color:#fff;font:700 .9rem/1.2 Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 0 26px -6px rgba(124,140,255,.85),inset 0 1px 0 rgba(255,255,255,.18);transition:filter .16s}
 .sx-cta:hover{filter:brightness(1.12)}
+.sx-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* formatos */
 .sx-fmt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .sx-fcard{padding:22px 20px;border-radius:18px;border:1.5px solid var(--c);background:#101012;box-shadow:0 0 30px -16px var(--c)}
 .sx-fcard h3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px;font-size:1.05rem;font-weight:700;color:#fff}
 .sx-beta{padding:2px 8px;border-radius:999px;border:1px solid var(--c);color:#fff;font-size:.66rem;font-weight:700;letter-spacing:.08em}
 .sx-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
 .sx-chips li{padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#fff;font-size:.85rem;font-weight:700;letter-spacing:.05em}
-.sx-fcard p{margin:0;color:#A1A1AA;font-size:.9rem;line-height:1.65}
-.sx-feat{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(18px,4vw,40px);align-items:center;padding:clamp(18px,4vw,30px);border-radius:18px;border:1px solid rgba(255,255,255,.07);background:#141417}
-.sx-feat h3{margin:0 0 12px;font-size:clamp(1.15rem,4.6vw,1.4rem);font-weight:700;line-height:1.25;color:#fff}
-.sx-feat p{margin:0 0 12px;color:#A1A1AA;font-size:.92rem;line-height:1.7}
-.sx-feat p:last-child{margin-bottom:0}
-.sx-ill{display:block;width:100%;max-width:300px;height:auto;margin:0 auto}
+.sx-fcard p{margin:0;color:#B4B8C4;font-size:.9rem;line-height:1.65}
+
+/* perguntas frequentes */
 .sx-faq{display:grid;gap:8px}
 .sx-faq details{width:100%;text-align:left;border-radius:10px;border:1px solid rgba(255,255,255,.05);background:#1a1a1d;overflow:hidden}
 .sx-faq summary{display:flex;width:100%;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border-radius:0;color:#fff;font-size:.92rem;font-weight:500;line-height:1.4;text-align:left}
 .sx-faq summary:hover{background:rgba(255,255,255,.04);color:#fff}
 .sx-faq summary::after{content:"";flex:none;width:7px;height:7px;margin-top:-3px;border-right:2px solid #A1A1AA;border-bottom:2px solid #A1A1AA;transform:rotate(45deg);transition:transform .2s}
 .sx-faq details[open] summary::after{margin-top:3px;transform:rotate(-135deg)}
-.sx-faq details p{margin:0;padding:0 16px 16px;color:#A1A1AA;font-size:.9rem;line-height:1.7}
+.sx-faq details p{margin:0;padding:0 16px 16px;color:#B4B8C4;font-size:.9rem;line-height:1.7}
 .sx-faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.sx-cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
 @media (max-width:760px){
-  .sx-steps,.sx-fmt,.sx-feat{grid-template-columns:minmax(0,1fr)}
-  .sx-ill{order:-1;max-width:240px}
+  .sx-row,.sx-fmt{grid-template-columns:minmax(0,1fr)}
+  .sx-row{gap:14px}
+  .sx-ri{order:-1}
+  .sx-ill{max-width:290px}
+  .sx-rt{text-align:left}
+  .is-car .sx-step{width:66%}
+  .is-car .sx-step[data-o="1"]{transform:translateX(72%) scale(.84)}
+  .is-car .sx-step[data-o="-1"]{transform:translateX(-72%) scale(.84)}
+  .is-car .sx-step[data-o="2"]{transform:translateX(116%) scale(.7)}
+  .is-car .sx-step[data-o="-2"]{transform:translateX(-116%) scale(.7)}
+  .sx-step{padding:18px 16px 20px}
+  .sx-step p{font-size:.86rem}
 }
 @media (prefers-reduced-motion:reduce){.sx *{transition:none!important}}
 </style>
@@ -859,15 +890,87 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
         <section class="sx-sec" aria-labelledby="sxH1">
           <h2 id="sxH1" data-i18n="core.seoH">Remova marca d’água de imagens e vídeos direto no navegador</h2>
           <p class="sx-sub" data-i18n="core.seoSub">Grátis, sem cadastro e sem enviar seus arquivos para nenhum servidor.</p>
-          <div class="sx-card">
-            <h3 data-i18n="core.seoWhatT">O que o AETIX DESIGN faz</h3><p data-i18n="core.seoWhatP">O AETIX DESIGN é uma ferramenta online para apagar textos e marcas d’água de imagens e vídeos. Nas imagens, ele procura os textos com OCR (leitura de texto), você escolhe quais apagar e o fundo é reconstruído; também dá para pintar à mão o que o OCR não detectou. Nos vídeos, você pinta a marca d’água e adiciona keyframes em outros momentos para acompanhar o movimento dela.</p><h3 data-i18n="core.seoFreeT">Gratuito e sem cadastro</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento nem de login. Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p><h3 data-i18n="core.seoBetaT">Módulo de vídeo em BETA</h3><p data-i18n="core.seoBetaP">O módulo de vídeo está em versão BETA e depende de recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados.</p>
-          </div>
+          <div class="sx-row"><div class="sx-ri"><svg class="sx-ill" viewBox="0 0 400 300" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="sxSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241a5c"/><stop offset=".6" stop-color="#8a3fa8"/><stop offset="1" stop-color="#ff9a5c"/></linearGradient>
+    <linearGradient id="sxAcc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC857"/><stop offset="1" stop-color="#FF4D6D"/></linearGradient>
+    <pattern id="sxWm" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M0 0L34 34M34 0L0 34" stroke="#fff" stroke-opacity=".6" stroke-width="1.3" stroke-dasharray="5 4" fill="none"/></pattern>
+    <clipPath id="sxClip"><rect x="64" y="52" width="250" height="176" rx="12"/></clipPath>
+  </defs>
+  <rect x="34" y="232" width="78" height="58" rx="16" fill="url(#sxAcc)"/>
+  <g transform="rotate(9 214 140)"><rect x="92" y="40" width="250" height="176" rx="12" fill="#3a3d4b"/></g>
+  <g transform="rotate(-7 190 140)"><rect x="80" y="44" width="250" height="176" rx="12" fill="#262833" stroke="#fff" stroke-opacity=".12"/></g>
+  <g transform="rotate(-2 190 140)">
+    <g clip-path="url(#sxClip)">
+      <rect x="64" y="52" width="250" height="176" fill="url(#sxSky)"/>
+      <circle cx="240" cy="118" r="26" fill="#FFD9A0" fill-opacity=".9"/>
+      <path d="M64 228V170l50-38 42 30 40-46 118 90v22z" fill="#1c1240"/>
+      <path d="M64 228v-30l70-24 60 22 120-30v62z" fill="#2c1a5e"/>
+      <rect x="64" y="52" width="125" height="176" fill="url(#sxWm)"/>
+    </g>
+    <rect x="64" y="52" width="250" height="176" rx="12" fill="none" stroke="#fff" stroke-width="2.2"/>
+    <path d="M189 52v176" stroke="#fff" stroke-width="2.2"/>
+    <circle cx="189" cy="140" r="15" fill="#101012" stroke="#fff" stroke-width="2"/>
+    <path d="M183 140l5-4m-5 4l5 4M195 140l-5-4m5 4l-5 4" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/>
+  </g>
+</svg></div><div class="sx-rt"><h3 data-i18n="core.seoWhatT">O que o AETIX DESIGN faz</h3><p data-i18n="core.seoWhatP">O AETIX DESIGN apaga textos e marcas d’água de imagens e vídeos direto no navegador. Nas imagens, a leitura inteligente do AETIX encontra os textos para você escolher quais apagar, e o fundo é reconstruído; também dá para pintar à mão o que passar batido. Nos vídeos, você pinta a marca d’água e adiciona keyframes em outros momentos para acompanhar o movimento dela.</p></div></div>
+          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoFreeT">Gratuito e sem cadastro</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento nem de login. Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p></div><div class="sx-ri"><svg class="sx-ill" viewBox="0 0 400 300" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="sxAcc2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A855F7"/><stop offset="1" stop-color="#3B9BFF"/></linearGradient>
+    <linearGradient id="sxPill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#15803D"/><stop offset="1" stop-color="#0F766E"/></linearGradient>
+  </defs>
+  <rect x="300" y="26" width="64" height="64" rx="18" fill="url(#sxAcc2)" opacity=".9"/>
+  <g transform="rotate(-6 135 150)">
+    <rect x="40" y="52" width="190" height="200" rx="14" fill="#1c1c20" stroke="#fff" stroke-opacity=".12"/>
+    <circle cx="135" cy="100" r="22" fill="#2c2e3a"/>
+    <path d="M100 150a35 28 0 0 1 70 0z" fill="#2c2e3a"/>
+    <rect x="62" y="162" width="146" height="20" rx="6" fill="#2c2e3a"/>
+    <rect x="62" y="192" width="146" height="20" rx="6" fill="#2c2e3a"/>
+    <rect x="62" y="222" width="146" height="18" rx="6" fill="#3a3d4b"/>
+    <path d="M58 70L214 236" stroke="#FF6B83" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <g transform="rotate(5 275 170)">
+    <rect x="190" y="92" width="170" height="156" rx="16" fill="#101012" stroke="#4ADE9A" stroke-width="2"/>
+    <circle cx="275" cy="150" r="34" fill="#4ADE9A" fill-opacity=".14" stroke="#4ADE9A" stroke-width="2"/>
+    <path d="M259 150l12 12 22-24" fill="none" stroke="#4ADE9A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="218" y="204" width="114" height="22" rx="11" fill="url(#sxPill)"/>
+  </g>
+  <path transform="translate(338 118) scale(1.05)" d="M0 12C-20-5-13-22 0-11 13-22 20-5 0 12z" fill="#FF4D8D"/>
+</svg></div></div>
+          <div class="sx-row"><div class="sx-ri"><svg class="sx-ill" viewBox="0 0 400 300" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="sxVid" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14224a"/><stop offset="1" stop-color="#0f5a66"/></linearGradient>
+    <linearGradient id="sxProg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7C8CFF"/><stop offset="1" stop-color="#9B6BFF"/></linearGradient>
+    <clipPath id="sxVclip"><rect x="40" y="40" width="320" height="180" rx="14"/></clipPath>
+  </defs>
+  <g clip-path="url(#sxVclip)">
+    <rect x="40" y="40" width="320" height="180" fill="url(#sxVid)"/>
+    <circle cx="300" cy="90" r="44" fill="#3B9BFF" fill-opacity=".18"/>
+    <circle cx="120" cy="190" r="60" fill="#4ADE9A" fill-opacity=".12"/>
+    <path d="M40 220v-40l80-30 70 24 80-40 90 34v52z" fill="#0b1630" fill-opacity=".7"/>
+    <rect x="70" y="72" width="78" height="28" rx="5" fill="none" stroke="#FF4D8D" stroke-width="2" stroke-dasharray="6 4"/>
+    <path d="M152 88C190 88 200 150 236 158" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-dasharray="2 5" stroke-linecap="round"/>
+    <rect x="238" y="146" width="78" height="28" rx="5" fill="none" stroke="#FF4D8D" stroke-width="2" stroke-dasharray="6 4"/>
+  </g>
+  <rect x="40" y="40" width="320" height="180" rx="14" fill="none" stroke="#3B9BFF" stroke-width="2"/>
+  <rect x="290" y="52" width="58" height="22" rx="11" fill="#101012" fill-opacity=".8" stroke="#3B9BFF"/>
+  <text x="319" y="67" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#fff">BETA</text>
+  <rect x="40" y="248" width="320" height="8" rx="4" fill="#2c2e3a"/>
+  <rect x="40" y="248" width="150" height="8" rx="4" fill="url(#sxProg)"/>
+  <rect x="-6" y="-6" width="12" height="12" rx="2" transform="translate(90 252) rotate(45)" fill="#FFC857"/>
+  <rect x="-6" y="-6" width="12" height="12" rx="2" transform="translate(190 252) rotate(45)" fill="#FFC857"/>
+  <rect x="-6" y="-6" width="12" height="12" rx="2" transform="translate(290 252) rotate(45)" fill="#FFC857"/>
+  <circle cx="190" cy="252" r="5" fill="#fff"/>
+</svg></div><div class="sx-rt"><h3 data-i18n="core.seoBetaT">Módulo de vídeo em BETA</h3><p data-i18n="core.seoBetaP">O módulo de vídeo está em versão BETA e depende de recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados.</p></div></div>
         </section>
 
         <section class="sx-sec" aria-labelledby="sxH2">
-          <h2 id="sxH2" data-i18n="core.seoStepsH">Como usar em 3 passos</h2>
+          <h2 id="sxH2" data-i18n="core.seoStepsH">Como usar em 5 passos</h2>
           <p class="sx-sub" data-i18n="core.seoStepsSub">Do arquivo ao download, tudo na mesma página.</p>
-          <ol class="sx-steps"><li class="sx-step" style="--c:#2EE59A;--c2:#14B8A6"><div class="sx-n" aria-hidden="true">1</div><h3 data-i18n="core.seoS1T">Envie o arquivo</h3><p data-i18n="core.seoS1P">Arraste a imagem ou o vídeo para a área de envio, clique em “Escolher arquivo” ou cole com Ctrl+V.</p></li><li class="sx-step" style="--c:#A855F7;--c2:#6D28D9"><div class="sx-n" aria-hidden="true">2</div><h3 data-i18n="core.seoS2T">Marque o que apagar</h3><p data-i18n="core.seoS2P">Em imagens, clique nas caixas de texto detectadas ou use o lápis e “Desenhar caixa”. Em vídeos, pause, pinte a marca d’água e adicione keyframes se ela se mover.</p></li><li class="sx-step" style="--c:#3B9BFF;--c2:#1D6FE0"><div class="sx-n" aria-hidden="true">3</div><h3 data-i18n="core.seoS3T">Remova e baixe</h3><p data-i18n="core.seoS3P">Clique em “Remover selecionados” e baixe o PNG. Em vídeos, use “Renderizar vídeo” e depois “Baixar MP4”.</p></li></ol>
+          <div class="sx-car" id="sxCar" role="group" aria-roledescription="carousel" aria-labelledby="sxH2">
+            <div class="sx-view"><ol class="sx-steps"><li class="sx-step" style="--c:#2EE59A;--d:#0E9F6E;--e:#0F766E"><div class="sx-n" aria-hidden="true">1</div><h3 data-i18n="core.seoS1T">Envie o arquivo</h3><p data-i18n="core.seoS1P">Arraste a imagem ou o vídeo para a área de envio, clique em “Escolher arquivo” ou cole com Ctrl+V.</p></li><li class="sx-step" style="--c:#A855F7;--d:#9333EA;--e:#6D28D9"><div class="sx-n" aria-hidden="true">2</div><h3 data-i18n="core.seoS2T">Marque o que apagar</h3><p data-i18n="core.seoS2P">Em imagens, clique nas caixas de texto encontradas ou use o lápis e “Desenhar caixa”. Em vídeos, pause e pinte a marca d’água.</p></li><li class="sx-step" style="--c:#3B9BFF;--d:#2563EB;--e:#1D4ED8"><div class="sx-n" aria-hidden="true">3</div><h3 data-i18n="core.seoS3T">Ajuste os detalhes</h3><p data-i18n="core.seoS3P">Se a marca se mover no vídeo, adicione keyframes para acompanhá-la. Em “Ajustes”, controle o raio de reconstrução para um resultado mais natural.</p></li><li class="sx-step" style="--c:#FF4D8D;--d:#E11D74;--e:#BE185D"><div class="sx-n" aria-hidden="true">4</div><h3 data-i18n="core.seoS4T">Remova a marca</h3><p data-i18n="core.seoS4P">Em imagens, clique em “Remover selecionados”; se não gostar, use “Desfazer”. Em vídeos, use “Renderizar vídeo”.</p></li><li class="sx-step" style="--c:#FF9A3D;--d:#EA580C;--e:#C2410C"><div class="sx-n" aria-hidden="true">5</div><h3 data-i18n="core.seoS5T">Baixe o resultado</h3><p data-i18n="core.seoS5P">Baixe o PNG, ou o MP4 no caso de vídeos. O arquivo é salvo direto no seu dispositivo, sem passar por servidor.</p></li></ol></div>
+            <div class="sx-dots"><button type="button" class="sx-dot" data-i="0" aria-label="Ir para o passo 1" data-i18n-aria="core.seoDot1"></button><button type="button" class="sx-dot" data-i="1" aria-label="Ir para o passo 2" data-i18n-aria="core.seoDot2"></button><button type="button" class="sx-dot" data-i="2" aria-label="Ir para o passo 3" data-i18n-aria="core.seoDot3"></button><button type="button" class="sx-dot" data-i="3" aria-label="Ir para o passo 4" data-i18n-aria="core.seoDot4"></button><button type="button" class="sx-dot" data-i="4" aria-label="Ir para o passo 5" data-i18n-aria="core.seoDot5"></button></div>
+          </div>
           <button type="button" class="sx-cta" id="sxTop" data-i18n="core.seoCta">Usar a ferramenta agora</button>
         </section>
 
@@ -891,27 +994,28 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
         <section class="sx-sec" aria-labelledby="sxH4">
           <h2 id="sxH4" data-i18n="core.seoPrivH">Por que seus arquivos não saem do navegador</h2>
           <p class="sx-sub" data-i18n="core.seoPrivSub">Processamento local: o trabalho acontece no seu dispositivo.</p>
-          <div class="sx-feat">
-            <div>
-              <h3 data-i18n="core.seoPrivT">Seus arquivos ficam com você</h3><p data-i18n="core.seoPrivP1">Toda a remoção acontece dentro do seu próprio dispositivo, com tecnologias do navegador (JavaScript e WebAssembly). Suas imagens e vídeos não são enviados, processados nem guardados em servidores.</p><p data-i18n="core.seoPrivP2">Não há cadastro nem login. O conteúdo existe só na memória do navegador enquanto a aba está aberta e é descartado ao fechar ou recarregar. O arquivo final é salvo direto no seu dispositivo quando você baixa.</p><p data-i18n="core.seoPrivP3">O site apenas baixa para o seu aparelho o código das bibliotecas, as fontes e os pacotes de idioma do OCR. Nada do seu conteúdo é enviado de volta.</p>
-            </div>
-            <svg class="sx-ill" viewBox="0 0 300 190" aria-hidden="true" focusable="false">
-  <rect x="8" y="22" width="196" height="146" rx="14" fill="#101012" stroke="#7C8CFF" stroke-opacity=".6" stroke-width="1.5"/>
-  <path d="M8 40h196" stroke="#7C8CFF" stroke-opacity=".25"/>
-  <circle cx="23" cy="31" r="3" fill="#FF6B83"/><circle cx="34" cy="31" r="3" fill="#FFC857"/><circle cx="45" cy="31" r="3" fill="#4ADE9A"/>
-  <rect x="24" y="56" width="92" height="64" rx="8" fill="#1a1a1d" stroke="#fff" stroke-opacity=".18"/>
-  <path d="M24 108l24-26 18 18 14-12 36 28v4a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8z" fill="#7C8CFF" fill-opacity=".35"/>
-  <circle cx="98" cy="72" r="6" fill="#EDE8FF" fill-opacity=".8"/>
-  <rect x="128" y="76" width="60" height="44" rx="10" fill="#4ADE9A" fill-opacity=".14" stroke="#4ADE9A" stroke-width="1.5"/>
-  <rect x="146" y="95" width="24" height="18" rx="4" fill="#4ADE9A"/>
-  <path d="M151 95v-6a6 6 0 0 1 12 0v6" fill="none" stroke="#4ADE9A" stroke-width="3" stroke-linecap="round"/>
-  <path d="M24 140h164M24 152h110" stroke="#fff" stroke-opacity=".12" stroke-width="5" stroke-linecap="round"/>
-  <g stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <path d="M276 78a16 16 0 0 0-30-6 12 12 0 0 0-3 24h31a9 9 0 0 0 2-18z" stroke="#98A1B3" stroke-opacity=".7" stroke-width="2"/>
-    <path d="M238 108l46-48" stroke="#FF6B83" stroke-width="3.5"/>
+          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoPrivT">Seus arquivos ficam com você</h3><p data-i18n="core.seoPrivP1">Toda a remoção acontece dentro do seu próprio dispositivo, pelo motor de edição do AETIX DESIGN rodando no navegador. Suas imagens e vídeos não são enviados, processados nem guardados em servidores.</p><p data-i18n="core.seoPrivP2">Não há cadastro nem login. O conteúdo existe só na memória do navegador enquanto a aba está aberta e é descartado ao fechar ou recarregar. O arquivo final é salvo direto no seu dispositivo quando você baixa.</p><p data-i18n="core.seoPrivP3">O site apenas carrega para o seu aparelho os recursos do próprio motor de edição, as fontes e os pacotes de idioma. Nada do seu conteúdo é enviado de volta.</p></div><div class="sx-ri"><svg class="sx-ill" viewBox="0 0 400 300" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="sxAcc4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C8CFF"/><stop offset="1" stop-color="#9B6BFF"/></linearGradient>
+  </defs>
+  <rect x="316" y="196" width="58" height="58" rx="17" fill="url(#sxAcc4)" opacity=".9"/>
+  <g transform="rotate(-3 160 160)">
+    <rect x="30" y="50" width="270" height="200" rx="16" fill="#101012" stroke="#7C8CFF" stroke-opacity=".7" stroke-width="2"/>
+    <path d="M30 80h270" stroke="#7C8CFF" stroke-opacity=".25"/>
+    <circle cx="50" cy="65" r="4.5" fill="#FF6B83"/><circle cx="66" cy="65" r="4.5" fill="#FFC857"/><circle cx="82" cy="65" r="4.5" fill="#4ADE9A"/>
+    <rect x="52" y="100" width="128" height="88" rx="10" fill="#1a1a1d" stroke="#fff" stroke-opacity=".18"/>
+    <path d="M52 172l34-36 26 26 20-17 48 38v1a10 10 0 0 1-10 10H62a10 10 0 0 1-10-10z" fill="#7C8CFF" fill-opacity=".38"/>
+    <circle cx="150" cy="122" r="8" fill="#EDE8FF" fill-opacity=".85"/>
+    <rect x="196" y="112" width="84" height="64" rx="14" fill="#4ADE9A" fill-opacity=".14" stroke="#4ADE9A" stroke-width="2"/>
+    <rect x="223" y="142" width="30" height="22" rx="5" fill="#4ADE9A"/>
+    <path d="M230 142v-8a8 8 0 0 1 16 0v8" fill="none" stroke="#4ADE9A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M52 208h206M52 224h140" stroke="#fff" stroke-opacity=".13" stroke-width="7" stroke-linecap="round"/>
   </g>
-</svg>
-          </div>
+  <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M370 112a24 24 0 0 0-45-9 18 18 0 0 0-5 36h46a13.5 13.5 0 0 0 4-27z" stroke="#98A1B3" stroke-opacity=".75" stroke-width="3"/>
+    <path d="M316 150l62-66" stroke="#FF6B83" stroke-width="5"/>
+  </g>
+</svg></div></div>
         </section>
 
         <section class="sx-sec" aria-labelledby="sxH5">
@@ -1053,7 +1157,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261031b" defer></script>
+<script src="/script.js?v=20261031c" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
@@ -1120,12 +1224,59 @@ window.addEventListener('load',function(){
 })();
 </script>
 <script>
-document.addEventListener('click',function(e){
-  var b=e.target.closest&&e.target.closest('#sxTop'); if(!b)return;
-  var p=document.getElementById('page'); if(!p)return;
-  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-  p.scrollTo({top:0,behavior:calm?'auto':'smooth'});
-});
+(function(){
+  /* botão "Usar a ferramenta agora": volta ao topo da página */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('#sxTop'); if(!b)return;
+    var p=document.getElementById('page'); if(!p)return;
+    var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+    p.scrollTo({top:0,behavior:calm?'auto':'smooth'});
+  });
+  /* carrossel dos passos: troca sozinho a cada 4 s */
+  var wrap=document.getElementById('sxCar'); if(!wrap)return;
+  var view=wrap.querySelector('.sx-view'),
+      items=[].slice.call(wrap.querySelectorAll('.sx-step')),
+      dots=[].slice.call(wrap.querySelectorAll('.sx-dot')),
+      n=items.length,cur=0,timer=null,paused=false,visible=true,
+      calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(n<2)return;
+  function layout(){
+    items.forEach(function(li,i){
+      var o=((i-cur)%n+n)%n; if(o>n/2)o-=n;
+      var prev=li.getAttribute('data-o');
+      if(prev!==null&&Math.abs(o-(+prev))>2){ /* volta pelo outro lado: troca sem atravessar o centro */
+        li.style.transition='none'; li.setAttribute('data-o',o); void li.offsetWidth; li.style.transition='';
+      } else li.setAttribute('data-o',o);
+      if(o===0)li.setAttribute('aria-current','step'); else li.removeAttribute('aria-current');
+    });
+    dots.forEach(function(d,i){d.setAttribute('aria-current',i===cur?'true':'false');});
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+  function start(){if(calm||timer||paused||!visible||document.hidden)return;timer=setInterval(function(){go(cur+1,true);},4000);}
+  function go(i,auto){cur=((i%n)+n)%n;layout();if(!auto){stop();start();}}
+  wrap.classList.add('is-car'); layout();
+  dots.forEach(function(d){d.addEventListener('click',function(){go(+d.getAttribute('data-i'));});});
+  var x0=null,moved=false;
+  view.addEventListener('pointerdown',function(e){x0=e.clientX;moved=false;});
+  view.addEventListener('pointerup',function(e){
+    if(x0===null)return; var dx=e.clientX-x0; x0=null;
+    if(Math.abs(dx)>40){moved=true;go(cur+(dx<0?1:-1));}
+  });
+  view.addEventListener('pointercancel',function(){x0=null;});
+  items.forEach(function(li,i){li.addEventListener('click',function(){
+    if(moved){moved=false;return;}
+    if(+li.getAttribute('data-o')!==0)go(i);
+  });});
+  wrap.addEventListener('mouseenter',function(){paused=true;stop();});
+  wrap.addEventListener('mouseleave',function(){paused=false;start();});
+  wrap.addEventListener('focusin',function(){paused=true;stop();});
+  wrap.addEventListener('focusout',function(){paused=false;start();});
+  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
+  if('IntersectionObserver' in window){
+    visible=false;
+    new IntersectionObserver(function(en){visible=en[0].isIntersecting;visible?start():stop();},{threshold:.25}).observe(wrap);
+  } else start();
+})();
 </script>
 </body>
 </html>
