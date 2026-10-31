@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Política de Privacidade · AETIX DESIGN - Remover Marca d'Água</title>
+<link rel="canonical" href="https://aetixremove.vercel.app/privacidade/">
 <meta name="description" content="Política de Privacidade da AETIX DESIGN: o removedor de marca d'água roda 100% no seu navegador. Nenhum arquivo é enviado, processado ou armazenado em servidores. Em conformidade com a LGPD.">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232a1a55'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='16' fill='none' stroke='%239B6BFF' stroke-opacity='.7'/%3E%3Cpath d='M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z' fill='%23EDE8FF'/%3E%3C/svg%3E">
@@ -60,11 +61,11 @@ footer strong{color:var(--muted);letter-spacing:.08em}
 </head>
 <body>
 <header class="hdr">
-  <a class="brand" href="index.html" aria-label="AETIX DESIGN">
+  <a class="brand" data-home href="/inicial/" aria-label="AETIX DESIGN">
     <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9B6BFF" stop-opacity=".42"/><stop offset="1" stop-color="#7C8CFF" stop-opacity=".2"/></linearGradient></defs><rect x="1.5" y="1.5" width="61" height="61" rx="17" fill="url(#lg)" stroke="#9B6BFF" stroke-opacity=".6"/><path d="M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z" fill="#EDE8FF"/></svg>
     <span class="b1">AETIX</span><span class="b2">DESIGN</span>
   </a>
-  <a class="back" href="index.html">← VOLTAR À FERRAMENTA</a>
+  <a class="back" data-home href="/inicial/">← VOLTAR À FERRAMENTA</a>
 </header>
 
 <main>
@@ -165,8 +166,8 @@ footer strong{color:var(--muted);letter-spacing:.08em}
     <p><strong>Proteção contra spam:</strong> para permitir apenas uma avaliação por hora por visitante, nosso servidor gera, no momento do envio, um código irreversível (<em>hash</em> criptográfico com chave secreta) derivado do endereço IP. Esse código é guardado em um registro separado, sem vínculo com a nota ou o comentário, serve exclusivamente para essa verificação e expira em uma hora, sendo apagado automaticamente por rotinas do nosso servidor. O endereço IP em si não é armazenado.</p>
 
     <div class="links">
-      <a href="termos.html">Termos de Uso</a>
-      <a href="index.html">Voltar à ferramenta</a>
+      <a href="/termos/">Termos de Uso</a>
+      <a data-home href="/inicial/">Voltar à ferramenta</a>
     </div>
   </article>
 </main>
@@ -175,5 +176,19 @@ footer strong{color:var(--muted);letter-spacing:.08em}
   <strong>AETIX DESIGN</strong><br>
   © AETIX DESIGN. Todos os direitos reservados.
 </footer>
+<script>
+(function(){
+  var home="/inicial/";
+  function fromSite(){try{var u=new URL(document.referrer);return u.origin===location.origin&&!/^\/(termos|privacidade)\/?$/.test(u.pathname)}catch(e){return false}}
+  document.addEventListener("click",function(e){
+    var a=e.target.closest&&e.target.closest("a[data-home]");
+    if(!a||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||!fromSite())return;
+    e.preventDefault();
+    if(history.length>1){history.back();return}
+    window.close();
+    setTimeout(function(){location.href=home},150);
+  });
+})();
+</script>
 </body>
 </html>
