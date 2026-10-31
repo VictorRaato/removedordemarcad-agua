@@ -636,6 +636,25 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   .is-car .sx-step[data-o="-2"]{opacity:.92;filter:brightness(.68);transform:translateX(-200%) scale(.8)}
 }
 @media (prefers-reduced-motion:reduce){.sx *{transition:none!important}}
+
+/* ---------- recortar / redimensionar ---------- */
+#vd-resizebar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-top:12px}
+.xfstat{font-size:.78rem;color:var(--muted)}.xfstat:empty{display:none}
+.crop-card{width:min(720px,100%)}
+.cr-hint{margin:0 0 10px;font-size:.88rem;color:var(--muted)}
+.cr-ratios,.cr-bgrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+.cr-bgrow span{font-size:.82rem;color:var(--muted)}
+.btn.chip{height:32px;padding:0 12px;font-size:.8rem;border-radius:10px}
+.cr-stage{display:flex;justify-content:center;align-items:center;padding:12px;overflow:hidden;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.35)}
+.cr-frame{position:relative;display:inline-block;line-height:0;touch-action:none;user-select:none;-webkit-user-select:none}
+.cr-frame canvas{display:block;max-width:100%;max-height:min(46dvh,420px)}
+.cr-box{position:absolute;box-sizing:border-box;border:2px solid var(--accent);box-shadow:0 0 0 9999px rgba(3,4,8,.62);cursor:move;touch-action:none}
+.cr-h{position:absolute;display:block;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-sizing:border-box}
+.cr-h[data-h=nw]{left:0;top:0;cursor:nwse-resize}.cr-h[data-h=n]{left:50%;top:0;cursor:ns-resize}.cr-h[data-h=ne]{left:100%;top:0;cursor:nesw-resize}.cr-h[data-h=e]{left:100%;top:50%;cursor:ew-resize}
+.cr-h[data-h=se]{left:100%;top:100%;cursor:nwse-resize}.cr-h[data-h=s]{left:50%;top:100%;cursor:ns-resize}.cr-h[data-h=sw]{left:0;top:100%;cursor:nesw-resize}.cr-h[data-h=w]{left:0;top:50%;cursor:ew-resize}
+@media (pointer:coarse){.cr-h{width:24px;height:24px;margin:-12px 0 0 -12px}}
+.cr-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+.cr-actions .btn.primary{height:42px;padding:0 24px}
 </style>
 </head>
 <body>
@@ -651,6 +670,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
     <symbol id="i-box" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" stroke-dasharray="4 3"/></symbol>
     <symbol id="i-checks" viewBox="0 0 24 24"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></symbol>
+    <symbol id="i-resize" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></symbol>
     <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
     <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M21 4h-7"/><path d="M10 4H3"/><path d="M21 12h-9"/><path d="M8 12H3"/><path d="M21 20h-5"/><path d="M12 20H3"/><path d="M14 2v4"/><path d="M8 10v4"/><path d="M16 18v4"/></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
@@ -741,6 +762,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
           <div class="topbar">
             <span class="count" id="im-count" role="status">0 textos</span>
             <div class="tools">
+              <button type="button" class="btn" id="im-crop" title="Recortar: escolha a área da imagem que fica" data-i18n-title="core.cropTipImg"><svg class="ic"><use href="#i-crop"/></svg><span data-i18n="core.cropImg">Recortar imagem</span></button>
               <div class="tool">
                 <button type="button" class="btn" id="im-pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte à mão o que o OCR não detectou" data-i18n-title="img.pencilTip"><svg class="ic"><use href="#i-pencil"/></svg><span data-i18n="img.pencil">Lápis</span></button>
                 <div class="pop" id="im-penpop" hidden>
@@ -837,6 +859,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
           <div class="topbar">
             <span class="count" id="vd-count" role="status"></span>
             <div class="tools">
+              <button type="button" class="btn" id="vd-crop" disabled title="Recortar: escolha a área do vídeo que fica" data-i18n-title="core.cropTipVid"><svg class="ic"><use href="#i-crop"/></svg><span data-i18n="core.cropVid">Recortar vídeo</span></button>
               <div class="tool">
                 <button type="button" class="btn" id="vd-pencil" aria-pressed="false" aria-expanded="false" title="Lápis: pinte a marca d’água na posição atual" data-i18n-title="vid.pencilTip"><svg class="ic"><use href="#i-pencil"/></svg><span data-i18n="vid.pencil">Lápis</span></button>
                 <div class="pop" id="vd-penpop" hidden>
@@ -872,6 +895,12 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
               <input type="range" id="vd-seek" min="0" max="1" step="0.01" value="0" aria-label="Tempo do vídeo" data-i18n-aria="vid.seek">
             </div>
             <span id="vd-time">0:00 / 0:00</span>
+          </div>
+
+          <div id="vd-resizebar">
+            <button type="button" class="btn" id="vd-resize" disabled title="Redimensionar: mude o formato do vídeo (9:16, 1:1, 16:9...)" data-i18n-title="core.resizeTip"><svg class="ic"><use href="#i-resize"/></svg><span data-i18n="core.resizeVid">Redimensionar vídeo</span></button>
+            <span class="xfstat" id="vd-xfstat" role="status"></span>
+            <button type="button" class="btn step" id="vd-xfclear" hidden title="Remover recorte e formato" data-i18n-title="core.xfClear" aria-label="Remover recorte e formato" data-i18n-aria="core.xfClear"><svg class="ic"><use href="#i-x"/></svg></button>
           </div>
 
           <div id="vd-kfs">
@@ -1041,6 +1070,32 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   </div>
 </div>
 
+<div class="modal" id="crop-modal" hidden>
+  <div class="modal-card crop-card" role="dialog" aria-modal="true" aria-labelledby="cr-title">
+    <div class="modal-h"><h2 id="cr-title">Recortar</h2><button type="button" class="x" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+    <p class="cr-hint" id="cr-hint"></p>
+    <div class="cr-ratios" id="cr-ratios"></div>
+    <div class="cr-bgrow" id="cr-bgrow" hidden>
+      <span data-i18n="core.crBg">Fundo</span>
+      <button type="button" class="btn chip" data-bg="blur" data-i18n="core.crBgBlur">Desfocado</button>
+      <button type="button" class="btn chip" data-bg="black" data-i18n="core.crBgBlack">Preto</button>
+    </div>
+    <div class="cr-stage">
+      <div class="cr-frame" id="cr-frame">
+        <canvas id="cr-cv"></canvas>
+        <div class="cr-box" id="cr-box" hidden>
+          <i class="cr-h" data-h="nw"></i><i class="cr-h" data-h="n"></i><i class="cr-h" data-h="ne"></i><i class="cr-h" data-h="e"></i>
+          <i class="cr-h" data-h="se"></i><i class="cr-h" data-h="s"></i><i class="cr-h" data-h="sw"></i><i class="cr-h" data-h="w"></i>
+        </div>
+      </div>
+    </div>
+    <div class="cr-actions">
+      <button type="button" class="btn ghost" id="cr-reset" data-i18n="core.crReset">Redefinir</button>
+      <button type="button" class="btn primary" id="cr-apply" data-i18n="core.crApply">Aplicar</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="vd-result" hidden>
   <div class="modal-card result-card" role="dialog" aria-modal="true" aria-labelledby="vd-result-t">
     <div class="modal-h"><h2 id="vd-result-t" data-i18n="vid.resultTitle">Vídeo pronto</h2><button type="button" class="x" id="vd-resultX" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
@@ -1095,7 +1150,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261031e" defer></script>
+<script src="/script.js?v=20261031f" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
