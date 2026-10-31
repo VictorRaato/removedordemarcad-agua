@@ -608,6 +608,21 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   .sx-step{padding:18px 16px 20px}
   .sx-step p{font-size:.86rem}
 }
+/* computador: seção em largura quase total e carrossel com os 5 cards à vista */
+@media (min-width:1000px){
+  .sx{width:min(1200px,calc(100vw - 64px));max-width:none;margin-left:calc(50% - min(600px,50vw - 32px))}
+  .sx-row{gap:clamp(48px,7vw,110px)}
+  .sx-ill{max-width:460px}
+  .sx-rt p{font-size:1.05rem}
+  .sx-faq,.sx-fmt{max-width:940px;margin-left:auto;margin-right:auto}
+  .is-car .sx-view{padding:36px 0 32px;-webkit-mask-image:none;mask-image:none}
+  .is-car .sx-step{width:20%}
+  .is-car .sx-step[data-o="0"]{transform:scale(1.14)}
+  .is-car .sx-step[data-o="1"]{opacity:1;filter:brightness(.85);transform:translateX(108%) scale(.92)}
+  .is-car .sx-step[data-o="-1"]{opacity:1;filter:brightness(.85);transform:translateX(-108%) scale(.92)}
+  .is-car .sx-step[data-o="2"]{opacity:.92;filter:brightness(.68);transform:translateX(200%) scale(.8)}
+  .is-car .sx-step[data-o="-2"]{opacity:.92;filter:brightness(.68);transform:translateX(-200%) scale(.8)}
+}
 @media (prefers-reduced-motion:reduce){.sx *{transition:none!important}}
 </style>
 </head>
@@ -1221,6 +1236,24 @@ window.addEventListener('load',function(){
     ld.aggregateRating={'@type':'AggregateRating',ratingValue:d.media,ratingCount:d.total,bestRating:5,worstRating:1};
     el.textContent=JSON.stringify(ld);
   }).catch(function(){});
+})();
+</script>
+<script>
+(function(){
+  /* celular: títulos "Removedor de marca d'água em ..." sempre em uma linha só, no maior tamanho que couber */
+  var h=document.getElementById('heroTitle'); if(!h)return;
+  function fit(){
+    h.style.fontSize=''; h.style.whiteSpace='';
+    if(window.innerWidth>760||!h.clientWidth)return;
+    h.style.whiteSpace='nowrap';
+    var fs=parseFloat(getComputedStyle(h).fontSize);
+    while(h.scrollWidth>h.clientWidth+.5&&fs>11){fs-=.5;h.style.fontSize=fs+'px';}
+  }
+  fit();
+  window.addEventListener('resize',fit); window.addEventListener('orientationchange',fit);
+  window.addEventListener('load',fit);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+  if('MutationObserver' in window)new MutationObserver(fit).observe(h,{childList:true,characterData:true,subtree:true});
 })();
 </script>
 <script>
