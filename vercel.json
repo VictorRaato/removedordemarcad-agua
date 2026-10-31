@@ -1,5 +1,18 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/termosprivacidade/:p(privacidade|termos|sobre|colaboracao)",
+      "destination": "/:p",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/:p(privacidade|termos|sobre|colaboracao)",
+      "destination": "/termosprivacidade/:p"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
