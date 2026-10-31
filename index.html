@@ -516,6 +516,24 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 @media (max-width:350px){.nav{gap:10px}.nav-link{font-size:.64rem;gap:4px}.beta{font-size:.48rem;padding:0 4px;height:14px}}
 @media (max-width:380px){.brand{font-size:.7rem;letter-spacing:.08em;gap:.35em}.brand .logo{margin-right:.2em}.hdr{padding-left:8px;padding-right:8px}.langsw select{font-size:.66rem;padding:0 14px 0 22px}.link-btn{font-size:.7rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ---------- aviso neon de colaboração ---------- */
+.nudge{position:fixed;z-index:95;top:76px;right:clamp(12px,3vw,28px);width:min(320px,calc(100vw - 24px));padding:14px 16px 16px;border-radius:18px;border:1px solid rgba(124,140,255,.6);background:radial-gradient(260px 120px at 50% 0,rgba(155,107,255,.22),transparent 70%),rgba(12,13,22,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.97);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s;box-shadow:0 0 28px -4px rgba(124,140,255,.75),0 0 60px -14px rgba(155,107,255,.8),inset 0 1px 0 rgba(255,255,255,.14)}
+.nudge.show{opacity:1;visibility:visible;transform:none;transition-delay:0s;animation:nudgeGlow 2.2s ease-in-out infinite}
+@keyframes nudgeGlow{0%,100%{box-shadow:0 0 22px -4px rgba(124,140,255,.65),0 0 50px -14px rgba(155,107,255,.7),inset 0 1px 0 rgba(255,255,255,.14)}50%{box-shadow:0 0 34px -2px rgba(124,140,255,.95),0 0 72px -10px rgba(155,107,255,1),inset 0 1px 0 rgba(255,255,255,.2)}}
+.nudge-t{display:flex;align-items:center;gap:8px;margin:0 22px 6px 0;font-size:.95rem;font-weight:700;letter-spacing:.01em;line-height:1.25}
+.nudge-t svg{flex:none;width:17px;height:17px;color:#C9D0FF;filter:drop-shadow(0 0 6px rgba(155,107,255,.95))}
+.nudge-p{margin:0 0 12px;color:#D6DAE6;font-size:.84rem;line-height:1.5}
+.nudge-p b{color:#fff;font-weight:700}
+.nudge-go{display:block;width:100%;height:38px;border-radius:12px;border:1px solid rgba(124,140,255,.7);background:linear-gradient(135deg,rgba(124,140,255,.38),rgba(155,107,255,.3));color:#fff;font:700 .74rem Inter,system-ui,sans-serif;letter-spacing:.1em;cursor:pointer;box-shadow:0 0 22px -6px rgba(124,140,255,.9),inset 0 1px 0 rgba(255,255,255,.16);transition:filter .18s,transform .18s}
+.nudge-go:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.nudge-x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:transparent;color:#98A1B3;font-size:18px;line-height:1;cursor:pointer}
+.nudge-x:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nudge-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;transform-origin:0 50%;background:linear-gradient(90deg,#7C8CFF,#9B6BFF);box-shadow:0 0 10px rgba(155,107,255,.95);animation:nudgeBar 5s linear forwards;animation-play-state:paused}
+.nudge.show .nudge-bar{animation-play-state:running}
+.nudge.show:hover .nudge-bar{animation-play-state:paused}
+@keyframes nudgeBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@media (max-width:600px){.nudge{left:auto;right:10px;width:min(262px,calc(100vw - 20px));padding:10px 12px 13px;border-radius:14px}.nudge-t{font-size:.84rem;margin-bottom:3px}.nudge-t svg{width:14px;height:14px}.nudge-p{font-size:.74rem;line-height:1.42;margin-bottom:9px}.nudge-go{height:32px;font-size:.68rem;border-radius:10px}.nudge-x{top:5px;right:5px}}
+@media (prefers-reduced-motion:reduce){.nudge.show{animation:none}}
 </style>
 </head>
 <body>
@@ -918,7 +936,49 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   </div>
 </div>
 
+<aside class="nudge" id="nudge" role="complementary" aria-live="polite" aria-label="Colabore com o projeto">
+  <button type="button" class="nudge-x" id="nudgeX" aria-label="Fechar">&times;</button>
+  <p class="nudge-t"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c1.8 11.4 6.6 18.4 22 22-15.4 3.6-20.2 10.6-22 22-1.8-11.4-6.6-18.4-22-22 15.4-3.6 20.2-10.6 22-22z" fill="currentColor"/></svg><span id="nudgeT"></span></p>
+  <p class="nudge-p" id="nudgeP"></p>
+  <button type="button" class="nudge-go" id="nudgeGo"></button>
+  <span class="nudge-bar" id="nudgeBar"></span>
+</aside>
 <script src="/script.js?v=20261031a" defer></script>
+<script>
+/* Aviso neon de colaboração: aparece após a abertura, dura 5s (pausa ao passar o mouse) */
+(function(){
+  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX'},
+         en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX'}};
+  var box,tries=0,done=false;
+  function $(i){return document.getElementById(i)}
+  function place(){var h=document.querySelector('.hdr');if(h)box.style.top=Math.round(h.getBoundingClientRect().bottom+10)+'px'}
+  function hide(){done=true;box.classList.remove('show')}
+  function show(){
+    var l=(document.documentElement.lang||'pt').toLowerCase().indexOf('en')===0?'en':'pt';
+    $('nudgeT').textContent=T[l].t;$('nudgeP').innerHTML=T[l].p;$('nudgeGo').textContent=T[l].b;
+    place();void box.offsetWidth;box.classList.add('show');
+  }
+  function ready(){
+    if(document.documentElement.classList.contains('splashing')||$('splash'))return false;
+    return true;
+  }
+  function tick(){
+    if(done)return;
+    if(!ready()&&tries++<60)return setTimeout(tick,200);
+    setTimeout(function(){if(!done&&!document.querySelector('.modal:not([hidden])'))show()},700);
+  }
+  function init(){
+    box=$('nudge');if(!box)return;
+    $('nudgeX').addEventListener('click',hide);
+    $('nudgeBar').addEventListener('animationend',hide);
+    $('nudgeGo').addEventListener('click',function(){hide();var b=$('pricingOpen');if(b)b.click()});
+    window.addEventListener('resize',function(){if(box.classList.contains('show'))place()});
+    tick();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
 <script>
 window.addEventListener('load',function(){
   var ok=window.AetixApp&&window.AetixApp.Core&&typeof window.AetixApp.Core.openHelp==='function';
