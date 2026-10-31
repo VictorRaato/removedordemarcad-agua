@@ -533,7 +533,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .nudge.show .nudge-bar{animation-play-state:running}
 .nudge.show:hover .nudge-bar{animation-play-state:paused}
 @keyframes nudgeBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
-@media (max-width:600px){.nudge{left:auto;right:10px;width:min(262px,calc(100vw - 20px));padding:10px 12px 13px;border-radius:14px}.nudge-t{font-size:.84rem;margin-bottom:3px}.nudge-t svg{width:14px;height:14px}.nudge-p{font-size:.74rem;line-height:1.42;margin-bottom:9px}.nudge-go{height:32px;font-size:.68rem;border-radius:10px}.nudge-x{top:5px;right:5px}}
+@media (max-width:600px){.nudge{left:auto;right:12px;width:min(192px,calc(100vw - 24px));padding:8px 10px 11px;border-radius:13px}.nudge-t{font-size:.76rem;margin:0 18px 3px 0;gap:6px}.nudge-t svg{width:12px;height:12px}.nudge-p{font-size:.68rem;line-height:1.4;margin-bottom:8px}.nudge-go{height:28px;font-size:.62rem;letter-spacing:.08em;border-radius:9px}.nudge-x{top:3px;right:3px;width:24px;height:24px;font-size:16px}.nudge-bar{height:2px}}
 @media (prefers-reduced-motion:reduce){.nudge.show{animation:none}}
 </style>
 </head>
@@ -948,15 +948,16 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
-  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX'},
-         en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX'}};
+  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX',tm:'Apoie o AETIX',pm:'Um <b>Pix a partir de R$ 5</b> mantém o projeto no ar.',bm:'COLABORAR'},
+         en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX',tm:'Support AETIX',pm:'A <b>Pix from R$ 5</b> keeps the project online.',bm:'CONTRIBUTE'}};
   var box,tries=0,done=false;
   function $(i){return document.getElementById(i)}
-  function place(){var h=document.querySelector('.hdr');if(h)box.style.top=Math.round(h.getBoundingClientRect().bottom+10)+'px'}
+  function mob(){return window.matchMedia&&window.matchMedia('(max-width:600px)').matches}
+  function place(){var h=document.querySelector(mob()?'.hdr-right':'.hdr');if(h)box.style.top=Math.round(h.getBoundingClientRect().bottom+(mob()?6:10))+'px'}
   function hide(){done=true;box.classList.remove('show')}
   function show(){
     var l=(document.documentElement.lang||'pt').toLowerCase().indexOf('en')===0?'en':'pt';
-    $('nudgeT').textContent=T[l].t;$('nudgeP').innerHTML=T[l].p;$('nudgeGo').textContent=T[l].b;
+    var m=mob();$('nudgeT').textContent=m?T[l].tm:T[l].t;$('nudgeP').innerHTML=m?T[l].pm:T[l].p;$('nudgeGo').textContent=m?T[l].bm:T[l].b;
     place();void box.offsetWidth;box.classList.add('show');
   }
   function ready(){
