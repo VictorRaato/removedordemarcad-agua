@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Colaboradores · AETIX DESIGN - Remover Marca d'Água</title>
-<link rel="canonical" href="https://aetixremove.vercel.app/termosprivacidade/colaboracao">
+<link rel="canonical" href="https://aetixremove.vercel.app/colaboracao">
 <meta name="description" content="Mural de colaboradores da AETIX DESIGN: pódio com quem mais apoiou o projeto e as colaborações mais recentes.">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232a1a55'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='16' fill='none' stroke='%239B6BFF' stroke-opacity='.7'/%3E%3Cpath d='M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z' fill='%23EDE8FF'/%3E%3C/svg%3E">
@@ -106,7 +106,7 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
 <footer>
   <span>Desenvolvido por</span> <strong>AETIX DESIGN</strong><br>
   <span>© AETIX DESIGN. Todos os direitos reservados.</span>
-  <span class="flinks"><a href="/termosprivacidade/termos">Termos de Uso</a><i aria-hidden="true">·</i><a href="/termosprivacidade/privacidade">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/termosprivacidade/sobre">Sobre</a></span>
+  <span class="flinks"><a href="/termos">Termos de Uso</a><i aria-hidden="true">·</i><a href="/privacidade">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/sobre">Sobre</a></span>
   <span class="rline"><span id="ratingLine" hidden>★ <b id="rMedia"></b> · <span id="rTotal"></span> <span>avaliações</span> · </span><span>Gratuito</span> · <span>Navegador da Internet</span></span>
 </footer>
 <script>
@@ -122,7 +122,7 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
 <script>
 (function(){
   var home="/inicial/",NS="http://www.w3.org/2000/svg";
-  function fromSite(){try{var u=new URL(document.referrer);return u.origin===location.origin&&!/^\/termosprivacidade\//.test(u.pathname)}catch(e){return false}}
+  function fromSite(){try{var u=new URL(document.referrer);return u.origin===location.origin&&!/^\/(termosprivacidade\/|privacidade|termos|sobre|colaboracao)/.test(u.pathname)}catch(e){return false}}
   document.addEventListener("click",function(e){
     var a=e.target.closest&&e.target.closest("a[data-home]");
     if(!a||e.defaultPrevented||e.button||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||!fromSite())return;
