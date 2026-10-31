@@ -14,11 +14,12 @@
         BRAVOPAY_PRODUCT_ID (opcional)
    E-mail e telefone nunca são gravados nem escritos em log por esta função.
 
-   MURAL DE COLABORADORES: só se o cliente marcar "Mostrar meu nome"
-   (show_name = true) guardamos no Firestore: primeiro e segundo nome, valor
-   e um código irreversível (HMAC) do e-mail, usado só para somar as
-   colaborações da mesma pessoa no ranking. O registro só fica público
-   depois que o processador confirma o pagamento (status PAID).
+   MURAL DE COLABORADORES: toda colaboração paga entra no mural e no ranking.
+   Se o cliente marcar "Mostrar meu nome" (show_name = true) guardamos o
+   primeiro e segundo nome; se não marcar, aparece como "Anônimo". Em ambos
+   os casos guardamos valor e um código irreversível (HMAC) do e-mail, usado
+   só para somar as colaborações da mesma pessoa no ranking. O registro só
+   fica público depois que o processador confirma o pagamento (status PAID).
    ========================================================================== */
 const crypto = require('crypto');
 let _fb = null;
@@ -32,6 +33,7 @@ const MAX_BODY_CHARS = 8192;
 const JANELA_MS = 60 * 1000;      // limitador simples por visitante
 const MAX_POR_JANELA = 20;
 
+const ANONIMO = 'Anônimo';
 const PARTICULAS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'di', 'du']);
 
 /* "joão  DA silva souza" -> "João Silva" */
@@ -214,10 +216,8 @@ module.exports = async function handler(req, res) {
 
     const copy = r.data.pix && r.data.pix.copy_paste;
     if (!r.data.id || !copy) return res.status(502).json({ message: 'Resposta inesperada do processador de pagamentos.' });
-    if (body.show_name === true) {
-      const publico = nomePublico(name);
-      if (publico) await guardarPendente(r.data.id, publico, cents, email);
-    }
+    const publico = body.show_name === true ? nomePublico(name) : '';
+    await guardarPendente(r.data.id, publico || ANONIMO, cents, email);
     return res.status(201).json({ id: r.data.id, pix: { copy_paste: copy } });
   } catch (err) {
     if (err && err.code === 'config') {
