@@ -1,15 +1,5 @@
 {
   "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/inicial",
-      "destination": "/"
-    },
-    {
-      "source": "/inicial/",
-      "destination": "/"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
