@@ -528,7 +528,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .nudge-go:hover{filter:brightness(1.15);transform:translateY(-1px)}
 .nudge-x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:transparent;color:#98A1B3;font-size:18px;line-height:1;cursor:pointer}
 .nudge-x:hover{color:#fff;background:rgba(255,255,255,.08)}
-.nudge-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;transform-origin:0 50%;background:linear-gradient(90deg,#7C8CFF,#9B6BFF);box-shadow:0 0 10px rgba(155,107,255,.95);animation:nudgeBar 5s linear forwards;animation-play-state:paused}
+.nudge-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;transform-origin:0 50%;background:linear-gradient(90deg,#7C8CFF,#9B6BFF);box-shadow:0 0 10px rgba(155,107,255,.95);animation:nudgeBar 10s linear forwards;animation-play-state:paused}
 .nudge.show .nudge-bar{animation-play-state:running}
 .nudge.show:hover .nudge-bar{animation-play-state:paused}
 @keyframes nudgeBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
@@ -945,7 +945,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 </aside>
 <script src="/script.js?v=20261031a" defer></script>
 <script>
-/* Aviso neon de colaboração: aparece após a abertura, dura 5s (pausa ao passar o mouse) */
+/* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
   var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX'},
          en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX'}};
