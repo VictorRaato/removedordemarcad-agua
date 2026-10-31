@@ -335,6 +335,9 @@ input:-webkit-autofill:focus{
   caret-color:#f5f6fa;
   transition:background-color 5000s ease-in-out 0s;
 }
+.pay-opt{display:flex;align-items:center;gap:8px;margin:-4px 0 10px;cursor:pointer;color:var(--dim);font-size:.78rem;line-height:1.3;user-select:none}
+.pay-opt input{flex:none;width:15px;height:15px;margin:0;accent-color:var(--accent);cursor:pointer}
+.pay-opt:hover{color:var(--muted)}
 .pay-err{min-height:1.2em;margin:0 0 8px;color:var(--err);font-size:.82rem;text-align:center}
 .pay-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:54px;border:0;border-radius:16px;cursor:pointer;color:#04101A;font:800 1.1rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,#2EE6FF,#7C8CFF 70%,#9B6BFF);box-shadow:0 0 0 1px rgba(46,230,255,.5),0 0 18px 2px rgba(46,230,255,.65),0 0 42px 6px rgba(124,140,255,.45);transition:transform .15s,filter .15s,box-shadow .15s}
 .pay-btn:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-1px)}
@@ -1052,6 +1055,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
           <input id="payAmount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="5,00" value="5,00">
         </div>
       </label>
+      <label class="pay-opt"><input type="checkbox" id="payShowName"><span>Mostrar meu nome no mural de colaboradores</span></label>
       <p class="pay-err" id="payErr" role="alert"></p>
       <button type="button" class="pay-btn" id="payBtn"><span id="payBtnTxt">Gerar PIX de Colaboração</span></button>
     </div>
@@ -1156,7 +1160,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261031g" defer></script>
+<script src="/script.js?v=20261031j" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
