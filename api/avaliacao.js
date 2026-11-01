@@ -1,6 +1,6 @@
 'use strict';
 /* ==========================================================================
-   AETIX DESIGN · api/avaliacao.js  (Vercel Serverless Function)
+   AETIX DESIGN AI · api/avaliacao.js  (Vercel Serverless Function)
    Recebe via POST { nota: 1..5, comentario?: string } e grava de forma
    anônima na coleção "avaliacoes" do Cloud Firestore.
    Nenhuma credencial vai para o navegador: tudo vem de variáveis de ambiente.

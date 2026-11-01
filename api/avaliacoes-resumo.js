@@ -1,6 +1,6 @@
 'use strict';
 /* ==========================================================================
-   AETIX DESIGN · api/avaliacoes-resumo.js  (Vercel Serverless Function)
+   AETIX DESIGN AI · api/avaliacoes-resumo.js  (Vercel Serverless Function)
    GET -> { ok, media, total }  (média das notas e quantidade de avaliações)
    Usado pelo site para mostrar a nota no rodapé e preencher o aggregateRating
    do JSON-LD (estrelas no Google). Só números: nenhum comentário é exposto.

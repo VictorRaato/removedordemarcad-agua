@@ -1,5 +1,5 @@
 'use strict';
-/* AETIX DESIGN · api/colaboracoes.js
+/* AETIX DESIGN AI · api/colaboracoes.js
    GET /api/colaboracoes         -> { ok, top:[{nome,centavos}], recentes:[até 100 {id,nome,centavos,em}] }
    GET /api/colaboracoes?feed=1  -> { ok, recentes } (usado pelos avisos verdes, sem o pódio)
    Só expõe primeiro/segundo nome + valor + data de quem marcou "Mostrar meu nome". */
