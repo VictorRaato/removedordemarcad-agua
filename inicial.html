@@ -1206,7 +1206,7 @@ html.kb-open .modal-card.pay-card{max-height:calc(var(--vvh,100dvh) - 16px)}
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261101k" defer></script>
+<script src="/script.js?v=20261101l" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
@@ -1255,12 +1255,12 @@ window.addEventListener('load',function(){
   var d=document.createElement('div');
   d.setAttribute('role','alert');
   d.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:999;padding:12px 14px;border-radius:12px;background:#2a1220;border:1px solid #FF6B83;color:#FFD5DC;font:500 14px/1.4 Inter,system-ui,sans-serif;text-align:center';
-  d.textContent='O arquivo script.js carregado está desatualizado ou com erro. Substitua-o pelo script.js mais recente, na mesma pasta do index.html, e recarregue com Ctrl+F5.';
+  d.textContent='Não foi possível carregar a ferramenta por completo. Recarregue a página (Ctrl+F5) e tente de novo em instantes.';
   document.body.appendChild(d);
 });
 </script>
 <script>
-/* Nota média real (vinda do Firestore) -> linha visível no rodapé + aggregateRating no JSON-LD */
+/* Nota média real (vinda do nosso banco de dados) -> linha visível no rodapé + aggregateRating no JSON-LD */
 (function(){
   fetch('/api/avaliacoes-resumo').then(function(r){return r.json();}).then(function(d){
     if(!d||!d.ok||!(d.total>=1)||!(d.media>=1)) return;
