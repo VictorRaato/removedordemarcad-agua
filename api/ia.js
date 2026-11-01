@@ -7,8 +7,8 @@
 
    Variáveis de ambiente (Vercel):
      GEMINI_API_KEY        obrigatória (só existe no servidor; nunca vai para o navegador)
-     GEMINI_MODEL_CHAT     opcional (modelo do chat; padrão: gemini-2.5-flash-lite)
-     GEMINI_MODEL_BUSCA    opcional (modelo que localiza o texto na imagem; padrão: gemini-2.5-flash)
+     GEMINI_MODEL_CHAT     opcional (modelo do chat; padrão: gemini-3.5-flash-lite)
+     GEMINI_MODEL_BUSCA    opcional (modelo que localiza o texto na imagem; padrão: gemini-3.8-flash)
      IA_CHAT_DIA           opcional, teto diário global de mensagens do chat (padrão 600)
      IA_BUSCA_DIA          opcional, teto diário global de buscas em imagem (padrão 150)
 
@@ -35,8 +35,8 @@ const POR_DIA = {
 function modelos(tipo) {
   const env = tipo === 'chat' ? process.env.GEMINI_MODEL_CHAT : process.env.GEMINI_MODEL_BUSCA;
   const padrao = tipo === 'chat'
-    ? ['gemini-2.5-flash-lite', 'gemini-2.5-flash']
-    : ['gemini-2.5-flash', 'gemini-2.5-flash-lite'];
+    ? ['gemini-3.5-flash-lite', 'gemini-3.1-flash-lite', 'gemini-3.8-flash', 'gemini-2.5-flash-lite']
+    : ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-2.5-flash'];
   return [env, ...padrao].filter((m, i, a) => m && a.indexOf(m) === i);
 }
 
@@ -82,7 +82,10 @@ async function gemini(tipo, corpo) {
   for (const modelo of modelos(tipo)) {
     for (const comPensamento of [false, true]) {
       const body = JSON.parse(JSON.stringify(corpo));
-      if (!comPensamento && /2\.5/.test(modelo)) body.generationConfig.thinkingConfig = { thinkingBudget: 0 };
+      if (!comPensamento) {
+        if (/2\.5/.test(modelo)) body.generationConfig.thinkingConfig = { thinkingBudget: 0 };
+        else if (/gemini-3/.test(modelo)) body.generationConfig.thinkingConfig = { thinkingLevel: 'minimal' };
+      }
       const ctl = new AbortController();
       const timer = setTimeout(() => ctl.abort(), 25000);
       try {
@@ -100,9 +103,8 @@ async function gemini(tipo, corpo) {
         ultimo = r.status;
         const txt = await r.text().catch(() => '');
         console.error('[ia]', modelo, r.status, txt.slice(0, 200));
-        if (r.status === 400 && !comPensamento && /thinking/i.test(txt)) continue;   // modelo sem esse parâmetro
-        if ([404, 429, 500, 503].includes(r.status)) break;                           // tenta o próximo modelo
-        const e = new Error('gemini ' + r.status); e.codigo = 'falha'; throw e;
+        if (r.status === 400 && !comPensamento) continue;   // talvez o modelo não aceite o parâmetro de "pensamento": repete sem ele
+        break;                                              // qualquer outro erro (404, 403, 429, 5xx...): tenta o próximo modelo
       } catch (e) {
         if (e.codigo) throw e;
         ultimo = 'rede';
@@ -155,7 +157,7 @@ module.exports = async function handler(req, res) {
     corpo = {
       systemInstruction: { parts: [{ text: PERSONA[lang] }] },
       contents,
-      generationConfig: { temperature: 0.4, maxOutputTokens: 220 }
+      generationConfig: { temperature: 0.4, maxOutputTokens: 400 }
     };
   } else {
     const alvo = limpa(b.alvo, MAX_ALVO);
@@ -172,7 +174,7 @@ module.exports = async function handler(req, res) {
         ]
       }],
       generationConfig: {
-        temperature: 0, maxOutputTokens: 400, responseMimeType: 'application/json',
+        temperature: 0, maxOutputTokens: 700, responseMimeType: 'application/json',
         responseSchema: {
           type: 'ARRAY', maxItems: 12,
           items: { type: 'OBJECT', properties: { box_2d: { type: 'ARRAY', items: { type: 'INTEGER' } }, label: { type: 'STRING' } }, required: ['box_2d'] }
