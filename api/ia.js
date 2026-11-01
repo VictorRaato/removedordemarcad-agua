@@ -80,19 +80,35 @@ async function contar(db, tipo, visitante) {
 }
 
 /* ---------- Gemini ---------- */
+/* Memória da instância (some quando ela é reciclada): lembra qual modelo respondeu bem, quais falharam
+   há pouco e quais precisam do modo com "pensamento". Assim, a maioria das mensagens vai direto ao
+   modelo certo, sem gastar tempo em tentativas que já se sabe que falham. */
+const MEM = { chat: { bom: null, ruins: {}, pensa: {} }, busca: { bom: null, ruins: {}, pensa: {} } };
+function ordemModelos(tipo) {
+  const st = MEM[tipo], agora = Date.now(), todos = modelos(tipo);
+  let lista = todos.filter(m => !(st.ruins[m] > agora));
+  if (!lista.length) lista = todos;
+  if (st.bom && lista.includes(st.bom)) lista = [st.bom, ...lista.filter(m => m !== st.bom)];
+  return lista;
+}
+function marcarRuim(tipo, modelo, status) {
+  const min = (status === 404 || status === 403) ? 30 : status === 429 ? 2 : 1;
+  MEM[tipo].ruins[modelo] = Date.now() + min * 60 * 1000;
+  if (MEM[tipo].bom === modelo) MEM[tipo].bom = null;
+}
 async function gemini(tipo, corpo) {
   const chave = process.env.AETIX_API_KEY;
   if (!chave) { const e = new Error('sem chave'); e.codigo = 'indisponivel'; throw e; }
   let ultimo = null;
-  for (const modelo of modelos(tipo)) {
-    for (const comPensamento of [false, true]) {
+  for (const modelo of ordemModelos(tipo)) {
+    for (const comPensamento of (MEM[tipo].pensa[modelo] ? [true] : [false, true])) {
       const body = JSON.parse(JSON.stringify(corpo));
       if (!comPensamento) {
         if (/2\.5/.test(modelo)) body.generationConfig.thinkingConfig = { thinkingBudget: 0 };
         else if (/gemini-3/.test(modelo)) body.generationConfig.thinkingConfig = { thinkingLevel: 'minimal' };
       }
       const ctl = new AbortController();
-      const timer = setTimeout(() => ctl.abort(), 25000);
+      const timer = setTimeout(() => ctl.abort(), tipo === 'chat' ? 12000 : 25000);
       try {
         const r = await fetch(API + modelo + ':generateContent', {
           method: 'POST',
@@ -103,16 +119,20 @@ async function gemini(tipo, corpo) {
         if (r.ok) {
           const d = await r.json();
           const partes = (d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
+          MEM[tipo].bom = modelo;
+          if (comPensamento) MEM[tipo].pensa[modelo] = true;
           return partes.map(p => p.text || '').join('').trim();
         }
         ultimo = r.status;
         const txt = await r.text().catch(() => '');
         console.error('[ia]', modelo, r.status, txt.slice(0, 200));
         if (r.status === 400 && !comPensamento) continue;   // talvez o modelo não aceite o parâmetro de "pensamento": repete sem ele
+        marcarRuim(tipo, modelo, r.status);
         break;                                              // qualquer outro erro (404, 403, 429, 5xx...): tenta o próximo modelo
       } catch (e) {
         if (e.codigo) throw e;
         ultimo = 'rede';
+        marcarRuim(tipo, modelo, 0);
         break;
       } finally { clearTimeout(timer); }
     }
@@ -176,7 +196,7 @@ module.exports = async function handler(req, res) {
     corpo = {
       systemInstruction: { parts: [{ text: PERSONA[lang] }] },
       contents,
-      generationConfig: { temperature: 0.4, maxOutputTokens: 400 }
+      generationConfig: { temperature: 0.4, maxOutputTokens: 300 }
     };
   } else {
     const alvo = limpa(b.alvo, MAX_ALVO);
