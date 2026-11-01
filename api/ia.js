@@ -6,7 +6,7 @@
      { tipo:'busca', alvo:'rw', img:'<base64 jpeg>', lang }            -> { ok, caixas:[{x,y,w,h}] }  (0 a 1)
 
    Variáveis de ambiente (Vercel):
-     GEMINI_API_KEY        obrigatória (só existe no servidor; nunca vai para o navegador)
+     AETIX_API_KEY        obrigatória (só existe no servidor; nunca vai para o navegador)
      GEMINI_MODEL_CHAT     opcional (modelo do chat; padrão: gemini-3.5-flash-lite)
      GEMINI_MODEL_BUSCA    opcional (modelo que localiza o texto na imagem; padrão: gemini-3.8-flash)
      IA_CHAT_DIA           opcional, teto diário global de mensagens do chat (padrão 600)
@@ -81,7 +81,7 @@ async function contar(db, tipo, visitante) {
 
 /* ---------- Gemini ---------- */
 async function gemini(tipo, corpo) {
-  const chave = process.env.GEMINI_API_KEY;
+  const chave = process.env.AETIX_API_KEY;
   if (!chave) { const e = new Error('sem chave'); e.codigo = 'indisponivel'; throw e; }
   let ultimo = null;
   for (const modelo of modelos(tipo)) {
