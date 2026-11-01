@@ -610,7 +610,7 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
       var nx=(px-Cx)-ns*(px-Cx-tx)/s+(dx||0),ny=(py-Cy)-ns*(py-Cy-ty)/s+(dy||0);
       var sr=stage.getBoundingClientRect(),scx=sr.left+sr.width/2,scy=sr.top+sr.height/2;
       var bw=r.width/s,bh=r.height/s;
-      var ax=Math.abs(bw*ns-sr.width)/2,ay=Math.abs(bh*ns-sr.height)/2;
+      var m=Math.min(56,sr.width/4,sr.height/4),ax=Math.max(0,(bw*ns+sr.width)/2-m),ay=Math.max(0,(bh*ns+sr.height)/2-m);
       nx=clamp(Cx+nx,scx-ax,scx+ax)-Cx;ny=clamp(Cy+ny,scy-ay,scy+ay)-Cy;
       s=ns;tx=nx;ty=ny;apply();
     }
@@ -652,7 +652,7 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
         moved=true;pan.x=e.clientX;pan.y=e.clientY;
         zoom(0,0,s,dx,dy);
       }
-    });
+    },true);
     function up(e){
       if(!ptrs[e.pointerId])return;
       delete ptrs[e.pointerId];np=Math.max(0,np-1);
