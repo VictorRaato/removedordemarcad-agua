@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="dark">
 <title>Política de Privacidade · AETIX DESIGN - Remover Marca d'Água</title>
 <link rel="canonical" href="https://aetixremove.vercel.app/termosprivacidade/privacidade">
-<meta name="description" content="Política de Privacidade da AETIX DESIGN: o removedor de marca d'água roda 100% no seu navegador. Nenhum arquivo é enviado, processado ou armazenado em servidores. Em conformidade com a LGPD.">
+<meta name="description" content="Política de Privacidade da AETIX DESIGN: o removedor de marca d'água roda 100% no seu navegador. Seus arquivos não são enviados nem armazenados em servidores; só os recursos opcionais de IA enviam uma cópia reduzida da imagem, se você usá-los. Em conformidade com a LGPD.">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232a1a55'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='16' fill='none' stroke='%239B6BFF' stroke-opacity='.7'/%3E%3Cpath d='M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z' fill='%23EDE8FF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,12 +81,12 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
 
 <main>
   <h1>Política de Privacidade</h1>
-  <p class="upd">Última atualização: 31 de outubro de 2026</p>
+  <p class="upd">Última atualização: 1 de novembro de 2026</p>
 
   <article class="card">
     <div class="key">
       <strong>Em resumo</strong>
-      <p>O removedor de marca d'água da AETIX DESIGN funciona <strong>100% no seu navegador</strong> (processamento local, ou <em>client-side</em>). Suas imagens e vídeos <strong>não são enviados, processados nem armazenados em servidores externos</strong>. Não exigimos cadastro nem login.</p>
+      <p>O removedor de marca d'água da AETIX DESIGN funciona <strong>100% no seu navegador</strong> (processamento local, ou <em>client-side</em>). Suas imagens e vídeos <strong>não são enviados, processados nem armazenados em servidores externos</strong>. Não exigimos cadastro nem login. A única exceção é o recurso opcional <strong>"Remover com IA"</strong>, descrito no item 14, que só funciona se você pedir e confirmar.</p>
     </div>
 
     <p>Esta Política explica, de forma clara, quais dados são tratados quando você usa o site da <strong>AETIX DESIGN - Remover Marca d'Água</strong> ("AETIX DESIGN", "nós"), por que são tratados e quais são os seus direitos, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 - LGPD).</p>
@@ -99,7 +99,7 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
     <ul>
       <li><strong>Imagens:</strong> a leitura de textos (OCR) e a reconstrução do fundo são executadas localmente, por bibliotecas que rodam em JavaScript e WebAssembly.</li>
       <li><strong>Vídeos:</strong> a decodificação, a limpeza dos quadros, a recodificação e a montagem do MP4 são feitas localmente, com APIs do navegador (como WebCodecs) e bibliotecas em WebAssembly.</li>
-      <li><strong>Nenhum envio:</strong> seus arquivos, os quadros processados, o áudio e o resultado final <strong>nunca são transmitidos</strong> para os nossos servidores nem para terceiros.</li>
+      <li><strong>Nenhum envio:</strong> seus arquivos, os quadros processados, o áudio e o resultado final <strong>nunca são transmitidos</strong> para os nossos servidores nem para terceiros. A única exceção é o recurso opcional "Remover com IA" (item 14), que envia uma cópia reduzida da imagem somente quando você clica nele.</li>
       <li><strong>Nenhum armazenamento:</strong> o conteúdo existe apenas na memória do navegador enquanto a página está aberta. Ao fechar ou recarregar a aba, ele é descartado. Só você tem acesso ao arquivo final, que é salvo diretamente no seu dispositivo quando você clica em baixar.</li>
       <li><strong>Metadados:</strong> a opção de remover metadados do resultado também é aplicada localmente.</li>
     </ul>
@@ -142,10 +142,12 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
           <tr><td><code>aetix-utm</code></td><td>Guardar, no primeiro acesso, os parâmetros de campanha do link, para uso na etapa de colaboração</td></tr>
           <tr><td><code>aetix-rated</code></td><td>Guardar o horário da última avaliação enviada, para limitar o envio a uma avaliação por hora e evitar spam</td></tr>
           <tr><td><code>aetix-colab</code></td><td>Guardar até qual aviso de colaboração você já viu e quando mostrar o próximo, para não repetir os avisos</td></tr>
+          <tr><td><code>aetix-ai-ok</code></td><td>Registrar que você leu o aviso do recurso "Remover com IA", para não perguntar de novo</td></tr>
           <tr><td><code>aetix-consent</code></td><td>Registrar que você aceitou o aviso de privacidade, para não mostrá-lo novamente</td></tr>
         </tbody>
       </table>
     </div>
+    <p>Além disso, a conversa com a assistente virtual fica no <em>sessionStorage</em> (chave <code>aetix-gabi</code>) apenas enquanto a aba estiver aberta, e é apagada quando você a fecha.</p>
     <p>Você pode apagar essas informações a qualquer momento limpando os dados do site nas configurações do navegador. Nesse caso, o aviso de privacidade voltará a ser exibido.</p>
 
     <h2>6. Contato pelo WhatsApp e avaliações</h2>
@@ -161,6 +163,7 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
       <li><strong>Dados de colaboração:</strong> pelo tempo necessário para a finalidade descrita e para cumprir obrigações legais, contábeis e fiscais.</li>
       <li><strong>Avaliações:</strong> mantidas em nosso banco de dados, sem vínculo com dados de identificação, pelo tempo necessário às finalidades descritas no item 13.</li>
       <li><strong>Código anti-spam das avaliações:</strong> expira em 1 hora e é apagado automaticamente pelo nosso servidor.</li>
+      <li><strong>Recursos de IA (item 14):</strong> a imagem reduzida, o texto digitado e as mensagens do chat não são gravados por nós. Guardamos só contadores de uso sem identificação pessoal, que expiram em até 36 horas.</li>
       <li><strong>Informações no navegador:</strong> ficam no seu dispositivo até você apagá-las.</li>
     </ul>
 
@@ -179,6 +182,15 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
     <h2>13. Avaliações voluntárias</h2>
     <p>O envio de avaliação é totalmente opcional. A nota e o comentário são registrados em nosso banco de dados, sem associação a nome, e-mail, telefone ou outro dado que identifique o usuário, e são utilizados exclusivamente para aprimorar nossos serviços e apurar indicadores de satisfação. O tratamento observa a Lei Geral de Proteção de Dados (LGPD), e as avaliações não são vendidas, alugadas nem compartilhadas com terceiros para fins comerciais. Caso um comentário contenha dados pessoais inseridos por iniciativa do usuário, ele poderá solicitar a exclusão pelos canais indicados no item 9.</p>
     <p><strong>Proteção contra spam:</strong> para permitir apenas uma avaliação por hora por visitante, nosso servidor gera, no momento do envio, um código irreversível (<em>hash</em> criptográfico com chave secreta) derivado do endereço IP. Esse código é guardado em um registro separado, sem vínculo com a nota ou o comentário, serve exclusivamente para essa verificação e expira em uma hora, sendo apagado automaticamente por rotinas do nosso servidor. O endereço IP em si não é armazenado.</p>
+
+    <h2>14. Recursos de inteligência artificial (Remover com IA e Agente Gabi)</h2>
+    <p>O site oferece dois recursos opcionais que usam um serviço de inteligência artificial de terceiros. Eles só funcionam quando você os usa:</p>
+    <ul>
+      <li><strong>Remover com IA:</strong> ao clicar no botão, enviamos ao nosso servidor uma <strong>cópia reduzida da imagem</strong> (em JPEG, no máximo 1280 px no maior lado) e o <strong>texto que você digitou</strong> (por exemplo, "rw"). Nosso servidor repassa esses dados ao provedor de IA, que responde apenas com a posição aproximada do texto na imagem. A remoção em si continua sendo feita no seu navegador. Na primeira vez, mostramos um aviso e pedimos a sua confirmação. <strong>Não use esse recurso com imagens sensíveis ou que contenham dados pessoais de terceiros.</strong></li>
+      <li><strong>Agente Gabi:</strong> as mensagens que você escreve (até 300 caracteres cada, e as últimas 6 da conversa) são enviadas ao nosso servidor e ao provedor de IA para gerar a resposta. Por isso, <strong>não escreva dados pessoais</strong> no chat. As perguntas prontas (botões) são respondidas no próprio site, sem envio.</li>
+    </ul>
+    <p><strong>O que fazemos e o que não fazemos:</strong> não gravamos a imagem, o texto nem a conversa em nosso banco de dados. Para evitar abuso, limitamos o número de usos por hora com um código irreversível (<em>hash</em> com chave secreta) derivado do endereço IP, que expira em 1 hora, e mantemos um contador diário geral, sem identificação de pessoas.</p>
+    <p><strong>Provedor externo:</strong> o provedor de IA é um terceiro e pode tratar os dados fora do Brasil (transferência internacional, art. 33 da LGPD). Em serviços gratuitos, os termos do provedor podem permitir que o conteúdo enviado seja usado para melhorar os seus serviços. Ele trata os dados conforme as próprias políticas. <strong>Bases legais:</strong> consentimento (art. 7º, I), manifestado ao confirmar o aviso do recurso, e execução do serviço que você solicitou. Você pode deixar de usar esses recursos a qualquer momento, sem prejuízo ao restante do site.</p>
 
     <div class="links">
       <a href="/termosprivacidade/termos">Termos de Uso</a>
