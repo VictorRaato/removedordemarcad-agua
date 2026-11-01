@@ -676,6 +676,10 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
   .hw-x{top:6px;right:6px;width:38px;height:38px}
 }
 @media (max-height:460px){.hw-img{max-height:84dvh}.hw-wrap{width:auto}}
+/* Pop-up de colaboração no celular: acompanha a área visível (acima do teclado) e rola quando o teclado está aberto */
+.modal{top:var(--vvt,0px);bottom:auto;height:var(--vvh,100dvh);overflow:hidden;overscroll-behavior:contain}
+.modal-card.pay-card{max-height:min(94dvh,calc(var(--vvh,100dvh) - 20px));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-padding-bottom:16px}
+html.kb-open .modal-card.pay-card{max-height:calc(var(--vvh,100dvh) - 16px)}
 </style>
 </head>
 <body>
@@ -1379,6 +1383,26 @@ window.addEventListener('load',function(){
     pre.src=SRC;
   }
   if(document.readyState==='complete')go();else window.addEventListener('load',go);
+})();
+</script>
+<script>
+/* Teclado no celular: mede a área visível e mantém o campo digitado acima do teclado */
+(function(){
+  var vv=window.visualViewport,root=document.documentElement,t=0;
+  function upd(){
+    var h=vv?vv.height:window.innerHeight,top=vv?vv.offsetTop:0;
+    root.style.setProperty('--vvh',Math.round(h)+'px');
+    root.style.setProperty('--vvt',Math.round(top)+'px');
+    root.classList.toggle('kb-open',window.innerHeight-h>120);
+  }
+  function reveal(el){
+    clearTimeout(t);
+    t=setTimeout(function(){upd();try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}},320);
+  }
+  if(vv){vv.addEventListener('resize',function(){upd();var a=document.activeElement;if(a&&a.closest&&a.closest('.modal:not([hidden])')&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))reveal(a)});vv.addEventListener('scroll',upd)}
+  window.addEventListener('orientationchange',function(){setTimeout(upd,300)});
+  document.addEventListener('focusin',function(e){var a=e.target;if(a&&a.closest&&a.closest('.modal:not([hidden])')&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))reveal(a)});
+  upd();
 })();
 </script>
 </body>
