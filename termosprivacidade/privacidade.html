@@ -98,8 +98,8 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
     <h2>2. Seus arquivos: processamento 100% local</h2>
     <p>Todas as etapas de remoção de marca d'água acontecem dentro do seu próprio dispositivo, usando tecnologias do navegador:</p>
     <ul>
-      <li><strong>Imagens:</strong> a leitura de textos (OCR) e a reconstrução do fundo são executadas localmente, por bibliotecas que rodam em JavaScript e WebAssembly.</li>
-      <li><strong>Vídeos:</strong> a decodificação, a limpeza dos quadros, a recodificação e a montagem do MP4 são feitas localmente, com APIs do navegador (como WebCodecs) e bibliotecas em WebAssembly.</li>
+      <li><strong>Imagens:</strong> a leitura de textos e a reconstrução do fundo são executadas localmente, por bibliotecas que rodam diretamente no navegador.</li>
+      <li><strong>Vídeos:</strong> a decodificação, a limpeza dos quadros, a recodificação e a montagem do MP4 são feitas localmente, com recursos nativos do navegador e bibliotecas que rodam nele.</li>
       <li><strong>Nenhum envio:</strong> seus arquivos, os quadros processados, o áudio e o resultado final <strong>nunca são transmitidos</strong> para os nossos servidores nem para terceiros. A única exceção é o recurso opcional "Remover com IA" (item 14), que envia uma cópia reduzida da imagem somente quando você clica nele.</li>
       <li><strong>Nenhum armazenamento:</strong> o conteúdo existe apenas na memória do navegador enquanto a página está aberta. Ao fechar ou recarregar a aba, ele é descartado. Só você tem acesso ao arquivo final, que é salvo diretamente no seu dispositivo quando você clica em baixar.</li>
       <li><strong>Metadados:</strong> a opção de remover metadados do resultado também é aplicada localmente.</li>
@@ -107,15 +107,15 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
     <p>Por isso, a AETIX DESIGN AI <strong>não tem acesso</strong> ao conteúdo das suas imagens e vídeos.</p>
 
     <h2>3. Recursos carregados de provedores externos</h2>
-    <p>Para funcionar, o site carrega do navegador alguns recursos técnicos (código das bibliotecas, fontes e pacotes de idioma do OCR) de redes de distribuição de conteúdo (CDNs). Esses recursos são <strong>baixados para o seu dispositivo</strong>; nada do seu conteúdo é enviado de volta. Como em qualquer acesso a um site, esses provedores recebem dados técnicos padrão da requisição, como endereço IP, tipo de navegador e data/hora, e os tratam conforme as próprias políticas.</p>
+    <p>Para funcionar, o site carrega do navegador alguns recursos técnicos (código das bibliotecas, fontes e pacotes de idioma da leitura de texto) de redes de distribuição de conteúdo. Esses recursos são <strong>baixados para o seu dispositivo</strong>; nada do seu conteúdo é enviado de volta. Como em qualquer acesso a um site, esses provedores recebem dados técnicos padrão da requisição, como endereço IP, tipo de navegador e data/hora, e os tratam conforme as próprias políticas.</p>
     <div class="tw">
       <table>
         <thead><tr><th>Provedor</th><th>Para que é usado</th></tr></thead>
         <tbody>
-          <tr><td>jsDelivr (cdn.jsdelivr.net)</td><td>Bibliotecas de OCR, vídeo e processamento de imagem</td></tr>
-          <tr><td>OpenCV (docs.opencv.org)</td><td>Biblioteca de visão computacional usada na reconstrução do fundo</td></tr>
-          <tr><td>Google Fonts (fonts.googleapis.com / fonts.gstatic.com)</td><td>Fonte Inter, usada na interface</td></tr>
-          <tr><td>cdnjs (cdnjs.cloudflare.com)</td><td>Biblioteca que desenha o QR Code do Pix</td></tr>
+          <tr><td>Rede de distribuição de bibliotecas</td><td>Bibliotecas de leitura de texto, vídeo e processamento de imagem</td></tr>
+          <tr><td>Hospedagem de bibliotecas de imagem</td><td>Biblioteca usada na reconstrução do fundo</td></tr>
+          <tr><td>Serviço de fontes</td><td>Fonte Inter, usada na interface</td></tr>
+          <tr><td>Rede de distribuição de código</td><td>Biblioteca que desenha o QR Code do Pix</td></tr>
         </tbody>
       </table>
     </div>
@@ -128,7 +128,7 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
       <li><strong>Parâmetros de campanha:</strong> informações presentes no link pelo qual você chegou ao site (como <code>utm_source</code>, <code>utm_campaign</code>, <code>fbclid</code> ou <code>gclid</code>), usadas para medir de quais anúncios ou campanhas vêm as colaborações.</li>
     </ul>
     <p><strong>Finalidades:</strong> gerar o código Pix, confirmar o pagamento, conciliar e registrar a colaboração, cumprir obrigações legais e fiscais e medir a efetividade das campanhas. <strong>Bases legais (art. 7º da LGPD):</strong> execução de procedimentos preliminares relacionados à colaboração que você solicita, cumprimento de obrigação legal e legítimo interesse (medição de campanhas).</p>
-    <p>Esses dados são transmitidos de forma segura pelo nosso servidor ao processador de pagamentos, a <strong>BravoPay</strong>, que gera o Pix e informa a confirmação, e podem ser repassados por ele a ferramentas de atribuição de campanhas. Nosso servidor apenas intermedia a transmissão e <strong>não armazena</strong> esses dados, exceto o que está descrito no item 4.1. Podemos consultá-los no painel do processador. Cada um desses operadores trata os dados conforme as próprias políticas de privacidade. Não vendemos seus dados.</p>
+    <p>Esses dados são transmitidos de forma segura pelo nosso servidor ao nosso processador de pagamentos, que gera o Pix e informa a confirmação, e podem ser repassados por ele a ferramentas de atribuição de campanhas. Nosso servidor apenas intermedia a transmissão e <strong>não armazena</strong> esses dados, exceto o que está descrito no item 4.1. Podemos consultá-los no painel do processador. Cada um desses operadores trata os dados conforme as próprias políticas de privacidade. Não vendemos seus dados.</p>
 
     <h3 style="margin:18px 0 8px;font-size:1rem;color:#fff">4.1 Mural de colaboradores</h3>
     <p>Depois da <strong>confirmação do pagamento</strong>, toda colaboração aparece na página <a href="/termosprivacidade/colaboracao">Colaboradores</a> e em breves avisos no site (mantemos as 100 colaborações mais recentes) com o <strong>valor</strong> e o <strong>momento</strong>. No formulário do Pix há uma caixa opcional, <strong>desmarcada por padrão</strong>: "Mostrar meu nome no mural de colaboradores". Só se você marcá-la exibimos o seu <strong>primeiro e segundo nome</strong>; se não marcar, a colaboração aparece como <strong>"Anônimo"</strong>, sem nenhum dado que identifique você. Para somar as colaborações de uma mesma pessoa no pódio, guardamos também um código irreversível (<em>hash</em> com chave secreta) derivado do seu e-mail; <strong>seu e-mail, telefone e sobrenome completo nunca são exibidos nem armazenados nesse mural</strong>. Base legal: para exibir o seu nome, o consentimento (art. 7º, I, da LGPD); para o registro anônimo do valor e do código irreversível, o legítimo interesse de manter o mural e o pódio (art. 7º, IX). Você pode pedir a remoção do seu registro a qualquer momento pelo WhatsApp de contato.</p>
@@ -193,6 +193,9 @@ footer .flinks i{font-style:normal;margin:0 8px;color:var(--dim)}
     <p><strong>O que fazemos e o que não fazemos:</strong> não gravamos a imagem, o texto nem a conversa em nosso banco de dados. Para evitar abuso, limitamos o número de usos por hora com um código irreversível (<em>hash</em> com chave secreta) derivado do endereço IP, que expira em 1 hora, e mantemos um contador diário geral, sem identificação de pessoas.</p>
     <p><strong>Provedor externo:</strong> o provedor de IA é um terceiro e pode tratar os dados fora do Brasil (transferência internacional, art. 33 da LGPD). Em serviços gratuitos, os termos do provedor podem permitir que o conteúdo enviado seja usado para melhorar os seus serviços. Ele trata os dados conforme as próprias políticas. <strong>Bases legais:</strong> consentimento (art. 7º, I), manifestado ao confirmar o aviso do recurso, e execução do serviço que você solicitou. Você pode deixar de usar esses recursos a qualquer momento, sem prejuízo ao restante do site.</p>
 
+    <h2>15. Hospedagem, banco de dados e registros técnicos</h2>
+    <p>O site é publicado em um provedor de hospedagem, e as avaliações, o mural de colaboradores e os contadores de uso ficam em um serviço de banco de dados em nuvem. Como em qualquer site, a hospedagem pode registrar dados técnicos de acesso (como endereço IP, tipo de navegador, páginas acessadas e data/hora) por motivos de segurança, estabilidade e prevenção de abusos. Esses provedores podem manter servidores fora do Brasil, o que configura transferência internacional de dados (art. 33 da LGPD), e tratam os dados conforme as próprias políticas. Não usamos esses registros para criar perfis nem para publicidade.</p>
+  
     <div class="links">
       <a href="/termosprivacidade/termos">Termos de Uso</a>
       <a href="/termosprivacidade/sobre">Sobre</a>
