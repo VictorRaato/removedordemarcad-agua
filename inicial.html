@@ -681,6 +681,20 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 .modal-card.pay-card{max-height:min(94dvh,calc(var(--vvh,100dvh) - 20px));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-padding-bottom:16px}
 html.kb-open .modal-card.pay-card{max-height:calc(var(--vvh,100dvh) - 16px)}
 </style>
+<style id="aetix-align">
+@media (max-width:600px){
+  .topbar{flex-direction:column;align-items:stretch}
+  .topbar .count{text-align:center}
+  .topbar .tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;justify-items:stretch}
+  .topbar .tools>.btn,.topbar .tools>.tool{width:100%}
+  .topbar .tools .tool{display:flex}
+  .topbar .tools .tool>.btn{width:100%}
+  .topbar .tools .btn{justify-content:center;padding-left:8px;padding-right:8px}
+}
+.bar,.bar .row{justify-content:center;align-items:center;text-align:center}
+.bar details{align-self:center}
+@media (max-width:600px){.bar .row2{gap:8px}.bar .row:has(#im-draw){gap:6px}.bar .row:has(#im-draw) .btn{padding-left:9px;padding-right:9px;font-size:.8rem;gap:5px}}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -814,10 +828,12 @@ html.kb-open .modal-card.pay-card{max-height:calc(var(--vvh,100dvh) - 16px)}
               <button type="button" class="btn ghost" id="im-all"><svg class="ic"><use href="#i-checks"/></svg><span data-i18n="img.selectAll">Selecionar todos</span></button>
               <button type="button" class="btn ghost" id="im-none"><svg class="ic"><use href="#i-x"/></svg><span data-i18n="img.clearSel">Limpar seleção</span></button>
               <button type="button" class="btn" id="im-draw" aria-pressed="false" title="Arraste sobre a imagem para marcar uma área que não foi detectada" data-i18n-title="img.drawBoxTip"><svg class="ic"><use href="#i-box"/></svg><span data-i18n="img.drawBox">Desenhar caixa</span></button>
+              </div>
+            <div class="row row2">
               <button type="button" class="btn" id="im-rescan"><svg class="ic"><use href="#i-refresh"/></svg><span data-i18n="img.rescan">Reescanear</span></button>
+              <button type="button" class="btn" id="im-undo" disabled><svg class="ic"><use href="#i-undo"/></svg><span data-i18n="img.undo">Desfazer</span></button>
             </div>
             <div class="row actions">
-              <button type="button" class="btn" id="im-undo" disabled><svg class="ic"><use href="#i-undo"/></svg><span data-i18n="img.undo">Desfazer</span></button>
               <button type="button" class="btn primary" id="im-go" disabled><svg class="ic"><use href="#i-eraser"/></svg><span id="im-go-t">Remover selecionados</span></button>
               <button type="button" class="btn" id="im-save"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="img.savePng">Baixar PNG</span></button>
             </div>
@@ -1188,7 +1204,7 @@ html.kb-open .modal-card.pay-card{max-height:calc(var(--vvh,100dvh) - 16px)}
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script src="/script.js?v=20261101c" defer></script>
+<script src="/script.js?v=20261101e" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
