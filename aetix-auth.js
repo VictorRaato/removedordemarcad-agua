@@ -40,6 +40,14 @@ function erro(e) {
   return { codigo: 'outro', original: c };
 }
 
+/* LOGIN OBRIGATÓRIO: páginas do app só abrem com conta; termos/privacidade/sobre continuam públicos */
+const LOGIN = '/login';
+const APP = '/inicial/';
+const caminho = location.pathname.replace(/\/+$/, '') || '/';
+const naLogin = /^\/login(\.html)?$/.test(caminho);
+const protegida = caminho === '/' || /^\/(inicial|index|perfil)(\.html)?(\/|$)/.test(caminho);
+function irLogin() { if (!naLogin) location.replace(LOGIN); }
+
 /* o cache só vale se o login estiver ligado; se estiver desligado, o site segue como visitante */
 if (!ligado) {
   window.AETIX_AUTH = { login: off, cadastro: off, recuperar: off, google: off, logout: off, excluir: off, ligado: false };
@@ -48,6 +56,7 @@ if (!ligado) {
 } else {
   const cacheado = lerCache();
   if (cacheado) aplicar(cacheado);
+  else if (protegida) irLogin();
 
   const [{ initializeApp }, A] = await Promise.all([import(CDN + 'firebase-app.js'), import(CDN + 'firebase-auth.js')]);
   const app = initializeApp(cfg);
@@ -85,5 +94,12 @@ if (!ligado) {
     })
   };
 
-  A.onAuthStateChanged(auth, (fu) => { const u = dePerfil(fu); gravarCache(u); aplicar(u); });
+  let primeira = true;
+  A.onAuthStateChanged(auth, (fu) => {
+    const u = dePerfil(fu); gravarCache(u); aplicar(u);
+    if (!u && protegida) irLogin();
+    /* quem já chega logado na tela de login vai direto ao app; quem acabou de entrar vê a tela "Bem-vindo" do login.js */
+    else if (u && naLogin && primeira) location.replace(APP);
+    primeira = false;
+  });
 }
