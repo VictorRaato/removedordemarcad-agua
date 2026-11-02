@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Em manutenção · AETIX DESIGN AI</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232a1a55'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='16' fill='none' stroke='%239B6BFF' stroke-opacity='.7'/%3E%3Cpath d='M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z' fill='%23EDE8FF'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* PÁGINA DE MANUTENÇÃO · AETIX DESIGN AI · arquivo único, sem JavaScript e sem chamadas ao servidor */
+:root{--bg:#09040F;--ink:#F6F0FA;--muted:#B5A6C4;--dim:#8A7A9B;--line:rgba(255,170,90,.2);--accent:#FF8A2B;--accent-2:#A855F7;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html,body{height:100%}
+body{margin:0;min-height:100dvh;color:var(--ink);font:400 16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background:radial-gradient(900px 520px at 85% -6%,rgba(168,85,247,.2),transparent 60%),radial-gradient(1100px 420px at 50% 112%,rgba(255,122,26,.3),transparent 62%),radial-gradient(700px 400px at 5% 30%,rgba(120,40,160,.18),transparent 60%),var(--bg)}
+.scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hw-hill{position:absolute;left:-10%;right:-10%;bottom:-18vh;height:36vh;border-radius:50%;background:radial-gradient(ellipse at 50% 0,rgba(60,18,80,.75),rgba(9,4,15,0) 70%)}
+.hw-moon{position:absolute;top:clamp(48px,9vh,92px);right:clamp(-30px,6vw,9vw);width:clamp(76px,10vw,138px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 63% 29%,rgba(177,128,86,.55) 0 8%,transparent 9%),radial-gradient(circle at 30% 54%,rgba(177,128,86,.5) 0 11%,transparent 12%),radial-gradient(circle at 66% 62%,rgba(177,128,86,.5) 0 6.5%,transparent 7.5%),radial-gradient(circle at 36% 28%,#FFF2D2,#F6D79C 58%,#E8B777);
+  box-shadow:0 0 50px 10px rgba(255,190,110,.3),0 0 120px 30px rgba(255,150,60,.12);opacity:.95;animation:moon 9s ease-in-out infinite alternate}
+@keyframes moon{to{transform:translateY(8px)}}
+.hw-stars{position:absolute;inset:0}
+.hw-stars i{position:absolute;border-radius:50%;background:var(--c,#FF9B3D);box-shadow:0 0 8px 2px var(--c,#FF9B3D);opacity:0;animation:fly var(--d,6s) ease-in-out var(--w,0s) infinite}
+@keyframes fly{0%,100%{opacity:0;transform:translate(0,0)}25%,70%{opacity:.8}50%{transform:translate(var(--x,10px),var(--y,-14px));opacity:.4}}
+.hw-bat{position:absolute;top:0;left:0;width:34px;color:#1B1030;opacity:.95;filter:drop-shadow(0 0 7px rgba(168,85,247,.6))}
+.b1{top:16%;animation:bat 19s linear infinite,flap .5s ease-in-out infinite alternate}
+.b2{top:32%;width:26px;animation:bat 27s linear -9s infinite,flap .42s ease-in-out infinite alternate}
+.b3{top:9%;width:20px;animation:bat 33s linear -20s infinite,flap .36s ease-in-out infinite alternate}
+@keyframes bat{0%{left:-60px;margin-top:0}50%{margin-top:34px}100%{left:calc(100% + 60px);margin-top:-10px}}
+@keyframes flap{to{transform:scaleY(.62)}}
+.web{position:absolute;top:0;left:0;width:clamp(90px,12vw,150px);height:auto;color:rgba(255,160,80,.3)}
+.pumpkin{position:absolute;left:clamp(10px,3vw,40px);bottom:max(12px,env(safe-area-inset-bottom,0px));width:clamp(52px,6vw,84px);height:auto;filter:drop-shadow(0 0 12px rgba(255,122,26,.65));animation:flick 3.2s ease-in-out infinite}
+@keyframes flick{50%{filter:drop-shadow(0 0 20px rgba(255,170,60,.9))}}
+
+main{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3.4vh,30px);padding:max(28px,env(safe-area-inset-top)) 22px max(28px,env(safe-area-inset-bottom));text-align:center}
+.brand{display:inline-flex;align-items:center;gap:.45em;font:700 clamp(1rem,4.6vw,1.7rem)/1 Inter,system-ui,sans-serif;letter-spacing:.14em;white-space:nowrap;padding:.55em 1em .55em .7em;border:1px solid var(--line);border-radius:18px;background:rgba(255,200,150,.04)}
+.brand .logo{width:2.5em;height:2.5em;flex:none;margin-right:.3em;filter:drop-shadow(0 0 10px rgba(155,107,255,.55))}
+.brand .b-1,.brand .b-3{background:linear-gradient(135deg,#FFD08A,#FF9B3D 55%,#C084FC);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .b-2{font-weight:400;color:#F0E0FF}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1px solid rgba(255,170,90,.4);background:rgba(255,138,43,.1);color:#FFC98A;font-size:.74rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.8)}}
+h1{margin:0;font-size:clamp(2rem,6.4vw,3.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.08;max-width:15ch}
+h1 em{font-style:normal;background:linear-gradient(135deg,#FFD08A,#FF9B3D 55%,#C084FC);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin:0;max-width:44ch;color:var(--muted);font-size:clamp(.98rem,2.6vw,1.12rem)}
+.spooky{margin:0;color:#FFC98A;font-size:.95rem}
+.en{margin:6px 0 0;color:var(--dim);font-size:.86rem}
+.foot{position:absolute;left:0;right:0;bottom:max(14px,env(safe-area-inset-bottom));z-index:1;text-align:center;color:var(--dim);font-size:.76rem}
+@media (max-width:520px){.pumpkin{width:46px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.hw-stars i{opacity:.55}}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true">
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <symbol id="bat" viewBox="0 0 48 24"><path fill="currentColor" d="M24 5 26 9C29 8 33 9 37 6 41 5 45 8 47 13 44 12 41 13 39 16 37 14 34 14 32 17 30 15 27 15 26 19L24 22 22 19C21 15 18 15 16 17 14 14 11 14 9 16 7 13 4 12 1 13 3 8 7 5 11 6 15 9 19 8 22 9Z"/></symbol>
+    <symbol id="pump" viewBox="0 0 64 58"><defs><radialGradient id="pg" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#FFA23D"/><stop offset=".7" stop-color="#F26A12"/><stop offset="1" stop-color="#C04A08"/></radialGradient></defs>
+      <path d="M31 14c0-5 2-8 6-10" fill="none" stroke="#4E9B3E" stroke-width="4" stroke-linecap="round"/><ellipse cx="32" cy="36" rx="29" ry="20" fill="url(#pg)"/>
+      <path d="M32 16c-7 6-7 34 0 40M32 16c7 6 7 34 0 40" fill="none" stroke="#B8420A" stroke-opacity=".55" stroke-width="2"/>
+      <path d="M17 31 23 26 28 33ZM47 31 41 26 36 33Z" fill="#2A0F05"/><path d="M19 42Q32 54 45 42L41 41 38 45 34 41 30 45 26 41 23 45Z" fill="#2A0F05"/>
+      <path d="M20 31 23 28 26 32ZM44 31 41 28 38 32Z" fill="#FFD36B" opacity=".9"/></symbol>
+  </defs></svg>
+  <div class="hw-hill"></div><div class="hw-moon"></div>
+  <div class="hw-stars"><i style="left:15.1%;top:66.6%;width:2.8px;height:2.8px;--c:#FF9B3D;--d:4.4s;--w:-4.3s;--x:-5px;--y:-9px"></i><i style="left:3.7%;top:47.0%;width:3.2px;height:3.2px;--c:#FFB347;--d:4.4s;--w:-0.7s;--x:-3px;--y:-29px"></i><i style="left:22.3%;top:64.5%;width:2.3px;height:2.3px;--c:#C084FC;--d:9.7s;--w:-4.6s;--x:-4px;--y:-33px"></i><i style="left:85.8%;top:34.1%;width:2.1px;height:2.1px;--c:#FF7A1A;--d:4.9s;--w:-0.9s;--x:-7px;--y:-29px"></i><i style="left:58.2%;top:65.5%;width:2.4px;height:2.4px;--c:#FF9B3D;--d:6.2s;--w:-4.4s;--x:-17px;--y:-9px"></i><i style="left:68.0%;top:46.5%;width:2.5px;height:2.5px;--c:#FFB347;--d:5.9s;--w:-4.7s;--x:-1px;--y:-15px"></i><i style="left:69.9%;top:30.0%;width:3.9px;height:3.9px;--c:#C084FC;--d:7.4s;--w:-4.2s;--x:15px;--y:-26px"></i><i style="left:98.0%;top:18.6%;width:2.7px;height:2.7px;--c:#FF7A1A;--d:6.5s;--w:-6.1s;--x:-13px;--y:-20px"></i><i style="left:66.8%;top:76.8%;width:2.1px;height:2.1px;--c:#FF9B3D;--d:7.4s;--w:-7.0s;--x:-7px;--y:-26px"></i><i style="left:58.0%;top:49.1%;width:3.4px;height:3.4px;--c:#FFB347;--d:9.0s;--w:-7.6s;--x:-1px;--y:-25px"></i><i style="left:70.1%;top:66.2%;width:2.1px;height:2.1px;--c:#C084FC;--d:10.0s;--w:-6.6s;--x:-8px;--y:-18px"></i><i style="left:2.3%;top:49.6%;width:3.6px;height:3.6px;--c:#FF7A1A;--d:5.0s;--w:-0.9s;--x:-17px;--y:-27px"></i><i style="left:24.8%;top:43.2%;width:2.3px;height:2.3px;--c:#FF9B3D;--d:9.2s;--w:-0.6s;--x:-2px;--y:-22px"></i><i style="left:81.9%;top:85.8%;width:4.1px;height:4.1px;--c:#FFB347;--d:5.7s;--w:-3.3s;--x:-5px;--y:-30px"></i><i style="left:15.1%;top:23.9%;width:4.3px;height:4.3px;--c:#C084FC;--d:5.4s;--w:-1.9s;--x:0px;--y:-23px"></i><i style="left:0.4%;top:45.7%;width:2.6px;height:2.6px;--c:#FF7A1A;--d:6.2s;--w:-4.5s;--x:18px;--y:-25px"></i><i style="left:61.8%;top:68.9%;width:3.2px;height:3.2px;--c:#FF9B3D;--d:4.3s;--w:-7.2s;--x:11px;--y:-30px"></i><i style="left:39.2%;top:43.9%;width:3.9px;height:3.9px;--c:#FFB347;--d:4.6s;--w:-5.1s;--x:-17px;--y:-9px"></i><i style="left:16.2%;top:38.6%;width:2.5px;height:2.5px;--c:#C084FC;--d:4.3s;--w:-0.0s;--x:-13px;--y:-10px"></i><i style="left:2.6%;top:86.7%;width:2.9px;height:2.9px;--c:#FF7A1A;--d:7.7s;--w:-1.2s;--x:-9px;--y:-17px"></i><i style="left:12.3%;top:84.4%;width:2.9px;height:2.9px;--c:#FF9B3D;--d:10.0s;--w:-3.7s;--x:0px;--y:-10px"></i><i style="left:34.3%;top:31.8%;width:2.2px;height:2.2px;--c:#FFB347;--d:9.0s;--w:-1.3s;--x:-19px;--y:-32px"></i><i style="left:14.7%;top:56.9%;width:3.3px;height:3.3px;--c:#C084FC;--d:4.2s;--w:-4.2s;--x:19px;--y:-30px"></i><i style="left:26.1%;top:41.0%;width:3.7px;height:3.7px;--c:#FF7A1A;--d:5.0s;--w:-6.2s;--x:1px;--y:-28px"></i><i style="left:22.3%;top:81.0%;width:2.8px;height:2.8px;--c:#FF9B3D;--d:9.9s;--w:-6.8s;--x:12px;--y:-29px"></i><i style="left:22.7%;top:54.6%;width:3.8px;height:3.8px;--c:#FFB347;--d:6.1s;--w:-0.2s;--x:-18px;--y:-15px"></i></div>
+  <svg class="hw-bat b1" viewBox="0 0 48 24"><use href="#bat"/></svg>
+  <svg class="hw-bat b2" viewBox="0 0 48 24"><use href="#bat"/></svg>
+  <svg class="hw-bat b3" viewBox="0 0 48 24"><use href="#bat"/></svg>
+  <svg class="web" viewBox="0 0 120 120"><g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M0 0 120 0M0 0 112 38M0 0 88 88M0 0 38 112M0 0 0 120"/><path d="M26 0Q13 13 0 26M52 0Q27 27 0 52M80 0Q41 41 0 80M110 0Q57 57 0 110"/></g></svg>
+  <svg class="pumpkin" viewBox="0 0 64 58"><use href="#pump"/></svg>
+</div>
+
+<main>
+  <div class="brand" role="img" aria-label="AETIX DESIGN AI">
+    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9B6BFF" stop-opacity=".42"/><stop offset="1" stop-color="#7C8CFF" stop-opacity=".2"/></linearGradient></defs><rect x="1.5" y="1.5" width="61" height="61" rx="17" fill="url(#lg)" stroke="#9B6BFF" stroke-opacity=".6"/><path d="M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z" fill="#EDE8FF"/></svg>
+    <span class="b-1">AETIX</span><span class="b-2">DESIGN</span><span class="b-3">AI</span>
+  </div>
+  <span class="tag">Manutenção</span>
+  <h1>Estamos em <em>manutenção</em></h1>
+  <p class="lead">Estamos fazendo ajustes e melhorias para deixar tudo ainda melhor. O AETIX DESIGN AI volta em breve.</p>
+  <p class="spooky">Até as abóboras precisam de uma pausa de vez em quando 🎃</p>
+  <p class="en">We’re under maintenance and will be back soon.</p>
+</main>
+<p class="foot">© AETIX DESIGN AI</p>
+</body>
+</html>
