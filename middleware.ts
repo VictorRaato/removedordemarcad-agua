@@ -22,7 +22,8 @@ const PUBLICOS = new Set([
   '/favicon.ico', '/robots.txt', '/sitemap.xml',
   /* imagem de compartilhamento: precisa ser pública, senão o link do site
      aparece sem imagem no WhatsApp, Instagram, Facebook, X e LinkedIn */
-  '/logosapresentacao/og-image.png'
+  '/logosapresentacao/og-image.png',
+  '/logosapresentacao/og-image-halloween.png'
 ]);
 const PAGINAS_PUBLICAS = /^\/(termosprivacidade\/)?(privacidade|termos|sobre|colaboracao)(\.html)?$/;
 
