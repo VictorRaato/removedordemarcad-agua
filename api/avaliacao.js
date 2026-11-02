@@ -13,6 +13,7 @@
 const crypto = require('crypto');
 const { initializeApp, getApps, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue, Timestamp } = require('firebase-admin/firestore');
+const { exigirLogin } = require('./_auth');
 
 /* ID do banco no Firestore. Aqui o banco foi criado com o ID "default" (sem parênteses);
    o padrão do Firebase seria "(default)". Precisa ser igual ao ID mostrado no console. */
@@ -104,6 +105,10 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ ok: false, erro: 'Método não permitido.' });
   }
+
+  /* só quem está logado e aceitou os Termos pode avaliar (a avaliação continua anônima: o uid não é gravado) */
+  const uid = await exigirLogin(req, res, { aceite: true });
+  if (!uid) return;
 
   if (excedeuLimite(req)) {
     return res.status(429).json({ ok: false, erro: 'Muitas tentativas. Aguarde um pouco.' });

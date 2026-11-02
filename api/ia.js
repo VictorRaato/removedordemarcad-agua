@@ -15,7 +15,7 @@
      IA_BUSCA_HORA         opcional, limite por USUÁRIO logado por hora nas buscas em imagem/vídeo (padrão 10)
      IA_CHAT_HORA_IP       opcional, limite por IP por hora no chat (padrão 60)
      IA_BUSCA_HORA_IP      opcional, limite por IP por hora nas buscas (padrão 20)
-     Exige login: o navegador envia "Authorization: Bearer <token do Firebase>" (feito pelo aetix-auth.js).
+     Exige login e aceite dos Termos (403 sem aceite): o navegador envia "Authorization: Bearer <token do Firebase>" (feito pelo aetix-auth.js).
 
    Economia da cota gratuita:
      - prompts curtos, saída curta, sem "pensamento" extra, temperatura 0;
@@ -192,7 +192,7 @@ function lerBody(req) {
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ ok: false, erro: 'metodo' }); }
-  const uid = await exigirLogin(req, res);   // 401 se não estiver logado
+  const uid = await exigirLogin(req, res, { aceite: true });   // 401 sem login · 403 sem aceite dos Termos
   if (!uid) return;
   const b = lerBody(req);
   if (!b) return res.status(400).json({ ok: false, erro: 'corpo' });

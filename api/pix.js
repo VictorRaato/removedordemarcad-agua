@@ -160,7 +160,7 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ message: 'Método não permitido.' });
   }
-  const uid = await exigirLogin(req, res);   // 401 se não estiver logado
+  const uid = await exigirLogin(req, res, { aceite: true });   // 401 sem login · 403 sem aceite dos Termos
   if (!uid) return;
   if (excedeuLimite(req)) {
     return res.status(429).json({ message: 'Muitas tentativas. Aguarde um pouco.' });
