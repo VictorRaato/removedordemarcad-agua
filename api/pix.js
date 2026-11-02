@@ -24,6 +24,7 @@
 const crypto = require('crypto');
 let _fb = null;
 function fb() { return _fb || (_fb = require('./_firebase')); }
+const { exigirLogin } = require('./_auth');
 
 const BASE_URL = 'https://bravopay.club/api/v1';
 const MIN_CENTS = 500;            // R$ 5,00 (mesmo mínimo do site)
@@ -159,6 +160,8 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'GET, POST');
     return res.status(405).json({ message: 'Método não permitido.' });
   }
+  const uid = await exigirLogin(req, res);   // 401 se não estiver logado
+  if (!uid) return;
   if (excedeuLimite(req)) {
     return res.status(429).json({ message: 'Muitas tentativas. Aguarde um pouco.' });
   }

@@ -11,8 +11,11 @@
      GEMINI_MODEL_BUSCA    opcional (modelo que localiza o texto na imagem; padrão: gemini-3.8-flash)
      IA_CHAT_DIA           opcional, teto diário global de mensagens do chat (padrão 600)
      IA_BUSCA_DIA          opcional, teto diário global de buscas em imagem/vídeo (padrão 300)
-     IA_CHAT_HORA          opcional, limite por visitante por hora no chat (padrão 30)
-     IA_BUSCA_HORA         opcional, limite por visitante por hora nas buscas em imagem/vídeo (padrão 10)
+     IA_CHAT_HORA          opcional, limite por USUÁRIO logado por hora no chat (padrão 30)
+     IA_BUSCA_HORA         opcional, limite por USUÁRIO logado por hora nas buscas em imagem/vídeo (padrão 10)
+     IA_CHAT_HORA_IP       opcional, limite por IP por hora no chat (padrão 60)
+     IA_BUSCA_HORA_IP      opcional, limite por IP por hora nas buscas (padrão 20)
+     Exige login: o navegador envia "Authorization: Bearer <token do Firebase>" (feito pelo aetix-auth.js).
 
    Economia da cota gratuita:
      - prompts curtos, saída curta, sem "pensamento" extra, temperatura 0;
@@ -22,6 +25,7 @@
    ========================================================================== */
 const crypto = require('crypto');
 const { getDb } = require('./_firebase');
+const { exigirLogin } = require('./_auth');
 
 const API = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const MAX_BODY_IMG = 3_200_000;      // caracteres do base64 (~2,4 MB); a Vercel aceita até ~4,5 MB
@@ -31,6 +35,11 @@ const MAX_ALVO = 80;
 const POR_HORA = {
   chat: parseInt(process.env.IA_CHAT_HORA, 10) || 30,
   busca: parseInt(process.env.IA_BUSCA_HORA, 10) || 10
+};
+/* limite por IP (maior, porque várias pessoas podem dividir o mesmo IP, como em escola ou rede de celular) */
+const POR_HORA_IP = {
+  chat: parseInt(process.env.IA_CHAT_HORA_IP, 10) || 60,
+  busca: parseInt(process.env.IA_BUSCA_HORA_IP, 10) || 20
 };
 const POR_DIA = {
   chat: parseInt(process.env.IA_CHAT_DIA, 10) || 600,
@@ -58,22 +67,27 @@ function chaveDoVisitante(req) {
 
 /* Conta um uso. Retorna 'ok' | 'hora' | 'dia'. Os documentos vão para a coleção "limites"
    (a mesma das avaliações, que já apaga o que expirou). Se o Firestore falhar, deixa passar. */
-async function contar(db, tipo, visitante) {
+async function contar(db, tipo, uid, visitante) {
   const { Timestamp } = require('firebase-admin/firestore');
   const agora = Date.now();
   const dia = new Date(agora - 3 * 3600 * 1000).toISOString().slice(0, 10);   // dia de Brasília
-  const refV = db.collection('limites').doc('ia-' + tipo + '-' + visitante);
-  const refG = db.collection('limites').doc('ia-' + tipo + '-dia-' + dia);
+  const refU = db.collection('limites').doc('ia-' + tipo + '-u-' + uid);       // por usuário
+  const refV = db.collection('limites').doc('ia-' + tipo + '-' + visitante);   // por IP
+  const refG = db.collection('limites').doc('ia-' + tipo + '-dia-' + dia);     // global do dia
   return db.runTransaction(async (tx) => {
-    const [v, g] = await Promise.all([tx.get(refV), tx.get(refG)]);
+    const [u, v, g] = await Promise.all([tx.get(refU), tx.get(refV), tx.get(refG)]);
     const nG = g.exists ? Number(g.get('n')) || 0 : 0;
     if (nG >= POR_DIA[tipo]) return 'dia';
-    let nV = 0, expira = agora + 3600 * 1000;
-    if (v.exists && v.get('expiraEm') && v.get('expiraEm').toMillis() > agora) {
-      nV = Number(v.get('n')) || 0; expira = v.get('expiraEm').toMillis();
-    }
-    if (nV >= POR_HORA[tipo]) return 'hora';
-    tx.set(refV, { n: nV + 1, expiraEm: Timestamp.fromMillis(expira) });
+    const janela = (snap) => {
+      if (snap.exists && snap.get('expiraEm') && snap.get('expiraEm').toMillis() > agora) {
+        return { n: Number(snap.get('n')) || 0, expira: snap.get('expiraEm').toMillis() };
+      }
+      return { n: 0, expira: agora + 3600 * 1000 };
+    };
+    const jU = janela(u), jV = janela(v);
+    if (jU.n >= POR_HORA[tipo] || jV.n >= POR_HORA_IP[tipo]) return 'hora';
+    tx.set(refU, { n: jU.n + 1, expiraEm: Timestamp.fromMillis(jU.expira) });
+    tx.set(refV, { n: jV.n + 1, expiraEm: Timestamp.fromMillis(jV.expira) });
     tx.set(refG, { n: nG + 1, expiraEm: Timestamp.fromMillis(agora + 36 * 3600 * 1000) });
     return 'ok';
   });
@@ -178,6 +192,8 @@ function lerBody(req) {
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ ok: false, erro: 'metodo' }); }
+  const uid = await exigirLogin(req, res);   // 401 se não estiver logado
+  if (!uid) return;
   const b = lerBody(req);
   if (!b) return res.status(400).json({ ok: false, erro: 'corpo' });
   const tipo = b.tipo === 'busca' ? 'busca' : b.tipo === 'chat' ? 'chat' : null;
@@ -224,7 +240,7 @@ module.exports = async function handler(req, res) {
 
   /* limites (se o banco falhar, não bloqueia) */
   try {
-    const r = await contar(getDb(), tipo, chaveDoVisitante(req));
+    const r = await contar(getDb(), tipo, uid, chaveDoVisitante(req));
     if (r === 'hora') return res.status(429).json({ ok: false, erro: 'limite' });
     if (r === 'dia') return res.status(429).json({ ok: false, erro: 'limite_dia' });
   } catch (e) { console.error('[ia] limite:', e && e.message); }
