@@ -1,14 +1,13 @@
 /* ==========================================================================
    AETIX DESIGN AI · firebase-config.js
-   Cole aqui as chaves do SEU projeto Firebase (Console Firebase -> Configurações do projeto
+   Chaves do projeto Firebase "removedor-de-logos" (Console Firebase -> Configurações do projeto
    -> Seus apps -> App da Web -> "Configuração do SDK").
    Essas chaves NÃO são secretas (podem ficar no site público); quem protege é a lista de
    "Domínios autorizados" do Firebase Authentication.
-   Enquanto estiver tudo vazio, o login fica desligado e o site continua funcionando normal.
    ========================================================================== */
 window.AETIX_FIREBASE = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  appId: ""
+  apiKey: "AIzaSyBp7TUqj7aosEKvbJtiF7sjc3hPcYyy9PI",
+  authDomain: "removedor-de-logos.firebaseapp.com",
+  projectId: "removedor-de-logos",
+  appId: "1:275376021443:web:929fa89ecd7cdfe0106776"
 };
