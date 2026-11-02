@@ -21,8 +21,8 @@
   var CONFIG = {
     demo: false,
     demoUser: { nome: 'Vitinho Silva', email: 'vitinho@exemplo.com', foto: '' },
-    loginUrl: '/login/',
-    aposSair: '/inicial/'
+    loginUrl: '/login',
+    aposSair: '/login'
   };
 
   var TEXTOS = {
