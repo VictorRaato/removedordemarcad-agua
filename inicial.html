@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="splashing" data-tema="halloween">
 <head>
-<script>/* abertura (splash) só 1x por sessão: ao voltar do perfil/outras páginas não repete */
-(function(){try{if(sessionStorage.getItem('aetix-splash')){window.__aetixSkipSplash=1;document.documentElement.classList.remove('splashing');document.write('<style>#splash{display:none!important}</style>')}else sessionStorage.setItem('aetix-splash','1')}catch(e){}})();</script>
+<script src="/aetix-tema.js"></script><script src="/aetix-cabeca.js"></script>
 <meta charset="utf-8">
-<script>/* TEMA DO SITE: troque 'halloween' por 'padrao' para voltar ao visual normal. Teste rápido: ?tema=padrao ou ?tema=halloween */
-(function(){var T='halloween',q='';try{q=new URLSearchParams(location.search).get('tema')||''}catch(e){}
-if(q==='padrao'||q==='halloween')T=q;document.documentElement.setAttribute('data-tema',T)})();</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="google-site-verification" content="9Chce9Iw4i8EwpfvPGQC2yLe8BXmGZMo0wd0HoAnKGM" />
@@ -21,7 +18,7 @@ if(q==='padrao'||q==='halloween')T=q;document.documentElement.setAttribute('data
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://aetixremove.vercel.app/logosapresentacao/og-image.png?v=2">
 <link rel="canonical" href="https://aetixremove.vercel.app/">
-<script>try{var p=location.pathname;if(p==="/"||p==="/index"||p==="/index/"||p==="/index.html"){history.replaceState(history.state,"","/inicial/"+location.search+location.hash)}}catch(e){}</script>
+
 <meta name="description" content="Remover marca d'água de imagens e vídeos online com a AETIX DESIGN AI. Apague textos e marcas direto no navegador, sem enviar seus arquivos a servidores.">
 <meta name="keywords" content="remover marca d'água, remover marca d'água de imagem, remover marca d'água de vídeo, apagar marca d'água, AETIX DESIGN AI">
 <meta name="robots" content="index, follow">
@@ -811,7 +808,7 @@ html[data-tema="halloween"] .scene{display:block}
   <svg class="hw-bat hw-b3" viewBox="0 0 48 24"><use href="#hw-bat"/></svg>
   <svg class="hw-pumpkin" viewBox="0 0 64 58"><use href="#hw-pump"/></svg>
 </div>
-<script>(function(){var b=document.getElementById('hwStars');if(!b||document.documentElement.getAttribute('data-tema')!=='halloween')return;var c=['#FF9B3D','#FFB347','#C084FC','#FF7A1A'];for(var i=0;i<24;i++){var s=document.createElement('i'),z=2+Math.random()*2.4;s.style.cssText='left:'+(Math.random()*100).toFixed(1)+'%;top:'+(8+Math.random()*90).toFixed(1)+'%;width:'+z.toFixed(1)+'px;height:'+z.toFixed(1)+'px;--c:'+c[i%4]+';--d:'+(4+Math.random()*6).toFixed(1)+'s;--w:-'+(Math.random()*8).toFixed(1)+'s;--x:'+((Math.random()-.5)*40).toFixed(0)+'px;--y:'+(-8-Math.random()*26).toFixed(0)+'px';b.appendChild(s)}})();</script>
+
 <div id="app">
   <!-- ===================== HEADER ===================== -->
   <header class="hdr">
@@ -1069,9 +1066,9 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="sx" id="sobre-a-ferramenta">
         <section class="sx-sec" aria-labelledby="sxH1">
           <h2 id="sxH1" data-i18n="core.seoH">Por que escolher o AETIX DESIGN AI</h2>
-          <p class="sx-sub" data-i18n="core.seoSub">Grátis, sem cadastro e sem enviar seus arquivos para nenhum servidor.</p>
+          <p class="sx-sub" data-i18n="core.seoSub">Grátis, com login simples e sem enviar seus arquivos para nenhum servidor.</p>
           <div class="sx-row"><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-1-faz.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma tela mostrando uma imagem com marca d’água de um lado e limpa do outro" data-i18n-aria="core.seoImg1"></div></div><div class="sx-rt"><h3 data-i18n="core.seoWhatT">O que o AETIX DESIGN AI faz</h3><p data-i18n="core.seoWhatP">O AETIX DESIGN AI apaga textos e marcas d’água de imagens e vídeos direto no navegador. Nas imagens, a leitura inteligente do AETIX encontra os textos para você escolher quais apagar, e o fundo é reconstruído; também dá para pintar à mão o que passar batido. Nos vídeos, você pinta a marca d’água e adiciona keyframes em outros momentos para acompanhar o movimento dela.</p></div></div>
-          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoFreeT">Gratuito e sem cadastro</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento nem de login. Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p><p data-i18n="core.seoFreeP2">Sem anúncios e sem assinatura, o AETIX DESIGN AI só continua no ar com a ajuda de quem usa. Se ele já economizou o seu tempo, um Pix de R$ 5,00 mantém o site rápido, privado e cheio de novidades para todo mundo.</p></div><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-2-gratis.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma pessoa usando o celular com um aviso de sucesso, sem precisar de cadastro" data-i18n-aria="core.seoImg2"></div></div></div>
+          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoFreeT">Gratuito e com login simples</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento: basta entrar com a sua conta (e-mail ou Google). Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p><p data-i18n="core.seoFreeP2">Sem anúncios e sem assinatura, o AETIX DESIGN AI só continua no ar com a ajuda de quem usa. Se ele já economizou o seu tempo, um Pix de R$ 5,00 mantém o site rápido, privado e cheio de novidades para todo mundo.</p></div><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-2-gratis.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma pessoa usando o celular com um aviso de sucesso, sem precisar pagar" data-i18n-aria="core.seoImg2"></div></div></div>
           <div class="sx-row"><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-3-video.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma bancada de edição de vídeo com a linha do tempo na tela" data-i18n-aria="core.seoImg3"><span class="sx-badge" aria-hidden="true">BETA</span></div></div><div class="sx-rt"><h3 data-i18n="core.seoBetaT">Módulo de vídeo em BETA (experimental)</h3><p data-i18n="core.seoBetaP">O módulo de vídeo está em BETA: é uma função experimental, em testes e melhorias, mas já disponível para você usar. O resultado pode variar conforme o dispositivo, o formato e a codificação do vídeo, e a marca d’água pode deixar vestígios. Nesse caso, tente de novo marcando só a área da marca e adicionando keyframes onde ela se mover.</p><p data-i18n="core.seoBetaP2">Recomendamos o Chrome ou o Edge atualizados. Seu vídeo continua sendo processado só no seu dispositivo, sem envio a servidores. Encontrou um problema ou tem uma ideia? Fale com a gente pelo WhatsApp.</p></div></div>
         </section>
 
@@ -1105,13 +1102,13 @@ html[data-tema="halloween"] .scene{display:block}
         <section class="sx-sec" aria-labelledby="sxH4">
           <h2 id="sxH4" data-i18n="core.seoPrivH">Por que seus arquivos não saem do navegador</h2>
           <p class="sx-sub" data-i18n="core.seoPrivSub">Processamento local: o trabalho acontece no seu dispositivo.</p>
-          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoPrivT">Seus arquivos ficam com você</h3><p data-i18n="core.seoPrivP1">Toda a remoção acontece dentro do seu próprio dispositivo, pelo motor de edição do AETIX DESIGN AI rodando no navegador. Suas imagens e vídeos não são enviados, processados nem guardados em servidores.</p><p data-i18n="core.seoPrivP2">Não há cadastro nem login. O conteúdo existe só na memória do navegador enquanto a aba está aberta e é descartado ao fechar ou recarregar. O arquivo final é salvo direto no seu dispositivo quando você baixa.</p><p data-i18n="core.seoPrivP3">O site apenas carrega para o seu aparelho os recursos do próprio motor de edição, as fontes e os pacotes de idioma. Nada do seu conteúdo é enviado de volta.</p></div><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-4-privacidade.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de um notebook com um cadeado verde na tela, representando privacidade" data-i18n-aria="core.seoImg4"></div></div></div>
+          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoPrivT">Seus arquivos ficam com você</h3><p data-i18n="core.seoPrivP1">Toda a remoção acontece dentro do seu próprio dispositivo, pelo motor de edição do AETIX DESIGN AI rodando no navegador. Suas imagens e vídeos não são enviados, processados nem guardados em servidores.</p><p data-i18n="core.seoPrivP2">A conta serve só para entrar no site; o seu conteúdo não fica ligado a ela. O conteúdo existe só na memória do navegador enquanto a aba está aberta e é descartado ao fechar ou recarregar. O arquivo final é salvo direto no seu dispositivo quando você baixa.</p><p data-i18n="core.seoPrivP3">O site apenas carrega para o seu aparelho os recursos do próprio motor de edição, as fontes e os pacotes de idioma. Nada do seu conteúdo é enviado de volta.</p></div><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-4-privacidade.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de um notebook com um cadeado verde na tela, representando privacidade" data-i18n-aria="core.seoImg4"></div></div></div>
         </section>
 
         <section class="sx-sec" aria-labelledby="sxH5">
           <h2 id="sxH5" data-i18n="core.seoFaqH">Perguntas frequentes</h2>
           <p class="sx-sub" data-i18n="core.seoFaqSub">Respostas rápidas sobre o uso do AETIX DESIGN AI.</p>
-          <div class="sx-faq"><details><summary><span data-i18n="core.seoQ1">O AETIX DESIGN AI é grátis?</span></summary><p data-i18n="core.seoA1">Sim. As ferramentas são gratuitas e não exigem cadastro. A colaboração por Pix é voluntária, com valor mínimo de R$ 5,00, e nunca é necessária para usar o site.</p></details><details><summary><span data-i18n="core.seoQ2">Meus arquivos são enviados para algum servidor?</span></summary><p data-i18n="core.seoA2">Não. O processamento é 100% local, no seu navegador. Seus arquivos nunca saem do seu dispositivo.</p></details><details><summary><span data-i18n="core.seoQ3">Quais formatos são aceitos?</span></summary><p data-i18n="core.seoA3">Imagens PNG, JPG e WEBP, e vídeos MP4, MOV e WEBM. A imagem final é baixada em PNG e o vídeo em MP4.</p></details><details><summary><span data-i18n="core.seoQ4">Preciso criar conta ou fazer login?</span></summary><p data-i18n="core.seoA4">Não. Não há cadastro nem login: basta abrir o site e enviar o arquivo.</p></details><details><summary><span data-i18n="core.seoQ5">O módulo de vídeo funciona em qualquer navegador?</span></summary><p data-i18n="core.seoA5">O módulo de vídeo é BETA, ou seja, experimental, e usa recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados. O funcionamento pode variar conforme o dispositivo, o formato e a codificação do vídeo.</p></details><details><summary><span data-i18n="core.seoQ6">O resultado fica perfeito?</span></summary><p data-i18n="core.seoA6">Nem sempre. O resultado depende do conteúdo, do tamanho e da posição da marca e pode não ser perfeito. Marcar só a área da marca, com margem pequena, deixa o resultado mais natural. Guarde sempre uma cópia do arquivo original.</p></details><details><summary><span data-i18n="core.seoQ7">Posso remover qualquer marca d’água?</span></summary><p data-i18n="core.seoA7">Use a ferramenta apenas em conteúdos que são seus ou que você tem autorização para editar. A responsabilidade pelo conteúdo editado e pelo uso do resultado é do usuário, conforme os Termos de Uso.</p></details></div>
+          <div class="sx-faq"><details><summary><span data-i18n="core.seoQ1">O AETIX DESIGN AI é grátis?</span></summary><p data-i18n="core.seoA1">Sim. As ferramentas são gratuitas; para usar, é preciso entrar com uma conta (e-mail ou Google). A colaboração por Pix é voluntária, com valor mínimo de R$ 5,00, e nunca é necessária para usar o site.</p></details><details><summary><span data-i18n="core.seoQ2">Meus arquivos são enviados para algum servidor?</span></summary><p data-i18n="core.seoA2">Não. O processamento é 100% local, no seu navegador. Seus arquivos nunca saem do seu dispositivo.</p></details><details><summary><span data-i18n="core.seoQ3">Quais formatos são aceitos?</span></summary><p data-i18n="core.seoA3">Imagens PNG, JPG e WEBP, e vídeos MP4, MOV e WEBM. A imagem final é baixada em PNG e o vídeo em MP4.</p></details><details><summary><span data-i18n="core.seoQ4">Preciso criar conta ou fazer login?</span></summary><p data-i18n="core.seoA4">Sim. O acesso é por conta (e-mail e senha ou Google). Depois de entrar, é só enviar o arquivo; ele continua sendo processado no seu navegador.</p></details><details><summary><span data-i18n="core.seoQ5">O módulo de vídeo funciona em qualquer navegador?</span></summary><p data-i18n="core.seoA5">O módulo de vídeo é BETA, ou seja, experimental, e usa recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados. O funcionamento pode variar conforme o dispositivo, o formato e a codificação do vídeo.</p></details><details><summary><span data-i18n="core.seoQ6">O resultado fica perfeito?</span></summary><p data-i18n="core.seoA6">Nem sempre. O resultado depende do conteúdo, do tamanho e da posição da marca e pode não ser perfeito. Marcar só a área da marca, com margem pequena, deixa o resultado mais natural. Guarde sempre uma cópia do arquivo original.</p></details><details><summary><span data-i18n="core.seoQ7">Posso remover qualquer marca d’água?</span></summary><p data-i18n="core.seoA7">Use a ferramenta apenas em conteúdos que são seus ou que você tem autorização para editar. A responsabilidade pelo conteúdo editado e pelo uso do resultado é do usuário, conforme os Termos de Uso.</p></details></div>
         </section>
       </div>
 
@@ -1272,7 +1269,7 @@ html[data-tema="halloween"] .scene{display:block}
     <i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i>
     <div class="cb-in">
       <p class="cb-title"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span data-i18n="core.cbTitle">Sua privacidade em primeiro lugar</span></p>
-      <p class="cb-text" id="cbText"><span class="cb-long" data-i18n="core.cbText">Seus arquivos nunca saem do seu dispositivo: todo o processamento é feito localmente, no seu navegador. Guardamos apenas preferências simples no próprio navegador, como o idioma. Ao continuar, você concorda com nossos termos.</span><span class="cb-short" data-i18n="core.cbTextShort">Seus arquivos nunca saem do seu dispositivo. Ao continuar, você aceita os termos.</span></p>
+      <p class="cb-text" id="cbText"><span class="cb-long" data-i18n="core.cbText">Seus arquivos nunca saem do seu dispositivo: todo o processamento é feito localmente, no seu navegador. Guardamos no navegador apenas preferências simples, como o idioma, e um cookie de sessão que mantém a sua conta conectada. Ao continuar, você concorda com nossos termos.</span><span class="cb-short" data-i18n="core.cbTextShort">Seus arquivos nunca saem do seu dispositivo. Ao continuar, você aceita os termos.</span></p>
       <p class="cb-links"><a href="/termos" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="/privacidade" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/sobre" target="_blank" rel="noopener noreferrer" data-i18n="core.cbAbout">Sobre</a></p>
       <button type="button" class="cb-btn" id="cookieAccept" data-i18n="core.cbAccept">Aceitar e Continuar</button>
     </div>
@@ -1286,247 +1283,17 @@ html[data-tema="halloween"] .scene{display:block}
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
-<script>
-/* ===== PERFIL NO MENU =====
-   Mostra "Olá, Nome!" no topo do menu e traduz "Meu perfil".
-   Quando o login existir, é só chamar:  aetixSetUser('Vitinho Silva')  -> aparece "Olá, Vitinho!" (usa só o primeiro nome).
-   Também dá para definir  window.AETIX_USER = { nome: 'Vitinho' }  antes deste trecho.
-   Sem usuário, aparece "Olá, visitante!". */
-(function(){
-  var nome='';
-  function primeiro(n){return String(n||'').trim().split(/\s+/)[0].slice(0,20)}
-  function en(){var s=document.getElementById('uiLang');return !!(s&&s.value==='en')}
-  function render(){
-    var t=document.getElementById('profileName');
-    if(t)t.textContent=nome?(en()?'Hi, ':'Olá, ')+nome+'!':(en()?'Hi, guest!':'Olá, visitante!');
-    var m=document.querySelector('#myProfile span');
-    if(m)m.textContent=en()?'My profile':'Meu perfil';
-  }
-  window.aetixSetUser=function(n){nome=primeiro(n);render()};
-  if(window.AETIX_USER&&window.AETIX_USER.nome)nome=primeiro(window.AETIX_USER.nome);
-  render();
-  var s=document.getElementById('uiLang');
-  if(s)s.addEventListener('change',function(){setTimeout(render,0)});
-  window.addEventListener('load',render);
-})();
-</script>
-<script src="/script.js?v=20261101n" defer></script>
-<script>
-/* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
-(function(){
-  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX',tm:'Apoie o AETIX',pm:'Sem cadastro e sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',bm:'COLABORAR'},
-         en:{t:'Help keep AETIX free',p:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX',tm:'Support AETIX',pm:'No sign-up and nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',bm:'CONTRIBUTE'}};
-  var box,tries=0,done=false;
-  function $(i){return document.getElementById(i)}
-  function mob(){return window.matchMedia&&window.matchMedia('(max-width:600px)').matches}
-  function place(){var h=document.querySelector(mob()?'.hdr-right':'.hdr');if(h)box.style.top=Math.round(h.getBoundingClientRect().bottom+(mob()?6:10))+'px'}
-  function hide(){done=true;box.classList.remove('show')}
-  function show(){
-    var l=(document.documentElement.lang||'pt').toLowerCase().indexOf('en')===0?'en':'pt';
-    var m=mob();$('nudgeT').textContent=m?T[l].tm:T[l].t;$('nudgeP').innerHTML=m?T[l].pm:T[l].p;$('nudgeGo').textContent=m?T[l].bm:T[l].b;
-    place();void box.offsetWidth;box.classList.add('show');
-  }
-  function ready(){
-    if(document.documentElement.classList.contains('splashing')||$('splash'))return false;
-    return true;
-  }
-  function after(){
-    setTimeout(function(){if(!done&&!document.querySelector('.modal:not([hidden])'))show()},700);
-  }
-  function tick(){
-    if(done)return;
-    if(!ready()&&tries++<60)return setTimeout(tick,200);
-    /* só aparece depois que o pop-up de Halloween for fechado */
-    if(window.__aetixHwDone)return after();
-    document.addEventListener('aetix:hw-done',function once(){document.removeEventListener('aetix:hw-done',once);after()});
-  }
-  function init(){
-    box=$('nudge');if(!box)return;
-    $('nudgeX').addEventListener('click',hide);
-    $('nudgeBar').addEventListener('animationend',hide);
-    $('nudgeGo').addEventListener('click',function(){hide();var b=$('pricingOpen');if(b)b.click()});
-    window.addEventListener('resize',function(){if(box.classList.contains('show'))place()});
-    tick();
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-</script>
+<script src="/aetix-inicio.js?v=20261102" defer></script>
+<script src="/script.js?v=20261102a" defer></script>
 
-<script>
-window.addEventListener('load',function(){
-  var ok=window.AetixApp&&window.AetixApp.Core&&typeof window.AetixApp.Core.openHelp==='function';
-  if(ok)return;
-  var d=document.createElement('div');
-  d.setAttribute('role','alert');
-  d.style.cssText='position:fixed;left:12px;right:12px;bottom:12px;z-index:999;padding:12px 14px;border-radius:12px;background:#2a1220;border:1px solid #FF6B83;color:#FFD5DC;font:500 14px/1.4 Inter,system-ui,sans-serif;text-align:center';
-  d.textContent='Não foi possível carregar a ferramenta por completo. Recarregue a página (Ctrl+F5) e tente de novo em instantes.';
-  document.body.appendChild(d);
-});
-</script>
-<script>
-/* Nota média real (vinda do nosso banco de dados) -> linha visível no rodapé + aggregateRating no JSON-LD */
-(function(){
-  fetch('/api/avaliacoes-resumo').then(function(r){return r.json();}).then(function(d){
-    if(!d||!d.ok||!(d.total>=1)||!(d.media>=1)) return;
-    var media=String(d.media);
-    if(document.documentElement.lang!=='en') media=media.replace('.',',');
-    document.getElementById('rMedia').textContent=media;
-    document.getElementById('rTotal').textContent=d.total;
-    document.getElementById('ratingLine').hidden=false;
-    var el=document.getElementById('aetixLd');
-    if(!el) return;
-    var ld=JSON.parse(el.textContent);
-    ld.aggregateRating={'@type':'AggregateRating',ratingValue:d.media,ratingCount:d.total,bestRating:5,worstRating:1};
-    el.textContent=JSON.stringify(ld);
-  }).catch(function(){});
-})();
-</script>
-<script>
-(function(){
-  /* fotos da seção: se o arquivo não abrir com a extensão esperada, tenta as outras extensões comuns */
-  var exts=['.jpg','.jpeg','.png','.webp','.JPG','.JPEG','.PNG','.WEBP'];
-  [].forEach.call(document.querySelectorAll('.sx-photo'),function(img){
-    var base=img.getAttribute('src').replace(/\.[A-Za-z]+$/,''),i=0;
-    img.addEventListener('error',function(){
-      while(i<exts.length&&base+exts[i]===img.getAttribute('src'))i++;
-      if(i<exts.length){var n=base+exts[i++];img.setAttribute('src',n);}
-    });
-    if(img.complete&&img.naturalWidth===0){var s=img.getAttribute('src');img.removeAttribute('src');img.setAttribute('src',s);}
-  });
-})();
-</script>
-<script>
-(function(){
-  /* celular: títulos "Removedor de marca d'água em ..." sempre em uma linha só, no maior tamanho que couber */
-  var h=document.getElementById('heroTitle'); if(!h)return;
-  function fit(){
-    h.style.fontSize=''; h.style.whiteSpace='';
-    if(window.innerWidth>760||!h.clientWidth)return;
-    h.style.whiteSpace='nowrap';
-    var fs=parseFloat(getComputedStyle(h).fontSize);
-    while(h.scrollWidth>h.clientWidth+.5&&fs>11){fs-=.5;h.style.fontSize=fs+'px';}
-  }
-  fit();
-  window.addEventListener('resize',fit); window.addEventListener('orientationchange',fit);
-  window.addEventListener('load',fit);
-  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
-  if('MutationObserver' in window)new MutationObserver(fit).observe(h,{childList:true,characterData:true,subtree:true});
-})();
-</script>
-<script>
-(function(){
-  /* botão "Usar a ferramenta agora": volta ao topo da página */
-  document.addEventListener('click',function(e){
-    var b=e.target.closest&&e.target.closest('#sxTop'); if(!b)return;
-    var p=document.getElementById('page'); if(!p)return;
-    var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-    p.scrollTo({top:0,behavior:calm?'auto':'smooth'});
-  });
-  /* carrossel dos passos: troca sozinho a cada 4 s */
-  var wrap=document.getElementById('sxCar'); if(!wrap)return;
-  var view=wrap.querySelector('.sx-view'),
-      items=[].slice.call(wrap.querySelectorAll('.sx-step')),
-      dots=[].slice.call(wrap.querySelectorAll('.sx-dot')),
-      n=items.length,cur=0,timer=null,paused=false,visible=true,
-      calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(n<2)return;
-  function layout(){
-    items.forEach(function(li,i){
-      var o=((i-cur)%n+n)%n; if(o>n/2)o-=n;
-      var prev=li.getAttribute('data-o');
-      if(prev!==null&&Math.abs(o-(+prev))>2){ /* volta pelo outro lado: troca sem atravessar o centro */
-        li.style.transition='none'; li.setAttribute('data-o',o); void li.offsetWidth; li.style.transition='';
-      } else li.setAttribute('data-o',o);
-      if(o===0)li.setAttribute('aria-current','step'); else li.removeAttribute('aria-current');
-    });
-    dots.forEach(function(d,i){d.setAttribute('aria-current',i===cur?'true':'false');});
-  }
-  function stop(){if(timer){clearInterval(timer);timer=null;}}
-  function start(){if(calm||timer||paused||!visible||document.hidden)return;timer=setInterval(function(){go(cur+1,true);},4000);}
-  function go(i,auto){cur=((i%n)+n)%n;layout();if(!auto){stop();start();}}
-  wrap.classList.add('is-car'); layout();
-  dots.forEach(function(d){d.addEventListener('click',function(){go(+d.getAttribute('data-i'));});});
-  var x0=null,moved=false;
-  view.addEventListener('pointerdown',function(e){x0=e.clientX;moved=false;});
-  view.addEventListener('pointerup',function(e){
-    if(x0===null)return; var dx=e.clientX-x0; x0=null;
-    if(Math.abs(dx)>40){moved=true;go(cur+(dx<0?1:-1));}
-  });
-  view.addEventListener('pointercancel',function(){x0=null;});
-  items.forEach(function(li,i){li.addEventListener('click',function(){
-    if(moved){moved=false;return;}
-    if(+li.getAttribute('data-o')!==0)go(i);
-  });});
-  wrap.addEventListener('mouseenter',function(){paused=true;stop();});
-  wrap.addEventListener('mouseleave',function(){paused=false;start();});
-  wrap.addEventListener('focusin',function(){paused=true;stop();});
-  wrap.addEventListener('focusout',function(){paused=false;start();});
-  document.addEventListener('visibilitychange',function(){document.hidden?stop():start();});
-  if('IntersectionObserver' in window){
-    visible=false;
-    new IntersectionObserver(function(en){visible=en[0].isIntersecting;visible?start():stop();},{threshold:.25}).observe(wrap);
-  } else start();
-})();
-</script>
-<script>
-/* Pop-up de Halloween: aparece a cada atualização da página, depois do splash.
-   Se vier de "Colaborar com o projeto" (?colaborar=1), abre o pop-up de colaboração no lugar. */
-(function(){
-  var SRC='/img/og_hallowenn.png',tries=0,finished=false,opened=false;
-  var wantsColab=/[?&]colaborar=1(&|$)/.test(location.search);
-  function done(){
-    if(finished)return;finished=true;window.__aetixHwDone=true;
-    try{document.dispatchEvent(new Event('aetix:hw-done'))}catch(e){}
-  }
-  function cleanUrl(){try{var u=new URL(location.href);u.searchParams.delete('colaborar');history.replaceState(history.state,'',u.pathname+u.search+u.hash)}catch(e){}}
-  function go(){
-    var A=window.AetixApp,c=A&&A.Core;
-    if(!c||!c.openModal||!c.splashDone){if(tries++<150)setTimeout(go,100);else done();return}
-    if(wantsColab){
-      c.splashDone.then(function(){setTimeout(function(){cleanUrl();c.openModal('pricingModal');done()},300)});
-      return;
-    }
-    var modal=document.getElementById('halloweenModal'),img=document.getElementById('halloweenImg');
-    if(!modal||!img){done();return}
-    c.modalHooks['halloweenModal']=function(){done()};
-    var guard=setTimeout(function(){if(!opened)done()},12000);
-    var pre=new Image();
-    pre.onload=function(){
-      c.splashDone.then(function(){
-        setTimeout(function(){
-          if(finished)return;
-          if(document.querySelector('.modal:not([hidden])')){done();return}
-          opened=true;clearTimeout(guard);
-          img.src=SRC;c.openModal('halloweenModal','halloweenX');
-        },300);
-      });
-    };
-    pre.onerror=function(){clearTimeout(guard);done()};
-    pre.src=SRC;
-  }
-  if(document.readyState==='complete')go();else window.addEventListener('load',go);
-})();
-</script>
-<script>
-/* Teclado no celular: mede a área visível e mantém o campo digitado acima do teclado */
-(function(){
-  var vv=window.visualViewport,root=document.documentElement,t=0;
-  function upd(){
-    var h=vv?vv.height:window.innerHeight,top=vv?vv.offsetTop:0;
-    root.style.setProperty('--vvh',Math.round(h)+'px');
-    root.style.setProperty('--vvt',Math.round(top)+'px');
-    root.classList.toggle('kb-open',window.innerHeight-h>120);
-  }
-  function reveal(el){
-    clearTimeout(t);
-    t=setTimeout(function(){upd();try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){}},320);
-  }
-  if(vv){vv.addEventListener('resize',function(){upd();var a=document.activeElement;if(a&&a.closest&&a.closest('.modal:not([hidden])')&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))reveal(a)});vv.addEventListener('scroll',upd)}
-  window.addEventListener('orientationchange',function(){setTimeout(upd,300)});
-  document.addEventListener('focusin',function(e){var a=e.target;if(a&&a.closest&&a.closest('.modal:not([hidden])')&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))reveal(a)});
-  upd();
-})();
-</script>
+
+
+
+
+
+
+
+<script src="/aetix-final.js?v=20261102" defer></script>
 <script src="/firebase-config.js"></script>
 <script type="module" src="/aetix-auth.js"></script>
 </body>

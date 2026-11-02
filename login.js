@@ -17,7 +17,7 @@
    ========================================================================== */
 (function () {
   var CONFIG = {
-    temaPadrao: 'halloween',                 // 'halloween' | 'padrao'
+    temaPadrao: window.AETIX_TEMA_PADRAO || 'halloween',   // vem de aetix-tema.js (único lugar para trocar o tema)
     temas: ['halloween', 'padrao'],
     demo: false,                             // true = nada é enviado (só simula). Ligado ao Firebase via /aetix-auth.js
     destino: '/inicial/',                    // para onde ir depois de entrar (quando demo = false)

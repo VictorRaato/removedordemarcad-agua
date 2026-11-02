@@ -17,7 +17,8 @@ const COOKIE = '__Host-aetix';
 
 const PUBLICOS = new Set([
   '/login', '/login.js', '/login.css',
-  '/aetix-auth.js', '/firebase-config.js',
+  '/aetix-auth.js', '/firebase-config.js', '/aetix-tema.js',
+  '/aetix-nota.js', '/aetix-voltar.js', '/aetix-colaboracao.js',
   '/favicon.ico', '/robots.txt', '/sitemap.xml'
 ]);
 const PAGINAS_PUBLICAS = /^\/(termosprivacidade\/)?(privacidade|termos|sobre|colaboracao)(\.html)?$/;
