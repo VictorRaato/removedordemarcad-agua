@@ -56,8 +56,32 @@ const CACHE = 'aetix-user-cache';
 const cfg = window.AETIX_FIREBASE || {};
 const ligado = !!(cfg.apiKey && cfg.authDomain && cfg.projectId && cfg.appId);
 
+/* foto (ou inicial) do usuário no botão de conta do menu, igual ao avatar do perfil */
+let btnOriginal = null, btnChave = null;
+function avatarMenu(u) {
+  const b = document.getElementById('profileBtn'); if (!b) return;
+  if (btnOriginal === null) {
+    btnOriginal = b.innerHTML;
+    const st = document.createElement('style');
+    st.textContent = '#profileBtn{overflow:hidden}#profileBtn img{width:100%;height:100%;object-fit:cover;display:block}#profileBtn b{font:800 .95rem/1 Inter,system-ui,sans-serif;color:var(--ink,#fff)}';
+    document.head.appendChild(st);
+  }
+  const foto = u && /^https:\/\//i.test(u.foto || '') ? u.foto : '';
+  const ini = u ? String(u.nome || u.email || '').trim().charAt(0).toUpperCase() : '';
+  const chave = foto + '|' + ini;
+  if (chave === btnChave) return;
+  btnChave = chave;
+  if (foto) {
+    b.textContent = '';
+    const img = new Image(); img.alt = ''; img.referrerPolicy = 'no-referrer'; img.src = foto;
+    img.onerror = () => { b.textContent = ''; const t = document.createElement('b'); t.textContent = ini; b.appendChild(t); };
+    b.appendChild(img);
+  } else if (ini) { b.textContent = ''; const t = document.createElement('b'); t.textContent = ini; b.appendChild(t); }
+  else b.innerHTML = btnOriginal;
+}
 function aplicar(u) {
   window.AETIX_USER = u;
+  try { avatarMenu(u); } catch (e) {}
   try { if (typeof window.aetixSetUser === 'function') window.aetixSetUser(u ? (u.nome || u.email || '') : ''); } catch (e) {}
   try { if (window.aetixPerfil) window.aetixPerfil.set(u); } catch (e) {}
   window.dispatchEvent(new CustomEvent('aetix:user', { detail: u }));
