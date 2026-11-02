@@ -13,6 +13,43 @@
        evento 'aetix:user' (detail = usuário ou null)
    - guarda um cache (nome/e-mail/foto) no aparelho só para a tela não piscar "visitante" ao abrir
    ========================================================================== */
+/* ANIMAÇÕES: botão no menu liga/desliga. Salvo em localStorage 'aetix-anim' ('on'|'off').
+   Sem escolha do usuário: computador = ligadas, celular = desligadas. Desligado remove enfeites, animações e desfoques. */
+(function () {
+  var KEY = 'aetix-anim', d = document.documentElement;
+  function celular() { try { return (window.matchMedia && matchMedia('(pointer:coarse)').matches) || Math.min(screen.width, screen.height) < 700; } catch (e) { return false; } }
+  function lerPref() { try { var v = localStorage.getItem(KEY); return v === 'on' || v === 'off' ? v : null; } catch (e) { return null; } }
+  function ligadas() { var p = lerPref(); return p ? p === 'on' : !celular(); }
+  function lang() { var s = document.getElementById('uiLang'), v = s && s.value; if (!v) { try { v = localStorage.getItem('aetix-lang'); } catch (e) {} } return v === 'en' ? 'en' : 'pt'; }
+  function aplicar() {
+    var on = ligadas();
+    d.classList.toggle('sem-anim', !on);
+    var rot = lang() === 'en' ? (on ? 'Animations: on' : 'Animations: off') : (on ? 'Animações: ligadas' : 'Animações: desligadas');
+    [].forEach.call(document.querySelectorAll('#animToggle'), function (b) { var sp = b.querySelector('span'); if (sp) sp.textContent = rot; b.setAttribute('aria-pressed', String(on)); });
+    [].forEach.call(document.querySelectorAll('[data-anim]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-anim') === (on ? 'on' : 'off'))); });
+  }
+  function definir(on) { try { localStorage.setItem(KEY, on ? 'on' : 'off'); } catch (e) {} aplicar(); window.dispatchEvent(new CustomEvent('aetix:anim', { detail: on })); }
+  window.aetixAnim = { ligadas: ligadas, definir: definir };
+  d.classList.toggle('sem-anim', !ligadas());   /* o mais cedo possível */
+  var st = document.createElement('style');
+  var X = ':not(#splash):not(#splash *):not(.busy):not([class*="spin"]):not([class*="load"]):not([class*="progress"])';
+  st.textContent =
+    'html.sem-anim ' + X + ',html.sem-anim ' + X + '::before,html.sem-anim ' + X + '::after{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}' +
+    'html.sem-anim .deco,html.sem-anim .bat,html.sem-anim .stars,html.sem-anim .moon,html.sem-anim .hill,html.sem-anim .web,html.sem-anim .pumpkin{display:none!important}' +
+    'html.sem-anim .card,html.sem-anim .logo,html.sem-anim .avatar{filter:none!important}';
+  (document.head || d).appendChild(st);
+  function ligarBotoes() {
+    aplicar();
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('#animToggle,[data-anim]'); if (!t) return;
+      definir(t.id === 'animToggle' ? !ligadas() : t.getAttribute('data-anim') === 'on');
+    });
+    var pb = document.getElementById('profileBtn'); if (pb) pb.addEventListener('click', function () { setTimeout(aplicar, 0); });
+    var ul = document.getElementById('uiLang'); if (ul) ul.addEventListener('change', function () { setTimeout(aplicar, 0); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ligarBotoes); else ligarBotoes();
+})();
+
 const V = '10.14.1';
 const CDN = 'https://www.gstatic.com/firebasejs/' + V + '/';
 const CACHE = 'aetix-user-cache';
@@ -36,6 +73,7 @@ function erro(e) {
   if (/invalid-credential|wrong-password|user-not-found|invalid-email|user-disabled|missing-password/.test(c)) return { codigo: 'credenciais' };
   if (/email-already-in-use/.test(c)) return { codigo: 'email_em_uso' };
   if (/too-many-requests/.test(c)) return { codigo: 'limite' };
+  if (e && e.codigo === 'termos') return { codigo: 'termos' };
   if (/network-request-failed/.test(c)) return { codigo: 'rede' };
   return { codigo: 'outro', original: c };
 }
@@ -71,6 +109,7 @@ if (!ligado) {
     ligado: true,
     login: envolve(async (d) => { await persist(d.lembrar); await A.signInWithEmailAndPassword(auth, d.email, d.senha); }),
     cadastro: envolve(async (d) => {
+      if (!d.aceitou) throw { codigo: 'termos' };
       await persist(true);
       const r = await A.createUserWithEmailAndPassword(auth, d.email, d.senha);
       await A.updateProfile(r.user, { displayName: limpar(d.nome, 60) });
@@ -80,7 +119,13 @@ if (!ligado) {
     recuperar: (d) => Promise.resolve().then(() => A.sendPasswordResetEmail(auth, (d || {}).email)).catch((e) => {
       if (/user-not-found/.test((e && e.code) || '')) return; throw erro(e);
     }),
-    google: envolve(async () => { await persist(true); await A.signInWithPopup(auth, prov); }),
+    google: envolve(async (d) => {
+      await persist(true);
+      const r = await A.signInWithPopup(auth, prov);
+      /* conta nova só vale se os Termos foram aceitos; senão a conta recém-criada é apagada */
+      const nova = A.getAdditionalUserInfo(r) && A.getAdditionalUserInfo(r).isNewUser;
+      if (nova && !d.aceitou) { try { await A.deleteUser(r.user); } catch (e) { await A.signOut(auth); } throw { codigo: 'termos' }; }
+    }),
     logout: envolve(async () => { await A.signOut(auth); }),
     excluir: envolve(async () => {
       const u = auth.currentUser; if (!u) return;

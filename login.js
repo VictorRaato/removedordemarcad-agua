@@ -62,6 +62,7 @@
       errEmailEmUso: 'Este e-mail já tem uma conta. Que tal entrar?',
       errLimite: 'Muitas tentativas em pouco tempo. Respire um instante e tente de novo em alguns minutos.',
       errRede: 'Parece que a conexão caiu. Confira sua internet e tente de novo.',
+      errTermos: 'Essa conta Google ainda não existe aqui. Use “Criar conta”, aceite os Termos e tente de novo.',
       errGeneric: 'Não foi possível concluir agora. Tente novamente em instantes.'
     },
     en: {
@@ -99,6 +100,7 @@
       errEmailEmUso: 'This email already has an account. Want to sign in?',
       errLimite: 'Too many attempts in a short time. Take a breath and try again in a few minutes.',
       errRede: 'Looks like the connection dropped. Check your internet and try again.',
+      errTermos: 'That Google account doesn’t exist here yet. Use “Create account”, accept the Terms and try again.',
       errGeneric: 'We couldn’t finish that right now. Please try again in a moment.'
     }
   };
@@ -212,7 +214,7 @@
   }
 
   /* ---------- envio ---------- */
-  var MAPA_ERRO = { credenciais: 'errCredenciais', email_em_uso: 'errEmailEmUso', limite: 'errLimite', rede: 'errRede' };
+  var MAPA_ERRO = { credenciais: 'errCredenciais', email_em_uso: 'errEmailEmUso', limite: 'errLimite', rede: 'errRede', termos: 'errTermos' };
   function erroAmigavel(e) { return t(MAPA_ERRO[e && e.codigo] || 'errGeneric'); }   // nunca mostra texto técnico
 
   function enviar(btn, msgId, fn, tipo) {
@@ -232,7 +234,7 @@
     $('vSignup').addEventListener('submit', function (ev) {
       ev.preventDefault(); if (!validarCadastro()) return;
       enviar($('btnSignup'), 'mSignup', function () {
-        return auth().cadastro({ nome: $('sNome').value.trim(), email: $('sEmail').value.trim(), senha: $('sSenha').value });
+        return auth().cadastro({ nome: $('sNome').value.trim(), email: $('sEmail').value.trim(), senha: $('sSenha').value, aceitou: $('sTermos').checked });
       }, 'signup');
     });
     $('vForgot').addEventListener('submit', function (ev) {
@@ -241,7 +243,9 @@
     });
     $('btnGoogle').addEventListener('click', function () {
       var alvo = viewAtual === 'signup' ? 'mSignup' : 'mLogin', tipo = viewAtual === 'signup' ? 'signup' : 'login';
-      enviar($('btnGoogle'), alvo, function () { return auth().google(); }, tipo);
+      /* criar conta com Google exige o aceite dos Termos; no "Entrar" só contas que já existem passam */
+      if (viewAtual === 'signup') { limpar($('vSignup')); msg('mSignup', ''); if (!$('sTermos').checked) return falha('mSignup', $('sTermos'), 'vTermos'); }
+      enviar($('btnGoogle'), alvo, function () { return auth().google({ aceitou: viewAtual === 'signup' && $('sTermos').checked }); }, tipo);
     });
     $('goLogin').addEventListener('click', function () { mostrar('login'); });
     $('goSignup').addEventListener('click', function () { mostrar('signup'); });
@@ -271,7 +275,8 @@
   /* ---------- decoração: vagalumes/estrelas do tema ---------- */
   function criarEstrelas() {
     var box = $('stars'), cores = ['#FF9B3D', '#FFB347', '#C084FC', '#FF7A1A'];
-    for (var i = 0; i < 34; i++) {
+    var leve = document.documentElement.classList.contains('sem-anim');
+    for (var i = 0; i < (leve ? 0 : 34); i++) {
       var s = document.createElement('i'), tam = 2 + Math.random() * 2.6;
       s.style.cssText = 'left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (10 + Math.random() * 88).toFixed(1) + '%;width:' + tam.toFixed(1) + 'px;height:' + tam.toFixed(1) +
         'px;--c:' + cores[i % cores.length] + ';--d:' + (4 + Math.random() * 6).toFixed(1) + 's;--w:-' + (Math.random() * 8).toFixed(1) + 's;--x:' + ((Math.random() - .5) * 40).toFixed(0) + 'px;--y:' + (-8 - Math.random() * 26).toFixed(0) + 'px';
