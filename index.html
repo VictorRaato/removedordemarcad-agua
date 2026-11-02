@@ -133,6 +133,10 @@ html.splashing,html.splashing body{overflow:hidden}
 .dd-body{min-height:60px}
 .menu-item{display:flex;align-items:center;gap:10px;width:100%;height:42px;margin-top:10px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font:500 .9rem Inter,system-ui,sans-serif;text-align:left;cursor:pointer;transition:background .16s,border-color .16s}
 .menu-item:hover{background:rgba(var(--a-rgb),.16);border-color:rgba(var(--a-rgb),.5)}
+a.menu-item{text-decoration:none}
+.dd-user{display:flex;align-items:center;gap:8px;min-width:0;font-weight:600}
+.dd-user .ic{color:var(--soft)}
+.dd-user span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .only-mobile{display:none}
 
 /* ---------- page ---------- */
@@ -837,10 +841,10 @@ html[data-tema="halloween"] .scene{display:block}
         </select>
       </div>
       <div class="profile">
-        <button type="button" class="avatar-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu" aria-label="Conta" data-i18n-aria="core.profile" title="Conta" data-i18n-title="core.profile"><svg class="ic"><use href="#i-menu"/></svg></button>
+        <button type="button" class="avatar-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu" aria-label="Conta" data-i18n-aria="core.profile" title="Conta" data-i18n-title="core.profile"><svg class="ic"><use href="#i-user"/></svg></button>
         <div class="dropdown" id="profileMenu" role="dialog" aria-labelledby="profileMenu-t" hidden>
-          <div class="dd-h"><strong id="profileMenu-t" data-i18n="core.profileTitle">Minha conta</strong><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
-          <div class="dd-body" id="profileBody"><button type="button" class="menu-item only-mobile" id="profileHelp"><svg class="ic"><use href="#i-spark"/></svg><span>Central de Ajuda</span></button></div>
+          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span id="profileName">Olá, visitante!</span></strong><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <div class="dd-body" id="profileBody"><a class="menu-item" id="myProfile" href="/perfil/"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>Meu perfil</span></a><button type="button" class="menu-item only-mobile" id="profileHelp"><svg class="ic"><use href="#i-spark"/></svg><span>Central de Ajuda</span></button></div>
         </div>
       </div>
     </div>
@@ -1280,6 +1284,30 @@ html[data-tema="halloween"] .scene{display:block}
   <button type="button" class="nudge-go" id="nudgeGo"></button>
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
+<script>
+/* ===== PERFIL NO MENU =====
+   Mostra "Olá, Nome!" no topo do menu e traduz "Meu perfil".
+   Quando o login existir, é só chamar:  aetixSetUser('Vitinho Silva')  -> aparece "Olá, Vitinho!" (usa só o primeiro nome).
+   Também dá para definir  window.AETIX_USER = { nome: 'Vitinho' }  antes deste trecho.
+   Sem usuário, aparece "Olá, visitante!". */
+(function(){
+  var nome='';
+  function primeiro(n){return String(n||'').trim().split(/\s+/)[0].slice(0,20)}
+  function en(){var s=document.getElementById('uiLang');return !!(s&&s.value==='en')}
+  function render(){
+    var t=document.getElementById('profileName');
+    if(t)t.textContent=nome?(en()?'Hi, ':'Olá, ')+nome+'!':(en()?'Hi, guest!':'Olá, visitante!');
+    var m=document.querySelector('#myProfile span');
+    if(m)m.textContent=en()?'My profile':'Meu perfil';
+  }
+  window.aetixSetUser=function(n){nome=primeiro(n);render()};
+  if(window.AETIX_USER&&window.AETIX_USER.nome)nome=primeiro(window.AETIX_USER.nome);
+  render();
+  var s=document.getElementById('uiLang');
+  if(s)s.addEventListener('change',function(){setTimeout(render,0)});
+  window.addEventListener('load',render);
+})();
+</script>
 <script src="/script.js?v=20261101m" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
@@ -1497,5 +1525,7 @@ window.addEventListener('load',function(){
   upd();
 })();
 </script>
+<script src="/firebase-config.js"></script>
+<script type="module" src="/aetix-auth.js"></script>
 </body>
 </html>
