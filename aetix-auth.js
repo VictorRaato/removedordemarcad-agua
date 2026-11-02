@@ -187,7 +187,7 @@ if (!ligado) {
   }
 
   let aceiteAberto = false;
-  function mostrarAceite(s) {
+  function mostrarAceite(s, aoConcluir) {
     if (aceiteAberto) return;
     aceiteAberto = true;
     const T = TXT_ACEITE[idiomaAceite()];
@@ -250,7 +250,7 @@ if (!ligado) {
       ok.disabled = true; msg.textContent = '';
       try {
         const r = await enviarAceite(s, 'tela');
-        if (r.ok) { fechar(); return; }
+        if (r.ok) { fechar(); if (typeof aoConcluir === 'function') aoConcluir(); return; }
         if (r.status === 409) { fechar(); verificarAceite(); return; }   // a versão mudou enquanto a tela estava aberta
         msg.textContent = T.erro;
       } catch (e) { msg.textContent = T.erro; }
@@ -271,15 +271,75 @@ if (!ligado) {
     } catch (e) { /* sem rede ou sessão expirada: o servidor continua barrando as rotas protegidas */ }
   }
 
+  /* ===== SESSÃO DO SITE (cookie do "porteiro") =====
+     Depois do login e do aceite, o servidor grava um cookie assinado (api/sessao.js).
+     Sem ele, a Vercel não entrega páginas, scripts nem imagens do app. */
+  function lerLembrar() { try { return localStorage.getItem('aetix-lembrar') !== '0'; } catch (e) { return true; } }
+  function guardarLembrar(v) { try { localStorage.setItem('aetix-lembrar', v ? '1' : '0'); } catch (e) {} }
+  async function criarSessao(lembrar) {
+    const r = await fetch('/api/sessao', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lembrar: lembrar !== false })
+    });
+    return r.ok ? r.json() : null;   // { ok, aceito }
+  }
+  function limparSessao() {
+    return fetch('/api/sessao', { method: 'DELETE', keepalive: true }).catch(() => {});
+  }
+  /* trava anti-loop: se o app já nos mandou de volta ao login 3 vezes em 60 s, para de redirecionar */
+  function loopDetectado() {
+    try {
+      const agora = Date.now();
+      let d = JSON.parse(sessionStorage.getItem('aetix-vai') || 'null');
+      if (!d || agora - d.t > 60000) d = { t: agora, n: 0 };
+      d.n++;
+      sessionStorage.setItem('aetix-vai', JSON.stringify(d));
+      return d.n > 3;
+    } catch (e) { return false; }
+  }
+  function avisoLoop() {
+    if (document.getElementById('aetixLoop')) return;
+    const d = document.createElement('div'); d.id = 'aetixLoop';
+    d.style.cssText = 'position:fixed;left:12px;right:12px;bottom:12px;z-index:2147483500;padding:12px 14px;border-radius:12px;background:#3a1218;color:#fff;font:14px system-ui,sans-serif;text-align:center';
+    d.textContent = 'Não foi possível abrir o app agora. Recarregue a página em alguns instantes.';
+    document.body.appendChild(d);
+  }
+  /* já logado ao abrir a tela de login: cria o cookie e entra no app (ou pede o aceite dos Termos) */
+  async function entrarNoApp() {
+    try {
+      if (loopDetectado()) { avisoLoop(); return; }
+      const s = await criarSessao(lerLembrar());
+      if (!s) return;
+      if (s.aceito) { location.replace(APP); return; }
+      const st = await statusAceite();
+      if (st && st.ok && !st.aceito) {
+        mostrarAceite(st, async () => {
+          const s2 = await criarSessao(lerLembrar());
+          if (s2 && s2.aceito) location.replace(APP);
+        });
+      }
+    } catch (e) { /* fica na tela de login */ }
+  }
+  /* páginas do app: renova o cookie a cada visita (24 h a partir do último uso) */
+  function renovarSessao() { criarSessao(lerLembrar()).catch(() => {}); }
+
   window.AETIX_AUTH = {
     ligado: true,
-    login: envolve(async (d) => { await persist(d.lembrar); await A.signInWithEmailAndPassword(auth, d.email, d.senha); }),
+    login: envolve(async (d) => {
+      await persist(d.lembrar);
+      await A.signInWithEmailAndPassword(auth, d.email, d.senha);
+      guardarLembrar(d.lembrar !== false);
+      try { await criarSessao(d.lembrar !== false); } catch (e) { /* sem cookie, o porteiro manda de volta ao login */ }
+    }),
     cadastro: envolve(async (d) => {
       if (!d.aceitou) throw { codigo: 'termos' };
       await persist(true);
       const r = await A.createUserWithEmailAndPassword(auth, d.email, d.senha);
       await A.updateProfile(r.user, { displayName: limpar(d.nome, 60) });
       try { await gravarAceite('cadastro'); } catch (e) { /* se falhar, a tela de aceite aparece ao entrar */ }
+      guardarLembrar(true);
+      try { await criarSessao(true); } catch (e) {}
       aplicar(dePerfil(auth.currentUser)); gravarCache(dePerfil(auth.currentUser));
     }),
     /* por segurança, não revela se o e-mail existe */
@@ -293,8 +353,10 @@ if (!ligado) {
       const nova = A.getAdditionalUserInfo(r) && A.getAdditionalUserInfo(r).isNewUser;
       if (nova && !d.aceitou) { try { await A.deleteUser(r.user); } catch (e) { await A.signOut(auth); } throw { codigo: 'termos' }; }
       if (nova && d.aceitou) { try { await gravarAceite('google'); } catch (e) { /* idem */ } }
+      guardarLembrar(true);
+      try { await criarSessao(true); } catch (e) {}
     }),
-    logout: envolve(async () => { await A.signOut(auth); }),
+    logout: envolve(async () => { await limparSessao(); await A.signOut(auth); }),
     excluir: envolve(async () => {
       const u = auth.currentUser; if (!u) return;
       try { await A.deleteUser(u); }
@@ -310,10 +372,11 @@ if (!ligado) {
   let primeira = true;
   A.onAuthStateChanged(auth, (fu) => {
     const u = dePerfil(fu); gravarCache(u); aplicar(u);
+    if (!u) limparSessao();   /* sem conta: apaga qualquer cookie antigo do porteiro */
     if (!u && protegida) irLogin();
     /* quem já chega logado na tela de login vai direto ao app; quem acabou de entrar vê a tela "Bem-vindo" do login.js */
-    else if (u && naLogin && primeira) location.replace(APP);
+    else if (u && naLogin && primeira) entrarNoApp();
     primeira = false;
-    if (u && protegida) verificarAceite();   /* conta sem aceite da versão atual: mostra a tela de aceite */
+    if (u && protegida) { renovarSessao(); verificarAceite(); }   /* renova o cookie; conta sem aceite da versão atual vê a tela de aceite */
   });
 }
