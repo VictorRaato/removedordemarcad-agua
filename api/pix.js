@@ -12,7 +12,13 @@
    Variável de ambiente (Vercel > Settings > Environment Variables):
         BRAVOPAY_API_KEY   (obrigatória)
         BRAVOPAY_PRODUCT_ID (opcional)
-   E-mail e telefone nunca são gravados nem escritos em log por esta função.
+   E-mail e telefone nunca são escritos em log por esta função.
+
+   REGISTRO PRIVADO: quando o processador confirma o pagamento, o pedido é
+   copiado para a coleção "colaboradores" (nome completo, e-mail, telefone,
+   valor, conta e se autorizou o nome no mural). Serve para conciliação e
+   sorteios. Nenhuma rota pública lê essa coleção e as regras do Firestore
+   negam acesso direto pelo navegador.
 
    MURAL DE COLABORADORES: toda colaboração paga entra no mural e no ranking.
    Se o cliente marcar "Mostrar meu nome" (show_name = true) guardamos o
@@ -51,12 +57,20 @@ function chaveEmail(email) {
 }
 
 /* Guarda o pedido de exibição até o pagamento ser confirmado. Nunca derruba a cobrança. */
-async function guardarPendente(id, nome, cents, email) {
+async function guardarPendente(id, nome, cents, dados) {
   try {
     const db = fb().getDb();
     const { FieldValue, Timestamp } = require('firebase-admin/firestore');
     await db.collection('colab_pendentes').doc(String(id)).set({
-      nome: nome, centavos: cents, chave: chaveEmail(email), criadoEm: FieldValue.serverTimestamp()
+      nome: nome,
+      centavos: cents,
+      chave: chaveEmail(dados.email),
+      criadoEm: FieldValue.serverTimestamp(),
+      conta: String(dados.uid || ''),
+      nomeCompleto: String(dados.nomeCompleto || ''),
+      email: String(dados.email || ''),
+      telefone: String(dados.telefone || ''),
+      mostrar: dados.mostrar === true
     });
     const velhos = await db.collection('colab_pendentes')
       .where('criadoEm', '<=', Timestamp.fromMillis(Date.now() - 3 * 24 * 3600 * 1000)).limit(20).get();
@@ -83,6 +97,16 @@ async function promover(id) {
       const rankRef = d.chave ? db.collection('ranking').doc(d.chave) : null;
       const rank = rankRef ? await tx.get(rankRef) : null;
       tx.set(colRef, { nome: d.nome, centavos: d.centavos, criadoEm: FieldValue.serverTimestamp() });
+      /* registro privado, só para o dono do projeto: conciliação e sorteios */
+      tx.set(db.collection('colaboradores').doc(String(id)), {
+        conta: d.conta || '',
+        nomeCompleto: d.nomeCompleto || '',
+        email: d.email || '',
+        telefone: d.telefone || '',
+        centavos: d.centavos,
+        mostrar: d.mostrar === true,
+        criadoEm: FieldValue.serverTimestamp()
+      });
       if (rankRef) {
         tx.set(rankRef, {
           nome: d.nome,
@@ -173,6 +197,17 @@ module.exports = async function handler(req, res) {
       if (!/^[\w.-]{4,128}$/.test(id)) {
         return res.status(400).json({ message: 'Identificador inválido.' });
       }
+      /* só o dono da cobrança pode consultar o status */
+      const db = fb().getDb();
+      const pend = await db.collection('colab_pendentes').doc(id).get();
+      if (pend.exists) {
+        const dono = pend.get('conta');
+        if (dono && dono !== uid) return res.status(404).json({ message: 'Cobrança não encontrada.' });
+      } else {
+        const pago = await db.collection('colaboradores').doc(id).get();
+        const dono = pago.exists ? pago.get('conta') : '';
+        if (!pago.exists || (dono && dono !== uid)) return res.status(404).json({ message: 'Cobrança não encontrada.' });
+      }
       const r = await bravo('/transactions/' + encodeURIComponent(id));
       if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });
       const status = String(r.data.status || '');
@@ -220,7 +255,13 @@ module.exports = async function handler(req, res) {
     const copy = r.data.pix && r.data.pix.copy_paste;
     if (!r.data.id || !copy) return res.status(502).json({ message: 'Resposta inesperada do processador de pagamentos.' });
     const publico = body.show_name === true ? nomePublico(name) : '';
-    await guardarPendente(r.data.id, publico || ANONIMO, cents, email);
+    await guardarPendente(r.data.id, publico || ANONIMO, cents, {
+      uid: uid,
+      nomeCompleto: name,
+      email: email,
+      telefone: phone,
+      mostrar: body.show_name === true
+    });
     return res.status(201).json({ id: r.data.id, pix: { copy_paste: copy } });
   } catch (err) {
     if (err && err.code === 'config') {
