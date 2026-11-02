@@ -56,6 +56,31 @@ const CACHE = 'aetix-user-cache';
 const cfg = window.AETIX_FIREBASE || {};
 const ligado = !!(cfg.apiKey && cfg.authDomain && cfg.projectId && cfg.appId);
 
+/* ENVIA O TOKEN DE LOGIN nas chamadas a /api/ (o script.js continua igual).
+   Fica antes do login carregar de propósito: a chamada espera o Firebase ficar pronto. */
+let _resolverAuth;
+const authPronta = new Promise((r) => { _resolverAuth = r; });
+const fetchOriginal = window.fetch.bind(window);
+window.fetch = async function (entrada, opcoes) {
+  let eApi = false;
+  try {
+    const alvo = (typeof entrada === 'string' || entrada instanceof URL) ? String(entrada) : (entrada && entrada.url);
+    const u = new URL(alvo, location.href);
+    eApi = ligado && u.origin === location.origin && u.pathname.indexOf('/api/') === 0;
+  } catch (e) {}
+  if (!eApi) return fetchOriginal(entrada, opcoes);
+  let token = '';
+  try {
+    const pronta = authPronta.then((a) => (a && a.authStateReady ? a.authStateReady().then(() => a) : a));
+    const auth = await Promise.race([pronta, new Promise((r) => setTimeout(() => r(null), 10000))]);
+    if (auth && auth.currentUser) token = await auth.currentUser.getIdToken();
+  } catch (e) {}
+  if (!token) return fetchOriginal(entrada, opcoes);   // sem sessão: o servidor responde 401
+  const req = new Request(entrada, opcoes);
+  req.headers.set('Authorization', 'Bearer ' + token);
+  return fetchOriginal(req);
+};
+
 /* foto (ou inicial) do usuário no botão de conta do menu, igual ao avatar do perfil */
 let btnOriginal = null, btnChave = null;
 function avatarMenu(u) {
@@ -123,6 +148,7 @@ if (!ligado) {
   const [{ initializeApp }, A] = await Promise.all([import(CDN + 'firebase-app.js'), import(CDN + 'firebase-auth.js')]);
   const app = initializeApp(cfg);
   const auth = A.getAuth(app);
+  _resolverAuth(auth);
   const prov = new A.GoogleAuthProvider();
   prov.setCustomParameters({ prompt: 'select_account' });
 
