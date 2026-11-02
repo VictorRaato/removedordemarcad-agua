@@ -28,7 +28,7 @@
   var TEXTOS = {
     pt: {
       back: 'Voltar ao site', secConta: 'Dados da conta', secContaP: 'Vêm da sua conta Google e não podem ser editados aqui.',
-      lblNome: 'Nome', lblEmail: 'E-mail', secPref: 'Preferências', lblIdioma: 'Idioma', lblIdiomaP: 'Vale para todo o site.',
+      lblNome: 'Nome', lblEmail: 'E-mail', secPref: 'Preferências', lblIdioma: 'Idioma', lblIdiomaP: 'Vale para todo o site.', lblAnim: 'Animações', lblAnimP: 'Enfeites e efeitos animados. Desligue se a página estiver pesada.', animOn: 'Ligadas', animOff: 'Desligadas',
       secLinks: 'Atalhos', lnkTool: 'Remover marca d’água', lnkToolP: 'Voltar para a ferramenta',
       lnkColab: 'Colaboração', lnkColabP: 'Ajude o projeto a continuar gratuito', lnkSobre: 'Sobre', lnkSobreP: 'Conheça o AETIX DESIGN AI',
       lnkTermos: 'Termos de Uso', lnkPriv: 'Política de Privacidade', secSessao: 'Sessão', btnSair: 'Sair da conta', btnExcluir: 'Excluir conta',
@@ -39,7 +39,7 @@
     },
     en: {
       back: 'Back to site', secConta: 'Account details', secContaP: 'They come from your Google account and can’t be edited here.',
-      lblNome: 'Name', lblEmail: 'Email', secPref: 'Preferences', lblIdioma: 'Language', lblIdiomaP: 'Applies to the whole site.',
+      lblNome: 'Name', lblEmail: 'Email', secPref: 'Preferences', lblIdioma: 'Language', lblIdiomaP: 'Applies to the whole site.', lblAnim: 'Animations', lblAnimP: 'Decorations and animated effects. Turn off if the page feels heavy.', animOn: 'On', animOff: 'Off',
       secLinks: 'Shortcuts', lnkTool: 'Remove watermark', lnkToolP: 'Back to the tool',
       lnkColab: 'Support', lnkColabP: 'Help keep the project free', lnkSobre: 'About', lnkSobreP: 'Get to know AETIX DESIGN AI',
       lnkTermos: 'Terms of Use', lnkPriv: 'Privacy Policy', secSessao: 'Session', btnSair: 'Sign out', btnExcluir: 'Delete account',
@@ -78,7 +78,7 @@
     [].forEach.call(d.querySelectorAll('[data-i18n]'), function (el) { var v = t(el.getAttribute('data-i18n')); if (v) el.textContent = v; });
 
     $('langBtn').textContent = lang === 'en' ? 'PT' : 'EN';
-    [].forEach.call(d.querySelectorAll('.seg button'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
+    [].forEach.call(d.querySelectorAll('.seg button[data-lang]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang)); });
 
     $('meNome').textContent = user ? (nome || primeiro(mail)) : t('guest');
     $('meEmail').textContent = user ? mail : t('guestMail');
@@ -103,9 +103,12 @@
   }
 
   function ligar() {
+    /* "Voltar ao site" e atalho da ferramenta vão direto ao app (não passam pela tela de entrada) */
+    [].forEach.call(document.querySelectorAll('a[href="/"], a[href="/index.html"], a[href="index.html"], a[href="../"], a[href="/index"]'), function (a) { a.setAttribute('href', '/inicial/'); });
+    [].forEach.call(document.querySelectorAll('[data-i18n="back"], [data-i18n="lnkTool"]'), function (el) { var a = el.closest('a'); if (a) a.setAttribute('href', '/inicial/'); });
     var alternar = function (l) { lang = l; try { localStorage.setItem('aetix-lang', lang); } catch (e) {} msg(''); render(); };
     $('langBtn').addEventListener('click', function () { alternar(lang === 'en' ? 'pt' : 'en'); });
-    [].forEach.call(document.querySelectorAll('.seg button'), function (b) { b.addEventListener('click', function () { alternar(b.getAttribute('data-lang')); }); });
+    [].forEach.call(document.querySelectorAll('.seg button[data-lang]'), function (b) { b.addEventListener('click', function () { alternar(b.getAttribute('data-lang')); }); });
 
     $('btnSair').addEventListener('click', function () {
       if (CONFIG.demo) return msg(t('soon'));
@@ -126,7 +129,8 @@
   function criarEstrelas() {
     var box = $('stars'), cores = ['#FF9B3D', '#FFB347', '#C084FC', '#FF7A1A'];
     if (!box || document.documentElement.getAttribute('data-tema') !== 'halloween') return;
-    for (var i = 0; i < 30; i++) {
+    var leve = document.documentElement.classList.contains('sem-anim');
+    for (var i = 0; i < (leve ? 0 : 30); i++) {
       var s = document.createElement('i'), tam = 2 + Math.random() * 2.6;
       s.style.cssText = 'left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (10 + Math.random() * 88).toFixed(1) + '%;width:' + tam.toFixed(1) + 'px;height:' + tam.toFixed(1) +
         'px;--c:' + cores[i % cores.length] + ';--d:' + (4 + Math.random() * 6).toFixed(1) + 's;--w:-' + (Math.random() * 8).toFixed(1) + 's;--x:' + ((Math.random() - .5) * 40).toFixed(0) + 'px;--y:' + (-8 - Math.random() * 26).toFixed(0) + 'px';
