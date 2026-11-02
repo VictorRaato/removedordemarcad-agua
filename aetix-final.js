@@ -149,7 +149,7 @@ window.addEventListener('load',function(){
   } else start();
 })();
 
-/* Pop-up de Halloween: aparece a cada atualização da página, depois do splash.
+/* Pop-up de Halloween: aparece 1x por sessão do navegador (como a abertura), depois do splash.
    Se vier de "Colaborar com o projeto" (?colaborar=1), abre o pop-up de colaboração no lugar. */
 (function(){
   var SRC='/img/og_hallowenn.png',tries=0,finished=false,opened=false;
@@ -166,6 +166,7 @@ window.addEventListener('load',function(){
       c.splashDone.then(function(){setTimeout(function(){cleanUrl();c.openModal('pricingModal');done()},300)});
       return;
     }
+    try{if(sessionStorage.getItem('aetix-hw')){done();return}}catch(e){}
     var modal=document.getElementById('halloweenModal'),img=document.getElementById('halloweenImg');
     if(!modal||!img){done();return}
     c.modalHooks['halloweenModal']=function(){done()};
@@ -176,7 +177,7 @@ window.addEventListener('load',function(){
         setTimeout(function(){
           if(finished)return;
           if(document.querySelector('.modal:not([hidden])')){done();return}
-          opened=true;clearTimeout(guard);
+          opened=true;clearTimeout(guard);try{sessionStorage.setItem('aetix-hw','1')}catch(e){}
           img.src=SRC;c.openModal('halloweenModal','halloweenX');
         },300);
       });
