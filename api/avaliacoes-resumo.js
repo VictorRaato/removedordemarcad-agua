@@ -10,6 +10,22 @@ const { getFirestore, AggregateField } = require('firebase-admin/firestore');
 
 const FIRESTORE_DATABASE_ID = 'default';   // mesmo ID usado em avaliacao.js
 
+/* Rota pública: limitador por IP na memória da instância, para segurar rajadas
+   e proteger a quota diária do Firestore no plano Free. */
+const JANELA_MS = 60 * 1000;
+const MAX_POR_JANELA = 30;
+const hits = new Map();
+function excedeuLimite(req) {
+  const xff = String(req.headers['x-forwarded-for'] || '');
+  const chave = xff.split(',')[0].trim() || 'anon';
+  const agora = Date.now();
+  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
+  lista.push(agora);
+  hits.set(chave, lista);
+  if (hits.size > 5000) hits.clear();
+  return lista.length > MAX_POR_JANELA;
+}
+
 function getDb() {
   if (!getApps().length) {
     const projectId = process.env.FIREBASE_PROJECT_ID;
@@ -30,6 +46,13 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ ok: false });
   }
+  if (excedeuLimite(req)) {
+    res.setHeader('Retry-After', '30');
+    return res.status(429).json({ ok: false });
+  }
+  /* nenhum parâmetro é usado aqui: aceitar um faria cada variação virar uma URL
+     nova e derrubar o cache da CDN */
+  if (Object.keys(req.query || {}).length) return res.status(400).json({ ok: false });
   try {
     const snap = await getDb().collection('avaliacoes').aggregate({
       media: AggregateField.average('nota'),
