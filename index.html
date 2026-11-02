@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="splashing" data-tema="halloween">
 <head>
+<script>/* abertura (splash) só 1x por sessão: ao voltar do perfil/outras páginas não repete */
+(function(){try{if(sessionStorage.getItem('aetix-splash')){window.__aetixSkipSplash=1;document.documentElement.classList.remove('splashing');document.write('<style>#splash{display:none!important}</style>')}else sessionStorage.setItem('aetix-splash','1')}catch(e){}})();</script>
 <meta charset="utf-8">
 <script>/* TEMA DO SITE: troque 'halloween' por 'padrao' para voltar ao visual normal. Teste rápido: ?tema=padrao ou ?tema=halloween */
 (function(){var T='halloween',q='';try{q=new URLSearchParams(location.search).get('tema')||''}catch(e){}
@@ -1308,7 +1310,7 @@ html[data-tema="halloween"] .scene{display:block}
   window.addEventListener('load',render);
 })();
 </script>
-<script src="/script.js?v=20261101m" defer></script>
+<script src="/script.js?v=20261101n" defer></script>
 <script>
 /* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
 (function(){
