@@ -51,9 +51,21 @@ function nomePublico(nome) {
   return uteis.slice(0, 2).map(cap).join(' ');
 }
 
+/* Segredo dos hashes. Sem RATE_SALT usa a chave privada; sem as duas, um valor
+   aleatório desta instância — nunca uma string previsível. */
+let _segredo = null;
+function segredoRate() {
+  if (_segredo) return _segredo;
+  const s = String(process.env.RATE_SALT || '');
+  if (s) return (_segredo = s);
+  const k = String(process.env.FIREBASE_PRIVATE_KEY || '');
+  if (k) return (_segredo = crypto.createHash('sha256').update('ratelimit|' + k).digest('hex'));
+  console.error('[rate] RATE_SALT ausente: segredo aleatório desta instância.');
+  return (_segredo = crypto.randomBytes(32).toString('hex'));
+}
+
 function chaveEmail(email) {
-  const segredo = process.env.RATE_SALT || process.env.FIREBASE_PRIVATE_KEY || 'aetix';
-  return crypto.createHmac('sha256', segredo).update(String(email).toLowerCase()).digest('hex');
+  return crypto.createHmac('sha256', segredoRate()).update(String(email).toLowerCase()).digest('hex');
 }
 
 /* Guarda o pedido de exibição até o pagamento ser confirmado. Nunca derruba a cobrança. */

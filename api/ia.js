@@ -59,14 +59,26 @@ function ipDoVisitante(req) {
   const xff = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
   return xff || String(req.headers['x-real-ip'] || '').trim() || (req.socket && req.socket.remoteAddress) || '';
 }
+/* Segredo dos hashes de limite. Nunca cai numa string previsível: sem RATE_SALT
+   usa a chave privada; sem as duas, um valor aleatório desta instância. */
+let _segredo = null;
+function segredoRate() {
+  if (_segredo) return _segredo;
+  const s = String(process.env.RATE_SALT || '');
+  if (s) return (_segredo = s);
+  const k = String(process.env.FIREBASE_PRIVATE_KEY || '');
+  if (k) return (_segredo = crypto.createHash('sha256').update('ratelimit|' + k).digest('hex'));
+  console.error('[rate] RATE_SALT ausente: segredo aleatório desta instância.');
+  return (_segredo = crypto.randomBytes(32).toString('hex'));
+}
 function chaveDoVisitante(req) {
   const ip = ipDoVisitante(req) || 'anon';
-  const segredo = process.env.RATE_SALT || process.env.FIREBASE_PRIVATE_KEY || 'aetix';
-  return crypto.createHmac('sha256', segredo).update(ip).digest('hex').slice(0, 40);
+  return crypto.createHmac('sha256', segredoRate()).update(ip).digest('hex').slice(0, 40);
 }
 
 /* Conta um uso. Retorna 'ok' | 'hora' | 'dia'. Os documentos vão para a coleção "limites"
-   (a mesma das avaliações, que já apaga o que expirou). Se o Firestore falhar, deixa passar. */
+   (a mesma das avaliações, que já apaga o que expirou). Se o Firestore falhar, a rota
+   responde 503: sem contagem não há controle de cota. */
 async function contar(db, tipo, uid, visitante) {
   const { Timestamp } = require('firebase-admin/firestore');
   const agora = Date.now();
@@ -238,12 +250,15 @@ module.exports = async function handler(req, res) {
     };
   }
 
-  /* limites (se o banco falhar, não bloqueia) */
+  /* limites: se não der para contar, NÃO atende — senão a cota fica sem controle nenhum */
   try {
     const r = await contar(getDb(), tipo, uid, chaveDoVisitante(req));
     if (r === 'hora') return res.status(429).json({ ok: false, erro: 'limite' });
     if (r === 'dia') return res.status(429).json({ ok: false, erro: 'limite_dia' });
-  } catch (e) { console.error('[ia] limite:', e && e.message); }
+  } catch (e) {
+    console.error('[ia] limite:', e && e.message);
+    return res.status(503).json({ ok: false, erro: 'indisponivel' });
+  }
 
   try {
     const texto = await gemini(tipo, corpo);

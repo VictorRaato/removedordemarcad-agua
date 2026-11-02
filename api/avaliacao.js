@@ -50,13 +50,22 @@ function ipDoVisitante(req) {
 }
 
 /* Código irreversível do visitante. O IP em si nunca sai desta função.
-   Opcional: defina RATE_SALT na Vercel (qualquer texto longo e aleatório);
-   sem ela, usa a chave privada do Firebase como segredo. */
+   Segredo: RATE_SALT; sem ela, a chave privada do Firebase; sem as duas, um valor
+   aleatório desta instância — nunca uma string previsível. */
+let _segredo = null;
+function segredoRate() {
+  if (_segredo) return _segredo;
+  const s = String(process.env.RATE_SALT || '');
+  if (s) return (_segredo = s);
+  const k = String(process.env.FIREBASE_PRIVATE_KEY || '');
+  if (k) return (_segredo = crypto.createHash('sha256').update('ratelimit|' + k).digest('hex'));
+  console.error('[rate] RATE_SALT ausente: segredo aleatório desta instância.');
+  return (_segredo = crypto.randomBytes(32).toString('hex'));
+}
 function chaveDoVisitante(req) {
   const ip = ipDoVisitante(req);
   if (!ip) return null;
-  const segredo = process.env.RATE_SALT || process.env.FIREBASE_PRIVATE_KEY || 'aetix';
-  return crypto.createHmac('sha256', segredo).update(ip).digest('hex');
+  return crypto.createHmac('sha256', segredoRate()).update(ip).digest('hex');
 }
 
 /* Limpeza: apaga registros vencidos da coleção "limites" (substitui a política TTL,
