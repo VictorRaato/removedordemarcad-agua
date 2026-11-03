@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "(sed -i \"s/__FIM__/$(( $(date +%s) + 54000 ))/\" index.html) || true",
+  "buildCommand": "(sed -i \"s/__FIM__/$(( $(date +%s) + 86400 ))/\" index.html) || true",
   "outputDirectory": ".",
   "rewrites": [
     {
