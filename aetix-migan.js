@@ -67,7 +67,6 @@
     /* reaproveita os vetores grandes entre quadros (menos coleta de lixo, sem mudar nenhum pixel) */
     var pool = {};
     function buf(name, len, zero) {
-      if (inWin) return new Uint8Array(len);            // imagem (página): sempre vetores novos, como antes
       var b = pool[name];
       if (!b || b.length !== len) b = pool[name] = new Uint8Array(len);
       else if (zero) b.fill(0);
