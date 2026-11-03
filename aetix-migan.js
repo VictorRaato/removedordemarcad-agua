@@ -18,7 +18,11 @@
     minBytes: 5 * 1048576,      // proteção: uma página de erro não pode virar "modelo"
     ortVer: '1.22.0',
     cache: 'aetix-modelo-v1',
-    grow: 3                     // folga (px) em volta da área marcada
+    grow: 3,                    // folga (px) em volta da área marcada
+    /* VÍDEO (mais leve, sem perder qualidade): */
+    bloco: 64,                  // o recorte de cada quadro é arredondado para múltiplos de 64 px -> o modelo recebe sempre o mesmo formato e não recompila a cada quadro
+    pausa: 0.3,                 // WebGPU: descansa 30% do tempo de cada quadro, para a GPU atender a tela (0 = sem pausa; 0.6 = bem mais suave e mais lento)
+    pausaMax: 60                // teto da pausa por quadro (ms)
   };
 
   /* =====================================================================
@@ -59,6 +63,15 @@
 
     var progress = null;
     function setProgress(f) { progress = f; }
+
+    /* reaproveita os vetores grandes entre quadros (menos coleta de lixo, sem mudar nenhum pixel) */
+    var pool = {};
+    function buf(name, len, zero) {
+      var b = pool[name];
+      if (!b || b.length !== len) b = pool[name] = new Uint8Array(len);
+      else if (zero) b.fill(0);
+      return b;
+    }
 
     /* baixa um endereço; avisa o progresso (got, total) se alguém estiver ouvindo */
     async function download(url, ext) {
@@ -143,7 +156,7 @@
 
     function dilate(hole, W, H, r) {
       if (r <= 0) return hole;
-      var tmp = new Uint8Array(W * H), out = new Uint8Array(W * H), x, y, k, a, b, row;
+      var tmp = buf('dt', W * H, true), out = buf('do', W * H, true), x, y, k, a, b, row;
       for (y = 0; y < H; y++) {
         row = y * W;
         for (x = 0; x < W; x++) {
@@ -159,7 +172,7 @@
     }
 
     function feedsFor(rgba, hole, W, H, flip) {
-      var n = W * H, img = new Uint8Array(3 * n), mask = new Uint8Array(n), i, j;
+      var n = W * H, img = buf('img', 3 * n), mask = buf('mask', n), i, j;
       for (i = 0, j = 0; i < n; i++, j += 4) {
         img[i] = rgba[j]; img[n + i] = rgba[j + 1]; img[2 * n + i] = rgba[j + 2];
         mask[i] = ((hole[i] ? 1 : 0) !== (flip ? 1 : 0)) ? 0 : 255;   // 255 = manter, 0 = preencher
@@ -244,6 +257,7 @@
       load: load,
       prepare: prepare,
       inpaint: inpaint,
+      buf: buf,
       setProgress: setProgress,
       state: function () { return { broken: st.broken, ready: !!st.session, backend: st.backend }; }
     };
@@ -264,8 +278,15 @@
         var mg = Math.max(64, Math.round(Math.max(x1 - x0, y1 - y0) * 0.75));
         var cx = Math.max(0, x0 - mg), cy = Math.max(0, y0 - mg);
         var cw = Math.min(SW, x1 + mg) - cx, ch = Math.min(SH, y1 + mg) - cy;
+        /* formato estável: aumenta o recorte (mais contexto, nunca menos) até múltiplo de C.bloco, dentro do quadro */
+        var bl = C.bloco > 1 ? C.bloco : 0;
+        if (bl) {
+          var cw2 = Math.min(SW, Math.ceil(cw / bl) * bl), ch2 = Math.min(SH, Math.ceil(ch / bl) * bl);
+          cx = Math.max(0, Math.min(cx - ((cw2 - cw) >> 1), SW - cw2)); cy = Math.max(0, Math.min(cy - ((ch2 - ch) >> 1), SH - ch2));
+          cw = cw2; ch = ch2;
+        }
         var md = mc.getContext('2d', { willReadFrequently: true }).getImageData(bb.x, bb.y, bb.width, bb.height).data;
-        var hole = new Uint8Array(cw * ch), X, Y, u, v;
+        var hole = eng.buf('hv', cw * ch, true), X, Y, u, v;
         for (Y = 0; Y < ch; Y++) {
           v = Math.floor((cy + Y) / sy) - bb.y;
           if (v < 0 || v >= bb.height) continue;
@@ -276,8 +297,16 @@
           }
         }
         var img = ctx.getImageData(cx, cy, cw, ch);
+        var t0 = Date.now();
         var ok = await eng.inpaint(img, hole, cw, ch, Math.max(1, Math.round(C.grow * Math.max(sx, sy))));
-        if (ok) { ctx.putImageData(img, cx, cy); fails = 0; return true; }
+        if (ok) {
+          ctx.putImageData(img, cx, cy); fails = 0;
+          if (C.pausa > 0 && eng.state().backend === 'webgpu') {   // dá folga para a GPU desenhar a tela
+            var w = Math.min(C.pausaMax, (Date.now() - t0) * C.pausa);
+            if (w >= 1) await new Promise(function (r) { setTimeout(r, w); });
+          }
+          return true;
+        }
       } catch (e) { /* cai para a v1.0 neste quadro */ }
       if (++fails >= 3) off = true;                  // 3 falhas seguidas: o resto do vídeo segue na v1.0
       return false;
