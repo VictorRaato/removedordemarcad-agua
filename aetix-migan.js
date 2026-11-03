@@ -18,7 +18,8 @@
     minBytes: 5 * 1048576,      // proteção: uma página de erro não pode virar "modelo"
     ortVer: '1.22.0',
     cache: 'aetix-modelo-v1',
-    grow: 3                     // folga (px) em volta da área marcada
+    grow: 3,                    // folga (px) em volta da área marcada (usada se o controle "Espessura extra" não existir)
+    growExtra: 2                // a v2.2 soma isto ao controle "Espessura extra" (o modelo precisa de mais folga que a v1 para não deixar a logo "fantasma")
   };
 
   /* =====================================================================
@@ -60,14 +61,15 @@
     /* DIAGNÓSTICO: só escreve no console (F12), não muda nada do que o motor faz */
     function info() { try { if (g.console && g.console.log) g.console.log.apply(g.console, ['[AETIX v2]'].concat([].slice.call(arguments))); } catch (x) { /* só aviso */ } }
     function inside(rgba, data, hole, W, H, sc) {
-      var n = W * H, sum = 0, cnt = 0, px = 0, i, o;
+      var n = W * H, sum = 0, cnt = 0, px = 0, i, o, la = 0, lb = 0;
       for (i = 0; i < n; i++) {
         if (!hole[i]) continue;
         o = i * 4; px++;
+        la += rgba[o] + rgba[o + 1] + rgba[o + 2]; lb += (data[i] + data[n + i] + data[2 * n + i]) * sc;
         sum += Math.abs(data[i] * sc - rgba[o]) + Math.abs(data[n + i] * sc - rgba[o + 1]) + Math.abs(data[2 * n + i] * sc - rgba[o + 2]);
         cnt += 3;
       }
-      return { px: px, d: cnt ? +(sum / cnt).toFixed(1) : 0 };
+      return { px: px, d: cnt ? +(sum / cnt).toFixed(1) : 0, a: px ? Math.round(la / px / 3) : 0, b: px ? Math.round(lb / px / 3) : 0 };
     }
 
     var progress = null;
@@ -142,7 +144,8 @@
           g.ort.env.wasm.wasmPaths = BASE;
           g.ort.env.wasm.numThreads = 1;
           st.buf = r[1];
-          var m = await makeSession(st.buf, (g.navigator && g.navigator.gpu) ? ['webgpu', 'wasm'] : ['wasm']);
+          var pref = ''; try { pref = (g.localStorage && g.localStorage.getItem('aetix.motor')) || ''; } catch (x) { pref = ''; }
+          var m = await makeSession(st.buf, pref === 'wasm' ? ['wasm'] : ((g.navigator && g.navigator.gpu) ? ['webgpu', 'wasm'] : ['wasm']));
           st.session = m.s; st.backend = m.p;
         })().catch(function (e) { st.broken = true; st.loading = null; why('motor indisponível, usando v1.0', e); throw e; });
       }
@@ -239,7 +242,7 @@
           var t = res[st.session.outputNames[0]], dm = (t && t.dims) || [];
           if (!t || dm.length !== 4 || dm[2] !== H || dm[3] !== W) throw new Error('saida');
           var sc = scaleOf(t.data);
-          (function () { var q = inside(img.data, t.data, hole, W, H, sc); info('leitura invertida=' + tries[k], '| recorte ' + W + 'x' + H, '| px da marca', q.px, '| mudança DENTRO da marca', q.d, '| mudança FORA', +drift(img.data, t.data, hole, W, H, sc).toFixed(1), '| saída', t.type, 'escala x' + sc, '| backend', st.backend); })();
+          (function () { var q = inside(img.data, t.data, hole, W, H, sc); info('leitura invertida=' + tries[k], '| recorte ' + W + 'x' + H, '| px da marca', q.px, '| mudança DENTRO da marca', q.d, '| brilho da marca antes→depois', q.a + '→' + q.b, '| mudança FORA', +drift(img.data, t.data, hole, W, H, sc).toFixed(1), '| saída', t.type, 'escala x' + sc, '| backend', st.backend); })();
           if (st.flip !== null) { paste(img.data, t.data, hole, W, H, sc); return true; }
           var dr = drift(img.data, t.data, hole, W, H, sc);
           if (dr < 0) { paste(img.data, t.data, hole, W, H, sc); return true; }          // pouca amostra: aceita sem fixar
@@ -315,6 +318,15 @@
     try { localStorage.setItem(KEY[tab], v === 'v2' ? 'v2' : 'v1'); } catch (e) { /* sem armazenamento */ }
   }
 
+  /* folga da máscara na imagem: o controle "Espessura extra" (o mesmo que a v1 usa) + CFG.growExtra */
+  function imageGrow() {
+    try {
+      var e = document.getElementById('im-dil'), v = e ? +e.value : NaN;
+      if (isFinite(v) && v >= 0) return Math.round(v + CFG.growExtra);
+    } catch (x) { /* usa o padrão */ }
+    return CFG.grow;
+  }
+
   /* ---------- imagem: devolve Promise<boolean> (true = apagou com a v2.2) ---------- */
   async function erase(kind, ctx, W, H, mask) {
     try {
@@ -334,7 +346,7 @@
       var hole = new Uint8Array(cw * ch);
       for (y = 0; y < ch; y++) for (x = 0; x < cw; x++) hole[y * cw + x] = mask[(cy + y) * W + cx + x] ? 1 : 0;
       var img = ctx.getImageData(cx, cy, cw, ch);
-      var ok = await eng.inpaint(img, hole, cw, ch, CFG.grow);
+      var ok = await eng.inpaint(img, hole, cw, ch, imageGrow());
       if (ok) ctx.putImageData(img, cx, cy);          // só grava no fim: se algo falhar antes, nada muda
       return ok;
     } catch (e) { return false; }
