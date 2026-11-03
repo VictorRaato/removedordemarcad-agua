@@ -1,186 +1,349 @@
-/* AETIX · versão 2.2 (imagem) e seletor de versão.
-   Arquivo novo: não altera o que já existe. Se qualquer coisa falhar aqui,
-   o site continua usando o caminho da versão 1.0, como sempre. */
+/* AETIX · versão 2.2 (imagem), versão 1.8 (vídeo) e seletor de versão.
+   Arquivo novo: não altera o que já existe. Em qualquer falha, o site continua
+   usando a versão 1.0 (OpenCV), exatamente como antes.
+   O modelo (migan_pipeline_v2.onnx) é baixado do Hugging Face (3 espelhos) e guardado no cache. */
 (function () {
   'use strict';
 
-  var MODEL_URL = '/models/migan_pipeline_v2.onnx';
-  var ORT_VER = '1.22.0';
-  var ORT_BASE = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@' + ORT_VER + '/dist/';
-  var ORT_URL = ORT_BASE + 'ort.all.min.js';
-  var CACHE_NAME = 'aetix-modelo-v1';
-  var MIN_MODEL_BYTES = 5 * 1048576;   // proteção: um erro 404 não pode virar "modelo"
-  var GROW = 3;                        // folga (px) em volta da área marcada
-  var KEY_IMG = 'aetix.versao.imagem';
-  var LABEL = { v1: 'AETIX v1.0', v2: 'AETIX v2.2' };
+  var CFG = {
+    origin: location.origin,
+    /* Mesmos 3 endereços da página de teste (index + script): tenta em ordem e, se um falhar, passa para o próximo.
+       Exige o Hugging Face liberado no connect-src do vercel.json. O modelo é guardado no cache do navegador. */
+    sources: [
+      { url: 'https://huggingface.co/andraniksargsyan/migan/resolve/main/migan_pipeline_v2.onnx', ext: true },
+      { url: 'https://huggingface.co/CardAnvilModels/MI-GAN-ONNX/resolve/main/migan_pipeline_v2.onnx', ext: true },
+      { url: 'https://huggingface.co/techycoder/migan-inpainting/resolve/main/migan_pipeline_v2.onnx', ext: true }
+    ],
+    sha256: '',                 // opcional: SHA-256 do arquivo (minúsculas). Vazio = não confere. Vale para todos os endereços.
+    minBytes: 5 * 1048576,      // proteção: uma página de erro não pode virar "modelo"
+    ortVer: '1.22.0',
+    cache: 'aetix-modelo-v1',
+    grow: 3                     // folga (px) em volta da área marcada
+  };
 
-  var broken = false, loading = null, session = null, backend = '', modelBuf = null;
+  /* =====================================================================
+     MOTOR: roda na página (imagem) e dentro do Worker do vídeo.
+     Precisa ser autossuficiente: ele é copiado como texto para o Worker.
+     Camadas, todas escondidas: WebGPU -> CPU (WASM) -> versão 1.0 (OpenCV).
+     ===================================================================== */
+  function makeEngine(g, C) {
+    var BASE = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@' + C.ortVer + '/dist/';
+    var st = { broken: false, session: null, backend: '', buf: null, loading: null, flip: null };
+    var inWin = typeof g.document !== 'undefined';
 
-  /* ---------- versão escolhida (guardada só neste navegador) ---------- */
-  function getVer() {
-    try { return localStorage.getItem(KEY_IMG) === 'v2' ? 'v2' : 'v1'; } catch (e) { return 'v1'; }
-  }
-  function setVer(v) {
-    try { localStorage.setItem(KEY_IMG, v === 'v2' ? 'v2' : 'v1'); } catch (e) { /* sem armazenamento */ }
-  }
-
-  /* ---------- carregamento do motor ---------- */
-  function loadScript(src) {
-    return new Promise(function (res, rej) {
-      var s = document.createElement('script');
-      s.src = src; s.async = true;
-      s.onload = function () { res(); };
-      s.onerror = function () { rej(new Error('script')); };
-      document.head.appendChild(s);
-    });
-  }
-
-  function getModel() {
-    var cacheP = ('caches' in window) ? caches.open(CACHE_NAME).catch(function () { return null; }) : Promise.resolve(null);
-    return cacheP.then(function (cache) {
-      var hit = cache ? cache.match(MODEL_URL).catch(function () { return null; }) : Promise.resolve(null);
-      return hit.then(function (cached) {
-        if (cached) {
-          return cached.arrayBuffer().then(function (b) {
-            if (b.byteLength >= MIN_MODEL_BYTES) return b;
-            return cache.delete(MODEL_URL).catch(function () {}).then(function () { return download(cache); });
-          });
-        }
-        return download(cache);
+    async function loadScript(src) {
+      if (!inWin) { g.importScripts(src); return; }
+      await new Promise(function (res, rej) {
+        var s = g.document.createElement('script');
+        s.src = src; s.async = true;
+        s.onload = function () { res(); };
+        s.onerror = function () { rej(new Error('script')); };
+        g.document.head.appendChild(s);
       });
-    });
-  }
-  function download(cache) {
-    return fetch(MODEL_URL, { credentials: 'same-origin' }).then(function (r) {
+    }
+
+    async function sha(buf) {
+      if (!C.sha256) return;
+      var d = new Uint8Array(await g.crypto.subtle.digest('SHA-256', buf)), h = '', i;
+      for (i = 0; i < d.length; i++) h += (d[i] < 16 ? '0' : '') + d[i].toString(16);
+      if (h !== String(C.sha256).toLowerCase()) throw new Error('hash');
+    }
+    async function accept(buf) {
+      if (buf.byteLength < C.minBytes) throw new Error('modelo');
+      await sha(buf);
+      return buf;
+    }
+
+    /* aviso no console (F12) para saber POR QUE caiu na v1.0; não altera o comportamento */
+    function why(tag, e) { try { if (g.console && g.console.warn) g.console.warn('[AETIX v2]', tag, (e && e.message) ? e.message : e); } catch (x) { /* só aviso */ } }
+
+    var progress = null;
+    function setProgress(f) { progress = f; }
+
+    /* baixa um endereço; avisa o progresso (got, total) se alguém estiver ouvindo */
+    async function download(url, ext) {
+      var r = await g.fetch(url, ext ? { mode: 'cors', credentials: 'omit' } : { credentials: 'same-origin' });
       if (!r.ok) throw new Error('modelo');
-      return r.arrayBuffer();
-    }).then(function (b) {
-      if (b.byteLength < MIN_MODEL_BYTES) throw new Error('modelo');
-      if (cache) { try { cache.put(MODEL_URL, new Response(b.slice(0))).catch(function () {}); } catch (e) { /* sem cache */ } }
-      return b;
-    });
-  }
-
-  function makeSession(buf, order) {
-    var i = 0;
-    function next() {
-      if (i >= order.length) return Promise.reject(new Error('sessao'));
-      var p = order[i++];
-      return window.ort.InferenceSession.create(new Uint8Array(buf), { executionProviders: [p], graphOptimizationLevel: 'all' })
-        .then(function (s) { return { s: s, p: p }; }, next);
-    }
-    return next();
-  }
-
-  function ensure() {
-    if (session) return Promise.resolve();
-    if (broken) return Promise.reject(new Error('indisponivel'));
-    if (loading) return loading;
-    loading = Promise.resolve().then(function () {
-      return window.ort ? null : loadScript(ORT_URL);
-    }).then(function () {
-      if (!window.ort) throw new Error('ort');
-      window.ort.env.wasm.wasmPaths = ORT_BASE;
-      window.ort.env.wasm.numThreads = 1;
-      return getModel();
-    }).then(function (buf) {
-      modelBuf = buf;
-      return makeSession(buf, navigator.gpu ? ['webgpu', 'wasm'] : ['wasm']);
-    }).then(function (m) {
-      session = m.s; backend = m.p;
-    }).catch(function (e) {
-      broken = true; loading = null;
-      refreshUi();
-      throw e;
-    });
-    return loading;
-  }
-
-  /* ---------- apagar ---------- */
-  function dilate(hole, W, H, r) {
-    if (r <= 0) return hole;
-    var tmp = new Uint8Array(W * H), out = new Uint8Array(W * H), x, y, k, a, b;
-    for (y = 0; y < H; y++) {
-      var row = y * W;
-      for (x = 0; x < W; x++) {
-        if (hole[row + x]) { a = Math.max(0, x - r); b = Math.min(W - 1, x + r); for (k = a; k <= b; k++) tmp[row + k] = 1; }
+      if (!r.body || !r.body.getReader) return await r.arrayBuffer();
+      var total = +r.headers.get('content-length') || 0, rd = r.body.getReader(), chunks = [], got = 0, x, off = 0, out, i;
+      for (;;) {
+        x = await rd.read();
+        if (x.done) break;
+        chunks.push(x.value); got += x.value.length;
+        if (progress) { try { progress(got, total); } catch (e) { /* só enfeite */ } }
       }
+      out = new Uint8Array(got);
+      for (i = 0; i < chunks.length; i++) { out.set(chunks[i], off); off += chunks[i].length; }
+      return out.buffer;
     }
-    for (x = 0; x < W; x++) {
+
+    /* modelo: para cada endereço, cache do navegador primeiro; se não houver (ou estiver ruim), baixa.
+       Falhou? passa para o próximo endereço. Só dá erro se todos falharem. */
+    async function modelBytes() {
+      var cache = null, last = null, i, s, url, hit, b;
+      try { if ('caches' in g) cache = await g.caches.open(C.cache); } catch (e) { cache = null; }
+      for (i = 0; i < C.sources.length; i++) {
+        s = C.sources[i];
+        url = s.ext ? s.url : C.origin + s.url;
+        try {
+          if (cache) {
+            try {
+              hit = await cache.match(url);
+              if (hit) {
+                try { return await accept(await hit.arrayBuffer()); }
+                catch (e) { try { await cache.delete(url); } catch (e2) { /* segue para o download */ } }
+              }
+            } catch (e) { /* segue para o download */ }
+          }
+          b = await accept(await download(url, s.ext));
+          if (cache) { try { await cache.put(url, new g.Response(b.slice(0))); } catch (e) { /* sem cache */ } }
+          return b;
+        } catch (e) { last = e; why('modelo falhou: ' + url, e); }
+      }
+      throw last || new Error('modelo');
+    }
+
+    async function makeSession(buf, order) {
+      var last, i;
+      for (i = 0; i < order.length; i++) {
+        try {
+          var s = await g.ort.InferenceSession.create(new Uint8Array(buf), { executionProviders: [order[i]], graphOptimizationLevel: 'all' });
+          return { s: s, p: order[i] };
+        } catch (e) { last = e; why('sessão ' + order[i] + ' falhou', e); }
+      }
+      throw last || new Error('sessao');
+    }
+
+    function load() {
+      if (st.session) return Promise.resolve();
+      if (st.broken) return Promise.reject(new Error('indisponivel'));
+      if (!st.loading) {
+        st.loading = (async function () {
+          var r = await Promise.all([
+            g.ort ? 0 : loadScript(BASE + 'ort.all.min.js'),
+            st.buf ? st.buf : modelBytes()
+          ]);
+          if (!g.ort) throw new Error('ort');
+          g.ort.env.wasm.wasmPaths = BASE;
+          g.ort.env.wasm.numThreads = 1;
+          st.buf = r[1];
+          var m = await makeSession(st.buf, (g.navigator && g.navigator.gpu) ? ['webgpu', 'wasm'] : ['wasm']);
+          st.session = m.s; st.backend = m.p;
+        })().catch(function (e) { st.broken = true; st.loading = null; why('motor indisponível, usando v1.0', e); throw e; });
+      }
+      return st.loading;
+    }
+
+    /* só confere se o modelo está no site e é válido (deixa guardado no cache), sem montar o motor */
+    async function prepare() {
+      if (st.broken) throw new Error('indisponivel');
+      if (st.buf || st.session) return;
+      try { await modelBytes(); } catch (e) { st.broken = true; throw e; }
+    }
+
+    function dilate(hole, W, H, r) {
+      if (r <= 0) return hole;
+      var tmp = new Uint8Array(W * H), out = new Uint8Array(W * H), x, y, k, a, b, row;
       for (y = 0; y < H; y++) {
-        if (tmp[y * W + x]) { a = Math.max(0, y - r); b = Math.min(H - 1, y + r); for (k = a; k <= b; k++) out[k * W + x] = 1; }
+        row = y * W;
+        for (x = 0; x < W; x++) {
+          if (hole[row + x]) { a = Math.max(0, x - r); b = Math.min(W - 1, x + r); for (k = a; k <= b; k++) tmp[row + k] = 1; }
+        }
+      }
+      for (x = 0; x < W; x++) {
+        for (y = 0; y < H; y++) {
+          if (tmp[y * W + x]) { a = Math.max(0, y - r); b = Math.min(H - 1, y + r); for (k = a; k <= b; k++) out[k * W + x] = 1; }
+        }
+      }
+      return out;
+    }
+
+    function feedsFor(rgba, hole, W, H, flip) {
+      var n = W * H, img = new Uint8Array(3 * n), mask = new Uint8Array(n), i, j;
+      for (i = 0, j = 0; i < n; i++, j += 4) {
+        img[i] = rgba[j]; img[n + i] = rgba[j + 1]; img[2 * n + i] = rgba[j + 2];
+        mask[i] = ((hole[i] ? 1 : 0) !== (flip ? 1 : 0)) ? 0 : 255;   // 255 = manter, 0 = preencher
+      }
+      var names = st.session.inputNames;
+      var im = names.filter(function (x) { return /img|image/i.test(x); })[0] || names[0];
+      var mk = names.filter(function (x) { return /mask/i.test(x); })[0] || names[1];
+      var f = {};
+      f[im] = new g.ort.Tensor('uint8', img, [1, 3, H, W]);
+      f[mk] = new g.ort.Tensor('uint8', mask, [1, 1, H, W]);
+      return f;
+    }
+
+    async function run(feeds) {
+      try { return await st.session.run(feeds); }
+      catch (e) {
+        if (st.backend !== 'webgpu') throw e;       // WebGPU falhou ao rodar: refaz na CPU
+        var m = await makeSession(st.buf, ['wasm']);
+        st.session = m.s; st.backend = m.p;
+        return await st.session.run(feeds);
       }
     }
-    return out;
-  }
 
-  function buildFeeds(rgba, hole, W, H) {
-    var n = W * H, img = new Uint8Array(3 * n), mask = new Uint8Array(n), i, j;
-    for (i = 0, j = 0; i < n; i++, j += 4) {
-      img[i] = rgba[j]; img[n + i] = rgba[j + 1]; img[2 * n + i] = rgba[j + 2];
-      mask[i] = hole[i] ? 0 : 255;                 // 255 = manter, 0 = preencher
+    function scaleOf(data) {
+      if (data instanceof Uint8Array || data instanceof Uint8ClampedArray) return 1;
+      var mx = 0, i;
+      for (i = 0; i < data.length; i += 97) if (data[i] > mx) mx = data[i];
+      return mx <= 1.5 ? 255 : 1;
     }
-    var names = session.inputNames;
-    var im = names.filter(function (x) { return /img|image/i.test(x); })[0] || names[0];
-    var mk = names.filter(function (x) { return /mask/i.test(x); })[0] || names[1];
-    var feeds = {};
-    feeds[im] = new window.ort.Tensor('uint8', img, [1, 3, H, W]);
-    feeds[mk] = new window.ort.Tensor('uint8', mask, [1, 1, H, W]);
-    return feeds;
-  }
 
-  function runSession(feeds) {
-    return session.run(feeds).catch(function (e) {
-      if (backend !== 'webgpu') throw e;          // WebGPU falhou ao rodar: tenta de novo na CPU
-      return makeSession(modelBuf, ['wasm']).then(function (m) {
-        session = m.s; backend = m.p;
-        return session.run(feeds);
-      });
-    });
-  }
-
-  function compose(img, out, hole, W, H) {
-    var n = W * H, d = img.data, data = out.data, scale = 1, i, o;
-    var isU8 = data instanceof Uint8Array || data instanceof Uint8ClampedArray;
-    if (!isU8) {
-      var mx = 0; for (i = 0; i < data.length; i += 97) if (data[i] > mx) mx = data[i];
-      if (mx <= 1.5) scale = 255;
+    /* média |saída - entrada| nos pixels que deviam ficar iguais. -1 = pouca amostra para julgar */
+    function drift(rgba, data, hole, W, H, sc) {
+      var n = W * H, sum = 0, cnt = 0, i, o;
+      for (i = 0; i < n; i += 5) {
+        if (hole[i]) continue;
+        o = i * 4;
+        sum += Math.abs(data[i] * sc - rgba[o]) + Math.abs(data[n + i] * sc - rgba[o + 1]) + Math.abs(data[2 * n + i] * sc - rgba[o + 2]);
+        cnt += 3;
+      }
+      return cnt < 300 ? -1 : sum / cnt;
     }
-    for (i = 0; i < n; i++) {
-      if (!hole[i]) continue;                      // só a área marcada vem do modelo
-      o = i * 4;
-      d[o] = data[i] * scale; d[o + 1] = data[n + i] * scale; d[o + 2] = data[2 * n + i] * scale;
+
+    function paste(rgba, data, hole, W, H, sc) {
+      var n = W * H, i, o;
+      for (i = 0; i < n; i++) {
+        if (!hole[i]) continue;                      // só a área marcada vem do modelo
+        o = i * 4;
+        rgba[o] = data[i] * sc; rgba[o + 1] = data[n + i] * sc; rgba[o + 2] = data[2 * n + i] * sc;
+      }
     }
+
+    /* img: ImageData do recorte; rawHole: 1 = apagar. Devolve true se apagou (e já alterou img). */
+    async function inpaint(img, rawHole, W, H, grow) {
+      try {
+        await load();
+        var hole = dilate(rawHole, W, H, grow);
+        // na primeira vez confere se o modelo leu a máscara do jeito certo (fora da marca a saída
+        // tem de ficar igual à entrada); se não, tenta a máscara invertida e fica com a melhor leitura
+        var tries = st.flip === null ? [false, true] : [st.flip], k, best = null;
+        for (k = 0; k < tries.length; k++) {
+          var res = await run(feedsFor(img.data, hole, W, H, tries[k]));
+          var t = res[st.session.outputNames[0]], dm = (t && t.dims) || [];
+          if (!t || dm.length !== 4 || dm[2] !== H || dm[3] !== W) throw new Error('saida');
+          var sc = scaleOf(t.data);
+          if (st.flip !== null) { paste(img.data, t.data, hole, W, H, sc); return true; }
+          var dr = drift(img.data, t.data, hole, W, H, sc);
+          if (dr < 0) { paste(img.data, t.data, hole, W, H, sc); return true; }          // pouca amostra: aceita sem fixar
+          if (dr <= 14) { st.flip = tries[k]; paste(img.data, t.data, hole, W, H, sc); return true; }
+          if (!best || dr < best.dr) best = { dr: dr, t: t, sc: sc, flip: tries[k] };
+        }
+        if (best && best.dr <= 45) {                  // nenhuma ficou limpa: usa a mais plausível
+          st.flip = best.flip;
+          paste(img.data, best.t.data, hole, W, H, best.sc);
+          return true;
+        }
+        why('saída do modelo não bateu com a entrada; v1.0 apaga', best && best.dr);
+        return false;                                // nenhuma leitura fez sentido: deixa a v1.0 apagar
+      } catch (e) { why('inpaint falhou; v1.0 apaga', e); return false; }
+    }
+
+    return {
+      load: load,
+      prepare: prepare,
+      inpaint: inpaint,
+      setProgress: setProgress,
+      state: function () { return { broken: st.broken, ready: !!st.session, backend: st.backend }; }
+    };
   }
 
-  // Devolve uma Promise<boolean>: true = apagou com a versão 2.2; false = usar o caminho de sempre.
-  function erase(kind, ctx, W, H, mask) {
-    if (kind !== 'image' || getVer() !== 'v2' || broken) return Promise.resolve(false);
-    if (!ctx || !mask || mask.length !== W * H) return Promise.resolve(false);
-    var any = false, i;
-    for (i = 0; i < mask.length; i++) if (mask[i]) { any = true; break; }
-    if (!any) return Promise.resolve(false);
-    var img, hole, feeds;
-    return ensure().then(function () {
-      img = ctx.getImageData(0, 0, W, H);
-      hole = dilate(mask, W, H, GROW);
-      feeds = buildFeeds(img.data, hole, W, H);
-      return runSession(feeds);
-    }).then(function (res) {
-      var t = res[session.outputNames[0]], dims = (t && t.dims) || [];
-      if (!t || dims.length !== 4 || dims[2] !== H || dims[3] !== W) throw new Error('saida');
-      compose(img, t, hole, W, H);
-      ctx.putImageData(img, 0, 0);                 // só grava no fim: se algo falhar antes, nada muda
-      return true;
-    }).catch(function () { return false; });
+  /* Dentro do Worker do vídeo: o código do site chama self.__aetixV18 quadro a quadro.
+     Devolve true se este quadro foi apagado pela v1.8; false = o código de sempre (OpenCV) apaga. */
+  function workerBoot(g, mk, C) {
+    var eng = mk(g, C), fails = 0, off = false;
+    g.__aetixV18 = async function (frameCanvas, SW, SH, W, H, bb, mc) {
+      if (off) return false;
+      try {
+        var ctx = frameCanvas.getContext('2d', { willReadFrequently: true });
+        var sx = SW / W, sy = SH / H;
+        var x0 = Math.max(0, Math.floor(bb.x * sx)), y0 = Math.max(0, Math.floor(bb.y * sy));
+        var x1 = Math.min(SW, Math.ceil((bb.x + bb.width) * sx)), y1 = Math.min(SH, Math.ceil((bb.y + bb.height) * sy));
+        if (x1 - x0 < 2 || y1 - y0 < 2) return false;
+        var mg = Math.max(64, Math.round(Math.max(x1 - x0, y1 - y0) * 0.75));
+        var cx = Math.max(0, x0 - mg), cy = Math.max(0, y0 - mg);
+        var cw = Math.min(SW, x1 + mg) - cx, ch = Math.min(SH, y1 + mg) - cy;
+        var md = mc.getContext('2d', { willReadFrequently: true }).getImageData(bb.x, bb.y, bb.width, bb.height).data;
+        var hole = new Uint8Array(cw * ch), X, Y, u, v;
+        for (Y = 0; Y < ch; Y++) {
+          v = Math.floor((cy + Y) / sy) - bb.y;
+          if (v < 0 || v >= bb.height) continue;
+          for (X = 0; X < cw; X++) {
+            u = Math.floor((cx + X) / sx) - bb.x;
+            if (u < 0 || u >= bb.width) continue;
+            if (md[(v * bb.width + u) * 4] > 127) hole[Y * cw + X] = 1;
+          }
+        }
+        var img = ctx.getImageData(cx, cy, cw, ch);
+        var ok = await eng.inpaint(img, hole, cw, ch, Math.max(1, Math.round(C.grow * Math.max(sx, sy))));
+        if (ok) { ctx.putImageData(img, cx, cy); fails = 0; return true; }
+      } catch (e) { /* cai para a v1.0 neste quadro */ }
+      if (++fails >= 3) off = true;                  // 3 falhas seguidas: o resto do vídeo segue na v1.0
+      return false;
+    };
+  }
+
+  var eng = makeEngine(window, CFG);
+  var KEY = { image: 'aetix.versao.imagem', video: 'aetix.versao.video' };
+  var LABEL = {
+    image: { v1: 'AETIX v1.0', v2: 'AETIX v2.2' },
+    video: { v1: 'AETIX v1.0', v2: 'AETIX v1.8' }
+  };
+
+  /* versão escolhida por aba (guardada só neste navegador) */
+  function getVer(tab) {
+    try { return localStorage.getItem(KEY[tab]) === 'v2' ? 'v2' : 'v1'; } catch (e) { return 'v1'; }
+  }
+  function setVer(tab, v) {
+    try { localStorage.setItem(KEY[tab], v === 'v2' ? 'v2' : 'v1'); } catch (e) { /* sem armazenamento */ }
+  }
+
+  /* ---------- imagem: devolve Promise<boolean> (true = apagou com a v2.2) ---------- */
+  async function erase(kind, ctx, W, H, mask) {
+    try {
+      if (kind !== 'image' || getVer('image') !== 'v2' || eng.state().broken) return false;
+      if (!ctx || !mask || mask.length !== W * H) return false;
+      var x0 = W, y0 = H, x1 = -1, y1 = -1, x, y, row;
+      for (y = 0; y < H; y++) {
+        row = y * W;
+        for (x = 0; x < W; x++) {
+          if (mask[row + x]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; y1 = y; }
+        }
+      }
+      if (x1 < 0) return false;
+      var mg = Math.max(64, Math.round(Math.max(x1 - x0 + 1, y1 - y0 + 1) * 0.75));
+      var cx = Math.max(0, x0 - mg), cy = Math.max(0, y0 - mg);
+      var cw = Math.min(W, x1 + 1 + mg) - cx, ch = Math.min(H, y1 + 1 + mg) - cy;
+      var hole = new Uint8Array(cw * ch);
+      for (y = 0; y < ch; y++) for (x = 0; x < cw; x++) hole[y * cw + x] = mask[(cy + y) * W + cx + x] ? 1 : 0;
+      var img = ctx.getImageData(cx, cy, cw, ch);
+      var ok = await eng.inpaint(img, hole, cw, ch, CFG.grow);
+      if (ok) ctx.putImageData(img, cx, cy);          // só grava no fim: se algo falhar antes, nada muda
+      return ok;
+    } catch (e) { return false; }
+    finally { refreshUi(); }
+  }
+
+  /* ---------- vídeo: endereço do código que o Worker carrega (ou null = v1.0 de sempre) ---------- */
+  var wUrl = null;
+  function videoJob() {
+    try {
+      if (getVer('video') !== 'v2' || eng.state().broken) return null;
+      if (!wUrl) {
+        var src = 'var __mk=' + makeEngine.toString() + ';(' + workerBoot.toString() + ')(self,__mk,' + JSON.stringify(CFG) + ');';
+        wUrl = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
+      }
+      return wUrl;
+    } catch (e) { return null; }
   }
 
   /* ---------- seletor de versão na pílula de status ---------- */
-  var pill = null, txt = null, menu = null, opt = null, open = false;
+  var pill = null, txt = null, menu = null, opt = null, open = false, pend = null;
   function isPt() { return /^pt/i.test(document.documentElement.lang || 'pt'); }
-  function onImageTab() {
+  function curTab() {
     var pv = document.getElementById('panelVideo');
-    return !(pv && !pv.hidden && !pv.classList.contains('hidden'));
+    return (pv && !pv.hidden && !pv.classList.contains('hidden')) ? 'video' : 'image';
   }
 
   function injectCss() {
@@ -215,33 +378,40 @@
 
   function refreshUi() {
     if (!pill || !txt) return;
-    var active = onImageTab() && pill.dataset.s === 'ok';
-    if (!active) {
+    if (pill.dataset.s !== 'ok') {                     // ainda carregando (ou erro): a pílula fica como o site mostra
       pill.classList.remove('aetix-ver');
       pill.removeAttribute('tabindex'); pill.removeAttribute('aria-haspopup'); pill.removeAttribute('aria-expanded');
       setOpen(false);
       return;
     }
-    var ver = (getVer() === 'v2' && !broken) ? 'v2' : 'v1';
-    if (getVer() === 'v2' && broken) setVer('v1');
-    var want = LABEL[ver];
+    var tab = curTab(), bad = eng.state().broken;
+    if (bad) { setVer('image', 'v1'); setVer('video', 'v1'); }   // modelo indisponível: volta tudo para a v1.0
+    var ver = getVer(tab), loading = !!pend && pend.tab === tab;
+    var want = LABEL[tab][loading ? 'v2' : ver] + (loading ? (isPt() ? ' · carregando…' : ' · loading…') : '');
     if (txt.textContent !== want) txt.textContent = want;
     pill.classList.add('aetix-ver');
     pill.setAttribute('tabindex', '0');
     pill.setAttribute('aria-haspopup', 'listbox');
     pill.setAttribute('aria-expanded', String(open));
-    var other = ver === 'v1' ? 'v2' : 'v1';
+    var other = (ver === 'v1' && !loading) ? 'v2' : 'v1';
     opt.dataset.v = other;
-    opt.textContent = LABEL[other] + ((other === 'v2' && broken) ? (isPt() ? ' · indisponível' : ' · unavailable') : '');
-    opt.disabled = (other === 'v2' && broken);
+    opt.textContent = LABEL[tab][other] + ((other === 'v2' && bad) ? (isPt() ? ' · indisponível' : ' · unavailable') : '');
+    opt.disabled = (other === 'v2' && bad);
     if (open) place();
   }
 
-  function choose(v) {
-    setVer(v);
+  async function choose(v) {
+    var tab = curTab();
     setOpen(false);
+    if (v !== 'v2') { pend = null; setVer(tab, 'v1'); refreshUi(); return; }
+    var mine = pend = { tab: tab };
     refreshUi();
-    if (v === 'v2') { ensure().catch(function () { /* a pílula já mostra "indisponível" */ }); }
+    try {
+      await (tab === 'image' ? eng.load() : eng.prepare());   // imagem monta o motor; vídeo só confere o modelo
+      if (pend === mine) setVer(tab, 'v2');
+    } catch (e) { /* a pílula passa a mostrar "indisponível" */ }
+    if (pend === mine) pend = null;
+    refreshUi();
   }
 
   function initUi() {
@@ -282,10 +452,14 @@
       if (b) b.addEventListener('click', function () { setTimeout(refreshUi, 0); setTimeout(refreshUi, 200); });
     });
     refreshUi();
+
+    // quem já escolheu a versão nova antes: deixa o modelo pronto sem atrapalhar o carregamento da página
+    var pre = getVer('image') === 'v2' ? eng.load : (getVer('video') === 'v2' ? eng.prepare : null);
+    if (pre) setTimeout(function () { pre().catch(function () { /* indisponível */ }).then(refreshUi); }, 2500);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initUi);
   else initUi();
 
-  window.AetixMiGan = Object.freeze({ erase: erase });
+  window.AetixMiGan = Object.freeze({ erase: erase, videoJob: videoJob });
 })();
