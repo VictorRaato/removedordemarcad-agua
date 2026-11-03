@@ -1,4 +1,6 @@
 /* AETIX · versão 2.2 (imagem), versão 1.8 (vídeo) e seletor de versão.
+   Correção 03/11: a máscara "só as letras" de uma logo semitransparente vem cheia de buracos; o modelo só apagava pedaços e a logo
+   ficava desbotada. Agora a máscara é PREENCHIDA (função solidify) antes de apagar, como o traço grosso da página de teste.
    Arquivo novo: não altera o que já existe. Em qualquer falha, o site continua
    usando a versão 1.0 (OpenCV), exatamente como antes.
    O modelo (migan_pipeline_v2.onnx) é baixado do Hugging Face (3 espelhos) e guardado no cache. */
@@ -24,7 +26,14 @@
     bloco: 64,                  // recorte de cada quadro em múltiplos de 64 px -> o modelo recebe sempre o mesmo formato e não recompila a cada quadro
     pausa: 0.3,                 // WebGPU: descansa 30% do tempo de cada quadro p/ a GPU atender a tela (0 = sem pausa; 0.6 = bem mais suave e mais lento)
     pausaMax: 60,               // teto da pausa por quadro (ms)
-    growExtra: 2                // a v2.2 soma isto ao controle "Espessura extra" (o modelo precisa de mais folga que a v1 para não deixar a logo "fantasma")
+    growExtra: 2,               // a v2.2 soma isto ao controle "Espessura extra" (o modelo precisa de mais folga que a v1 para não deixar a logo "fantasma")
+    /* PREENCHIMENTO da máscara (imagem e vídeo): une as letras da mesma logo e engorda o conjunto, como o traço grosso do lápis na página de teste */
+    preenche: 0.3,              // quanto engordar, em fração da menor medida da logo (0 = desliga o preenchimento)
+    preencheMin: 6,             // engorda mínima (px)
+    preencheMax: 24,            // engorda máxima (px)
+    junta: 3,                   // letras/palavras a até junta*celula px uma da outra contam como a mesma logo
+    celula: 8,                  // tamanho da célula usada para achar as logos (px)
+    densoMax: 0.6               // se a marca já preenche mais que isso da sua caixa (ex.: traço de lápis), não engorda
   };
 
   /* =====================================================================
@@ -196,13 +205,66 @@
       if (r <= 0) return hole;
       var PW = W + 2 * r, PH = H + 2 * r, pad = new Uint8Array(PW * PH), x, y, i;   // borda vazia: o fechamento não "gruda" nas bordas do recorte
       for (y = 0; y < H; y++) for (x = 0; x < W; x++) if (hole[y * W + x]) pad[(y + r) * PW + x + r] = 1;
-      var big = dilate(pad, PW, PH, r), inv = new Uint8Array(PW * PH);
+      var big = dilate(pad, PW, PH, r).slice(), inv = new Uint8Array(PW * PH);   // .slice(): no Worker o resultado é do pool e a 2ª dilatação o sobrescrevia
       for (i = 0; i < inv.length; i++) inv[i] = big[i] ? 0 : 1;
       var er = dilate(inv, PW, PH, r), out = new Uint8Array(W * H);
       for (y = 0; y < H; y++) for (x = 0; x < W; x++) {
         i = (y + r) * PW + x + r;
         out[y * W + x] = (hole[y * W + x] || (big[i] && !er[i])) ? 1 : 0;      // nunca perde um pixel marcado
       }
+      return out;
+    }
+
+
+    /* PREENCHE a marca. Uma logo semitransparente deixa só alguns pixels acima do limite de cor ("só as letras"): a máscara fica
+       esburacada e o modelo vê a logo quase inteira em volta, então só apaga pedaços e o resto fica desbotado.
+       Aqui: 1) acha cada logo (letras próximas viram um grupo); 2) engorda o grupo em ~30% da sua menor medida,
+       o que equivale ao traço grosso que funciona na página de teste. Marcas já sólidas (lápis) não são engordadas.
+       Devolve uma máscara NOVA (nunca altera nem devolve vetor do pool). */
+    function solidify(hole, W, H) {
+      var cell = C.celula > 1 ? C.celula : 8, k = C.preenche;
+      if (!(k > 0)) return hole;
+      var cw = Math.ceil(W / cell), ch = Math.ceil(H / cell), n = W * H, grid = new Uint8Array(cw * ch), x, y, i, c;
+      for (y = 0; y < H; y++) for (x = 0; x < W; x++) if (hole[y * W + x]) grid[((y / cell) | 0) * cw + ((x / cell) | 0)] = 1;
+      var near = dilate(grid, cw, ch, Math.max(1, C.junta | 0)).slice();              // .slice(): no Worker o resultado é do pool
+      var lab = new Int32Array(cw * ch), stack = new Int32Array(cw * ch), nl = 0, sp, cur, cx, cy, d, nx, ny, nb;
+      for (i = 0; i < near.length; i++) {
+        if (!near[i] || lab[i]) continue;
+        nl++; sp = 0; stack[sp++] = i; lab[i] = nl;
+        while (sp) {
+          cur = stack[--sp]; cx = cur % cw; cy = (cur / cw) | 0;
+          for (d = 0; d < 4; d++) {
+            nx = cx + (d === 0 ? 1 : d === 1 ? -1 : 0); ny = cy + (d === 2 ? 1 : d === 3 ? -1 : 0);
+            if (nx < 0 || ny < 0 || nx >= cw || ny >= ch) continue;
+            nb = ny * cw + nx;
+            if (near[nb] && !lab[nb]) { lab[nb] = nl; stack[sp++] = nb; }
+          }
+        }
+      }
+      if (!nl) return hole;
+      var bx0 = new Int32Array(nl + 1).fill(1e9), by0 = new Int32Array(nl + 1).fill(1e9), bx1 = new Int32Array(nl + 1).fill(-1), by1 = new Int32Array(nl + 1).fill(-1), cnt = new Int32Array(nl + 1);
+      for (y = 0; y < H; y++) for (x = 0; x < W; x++) {
+        if (!hole[y * W + x]) continue;
+        c = lab[((y / cell) | 0) * cw + ((x / cell) | 0)];
+        if (x < bx0[c]) bx0[c] = x; if (x > bx1[c]) bx1[c] = x; if (y < by0[c]) by0[c] = y; if (y > by1[c]) by1[c] = y; cnt[c]++;
+      }
+      var out = new Uint8Array(n), a, bw, bh, r, sx0, sy0, sw, sh, sub, big, yy, xx, grew = 0;
+      for (c = 1; c <= nl; c++) {
+        if (bx1[c] < 0) continue;
+        bw = bx1[c] - bx0[c] + 1; bh = by1[c] - by0[c] + 1;
+        r = (cnt[c] / (bw * bh) > C.densoMax) ? 0 : Math.max(C.preencheMin, Math.min(C.preencheMax, Math.round(k * Math.min(bw, bh))));
+        if (r <= 0) {                                                     // marca sólida: copia como está
+          for (y = by0[c]; y <= by1[c]; y++) for (x = bx0[c]; x <= bx1[c]; x++) if (hole[y * W + x] && lab[((y / cell) | 0) * cw + ((x / cell) | 0)] === c) out[y * W + x] = 1;
+          continue;
+        }
+        sx0 = Math.max(0, bx0[c] - r); sy0 = Math.max(0, by0[c] - r);
+        sw = Math.min(W, bx1[c] + 1 + r) - sx0; sh = Math.min(H, by1[c] + 1 + r) - sy0;
+        sub = new Uint8Array(sw * sh);
+        for (y = by0[c]; y <= by1[c]; y++) for (x = bx0[c]; x <= bx1[c]; x++) if (hole[y * W + x] && lab[((y / cell) | 0) * cw + ((x / cell) | 0)] === c) sub[(y - sy0) * sw + (x - sx0)] = 1;
+        big = dilate(sub, sw, sh, r);
+        for (yy = 0; yy < sh; yy++) for (xx = 0; xx < sw; xx++) if (big[yy * sw + xx]) { out[(sy0 + yy) * W + sx0 + xx] = 1; grew++; }
+      }
+      for (i = 0; i < n; i++) if (hole[i]) out[i] = 1;                    // nunca perde um pixel marcado
       return out;
     }
 
@@ -295,6 +357,7 @@
       inpaint: inpaint,
       buf: buf,
       closeMask: closeMask,
+      solidify: solidify,
       setProgress: setProgress,
       state: function () { return { broken: st.broken, ready: !!st.session, backend: st.backend }; }
     };
@@ -335,6 +398,7 @@
         }
         var img = ctx.getImageData(cx, cy, cw, ch);
         var t0 = Date.now();
+        hole = eng.closeMask(eng.solidify(hole, cw, ch), cw, ch, Math.max(1, Math.round(C.fecha * 0.5)));   // máscara cheia de buracos deixava a logo desbotada
         var ok = await eng.inpaint(img, hole, cw, ch, Math.max(1, Math.round(C.grow * Math.max(sx, sy))));
         if (ok) {
           ctx.putImageData(img, cx, cy); fails = 0;
@@ -374,6 +438,17 @@
     return CFG.grow;
   }
 
+  /* pixels pintados com o LÁPIS dentro do recorte (camada #im-ov da página). null = não deu para ler: tudo é tratado como letras. */
+  function penPixels(cx, cy, cw, ch, W, H) {
+    try {
+      var cv = document.getElementById('im-ov');
+      if (!cv || !cv.getContext || cv.width !== W || cv.height !== H) return null;
+      var d = cv.getContext('2d', { willReadFrequently: true }).getImageData(cx, cy, cw, ch).data, o = new Uint8Array(cw * ch), i, any = false;
+      for (i = 0; i < o.length; i++) if (d[i * 4 + 3] > 40) { o[i] = 1; any = true; }
+      return any ? o : null;
+    } catch (e) { return null; }
+  }
+
   /* ---------- imagem: devolve Promise<boolean> (true = apagou com a v2.2) ---------- */
   async function erase(kind, ctx, W, H, mask) {
     try {
@@ -393,6 +468,10 @@
       var hole = new Uint8Array(cw * ch);
       for (y = 0; y < ch; y++) for (x = 0; x < cw; x++) hole[y * cw + x] = mask[(cy + y) * W + cx + x] ? 1 : 0;
       var img = ctx.getImageData(cx, cy, cw, ch);
+      var pen = penPixels(cx, cy, cw, ch, W, H);
+      if (pen) { for (y = 0; y < hole.length; y++) if (pen[y]) hole[y] = 0; }   // o traço do lápis já é sólido: não engorda
+      hole = eng.solidify(hole, cw, ch);
+      if (pen) { for (y = 0; y < hole.length; y++) if (pen[y]) hole[y] = 1; }
       hole = eng.closeMask(hole, cw, ch, CFG.fecha);
       var ok = await eng.inpaint(img, hole, cw, ch, imageGrow());
       if (ok) ctx.putImageData(img, cx, cy);          // só grava no fim: se algo falhar antes, nada muda
