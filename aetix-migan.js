@@ -21,7 +21,7 @@
   var GROW = 3;                        // folga (px) em volta da área marcada
   var BOX_MARGIN = 4;                  // margem mínima (px) em volta de cada caixa de texto
   var KEY_IMG = 'aetix.versao.imagem';
-  var LABEL = { v1: 'AETIX v1.0', v2: 'AETIX v2.2 (teste)' };
+  var LABEL = { v1: 'AETIX v1.0', v2: 'AETIX v2.2 (TESTE)' };
 
   var broken = false, loading = null, session = null, backend = '', modelBuf = null;
   var failStage = '', failMsg = '';
