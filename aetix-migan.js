@@ -4,7 +4,15 @@
 (function () {
   'use strict';
 
-  var MODEL_URL = '/models/migan_pipeline_v2.onnx';
+  // O mesmo arquivo em lugares diferentes: se um falhar, tenta o próximo.
+  // O último (no seu próprio servidor) só é usado se você colocar o arquivo lá.
+  var MODEL_URLS = [
+    'https://huggingface.co/andraniksargsyan/migan/resolve/main/migan_pipeline_v2.onnx',
+    'https://huggingface.co/CardAnvilModels/MI-GAN-ONNX/resolve/main/migan_pipeline_v2.onnx',
+    'https://huggingface.co/techycoder/migan-inpainting/resolve/main/migan_pipeline_v2.onnx',
+    '/models/migan_pipeline_v2.onnx'
+  ];
+  var CACHE_KEY = ((typeof location !== 'undefined' && location.origin && location.origin !== 'null') ? location.origin : 'https://aetix.local') + '/__aetix_modelo_v2';
   var ORT_VER = '1.22.0';
   var ORT_BASE = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@' + ORT_VER + '/dist/';
   var ORT_URL = ORT_BASE + 'ort.all.min.js';
@@ -16,6 +24,8 @@
   var LABEL = { v1: 'AETIX v1.0', v2: 'AETIX v2.2' };
 
   var broken = false, loading = null, session = null, backend = '', modelBuf = null;
+  var failStage = '', failMsg = '';
+  function tag(stage) { return function (e) { var er = (e instanceof Error) ? e : new Error(String(e)); if (!er.stage) er.stage = stage; throw er; }; }
 
   /* ---------- versão escolhida (guardada só neste navegador) ---------- */
   function getVer() {
@@ -39,12 +49,12 @@
   function getModel() {
     var cacheP = ('caches' in window) ? caches.open(CACHE_NAME).catch(function () { return null; }) : Promise.resolve(null);
     return cacheP.then(function (cache) {
-      var hit = cache ? cache.match(MODEL_URL).catch(function () { return null; }) : Promise.resolve(null);
+      var hit = cache ? cache.match(CACHE_KEY).catch(function () { return null; }) : Promise.resolve(null);
       return hit.then(function (cached) {
         if (cached) {
           return cached.arrayBuffer().then(function (b) {
             if (b.byteLength >= MIN_MODEL_BYTES) return b;
-            return cache.delete(MODEL_URL).catch(function () {}).then(function () { return download(cache); });
+            return cache.delete(CACHE_KEY).catch(function () {}).then(function () { return download(cache); });
           });
         }
         return download(cache);
@@ -52,23 +62,32 @@
     });
   }
   function download(cache) {
-    return fetch(MODEL_URL, { credentials: 'same-origin' }).then(function (r) {
-      if (!r.ok) throw new Error('modelo');
-      return r.arrayBuffer();
-    }).then(function (b) {
-      if (b.byteLength < MIN_MODEL_BYTES) throw new Error('modelo');
-      if (cache) { try { cache.put(MODEL_URL, new Response(b.slice(0))).catch(function () {}); } catch (e) { /* sem cache */ } }
+    var i = 0;
+    var why = [];
+    function next() {
+      if (i >= MODEL_URLS.length) return Promise.reject(new Error(why.join(' | ')));
+      var u = MODEL_URLS[i++], remote = /^https:/i.test(u), label = u.replace(/^https:\/\//, '').split('/').slice(0, 2).join('/');
+      return fetch(u, remote ? { mode: 'cors', credentials: 'omit' } : { credentials: 'same-origin' }).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.arrayBuffer();
+      }).then(function (b) {
+        if (b.byteLength < MIN_MODEL_BYTES) throw new Error('arquivo pequeno demais (' + b.byteLength + ' bytes)');
+        return b;
+      }).catch(function (e) { why.push(label + ': ' + (e && e.message ? e.message : e)); return next(); });
+    }
+    return next().then(function (b) {
+      if (cache) { try { cache.put(CACHE_KEY, new Response(b.slice(0))).catch(function () {}); } catch (e) { /* sem cache */ } }
       return b;
     });
   }
 
   function makeSession(buf, order) {
-    var i = 0;
+    var i = 0, why = [];
     function next() {
-      if (i >= order.length) return Promise.reject(new Error('sessao'));
+      if (i >= order.length) return Promise.reject(new Error(why.join(' | ')));
       var p = order[i++];
       return window.ort.InferenceSession.create(new Uint8Array(buf), { executionProviders: [p], graphOptimizationLevel: 'all' })
-        .then(function (s) { return { s: s, p: p }; }, next);
+        .then(function (s) { return { s: s, p: p }; }, function (e) { why.push(p + ': ' + (e && e.message ? e.message : e)); return next(); });
     }
     return next();
   }
@@ -80,17 +99,20 @@
     loading = Promise.resolve().then(function () {
       return window.ort ? null : loadScript(ORT_URL);
     }).then(function () {
-      if (!window.ort) throw new Error('ort');
+      if (!window.ort) throw new Error('biblioteca ausente');
       window.ort.env.wasm.wasmPaths = ORT_BASE;
       window.ort.env.wasm.numThreads = 1;
-      return getModel();
+    }).catch(tag('motor')).then(function () {
+      return getModel().catch(tag('modelo'));
     }).then(function (buf) {
       modelBuf = buf;
-      return makeSession(buf, navigator.gpu ? ['webgpu', 'wasm'] : ['wasm']);
+      return makeSession(buf, navigator.gpu ? ['webgpu', 'wasm'] : ['wasm']).catch(tag('sessao'));
     }).then(function (m) {
       session = m.s; backend = m.p;
     }).catch(function (e) {
       broken = true; loading = null;
+      failStage = (e && e.stage) || '?'; failMsg = (e && e.message) || String(e);
+      try { console.warn('[AETIX v2.2] indisponível. Etapa: ' + failStage + '. Motivo: ' + failMsg); } catch (x) { /* sem console */ }
       refreshUi();
       throw e;
     });
@@ -250,7 +272,9 @@
     pill.setAttribute('aria-expanded', String(open));
     var other = ver === 'v1' ? 'v2' : 'v1';
     opt.dataset.v = other;
-    opt.textContent = LABEL[other] + ((other === 'v2' && broken) ? (isPt() ? ' · indisponível' : ' · unavailable') : '');
+    var st = ({ motor: isPt() ? 'motor' : 'engine', modelo: isPt() ? 'modelo' : 'model', sessao: isPt() ? 'sessão' : 'session' })[failStage] || '';
+    opt.textContent = LABEL[other] + ((other === 'v2' && broken) ? ((isPt() ? ' · indisponível' : ' · unavailable') + (st ? ' (' + st + ')' : '')) : '');
+    opt.title = (other === 'v2' && broken && failMsg) ? failMsg.slice(0, 300) : '';
     opt.disabled = (other === 'v2' && broken);
     if (open) place();
   }
@@ -305,5 +329,8 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initUi);
   else initUi();
 
-  window.AetixMiGan = Object.freeze({ erase: erase });
+  window.AetixMiGan = Object.freeze({
+    erase: erase,
+    diag: function () { return { indisponivel: broken, etapa: failStage, motivo: failMsg, versao: getVer(), processamento: backend }; }
+  });
 })();
