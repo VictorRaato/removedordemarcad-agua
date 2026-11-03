@@ -57,6 +57,19 @@
     /* aviso no console (F12) para saber POR QUE caiu na v1.0; não altera o comportamento */
     function why(tag, e) { try { if (g.console && g.console.warn) g.console.warn('[AETIX v2]', tag, (e && e.message) ? e.message : e); } catch (x) { /* só aviso */ } }
 
+    /* DIAGNÓSTICO: só escreve no console (F12), não muda nada do que o motor faz */
+    function info() { try { if (g.console && g.console.log) g.console.log.apply(g.console, ['[AETIX v2]'].concat([].slice.call(arguments))); } catch (x) { /* só aviso */ } }
+    function inside(rgba, data, hole, W, H, sc) {
+      var n = W * H, sum = 0, cnt = 0, px = 0, i, o;
+      for (i = 0; i < n; i++) {
+        if (!hole[i]) continue;
+        o = i * 4; px++;
+        sum += Math.abs(data[i] * sc - rgba[o]) + Math.abs(data[n + i] * sc - rgba[o + 1]) + Math.abs(data[2 * n + i] * sc - rgba[o + 2]);
+        cnt += 3;
+      }
+      return { px: px, d: cnt ? +(sum / cnt).toFixed(1) : 0 };
+    }
+
     var progress = null;
     function setProgress(f) { progress = f; }
 
@@ -90,12 +103,13 @@
             try {
               hit = await cache.match(url);
               if (hit) {
-                try { return await accept(await hit.arrayBuffer()); }
+                try { var cb = await accept(await hit.arrayBuffer()); info('modelo do cache', url, (cb.byteLength / 1048576).toFixed(1) + ' MB'); return cb; }
                 catch (e) { try { await cache.delete(url); } catch (e2) { /* segue para o download */ } }
               }
             } catch (e) { /* segue para o download */ }
           }
           b = await accept(await download(url, s.ext));
+          info('modelo baixado', url, (b.byteLength / 1048576).toFixed(1) + ' MB');
           if (cache) { try { await cache.put(url, new g.Response(b.slice(0))); } catch (e) { /* sem cache */ } }
           return b;
         } catch (e) { last = e; why('modelo falhou: ' + url, e); }
@@ -108,6 +122,7 @@
       for (i = 0; i < order.length; i++) {
         try {
           var s = await g.ort.InferenceSession.create(new Uint8Array(buf), { executionProviders: [order[i]], graphOptimizationLevel: 'all' });
+          info('sessão criada', order[i], 'entradas:', s.inputNames.join(','), 'saídas:', s.outputNames.join(','));
           return { s: s, p: order[i] };
         } catch (e) { last = e; why('sessão ' + order[i] + ' falhou', e); }
       }
@@ -224,6 +239,7 @@
           var t = res[st.session.outputNames[0]], dm = (t && t.dims) || [];
           if (!t || dm.length !== 4 || dm[2] !== H || dm[3] !== W) throw new Error('saida');
           var sc = scaleOf(t.data);
+          (function () { var q = inside(img.data, t.data, hole, W, H, sc); info('leitura invertida=' + tries[k], '| recorte ' + W + 'x' + H, '| px da marca', q.px, '| mudança DENTRO da marca', q.d, '| mudança FORA', +drift(img.data, t.data, hole, W, H, sc).toFixed(1), '| saída', t.type, 'escala x' + sc, '| backend', st.backend); })();
           if (st.flip !== null) { paste(img.data, t.data, hole, W, H, sc); return true; }
           var dr = drift(img.data, t.data, hole, W, H, sc);
           if (dr < 0) { paste(img.data, t.data, hole, W, H, sc); return true; }          // pouca amostra: aceita sem fixar
