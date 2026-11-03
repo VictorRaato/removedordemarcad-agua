@@ -216,18 +216,6 @@
       return cnt < 300 ? -1 : sum / cnt;
     }
 
-    /* média |saída - entrada| DENTRO da marca: se o modelo "obedeceu", a marca mudou; se ~0, ele deixou a marca como estava */
-    function inside(rgba, data, hole, W, H, sc) {
-      var n = W * H, sum = 0, cnt = 0, i, o;
-      for (i = 0; i < n; i++) {
-        if (!hole[i]) continue;
-        o = i * 4;
-        sum += Math.abs(data[i] * sc - rgba[o]) + Math.abs(data[n + i] * sc - rgba[o + 1]) + Math.abs(data[2 * n + i] * sc - rgba[o + 2]);
-        cnt += 3;
-      }
-      return cnt ? sum / cnt : 0;
-    }
-
     function paste(rgba, data, hole, W, H, sc) {
       var n = W * H, i, o;
       for (i = 0; i < n; i++) {
@@ -242,28 +230,26 @@
       try {
         await load();
         var hole = dilate(rawHole, W, H, grow);
-        // Leitura certa da máscara = (1) a marca MUDA e (2) o resto fica igual. Só vale se as duas coisas acontecem.
-        // Se a leitura já fixada deixar de valer, testa a outra e troca. Nenhuma valendo: a v1.0 apaga.
-        var first = st.flip === null ? false : st.flip, tries = [first, !first], k, best = null;
-        for (k = 0; k < 2; k++) {
+        // na primeira vez confere se o modelo leu a máscara do jeito certo (fora da marca a saída
+        // tem de ficar igual à entrada); se não, tenta a máscara invertida e fica com a melhor leitura
+        var tries = st.flip === null ? [false, true] : [st.flip], k, best = null;
+        for (k = 0; k < tries.length; k++) {
           var res = await run(feedsFor(img.data, hole, W, H, tries[k]));
           var t = res[st.session.outputNames[0]], dm = (t && t.dims) || [];
           if (!t || dm.length !== 4 || dm[2] !== H || dm[3] !== W) throw new Error('saida');
           var sc = scaleOf(t.data);
-          var dOut = drift(img.data, t.data, hole, W, H, sc), dIn = inside(img.data, t.data, hole, W, H, sc);
-          var changed = dIn >= 0.5, clean = dOut < 0 || dOut <= 14;
-          if (changed && clean) { st.flip = tries[k]; paste(img.data, t.data, hole, W, H, sc); return true; }
-          if (changed && (dOut < 0 || dOut <= 45)) {
-            var score = dIn - Math.max(0, dOut);
-            if (!best || score > best.score) best = { score: score, t: t, sc: sc, flip: tries[k] };
-          }
+          if (st.flip !== null) { paste(img.data, t.data, hole, W, H, sc); return true; }
+          var dr = drift(img.data, t.data, hole, W, H, sc);
+          if (dr < 0) { paste(img.data, t.data, hole, W, H, sc); return true; }          // pouca amostra: aceita sem fixar
+          if (dr <= 14) { st.flip = tries[k]; paste(img.data, t.data, hole, W, H, sc); return true; }
+          if (!best || dr < best.dr) best = { dr: dr, t: t, sc: sc, flip: tries[k] };
         }
-        if (best) {                                   // nenhuma ficou limpa: usa a mais plausível
+        if (best && best.dr <= 45) {                  // nenhuma ficou limpa: usa a mais plausível
           st.flip = best.flip;
           paste(img.data, best.t.data, hole, W, H, best.sc);
           return true;
         }
-        why('o modelo não alterou a marca (ou mexeu no resto); v1.0 apaga', null);
+        why('saída do modelo não bateu com a entrada; v1.0 apaga', best && best.dr);
         return false;                                // nenhuma leitura fez sentido: deixa a v1.0 apagar
       } catch (e) { why('inpaint falhou; v1.0 apaga', e); return false; }
     }
