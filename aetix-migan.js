@@ -1,6 +1,9 @@
 /* AETIX · versão 2.2 (imagem), versão 1.8 (vídeo) e seletor de versão.
    Correção 03/11: a máscara "só as letras" de uma logo semitransparente vem cheia de buracos; o modelo só apagava pedaços e a logo
    ficava desbotada. Agora a máscara é PREENCHIDA (função solidify) antes de apagar, como o traço grosso da página de teste.
+   Correção 03/11 (2): o WebGPU do ONNX Runtime Web tem bugs conhecidos que devolvem resultado errado SEM dar erro (microsoft/onnxruntime #24070, #32134).
+   Agora o motor confere sozinho, uma vez por aparelho, se o WebGPU dá o mesmo resultado que a CPU (WASM); se não der, usa só a CPU.
+   No Console (F12): AetixMiGan.diagnostico() refaz a conferência e mostra o resultado; AetixMiGan.resetar() limpa a decisão e o cache do modelo.
    Arquivo novo: não altera o que já existe. Em qualquer falha, o site continua
    usando a versão 1.0 (OpenCV), exatamente como antes.
    O modelo (migan_pipeline_v2.onnx) é baixado do Hugging Face (3 espelhos) e guardado no cache. */
@@ -33,7 +36,8 @@
     preencheMax: 24,            // engorda máxima (px)
     junta: 3,                   // letras/palavras a até junta*celula px uma da outra contam como a mesma logo
     celula: 8,                  // tamanho da célula usada para achar as logos (px)
-    densoMax: 0.6               // se a marca já preenche mais que isso da sua caixa (ex.: traço de lápis), não engorda
+    densoMax: 0.6,              // se a marca já preenche mais que isso da sua caixa (ex.: traço de lápis), não engorda
+    gpuTol: 10                  // conferência WebGPU x CPU: diferença média (0 a 255) aceita dentro da área apagada
   };
 
   /* =====================================================================
@@ -43,7 +47,7 @@
      ===================================================================== */
   function makeEngine(g, C) {
     var BASE = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@' + C.ortVer + '/dist/';
-    var st = { broken: false, session: null, backend: '', buf: null, loading: null, flip: null };
+    var st = { broken: false, session: null, backend: '', buf: null, loading: null, flip: null, v: '', cal: null };
     var inWin = typeof g.document !== 'undefined';
 
     async function loadScript(src) {
@@ -155,6 +159,89 @@
       throw last || new Error('sessao');
     }
 
+
+    /* ---------- conferência WebGPU x CPU ---------- */
+    var VKEY = 'aetix.gpu.' + C.ortVer;
+    function pref() { try { return (g.localStorage && g.localStorage.getItem('aetix.motor')) || C.motor || ''; } catch (x) { return C.motor || ''; } }
+    function verdict() {
+      if (st.v === '1' || st.v === '0') return st.v;
+      try { var v = g.localStorage && g.localStorage.getItem(VKEY); if (v === '1' || v === '0') return v; } catch (x) { /* sem armazenamento */ }
+      return (C.gpu === '1' || C.gpu === '0') ? C.gpu : '';
+    }
+    function saveVerdict(v) { st.v = v; try { if (g.localStorage) g.localStorage.setItem(VKEY, v); } catch (x) { /* só na memória */ } }
+    function forget() { st.v = ''; st.cal = null; try { if (g.localStorage) g.localStorage.removeItem(VKEY); } catch (x) { /* nada */ } }
+
+    async function ensureOrt() {
+      if (!g.ort) await loadScript(BASE + 'ort.all.min.js');
+      if (!g.ort) throw new Error('ort');
+      g.ort.env.wasm.wasmPaths = BASE;
+      g.ort.env.wasm.numThreads = 1;
+    }
+
+    /* imagem de prova: fundo suave com ruído e, no meio, listras fortes que o modelo PRECISA apagar */
+    function probe() {
+      var W = 256, H = 192, n = W * H, rgba = new Uint8Array(n * 4), hole = new Uint8Array(n), x, y, i, s = 12345, r, inH;
+      for (y = 0; y < H; y++) for (x = 0; x < W; x++) {
+        i = y * W + x; s = (s * 1664525 + 1013904223) >>> 0; r = (s >>> 24) & 15;
+        inH = x >= 96 && x < 160 && y >= 72 && y < 120;
+        rgba[i * 4] = 80 + ((x * 90 / W) | 0) + r; rgba[i * 4 + 1] = 110 + ((y * 80 / H) | 0) + r; rgba[i * 4 + 2] = 150 + r; rgba[i * 4 + 3] = 255;
+        if (inH) { hole[i] = 1; if ((x >> 3) & 1) { rgba[i * 4] = 240; rgba[i * 4 + 1] = 30; rgba[i * 4 + 2] = 60; } }
+      }
+      return { W: W, H: H, rgba: rgba, hole: hole };
+    }
+    function holeDiff(a, b, hole, n, sa, sb) {
+      var sum = 0, cnt = 0, i, c, d;
+      for (i = 0; i < n; i++) {
+        if (!hole[i]) continue;
+        for (c = 0; c < 3; c++) { d = a[c * n + i] * sa - b[c * n + i] * sb; sum += d < 0 ? -d : d; cnt++; }
+      }
+      return cnt ? sum / cnt : -1;
+    }
+
+    /* true = pode usar o WebGPU; false = usa só a CPU (WASM). A decisão fica guardada neste navegador. */
+    function calibrate(force) {
+      var pv = pref();
+      if (!force) {
+        if (pv === 'wasm') return Promise.resolve(false);
+        if (pv === 'webgpu') return Promise.resolve(true);
+        var v = verdict();
+        if (v) return Promise.resolve(v === '1');
+      }
+      if (!(g.navigator && g.navigator.gpu)) return Promise.resolve(false);
+      if (st.cal && !force) return st.cal;
+      var job = (async function () {
+        var sw = null, sg = null, stage = 'cpu', ok = false, d = -1, t0, tw = 0, tg = 0;
+        try {
+          await ensureOrt();
+          var bytes = st.buf || await modelBytes();
+          var pr = probe(), n = pr.W * pr.H, ow, og, a, b;
+          sw = (await makeSession(bytes, ['wasm'])).s;
+          t0 = Date.now(); ow = await sw.run(feedsFor(pr.rgba, pr.hole, pr.W, pr.H, false, sw)); tw = Date.now() - t0;
+          stage = 'gpu';
+          sg = (await makeSession(bytes, ['webgpu'])).s;
+          t0 = Date.now(); og = await sg.run(feedsFor(pr.rgba, pr.hole, pr.W, pr.H, false, sg)); tg = Date.now() - t0;
+          a = ow[sw.outputNames[0]]; b = og[sg.outputNames[0]];
+          d = holeDiff(a.data, b.data, pr.hole, n, scaleOf(a.data), scaleOf(b.data));
+          ok = d >= 0 && d <= C.gpuTol;
+          var chw = new Uint8Array(3 * n), q, sc2 = scaleOf(a.data), chg;
+          for (q = 0; q < n; q++) { chw[q] = pr.rgba[q * 4]; chw[n + q] = pr.rgba[q * 4 + 1]; chw[2 * n + q] = pr.rgba[q * 4 + 2]; }
+          chg = holeDiff(chw, a.data, pr.hole, n, 1, sc2);
+          info('conferência WebGPU x CPU | a CPU mudou a área apagada em', +chg.toFixed(1), '(se ~0, o modelo não está apagando nem na CPU) | diferença WebGPU x CPU', +d.toFixed(2), '(aceita até ' + C.gpuTol + ') | tempo CPU', tw + ' ms', '| tempo WebGPU', tg + ' ms', '->', ok ? 'WebGPU confiável' : 'WebGPU NÃO confiável, usando CPU');
+        } catch (e) {
+          why('conferência: falhou na etapa ' + stage, e);
+          if (stage === 'cpu') return false;                  // problema na CPU, não no WebGPU: não grava decisão
+          ok = false;                                          // o WebGPU não iniciou ou não rodou: usa a CPU
+        } finally {
+          try { if (sw && sw.release) await sw.release(); } catch (x) { /* nada */ }
+          try { if (sg && sg.release) await sg.release(); } catch (x) { /* nada */ }
+        }
+        saveVerdict(ok ? '1' : '0');
+        return ok;
+      })();
+      if (!force) st.cal = job;
+      return job.then(function (r) { if (!r) st.cal = null; return r; }, function (e) { st.cal = null; throw e; });
+    }
+
     function load() {
       if (st.session) return Promise.resolve();
       if (st.broken) return Promise.reject(new Error('indisponivel'));
@@ -168,8 +255,9 @@
           g.ort.env.wasm.wasmPaths = BASE;
           g.ort.env.wasm.numThreads = 1;
           st.buf = r[1];
-          var pref = ''; try { pref = (g.localStorage && g.localStorage.getItem('aetix.motor')) || ''; } catch (x) { pref = ''; }
-          var m = await makeSession(st.buf, pref === 'wasm' ? ['wasm'] : ((g.navigator && g.navigator.gpu) ? ['webgpu', 'wasm'] : ['wasm']));
+          var useGpu = false;
+          try { useGpu = await calibrate(false); } catch (x) { useGpu = false; }
+          var m = await makeSession(st.buf, useGpu ? ['webgpu', 'wasm'] : ['wasm']);
           st.session = m.s; st.backend = m.p;
         })().catch(function (e) { st.broken = true; st.loading = null; why('motor indisponível, usando v1.0', e); throw e; });
       }
@@ -179,8 +267,8 @@
     /* só confere se o modelo está no site e é válido (deixa guardado no cache), sem montar o motor */
     async function prepare() {
       if (st.broken) throw new Error('indisponivel');
-      if (st.buf || st.session) return;
-      try { await modelBytes(); } catch (e) { st.broken = true; throw e; }
+      if (!st.buf && !st.session) { try { await modelBytes(); } catch (e) { st.broken = true; throw e; } }
+      try { await calibrate(false); } catch (e) { /* sem decisão: o vídeo usa a CPU */ }
     }
 
     function dilate(hole, W, H, r) {
@@ -268,13 +356,13 @@
       return out;
     }
 
-    function feedsFor(rgba, hole, W, H, flip) {
+    function feedsFor(rgba, hole, W, H, flip, se) {
       var n = W * H, img = buf('img', 3 * n), mask = buf('mask', n), i, j;
       for (i = 0, j = 0; i < n; i++, j += 4) {
         img[i] = rgba[j]; img[n + i] = rgba[j + 1]; img[2 * n + i] = rgba[j + 2];
         mask[i] = ((hole[i] ? 1 : 0) !== (flip ? 1 : 0)) ? 0 : 255;   // 255 = manter, 0 = preencher
       }
-      var names = st.session.inputNames;
+      var names = (se || st.session).inputNames;
       var im = names.filter(function (x) { return /img|image/i.test(x); })[0] || names[0];
       var mk = names.filter(function (x) { return /mask/i.test(x); })[0] || names[1];
       var f = {};
@@ -287,6 +375,7 @@
       try { return await st.session.run(feeds); }
       catch (e) {
         if (st.backend !== 'webgpu') throw e;       // WebGPU falhou ao rodar: refaz na CPU
+        saveVerdict('0');
         var m = await makeSession(st.buf, ['wasm']);
         st.session = m.s; st.backend = m.p;
         return await st.session.run(feeds);
@@ -358,6 +447,10 @@
       buf: buf,
       closeMask: closeMask,
       solidify: solidify,
+      calibrate: calibrate,
+      verdict: verdict,
+      pref: pref,
+      forget: forget,
       setProgress: setProgress,
       state: function () { return { broken: st.broken, ready: !!st.session, backend: st.backend }; }
     };
@@ -481,12 +574,14 @@
   }
 
   /* ---------- vídeo: endereço do código que o Worker carrega (ou null = v1.0 de sempre) ---------- */
-  var wUrl = null;
+  var wUrl = null, wKey = '';
   function videoJob() {
     try {
       if (getVer('video') !== 'v2' || eng.state().broken) return null;
-      if (!wUrl) {
-        var src = 'var __mk=' + makeEngine.toString() + ';(' + workerBoot.toString() + ')(self,__mk,' + JSON.stringify(CFG) + ');';
+      var key = eng.verdict() + '|' + eng.pref();
+      if (!wUrl || wKey !== key) {
+        wKey = key;
+        var src = 'var __mk=' + makeEngine.toString() + ';(' + workerBoot.toString() + ')(self,__mk,' + JSON.stringify(Object.assign({}, CFG, { gpu: eng.verdict(), motor: eng.pref() })) + ');';
         wUrl = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
       }
       return wUrl;
@@ -616,5 +711,18 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initUi);
   else initUi();
 
-  window.AetixMiGan = Object.freeze({ erase: erase, videoJob: videoJob });
+  /* Console (F12): AetixMiGan.diagnostico() e AetixMiGan.resetar() */
+  async function diagnostico() {
+    var ok = await eng.calibrate(true);
+    refreshUi();
+    return ok ? 'WebGPU confiável neste aparelho (usado)' : 'WebGPU não confiável ou indisponível: usando a CPU (WASM). Veja as linhas [AETIX v2] acima.';
+  }
+  async function resetar() {
+    eng.forget();
+    try { localStorage.removeItem('aetix.motor'); } catch (e) { /* nada */ }
+    try { if (window.caches) await caches.delete(CFG.cache); } catch (e) { /* nada */ }
+    return 'Decisão e cache do modelo apagados. Recarregue a página (Ctrl+F5).';
+  }
+
+  window.AetixMiGan = Object.freeze({ erase: erase, videoJob: videoJob, diagnostico: diagnostico, resetar: resetar });
 })();
