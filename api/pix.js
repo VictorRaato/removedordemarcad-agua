@@ -4,14 +4,19 @@
    Intermedia a cobrança Pix: o navegador nunca vê a chave do processador.
 
    POST /api/pix           -> cria a cobrança Pix
-        corpo: { amount_cents, customer:{name,email,phone}, external_reference?, utm? }
-        resposta: { id, pix:{ copy_paste } }
+         corpo: { amount_cents, customer:{name,email,phone}, external_reference?, utm? }
+         resposta: { id, pix:{ copy_paste } }
    GET  /api/pix?id=XXXX   -> consulta o status da cobrança
-        resposta: { status }
+         resposta: { status }
 
    Variável de ambiente (Vercel > Settings > Environment Variables):
-        BRAVOPAY_API_KEY   (obrigatória)
-        BRAVOPAY_PRODUCT_ID (opcional)
+         PIX_PROVIDER     (opcional: bravopay ou paguezy)
+         PAGUEZY_API_KEY  (obrigatória se provider = paguezy)
+         PAGUEZY_API_SECRET (obrigatória se provider = paguezy)
+         PAGUEZY_WEBHOOK_SECRET (recomendada; valida o webhook)
+         BRAVOPAY_API_KEY   (obrigatória se provider = bravopay)
+         BRAVOPAY_PRODUCT_ID (opcional)
+         RATE_SALT          (recomendada; segredo para os códigos irreversíveis)
    E-mail e telefone nunca são escritos em log por esta função.
 
    REGISTRO PRIVADO: quando o processador confirma o pagamento, o pedido é
@@ -25,119 +30,23 @@
    primeiro e segundo nome; se não marcar, aparece como "Anônimo". Em ambos
    os casos guardamos valor e um código irreversível (HMAC) do e-mail, usado
    só para somar as colaborações da mesma pessoa no ranking. O registro só
-   fica público depois que o processador confirma o pagamento (status PAID).
+   fica público depois que o processador confirma o pagamento (status PAID/paid).
    ========================================================================== */
-const crypto = require('crypto');
+const { exigirLogin } = require('./_auth');
+const { ANONIMO, nomePublico, guardarPendente, promover } = require('./_pix');
+
 let _fb = null;
 function fb() { return _fb || (_fb = require('./_firebase')); }
-const { exigirLogin } = require('./_auth');
 
-const BASE_URL = 'https://bravopay.club/api/v1';
+const PIX_PROVIDER = String(process.env.PIX_PROVIDER || (process.env.PAGUEZY_API_KEY ? 'paguezy' : 'bravopay')).toLowerCase();
+const BRAVO_BASE = 'https://bravopay.club/api/v1';
+const PAGUEZY_BASE = 'https://paguezy.com/api/v1';
 const MIN_CENTS = 500;            // R$ 5,00 (mesmo mínimo do site)
 const MAX_CENTS = 5000000;        // R$ 50.000,00 (teto de segurança)
 const TIMEOUT_MS = 20000;
 const MAX_BODY_CHARS = 8192;
 const JANELA_MS = 60 * 1000;      // limitador simples por visitante
 const MAX_POR_JANELA = 20;
-
-const ANONIMO = 'Anônimo';
-const PARTICULAS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'di', 'du']);
-
-/* "joão  DA silva souza" -> "João Silva" */
-function nomePublico(nome) {
-  const partes = String(nome || '').replace(/[^\p{L}'’\- ]/gu, ' ').split(/\s+/).filter(Boolean);
-  const uteis = partes.filter((w, i) => i === 0 || !PARTICULAS.has(w.toLowerCase()));
-  const cap = w => w.slice(0, 24).toLowerCase().replace(/(^|['’\-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase());
-  return uteis.slice(0, 2).map(cap).join(' ');
-}
-
-/* Segredo dos hashes. Sem RATE_SALT usa a chave privada; sem as duas, um valor
-   aleatório desta instância — nunca uma string previsível. */
-let _segredo = null;
-function segredoRate() {
-  if (_segredo) return _segredo;
-  const s = String(process.env.RATE_SALT || '');
-  if (s) return (_segredo = s);
-  const k = String(process.env.FIREBASE_PRIVATE_KEY || '');
-  if (k) return (_segredo = crypto.createHash('sha256').update('ratelimit|' + k).digest('hex'));
-  console.error('[rate] RATE_SALT ausente: segredo aleatório desta instância.');
-  return (_segredo = crypto.randomBytes(32).toString('hex'));
-}
-
-function chaveEmail(email) {
-  return crypto.createHmac('sha256', segredoRate()).update(String(email).toLowerCase()).digest('hex');
-}
-
-/* Guarda o pedido de exibição até o pagamento ser confirmado. Nunca derruba a cobrança. */
-async function guardarPendente(id, nome, cents, dados) {
-  try {
-    const db = fb().getDb();
-    const { FieldValue, Timestamp } = require('firebase-admin/firestore');
-    await db.collection('colab_pendentes').doc(String(id)).set({
-      nome: nome,
-      centavos: cents,
-      chave: chaveEmail(dados.email),
-      criadoEm: FieldValue.serverTimestamp(),
-      conta: String(dados.uid || ''),
-      nomeCompleto: String(dados.nomeCompleto || ''),
-      email: String(dados.email || ''),
-      telefone: String(dados.telefone || ''),
-      mostrar: dados.mostrar === true
-    });
-    const velhos = await db.collection('colab_pendentes')
-      .where('criadoEm', '<=', Timestamp.fromMillis(Date.now() - 3 * 24 * 3600 * 1000)).limit(20).get();
-    if (!velhos.empty) {
-      const batch = db.batch();
-      velhos.docs.forEach(d => batch.delete(d.ref));
-      await batch.commit();
-    }
-  } catch (e) { console.error('[pix] pendente não gravado:', e && e.message); }
-}
-
-/* Pagamento confirmado: publica no mural e soma no ranking (idempotente). */
-async function promover(id) {
-  try {
-    const db = fb().getDb();
-    const { FieldValue } = require('firebase-admin/firestore');
-    const pendRef = db.collection('colab_pendentes').doc(String(id));
-    const colRef = db.collection('colaboracoes').doc(String(id));
-    await db.runTransaction(async (tx) => {
-      const pend = await tx.get(pendRef);
-      const col = await tx.get(colRef);
-      if (col.exists || !pend.exists) return;
-      const d = pend.data();
-      const rankRef = d.chave ? db.collection('ranking').doc(d.chave) : null;
-      const rank = rankRef ? await tx.get(rankRef) : null;
-      tx.set(colRef, { nome: d.nome, centavos: d.centavos, criadoEm: FieldValue.serverTimestamp() });
-      /* registro privado, só para o dono do projeto: conciliação e sorteios */
-      tx.set(db.collection('colaboradores').doc(String(id)), {
-        conta: d.conta || '',
-        nomeCompleto: d.nomeCompleto || '',
-        email: d.email || '',
-        telefone: d.telefone || '',
-        centavos: d.centavos,
-        mostrar: d.mostrar === true,
-        criadoEm: FieldValue.serverTimestamp()
-      });
-      if (rankRef) {
-        tx.set(rankRef, {
-          nome: d.nome,
-          centavos: (rank.exists ? Number(rank.get('centavos')) || 0 : 0) + d.centavos,
-          qtd: (rank.exists ? Number(rank.get('qtd')) || 0 : 0) + 1,
-          ultimoEm: FieldValue.serverTimestamp()
-        });
-      }
-      tx.delete(pendRef);
-    });
-    /* mantém só as 100 colaborações mais recentes no mural (o ranking é um doc por pessoa e fica) */
-    const excesso = await db.collection('colaboracoes').orderBy('criadoEm', 'desc').offset(100).limit(25).get();
-    if (!excesso.empty) {
-      const batch = db.batch();
-      excesso.docs.forEach(d => batch.delete(d.ref));
-      await batch.commit();
-    }
-  } catch (e) { console.error('[pix] promoção falhou:', e && e.message); }
-}
 
 const UTM_KEYS = ['source', 'medium', 'campaign', 'content', 'term', 'fbclid', 'ttclid', 'gclid'];
 
@@ -163,25 +72,35 @@ function lerBody(req) {
 }
 
 const texto = (v, max) => (typeof v === 'string' ? v.replace(/[\u0000-\u001F]/g, '').trim().slice(0, max) : '');
+const pago = (status) => String(status || '').toUpperCase() === 'PAID';
 
-/* Chamada ao processador, com a chave só no servidor. */
-async function bravo(path, options) {
-  const key = process.env.BRAVOPAY_API_KEY;
-  if (!key) throw Object.assign(new Error('config'), { code: 'config' });
+async function chamandoApi(url, options, headers) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
   try {
-    const resp = await fetch(BASE_URL + path, {
-      ...options,
-      signal: ctrl.signal,
-      headers: { 'Authorization': 'Bearer ' + key, ...(options && options.headers) }
-    });
+    const resp = await fetch(url, { ...options, signal: ctrl.signal, headers: { ...headers, ...(options && options.headers) } });
     let data = null;
     try { data = await resp.json(); } catch (e) { /* corpo vazio */ }
     return { ok: resp.ok, status: resp.status, data: data || {} };
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function bravo(path, options) {
+  const key = process.env.BRAVOPAY_API_KEY;
+  if (!key) throw Object.assign(new Error('config'), { code: 'config' });
+  return chamandoApi(BRAVO_BASE + path, options, { 'Authorization': 'Bearer ' + key });
+}
+
+async function paguezy(path, options) {
+  const key = process.env.PAGUEZY_API_KEY;
+  const secret = process.env.PAGUEZY_API_SECRET;
+  if (!key || !secret) throw Object.assign(new Error('config'), { code: 'config' });
+  return chamandoApi(PAGUEZY_BASE + path, options, {
+    'X-Api-Key': key,
+    'X-Api-Secret': secret
+  });
 }
 
 function mensagemErro(data, status) {
@@ -216,14 +135,16 @@ module.exports = async function handler(req, res) {
         const dono = pend.get('conta');
         if (dono && dono !== uid) return res.status(404).json({ message: 'Cobrança não encontrada.' });
       } else {
-        const pago = await db.collection('colaboradores').doc(id).get();
-        const dono = pago.exists ? pago.get('conta') : '';
-        if (!pago.exists || (dono && dono !== uid)) return res.status(404).json({ message: 'Cobrança não encontrada.' });
+        const pagoDoc = await db.collection('colaboradores').doc(id).get();
+        const dono = pagoDoc.exists ? pagoDoc.get('conta') : '';
+        if (!pagoDoc.exists || (dono && dono !== uid)) return res.status(404).json({ message: 'Cobrança não encontrada.' });
       }
-      const r = await bravo('/transactions/' + encodeURIComponent(id));
+      const r = PIX_PROVIDER === 'paguezy'
+        ? await paguezy('/payments/' + encodeURIComponent(id), { method: 'GET' })
+        : await bravo('/transactions/' + encodeURIComponent(id), { method: 'GET' });
       if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });
       const status = String(r.data.status || '');
-      if (status.toUpperCase() === 'PAID') await promover(id);
+      if (pago(status)) await promover(id);
       return res.status(200).json({ status });
     }
 
@@ -247,37 +168,56 @@ module.exports = async function handler(req, res) {
     const utm = {};
     const u = body.utm && typeof body.utm === 'object' ? body.utm : {};
     UTM_KEYS.forEach(k => { const v = texto(u[k], 200); if (v) utm[k] = v; });
+    const externalReference = texto(body.external_reference, 64) || ('aetix-' + Date.now());
 
-    const payload = {
-      amount_cents: cents,
-      method: 'pix',
-      customer: { name, email, phone },
-      external_reference: texto(body.external_reference, 64) || ('aetix-' + Date.now()),
-      utm
-    };
-    if (process.env.BRAVOPAY_PRODUCT_ID) payload.product_id = process.env.BRAVOPAY_PRODUCT_ID;
+    let r, id, copy;
+    if (PIX_PROVIDER === 'paguezy') {
+      const payload = {
+        amount: cents,
+        payment_method: 'pix',
+        external_reference: externalReference,
+        customer: { name, email, phone }
+      };
+      r = await paguezy('/payments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      id = r.data.id;
+      copy = r.data.pix_copy_paste;
+    } else {
+      const payload = {
+        amount_cents: cents,
+        method: 'pix',
+        customer: { name, email, phone },
+        external_reference: externalReference,
+        utm
+      };
+      if (process.env.BRAVOPAY_PRODUCT_ID) payload.product_id = process.env.BRAVOPAY_PRODUCT_ID;
+      r = await bravo('/transactions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      id = r.data.id;
+      copy = r.data.pix && r.data.pix.copy_paste;
+    }
 
-    const r = await bravo('/transactions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
     if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });
+    if (!id || !copy) return res.status(502).json({ message: 'Resposta inesperada do processador de pagamentos.' });
 
-    const copy = r.data.pix && r.data.pix.copy_paste;
-    if (!r.data.id || !copy) return res.status(502).json({ message: 'Resposta inesperada do processador de pagamentos.' });
     const publico = body.show_name === true ? nomePublico(name) : '';
-    await guardarPendente(r.data.id, publico || ANONIMO, cents, {
+    await guardarPendente(id, publico || ANONIMO, cents, {
       uid: uid,
       nomeCompleto: name,
       email: email,
       telefone: phone,
       mostrar: body.show_name === true
     });
-    return res.status(201).json({ id: r.data.id, pix: { copy_paste: copy } });
+    return res.status(201).json({ id: id, pix: { copy_paste: copy } });
   } catch (err) {
     if (err && err.code === 'config') {
-      console.error('[pix] BRAVOPAY_API_KEY ausente.');
+      console.error('[pix] configuração do provedor ausente.');
       return res.status(500).json({ message: 'Pagamento indisponível no momento.' });
     }
     if (err && err.name === 'AbortError') {
