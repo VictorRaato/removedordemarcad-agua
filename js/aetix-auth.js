@@ -17,9 +17,8 @@
    Sem escolha do usuário: computador = ligadas, celular = desligadas. Desligado remove enfeites, animações e desfoques. */
 (function () {
   var KEY = 'aetix-anim', d = document.documentElement;
-  function celular() { try { return (window.matchMedia && matchMedia('(pointer:coarse)').matches) || Math.min(screen.width, screen.height) < 700; } catch (e) { return false; } }
   function lerPref() { try { var v = localStorage.getItem(KEY); return v === 'on' || v === 'off' ? v : null; } catch (e) { return null; } }
-  function ligadas() { var p = lerPref(); return p ? p === 'on' : !celular(); }
+  function ligadas() { var p = lerPref(); return !p || p === 'on'; }
   function lang() { var s = document.getElementById('uiLang'), v = s && s.value; if (!v) { try { v = localStorage.getItem('aetix-lang'); } catch (e) {} } return v === 'en' ? 'en' : 'pt'; }
   function aplicar() {
     var on = ligadas();
