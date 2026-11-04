@@ -28,7 +28,7 @@
   var TEXTOS = {
     pt: {
       back: 'Voltar ao site', secConta: 'Dados da conta', secContaP: 'Vêm da sua conta Google e não podem ser editados aqui.',
-      lblNome: 'Nome', lblEmail: 'E-mail', secPref: 'Preferências', lblIdioma: 'Idioma', lblIdiomaP: 'Vale para todo o site.', lblAnim: 'Animações', lblAnimP: 'Enfeites e efeitos animados. Desligue se a página estiver pesada.', animOn: 'Ligadas', animOff: 'Desligadas',
+      lblNome: 'Nome', lblEmail: 'E-mail', secPref: 'Preferências', lblIdioma: 'Idioma', lblIdiomaP: 'Vale para todo o site.', lblAnim: 'Animações', lblAnimP: 'Enfeites e efeitos animados. Desligue se a página estiver pesada.', animOn: 'Ligadas', animOff: 'Desligadas', tokensLabel: 'SEUS TOKENS:',
       secLinks: 'Atalhos', lnkTool: 'Remover marca d’água', lnkToolP: 'Voltar para a ferramenta',
       lnkColab: 'Colaboração', lnkColabP: 'Ajude o projeto a continuar gratuito', lnkSobre: 'Sobre', lnkSobreP: 'Conheça o AETIX DESIGN AI',
       lnkTermos: 'Termos de Uso', lnkPriv: 'Política de Privacidade', secSessao: 'Sessão', btnSair: 'Sair da conta', btnExcluir: 'Excluir conta',
@@ -39,7 +39,7 @@
     },
     en: {
       back: 'Back to site', secConta: 'Account details', secContaP: 'They come from your Google account and can’t be edited here.',
-      lblNome: 'Name', lblEmail: 'Email', secPref: 'Preferences', lblIdioma: 'Language', lblIdiomaP: 'Applies to the whole site.', lblAnim: 'Animations', lblAnimP: 'Decorations and animated effects. Turn off if the page feels heavy.', animOn: 'On', animOff: 'Off',
+      lblNome: 'Name', lblEmail: 'Email', secPref: 'Preferences', lblIdioma: 'Language', lblIdiomaP: 'Applies to the whole site.', lblAnim: 'Animations', lblAnimP: 'Decorations and animated effects. Turn off if the page feels heavy.', animOn: 'On', animOff: 'Off', tokensLabel: 'YOUR TOKENS:',
       secLinks: 'Shortcuts', lnkTool: 'Remove watermark', lnkToolP: 'Back to the tool',
       lnkColab: 'Support', lnkColabP: 'Help keep the project free', lnkSobre: 'About', lnkSobreP: 'Get to know AETIX DESIGN AI',
       lnkTermos: 'Terms of Use', lnkPriv: 'Privacy Policy', secSessao: 'Session', btnSair: 'Sign out', btnExcluir: 'Delete account',
