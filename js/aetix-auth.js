@@ -115,7 +115,17 @@ function lerCache() { try { return JSON.parse(localStorage.getItem(CACHE) || 'nu
 function gravarCache(u) { try { u ? localStorage.setItem(CACHE, JSON.stringify(u)) : localStorage.removeItem(CACHE); } catch (e) {} }
 function limpar(s, n) { return String(s == null ? '' : s).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n || 120); }
 function dePerfil(fu) {
-  return fu ? { nome: limpar(fu.displayName, 60), email: limpar(fu.email, 120), foto: /^https:\/\//i.test(fu.photoURL || '') ? fu.photoURL : '' } : null;
+  return fu ? { nome: limpar(fu.displayName, 60), email: limpar(fu.email, 120), foto: /^https:\/\//i.test(fu.photoURL || '') ? fu.photoURL : '', verificado: !!fu.emailVerified } : null;
+}
+
+/* ===== E-MAIL CONFIRMADO =====
+   Contas criadas a partir de 05/11/2026 precisam confirmar o e-mail antes de usar
+   IA, Pix e avaliação. Contas anteriores seguem liberadas (mesma data usada em api/_auth.js). */
+const CORTE_EMAIL = Date.parse('2026-11-05T00:00:00Z');
+function precisaVerificar(fu) {
+  if (!fu || fu.emailVerified) return false;
+  const criada = Date.parse(String((fu.metadata && fu.metadata.creationTime) || ''));
+  return !(Number.isFinite(criada) && criada < CORTE_EMAIL);
 }
 function erro(e) {
   const c = (e && e.code) || '';
@@ -186,28 +196,35 @@ if (!ligado) {
     if (s && s.ok && !s.aceito) await enviarAceite(s, origem);
   }
 
+  /* estilo comum aos dois avisos: aceite dos Termos e confirmação de e-mail */
+  function cssModais() {
+    if (document.getElementById('aetixAceiteCss')) return;
+    const R = (sel) => '#aetixAceite' + sel + ',#aetixEmail' + sel;   // mesma regra nos dois avisos
+    const st = document.createElement('style'); st.id = 'aetixAceiteCss';
+    st.textContent =
+      R('') + '{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(5,6,10,.94)}' +
+      R(' .ax-box') + '{width:min(100%,440px);padding:24px 22px 20px;border-radius:22px;border:1px solid rgba(255,255,255,.14);background:#0E0F16;color:#F2F4F8;font:400 15px/1.55 Inter,system-ui,sans-serif;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 40px -18px rgba(124,140,255,.6)}' +
+      R(' h2') + '{margin:0 0 8px;font:800 1.3rem/1.2 Inter,system-ui,sans-serif}' +
+      R(' p') + '{margin:0 0 14px;color:#98A1B3}' +
+      R(' .ax-chk') + '{display:flex;gap:10px;align-items:flex-start;cursor:pointer;color:#D6DAE6;font-size:.92rem;margin:0 0 6px}' +
+      R(' .ax-chk input') + '{width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:#7C8CFF}' +
+      R(' a') + '{color:#6FB6FF}' +
+      R(' .ax-msg') + '{min-height:1.2em;margin:4px 0 10px;color:#FF6B83;font-size:.82rem}' +
+      R(' .ax-ok') + '{width:100%;height:50px;border:0;border-radius:14px;cursor:pointer;font:800 1rem Inter,system-ui,sans-serif;letter-spacing:.03em;color:#04101A;background:linear-gradient(135deg,#2EE6FF,#7C8CFF 70%,#9B6BFF)}' +
+      R(' .ax-ok:disabled') + '{opacity:.45;cursor:not-allowed}' +
+      R(' .ax-alt') + '{width:100%;height:46px;margin:10px 0 0;border:1px solid rgba(255,255,255,.18);border-radius:14px;cursor:pointer;background:none;color:#E6E9F2;font:700 .95rem Inter,system-ui,sans-serif}' +
+      R(' .ax-alt:disabled') + '{opacity:.45;cursor:not-allowed}' +
+      R(' .ax-sair') + '{display:block;margin:12px auto 0;padding:0;background:none;border:0;color:#98A1B3;cursor:pointer;font:inherit;font-size:.86rem;text-decoration:underline}' +
+      R(' .ax-v') + '{margin:12px 0 0;text-align:center;color:#6B7385;font-size:.72rem}';
+    document.head.appendChild(st);
+  }
+
   let aceiteAberto = false;
   function mostrarAceite(s, aoConcluir) {
     if (aceiteAberto) return;
     aceiteAberto = true;
     const T = TXT_ACEITE[idiomaAceite()];
-    if (!document.getElementById('aetixAceiteCss')) {
-      const st = document.createElement('style'); st.id = 'aetixAceiteCss';
-      st.textContent =
-        '#aetixAceite{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(5,6,10,.94)}' +
-        '#aetixAceite .ax-box{width:min(100%,440px);padding:24px 22px 20px;border-radius:22px;border:1px solid rgba(255,255,255,.14);background:#0E0F16;color:#F2F4F8;font:400 15px/1.55 Inter,system-ui,sans-serif;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 40px -18px rgba(124,140,255,.6)}' +
-        '#aetixAceite h2{margin:0 0 8px;font:800 1.3rem/1.2 Inter,system-ui,sans-serif}' +
-        '#aetixAceite p{margin:0 0 14px;color:#98A1B3}' +
-        '#aetixAceite .ax-chk{display:flex;gap:10px;align-items:flex-start;cursor:pointer;color:#D6DAE6;font-size:.92rem;margin:0 0 6px}' +
-        '#aetixAceite .ax-chk input{width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:#7C8CFF}' +
-        '#aetixAceite a{color:#6FB6FF}' +
-        '#aetixAceite .ax-msg{min-height:1.2em;margin:4px 0 10px;color:#FF6B83;font-size:.82rem}' +
-        '#aetixAceite .ax-ok{width:100%;height:50px;border:0;border-radius:14px;cursor:pointer;font:800 1rem Inter,system-ui,sans-serif;letter-spacing:.03em;color:#04101A;background:linear-gradient(135deg,#2EE6FF,#7C8CFF 70%,#9B6BFF)}' +
-        '#aetixAceite .ax-ok:disabled{opacity:.45;cursor:not-allowed}' +
-        '#aetixAceite .ax-sair{display:block;margin:12px auto 0;padding:0;background:none;border:0;color:#98A1B3;cursor:pointer;font:inherit;font-size:.86rem;text-decoration:underline}' +
-        '#aetixAceite .ax-v{margin:12px 0 0;text-align:center;color:#6B7385;font-size:.72rem}';
-      document.head.appendChild(st);
-    }
+    cssModais();
     const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt) n.textContent = txt; return n; };
     const link = (href, txt) => { const a = el('a', '', txt); a.href = href; a.target = '_blank'; a.rel = 'noopener'; return a; };
 
@@ -271,6 +288,79 @@ if (!ligado) {
     } catch (e) { /* sem rede ou sessão expirada: o servidor continua barrando as rotas protegidas */ }
   }
 
+  /* ===== CONFIRMAÇÃO DE E-MAIL =====
+     Contas novas ficam sem IA, Pix e avaliação até confirmar o e-mail (api/_auth.js).
+     Aqui só explicamos, reenviamos o link e conferimos se já foi confirmado. */
+  const TXT_EMAIL = {
+    pt: { t: 'Confirme seu e-mail', p: 'Enviamos um link de confirmação para ', p2: '. Abra a mensagem e clique no link para liberar a IA, o Pix e as avaliações.', ok: 'Já confirmei', reenviar: 'Reenviar e-mail', sair: 'Sair da conta', enviado: 'E-mail enviado. Confira a caixa de entrada e o spam.', nao: 'Ainda não confirmado. Abra o link do e-mail e toque em “Já confirmei”.', limite: 'Muitos envios em pouco tempo. Aguarde alguns minutos.', erro: 'Não foi possível agora. Tente de novo em instantes.' },
+    en: { t: 'Confirm your email', p: 'We sent a confirmation link to ', p2: '. Open the message and click the link to unlock AI, Pix and reviews.', ok: 'I already confirmed', reenviar: 'Resend email', sair: 'Sign out', enviado: 'Email sent. Check your inbox and spam folder.', nao: 'Not confirmed yet. Open the email link and tap “I already confirmed”.', limite: 'Too many sends in a short time. Wait a few minutes.', erro: 'Could not do that right now. Please try again in a moment.' }
+  };
+  let emailAberto = false;
+  function mostrarVerificacao(fu, aoConfirmar) {
+    if (emailAberto || !fu) return;
+    emailAberto = true;
+    const T = TXT_EMAIL[idiomaAceite()];
+    cssModais();
+    const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt) n.textContent = txt; return n; };
+
+    const ov = el('div'); ov.id = 'aetixEmail'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-labelledby', 'axE');
+    const box = el('div', 'ax-box');
+    const h = el('h2', '', T.t); h.id = 'axE';
+    const p = el('p');
+    p.appendChild(document.createTextNode(T.p));
+    const b = el('strong', '', String(fu.email || ''));
+    p.appendChild(b);
+    p.appendChild(document.createTextNode(T.p2));
+    const msg = el('p', 'ax-msg'); msg.setAttribute('role', 'alert'); msg.setAttribute('aria-live', 'polite');
+    const ok = el('button', 'ax-ok', T.ok); ok.type = 'button';
+    const reenviar = el('button', 'ax-alt', T.reenviar); reenviar.type = 'button';
+    const sair = el('button', 'ax-sair', T.sair); sair.type = 'button';
+    box.appendChild(h); box.appendChild(p); box.appendChild(msg);
+    box.appendChild(ok); box.appendChild(reenviar); box.appendChild(sair);
+    ov.appendChild(box);
+    document.body.appendChild(ov);
+    const overflowAntes = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    ok.focus();
+
+    const fechar = () => { ov.remove(); document.documentElement.style.overflow = overflowAntes; emailAberto = false; };
+    const aviso = (texto, bom) => { msg.textContent = texto; msg.style.color = bom ? '#41D6A0' : ''; };
+    box.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const f = [].slice.call(box.querySelectorAll('button:not(:disabled),a[href]'));
+      if (!f.length) return;
+      const i = f.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
+    });
+    reenviar.addEventListener('click', async () => {
+      reenviar.disabled = true; aviso('');
+      try { await A.sendEmailVerification(fu); aviso(T.enviado, true); }
+      catch (e) { aviso(/too-many-requests/.test((e && e.code) || '') ? T.limite : T.erro, false); }
+      reenviar.disabled = false;
+    });
+    ok.addEventListener('click', async () => {
+      ok.disabled = true; aviso('');
+      try {
+        await fu.reload();
+        if (fu.emailVerified) {
+          try { await fu.getIdToken(true); } catch (e) {}
+          fechar();
+          if (typeof aoConfirmar === 'function') aoConfirmar();
+          return;
+        }
+        aviso(T.nao, false);
+      } catch (e) { aviso(T.erro, false); }
+      ok.disabled = false;
+    });
+    sair.addEventListener('click', async () => {
+      sair.disabled = true;
+      try { await window.AETIX_AUTH.logout(); } catch (e) {}
+      fechar();
+      irLogin();
+    });
+  }
+
   /* ===== SESSÃO DO SITE (cookie do "porteiro") =====
      Depois do login e do aceite, o servidor grava um cookie assinado (api/sessao.js).
      Sem ele, a Vercel não entrega páginas, scripts nem imagens do app. */
@@ -311,6 +401,7 @@ if (!ligado) {
       if (loopDetectado()) { avisoLoop(); return; }
       const s = await criarSessao(lerLembrar());
       if (!s) return;
+      if (precisaVerificar(auth.currentUser)) { mostrarVerificacao(auth.currentUser, () => entrarNoApp()); return; }
       if (s.aceito) { location.replace(APP); return; }
       const st = await statusAceite();
       if (st && st.ok && !st.aceito) {
@@ -337,6 +428,8 @@ if (!ligado) {
       await persist(true);
       const r = await A.createUserWithEmailAndPassword(auth, d.email, d.senha);
       await A.updateProfile(r.user, { displayName: limpar(d.nome, 60) });
+      /* manda o link de confirmação; se falhar, a tela de confirmação oferece reenviar */
+      try { await A.sendEmailVerification(r.user); } catch (e) {}
       try { await gravarAceite('cadastro'); } catch (e) { /* se falhar, a tela de aceite aparece ao entrar */ }
       guardarLembrar(true);
       try { await criarSessao(true); } catch (e) {}
@@ -377,6 +470,10 @@ if (!ligado) {
     /* quem já chega logado na tela de login vai direto ao app; quem acabou de entrar vê a tela "Bem-vindo" do login.js */
     else if (u && naLogin && primeira) entrarNoApp();
     primeira = false;
-    if (u && protegida) { renovarSessao(); verificarAceite(); }   /* renova o cookie; conta sem aceite da versão atual vê a tela de aceite */
+    if (u && protegida) {
+      renovarSessao();   /* renova o cookie */
+      if (precisaVerificar(fu)) mostrarVerificacao(fu, () => location.reload());
+      else verificarAceite();   /* conta sem aceite da versão atual vê a tela de aceite */
+    }
   });
 }
