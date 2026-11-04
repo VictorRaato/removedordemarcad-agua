@@ -135,7 +135,16 @@ html.splashing,html.splashing body{overflow:hidden}
 a.menu-item{text-decoration:none}
 .dd-user{display:flex;align-items:center;gap:8px;min-width:0;font-weight:600}
 .dd-user .ic{color:var(--soft)}
+.dd-avatar{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,#FF9B3D,#A855F7);color:#FFF7ED;font:800 .82rem/1 Inter,system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 14px -6px rgba(255,155,61,.85)}
+.dd-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.dd-avatar b{font:inherit;line-height:1}
+.dd-avatar .ic{width:16px;height:16px;color:#fff}
 .dd-user span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tokens-menu{margin-left:auto;display:inline-flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;gap:3px;padding:0 2px;max-width:74px}
+.tokens-menu .tokens-num{font:700 .62rem/1 Inter,system-ui,sans-serif;letter-spacing:.06em;color:var(--soft)}
+.tokens-bar{display:block;position:relative;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.09);box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
+.tokens-bar-sm{width:58px;height:5px}
+.tokens-fill{display:block;height:100%;width:100%;border-radius:inherit;background:linear-gradient(90deg,#38E184,#A3E635);box-shadow:0 0 8px rgba(74,222,154,.55);transition:width .25s ease}
 .only-mobile{display:none}
 
 /* ---------- page ---------- */
@@ -842,7 +851,7 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="profile">
         <button type="button" class="avatar-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu" aria-label="Conta" data-i18n-aria="core.profile" title="Conta" data-i18n-title="core.profile"><svg class="ic"><use href="#i-user"/></svg></button>
         <div class="dropdown" id="profileMenu" role="dialog" aria-labelledby="profileMenu-t" hidden>
-          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span id="profileName">Olá, visitante!</span></strong><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><span class="dd-avatar" id="ddAvatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></span><span id="profileName">Olá, visitante!</span></strong><span class="tokens-menu" data-credits data-variant="menu" hidden aria-label="Seus tokens" aria-live="polite"><b class="tokens-num" data-credit-count>3.5K</b><span class="tokens-bar tokens-bar-sm" aria-hidden="true"><span class="tokens-fill" data-credit-fill></span></span></span><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
           <div class="dd-body" id="profileBody"><a class="menu-item" id="myProfile" href="/perfil/"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>Meu perfil</span></a><button type="button" class="menu-item" id="animToggle" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Animações: ligadas</span></button><button type="button" class="menu-item only-mobile" id="profileHelp"><svg class="ic"><use href="#i-spark"/></svg><span>Central de Ajuda</span></button></div>
         </div>
       </div>
