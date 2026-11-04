@@ -121,7 +121,7 @@ function dePerfil(fu) {
 /* ===== E-MAIL CONFIRMADO =====
    Contas criadas a partir de 05/11/2026 precisam confirmar o e-mail antes de usar
    IA, Pix e avaliação. Contas anteriores seguem liberadas (mesma data usada em api/_auth.js). */
-const CORTE_EMAIL = Date.parse('2026-11-05T00:00:00Z');
+const CORTE_EMAIL = Date.parse('2026-11-04T00:00:00Z');
 function precisaVerificar(fu) {
   if (!fu || fu.emailVerified) return false;
   const criada = Date.parse(String((fu.metadata && fu.metadata.creationTime) || ''));
@@ -336,7 +336,10 @@ if (!ligado) {
     reenviar.addEventListener('click', async () => {
       reenviar.disabled = true; aviso('');
       try { await A.sendEmailVerification(fu); aviso(T.enviado, true); }
-      catch (e) { aviso(/too-many-requests/.test((e && e.code) || '') ? T.limite : T.erro, false); }
+      catch (e) {
+        try { console.warn('[auth] reenvio da verificacao falhou:', e && e.code); } catch (x) {}
+        aviso(/too-many-requests/.test((e && e.code) || '') ? T.limite : T.erro, false);
+      }
       reenviar.disabled = false;
     });
     ok.addEventListener('click', async () => {
@@ -429,7 +432,8 @@ if (!ligado) {
       const r = await A.createUserWithEmailAndPassword(auth, d.email, d.senha);
       await A.updateProfile(r.user, { displayName: limpar(d.nome, 60) });
       /* manda o link de confirmação; se falhar, a tela de confirmação oferece reenviar */
-      try { await A.sendEmailVerification(r.user); } catch (e) {}
+      try { await A.sendEmailVerification(r.user); }
+      catch (e) { try { console.warn('[auth] envio da verificacao falhou:', e && e.code); } catch (x) {} }
       try { await gravarAceite('cadastro'); } catch (e) { /* se falhar, a tela de aceite aparece ao entrar */ }
       guardarLembrar(true);
       try { await criarSessao(true); } catch (e) {}
