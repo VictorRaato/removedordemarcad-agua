@@ -17,8 +17,8 @@ const COOKIE = '__Host-aetix';
 
 const PUBLICOS = new Set([
   '/login', '/login.js', '/login.css',
-  '/aetix-auth.js', '/firebase-config.js', '/aetix-tema.js',
-  '/aetix-nota.js', '/aetix-voltar.js', '/aetix-colaboracao.js',
+  '/js/aetix-auth.js', '/js/firebase-config.js', '/js/aetix-tema.js',
+  '/js/aetix-nota.js', '/js/aetix-voltar.js', '/js/aetix-colaboracao.js',
   '/favicon.ico', '/robots.txt', '/sitemap.xml',
   /* imagem de compartilhamento: precisa ser pública, senão o link do site
      aparece sem imagem no WhatsApp, Instagram, Facebook, X e LinkedIn */
