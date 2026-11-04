@@ -107,14 +107,7 @@ function mensagemErro(data, status) {
   const m = data && (data.message || (data.error && (data.error.message || data.error)));
   return typeof m === 'string' && m.length < 200 ? m : 'Erro ' + status;
 }
-/* apenas os NOMES/TIPOS dos campos (sem valores), para diagnosticar a resposta */
-function formato(v, depth) {
-  const t = typeof v;
-  if (v === null || Array.isArray(v)) return v === null ? 'null' : 'array';
-  if (t !== 'object') return t;
-  if (depth >= 3) return 'object';
-  return '{' + Object.keys(v).slice(0, 20).map((k) => k + ':' + formato(v[k], depth + 1)).join(', ') + '}';
-}
+
 
 module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -153,8 +146,7 @@ module.exports = async function handler(req, res) {
       if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });
       const status = String(r.data.status || '');
       if (pago(status)) await promover(id);
-      const forma = formato(r.data, 0);
-      return res.status(200).json({ status, forma });
+      return res.status(200).json({ status });
     }
 
     /* ---------- criação da cobrança ---------- */
@@ -192,8 +184,8 @@ module.exports = async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      id = r.data.id;
-      copy = r.data.pix_copy_paste;
+      id = r.data.transaction_id || r.data.id || r.data.provider_transaction_id;
+      copy = r.data.pix_copy_paste || (r.data.pix && r.data.pix.copy_paste);
     } else {
       const payload = {
         amount_cents: cents,
