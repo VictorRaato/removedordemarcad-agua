@@ -22,7 +22,7 @@ const jaAceitou = new Map();
    Só as rotas que passam { aceite: true } (IA, Pix e avaliação) exigem e-mail confirmado.
    Contas criadas ANTES do corte ficam liberadas: já existiam antes da regra e trancá-las
    agora derrubaria gente sem aviso. Basta mudar CORTE para 0 para exigir de todo mundo. */
-const CORTE = Date.parse('2026-11-05T00:00:00Z');
+const CORTE = Date.parse('2026-11-04T00:00:00Z');
 const contaAntigaCache = new Map();   // uid -> true (criada antes do corte)
 
 async function contaAntiga(uid) {
