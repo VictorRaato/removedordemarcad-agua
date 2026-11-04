@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-tema="halloween">
+<html lang="pt-BR" data-tema="halloween" class="splashing">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -32,7 +32,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="/js/aetix-tema.js"></script>
+<script src="/js/aetix-cabeca.js"></script>
 <link rel="stylesheet" href="login.css">
+  <style>
+html.splashing,html.splashing body{overflow:hidden}
+#splash{position:fixed;inset:0;height:100dvh;z-index:200;display:grid;place-items:center;background:radial-gradient(720px 440px at 50% 44%,rgba(155,107,255,.2),transparent 70%),#05060A;transition:opacity .75s ease,visibility .75s}
+#splash.out{opacity:0;visibility:hidden}
+.sp-word{display:flex;align-items:baseline;font-weight:700;font-size:clamp(1.9rem,6.6vw,5.4rem);line-height:1;white-space:nowrap;letter-spacing:.07em;margin-right:-.07em;color:#F2F4F8;transform-origin:50% 50%;will-change:transform;backface-visibility:hidden;animation:sp-expand 2.3s cubic-bezier(.16,.8,.24,1) both}
+.sp-word span{display:inline-block;will-change:transform,opacity;backface-visibility:hidden;animation:sp-letter .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*65ms + 120ms)}
+.sp-word .gap{width:.34em}
+.sp-word .w2{font-weight:400;color:#98A1B3}
+@keyframes sp-expand{from{transform:scale(.92) translateZ(0)}to{transform:scale(1) translateZ(0)}}
+@keyframes sp-letter{from{opacity:0;transform:translate3d(0,.28em,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+  </style>
 </head>
 <body>
 
@@ -46,6 +58,8 @@
   <svg class="bat deco b-2" viewBox="0 0 48 24"><use href="#i-bat"/></svg>
   <svg class="bat deco b-3" viewBox="0 0 48 24"><use href="#i-bat"/></svg>
 </div>
+
+<div id="splash" role="status" aria-label="AETIX DESIGN AI"><div class="sp-word" aria-hidden="true"></div></div>
 
 <main class="wrap">
   <!-- topo: logo (PC: grande no canto esquerdo · celular: centralizada em cima da bolha) + idioma -->
@@ -167,6 +181,21 @@
 
 <script src="/js/firebase-config.js"></script>
 <script type="module" src="/js/aetix-auth.js"></script>
+<script>
+(function(){
+  var h=document.getElementById('splash'); if(!h) return;
+  var w=h.firstElementChild, M=0;
+  'AETIX DESIGN AI'.split('').forEach(function(s,J){
+    var H=document.createElement('span');
+    if(s===' ') H.className='gap';
+    else { H.textContent=s; H.style.setProperty('--i',M++); if(J>5 && J<12) H.className='w2'; }
+    w.appendChild(H);
+  });
+  var skip=window.__aetixSkipSplash?1:0;
+  var delay=skip?0:2300;
+  setTimeout(function(){document.documentElement.classList.remove('splashing');h.classList.add('out');setTimeout(function(){h.remove()},skip?0:750);},delay);
+})();
+</script>
 <script src="login.js"></script>
 </body>
 </html>

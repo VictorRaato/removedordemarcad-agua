@@ -261,7 +261,7 @@
     $('backLogin').addEventListener('click', function () { mostrar('login'); });
     $('btnDone').addEventListener('click', function () {
       if (CONFIG.demo) { document.querySelectorAll('form').forEach(function (f) { f.reset(); limpar(f); }); document.querySelectorAll('.msg').forEach(function (m) { m.textContent = ''; }); mostrar('login'); }
-      else location.href = CONFIG.destino;
+      else { try { sessionStorage.setItem('aetix-splash', '1'); } catch (e) {} location.href = CONFIG.destino; }
     });
     document.querySelectorAll('.eye').forEach(function (b) {
       b.addEventListener('click', function () {
