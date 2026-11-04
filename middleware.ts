@@ -19,6 +19,8 @@ const PUBLICOS = new Set([
   '/login', '/login.js', '/login.css',
   '/js/aetix-auth.js', '/js/firebase-config.js', '/js/aetix-tema.js',
   '/js/aetix-nota.js', '/js/aetix-voltar.js', '/js/aetix-colaboracao.js',
+  /* página de confirmação: aberta por link de e-mail, muita vezes sem sessão */
+  '/verificar', '/js/verificar.js',
   '/favicon.ico', '/robots.txt', '/sitemap.xml',
   /* imagem de compartilhamento: precisa ser pública, senão o link do site
      aparece sem imagem no WhatsApp, Instagram, Facebook, X e LinkedIn */

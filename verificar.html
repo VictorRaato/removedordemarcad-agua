@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex, nofollow">
+<title>Confirmação · AETIX DESIGN AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='17' fill='%232a1a55'/%3E%3Crect x='1.5' y='1.5' width='61' height='61' rx='16' fill='none' stroke='%239B6BFF' stroke-opacity='.7'/%3E%3Cpath d='M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z' fill='%23EDE8FF'/%3E%3C/svg%3E">
+
+<style>
+/* ==========================================================================
+   AETIX DESIGN AI · página de confirmação (/verificar)
+   Recebe os links do Firebase: verificação de e-mail, nova senha e troca de
+   e-mail desfeita. Usa a paleta PADRÃO do site (a de Halloween fica de fora).
+   ========================================================================== */
+:root{
+  --bg:#07080C;
+  --ink:#F2F4F8; --muted:#98A1B3; --dim:#6B7385;
+  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.18);
+  --field:rgba(255,255,255,.035);
+  --accent:#7C8CFF; --accent-2:#9B6BFF; --ring:rgba(124,140,255,.18);
+  --ok:#4ADE9A; --err:#FF6B83;
+  --cta:linear-gradient(135deg,#2EE6FF,#7C8CFF 70%,#9B6BFF); --cta-ink:#04101A;
+  --cta-glow:0 0 0 1px rgba(46,230,255,.45),0 0 20px 2px rgba(46,230,255,.4),0 0 46px 6px rgba(124,140,255,.35);
+  --card-bg:rgba(14,15,22,.82); --card-line:rgba(255,255,255,.1);
+  --brand-1:linear-gradient(135deg,#C9D0FF,var(--accent) 55%,var(--accent-2));
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:400 16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.glow{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 520px at 88% -8%,rgba(155,107,255,.16),transparent 62%),
+    radial-gradient(1000px 460px at 50% 112%,rgba(124,140,255,.14),transparent 64%),
+    radial-gradient(680px 400px at 4% 24%,rgba(46,230,255,.07),transparent 62%);
+}
+
+.wrap{position:relative;z-index:2;width:min(100% - 26px,470px);min-height:100dvh;margin:0 auto;
+  display:flex;flex-direction:column;justify-content:center;gap:14px;
+  padding:max(20px,env(safe-area-inset-top)) 0 max(20px,env(safe-area-inset-bottom))}
+
+/* ---------- marca ---------- */
+.brand{display:flex;align-items:center;justify-content:center;gap:.42em;margin:0 0 2px;
+  font:700 clamp(.8rem,3.9vw,1rem)/1 Inter,system-ui,sans-serif;letter-spacing:.14em;white-space:nowrap}
+.brand .logo{width:2.5em;height:2.5em;flex:none;margin-right:.28em;filter:drop-shadow(0 0 12px rgba(155,107,255,.5))}
+.brand .b1,.brand .b3{background:var(--brand-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .b2{font-weight:400;color:#C9D0FF}
+
+/* ---------- cartão ---------- */
+.card{
+  position:relative;padding:30px 26px 26px;border-radius:24px;
+  border:1px solid var(--card-line);background:var(--card-bg);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 60px -30px rgba(124,140,255,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  animation:in .45s cubic-bezier(.2,.8,.2,1)
+}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+
+.state{display:flex;flex-direction:column;align-items:center;text-align:center;gap:0}
+
+/* selo redondo do topo */
+.badge{display:grid;place-items:center;width:66px;height:66px;margin:2px 0 18px;border-radius:50%;
+  color:#C9D0FF;background:rgba(124,140,255,.1);border:1px solid rgba(124,140,255,.34);
+  box-shadow:0 0 34px -8px rgba(124,140,255,.7),inset 0 1px 0 rgba(255,255,255,.08)}
+.badge svg{width:29px;height:29px}
+.badge.ok{color:var(--ok);background:rgba(74,222,154,.08);border-color:rgba(74,222,154,.35);
+  box-shadow:0 0 34px -8px rgba(74,222,154,.55),inset 0 1px 0 rgba(255,255,255,.08)}
+.badge.err{color:var(--err);background:rgba(255,107,131,.08);border-color:rgba(255,107,131,.35);
+  box-shadow:0 0 34px -8px rgba(255,107,131,.5),inset 0 1px 0 rgba(255,255,255,.08)}
+.badge.gira{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 34px -8px rgba(124,140,255,.35),inset 0 1px 0 rgba(255,255,255,.08)}50%{box-shadow:0 0 40px 2px rgba(124,140,255,.55),inset 0 1px 0 rgba(255,255,255,.08)}}
+
+h2{margin:0 0 8px;font:800 1.5rem/1.2 Inter,system-ui,sans-serif;letter-spacing:-.01em}
+.sub{margin:0 0 20px;color:var(--muted);font-size:.93rem;max-width:34ch}
+.conta{margin:-12px 0 20px;color:var(--dim);font-size:.82rem;word-break:break-all}
+.conta b{color:#C9D0FF;font-weight:600}
+
+/* ---------- formulário ---------- */
+.form{display:flex;flex-direction:column;gap:10px;width:100%;text-align:left}
+.f{position:relative;display:flex;flex-direction:column;gap:2px;padding:8px 14px 7px;border-radius:12px;
+  border:1px solid var(--line);background:var(--field);transition:border-color .18s,box-shadow .18s}
+.f:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+.f.bad{border-color:var(--err);box-shadow:0 0 0 3px rgba(255,107,131,.14)}
+.f>span{font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.f input{width:100%;height:26px;padding:0;border:0;outline:0;background:transparent;color:var(--ink);
+  font:500 .96rem Inter,system-ui,sans-serif}
+.f input::placeholder{color:var(--dim)}
+
+/* ---------- botões ---------- */
+.cta{
+  position:relative;display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;height:52px;margin-top:4px;border:0;border-radius:14px;cursor:pointer;
+  font:800 .98rem Inter,system-ui,sans-serif;letter-spacing:.03em;text-decoration:none;
+  color:var(--cta-ink);background:var(--cta);
+  box-shadow:var(--cta-glow);transition:filter .16s,transform .16s,box-shadow .16s
+}
+.cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.cta:active{transform:scale(.985)}
+.cta:disabled{opacity:.62;cursor:wait}
+.cta.busy>span{opacity:0}
+.cta.busy::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;
+  border:2.5px solid rgba(0,0,0,.25);border-top-color:var(--cta-ink);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.link{display:inline-block;margin-top:16px;color:var(--muted);font-size:.86rem;font-weight:600;text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.14);padding-bottom:2px;transition:color .16s,border-color .16s}
+.link:hover{color:var(--ink);border-color:rgba(255,255,255,.3)}
+
+/* ---------- mensagens ---------- */
+.msg{min-height:1.25em;margin:0;color:var(--err);font-size:.83rem;text-align:left}
+.dica{margin:14px 0 0;color:var(--dim);font-size:.78rem}
+
+.foot{margin:0;text-align:center;color:var(--dim);font-size:.74rem;letter-spacing:.04em}
+
+@media (max-width:380px){
+  .card{padding:26px 20px 22px;border-radius:20px}
+  h2{font-size:1.34rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="glow" aria-hidden="true"></div>
+
+<main class="wrap">
+  <h1 class="brand" aria-label="AETIX DESIGN AI">
+    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lgL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9B6BFF" stop-opacity=".42"/><stop offset="1" stop-color="#7C8CFF" stop-opacity=".2"/></linearGradient></defs><rect x="1.5" y="1.5" width="61" height="61" rx="17" fill="url(#lgL)" stroke="#9B6BFF" stroke-opacity=".6"/><path d="M32 12c1.6 10.2 5.8 16.4 20 20-14.2 3.6-18.4 9.8-20 20-1.6-10.2-5.8-16.4-20-20 14.2-3.6 18.4-9.8 20-20z" fill="#EDE8FF"/></svg>
+    <span class="b1">AETIX</span><span class="b2">DESIGN</span><span class="b3">AI</span>
+  </h1>
+
+  <section class="card">
+    <!-- o JavaScript troca este conteúdo conforme o link recebido -->
+    <div class="state" id="view" aria-live="polite">
+      <span class="badge gira" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m3.6 7 8.4 6 8.4-6"/></svg>
+      </span>
+      <h2>Confirmando seu link</h2>
+      <p class="sub">Só um instante.</p>
+    </div>
+  </section>
+
+  <p class="foot">© AETIX DESIGN AI</p>
+</main>
+
+<script src="/js/firebase-config.js"></script>
+<script type="module" src="/js/verificar.js"></script>
+</body>
+</html>
