@@ -375,8 +375,8 @@
   var eng = makeEngine(window, CFG);
   var KEY = { image: 'aetix.versao.imagem', video: 'aetix.versao.video' };
   var LABEL = {
-    image: { v1: 'AETIX v1.0', v15: 'AETIX v1.5 (leve)', v2: 'AETIX v2.2' },
-    video: { v1: 'AETIX v1.0', v19: 'AETIX v1.9 (rápido)', v2: 'AETIX v1.8' }
+    image: { v1: 'AETIX v1.0 (LEVE)', v15: 'AETIX v1.5 (PADRÃO)', v2: 'AETIX v2.2(PESADO PC)' },
+    video: { v1: 'AETIX v1.0 (LEVE)', v19: 'AETIX v1.9 (TESTE INTERNO)', v2: 'AETIX v1.8 (PESADO PC)' }
   };
 
   /* versão escolhida por aba (guardada só neste navegador) */
