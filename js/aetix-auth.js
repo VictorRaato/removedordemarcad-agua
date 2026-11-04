@@ -35,7 +35,8 @@
   var X = ':not(#splash):not(#splash *):not(.busy):not([class*="spin"]):not([class*="load"]):not([class*="progress"])';
   st.textContent =
     'html.sem-anim ' + X + ',html.sem-anim ' + X + '::before,html.sem-anim ' + X + '::after{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}' +
-    'html.sem-anim .deco,html.sem-anim .bat,html.sem-anim .stars,html.sem-anim .moon,html.sem-anim .hill,html.sem-anim .web,html.sem-anim .pumpkin{display:none!important}' +
+    'html.sem-anim .deco,html.sem-anim .bat,html.sem-anim .hw-stars,html.sem-anim .moon,html.sem-anim .hill,html.sem-anim .web,html.sem-anim .pumpkin{display:none!important}' +
+    'html.sem-anim .hw-stars i{display:block!important;opacity:.55!important;animation:none!important;transform:translate(0,0)!important}' +
     'html.sem-anim .card,html.sem-anim .logo,html.sem-anim .avatar{filter:none!important}';
   (document.head || d).appendChild(st);
   function ligarBotoes() {
