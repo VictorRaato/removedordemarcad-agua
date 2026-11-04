@@ -153,7 +153,8 @@ module.exports = async function handler(req, res) {
       if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });
       const status = String(r.data.status || '');
       if (pago(status)) await promover(id);
-      return res.status(200).json({ status });
+      const forma = formato(r.data, 0);
+      return res.status(200).json({ status, forma });
     }
 
     /* ---------- criação da cobrança ---------- */
