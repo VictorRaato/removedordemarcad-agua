@@ -3,7 +3,20 @@
    Expõe window.AetixPatchMatch = { inpaint(rgba, hole, W, H, opts) -> Promise<Uint8ClampedArray|null> }.
    A conta pesada roda num Web Worker criado por Blob (worker-src blob: na CSP).
    O núcleo pmCore é autossuficiente: é copiado como texto para o Worker e também
-   pode ser importado no Node (module.exports) para os testes. */
+   pode ser importado no Node (module.exports) para os testes.
+
+   Opções do núcleo (todas têm padrão):
+     patch       tamanho do patch (padrão automático: 7 em buraco pequeno, 5 no resto)
+     maxSide     lado máximo da área de trabalho (640)
+     holeBudget  teto de pixels de buraco na área de trabalho (30000) — controla o tempo
+     margin      margem do recorte ao redor do buraco em foto grande (96)
+     sharp       0..1, quanto da alta frequência real do patch volta ao resultado (0.35)
+     wEst        peso dos pixels ainda estimados no casamento (0.08)
+     sigma       suavização do voto EM (12)
+     grow        engorda a máscara em N px (0)
+     grain       granulação sintética (false)
+     seed        semente determinística (12345)
+     timeLimit   ms; ao estourar devolve null e o chamador cai na v1.0 (6000) */
 (function (G) {
   'use strict';
 
@@ -16,9 +29,12 @@
      ===================================================================== */
   function pmCore(rgba, holeIn, W, H, opts) {
     opts = opts || {};
-    var patch = opts.patch ? Math.round(opts.patch) : 5;
-    if (patch < 3) patch = 3;
-    if ((patch & 1) === 0) patch++;
+    var patchOpt = opts.patch ? Math.round(opts.patch) : 0;
+    if (patchOpt && patchOpt < 3) patchOpt = 3;
+    if (patchOpt && (patchOpt & 1) === 0) patchOpt++;
+    /* patch 7 casa melhor textura fina, mas custa ~1,5x. Sem escolha explícita,
+       ele é usado só quando o buraco é pequeno o bastante para caber no tempo. */
+    var patch = patchOpt || 5;
     var rad = (patch - 1) >> 1;
     var maxSide = opts.maxSide || 640;
     var timeLimit = opts.timeLimit == null ? 6000 : opts.timeLimit;
@@ -33,6 +49,12 @@
     /* peso dos pixels ainda estimados no casamento: pequeno, só para desempatar.
        Peso alto trava o borrão inicial; peso zero faz o miolo aceitar qualquer fonte. */
     var wEst = opts.wEst == null ? 0.08 : opts.wEst;
+    /* devolve detalhe ao resultado: em vez de só a média dos patches (que borra
+       textura fina), mistura o pixel real do melhor patch de cada ponto.
+       0 = comportamento antigo; 1 = detalhe puro. */
+    var sharp = opts.sharp == null ? 0.35 : opts.sharp;
+    if (sharp < 0) sharp = 0;
+    if (sharp > 1) sharp = 1;
     var now = function () { return (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now(); };
     var t0 = now();
     var timeUp = function () { return (now() - t0) > timeLimit; };
@@ -73,34 +95,77 @@
     for (i = 0; i < N; i++) if (hole[i]) { anyHole = 1; break; }
     if (!anyHole) return new Uint8ClampedArray(rgba);
 
-    /* ---------- reduz o lado maior para no máximo maxSide ---------- */
-    var sw = W, sh = H, scaled = false;
-    if (W > maxSide || H > maxSide) {
-      var sc = maxSide / (W > H ? W : H);
-      sw = Math.round(W * sc); sh = Math.round(H * sc);
-      if (sw < 16) sw = 16;
-      if (sh < 16) sh = 16;
-      scaled = (sw !== W || sh !== H);
+    /* ---------- região de trabalho ----------
+       Foto grande + buraco pequeno: reduzir a imagem inteira para 640 apaga a
+       textura e o resultado volta ampliado (borrão). Nesse caso processamos só
+       um recorte ao redor do buraco, em resolução nativa. Como só os pixels do
+       buraco são gravados na saída, o resto da foto continua idêntico. */
+    var bx0 = W, by0 = H, bx1 = -1, by1 = -1;
+    for (y = 0; y < H; y++) {
+      var rowB = y * W;
+      for (x = 0; x < W; x++) {
+        if (!hole[rowB + x]) continue;
+        if (x < bx0) bx0 = x;
+        if (x > bx1) bx1 = x;
+        if (y < by0) by0 = y;
+        if (y > by1) by1 = y;
+      }
     }
 
-    var baseImg, baseHole;
-    if (!scaled) {
-      baseImg = new Float32Array(N * 3);
-      for (i = 0, x = 0; i < N; i++, x += 4) {
-        baseImg[i * 3] = rgba[x];
-        baseImg[i * 3 + 1] = rgba[x + 1];
-        baseImg[i * 3 + 2] = rgba[x + 2];
-      }
-      baseHole = hole;
+    var ox = 0, oy = 0, ow = W, oh = H;
+    if (W > maxSide || H > maxSide) {
+      var mg = opts.margin == null ? 96 : opts.margin | 0;
+      if (mg < 16) mg = 16;
+      var cx = bx0 - mg; if (cx < 0) cx = 0;
+      var cy = by0 - mg; if (cy < 0) cy = 0;
+      var ex = bx1 + mg; if (ex > W - 1) ex = W - 1;
+      var ey = by1 + mg; if (ey > H - 1) ey = H - 1;
+      ox = cx; oy = cy; ow = ex - cx + 1; oh = ey - cy + 1;
+    }
+
+    /* ---------- escala do recorte ----------
+       Dois limites: o lado máximo e um orçamento de pixels de buraco (o custo
+       cresce com o buraco). Foto grande com buraco pequeno fica em resolução
+       nativa — é isso que evita o borrão de reduzir a foto inteira. */
+    var holeReg = 0;
+    for (y = by0; y <= by1; y++) for (x = bx0; x <= bx1; x++) if (hole[y * W + x]) holeReg++;
+    var budget = opts.holeBudget == null ? 30000 : opts.holeBudget;
+    var sLado = 1;
+    if (ow > maxSide || oh > maxSide) sLado = maxSide / (ow > oh ? ow : oh);
+    var sArea = (budget > 0 && holeReg > budget) ? Math.sqrt(budget / holeReg) : 1;
+    var sc = sLado < sArea ? sLado : sArea;
+    var sw, sh, scaled;
+    if (sc >= 1) {
+      sw = ow; sh = oh; scaled = false;
     } else {
-      baseImg = new Float32Array(sw * sh * 3);
-      baseHole = new Uint8Array(sw * sh);
+      sw = Math.round(ow * sc); sh = Math.round(oh * sc);
+      if (sw < 16) sw = 16;
+      if (sh < 16) sh = 16;
+      if (sw > ow) sw = ow;
+      if (sh > oh) sh = oh;
+      scaled = (sw !== ow || sh !== oh);
+    }
+
+    var baseImg = new Float32Array(sw * sh * 3), baseHole = new Uint8Array(sw * sh);
+    if (!scaled) {
       for (y = 0; y < sh; y++) {
-        var sy0 = Math.floor(y * H / sh), sy1 = Math.max(sy0 + 1, Math.floor((y + 1) * H / sh));
-        if (sy1 > H) sy1 = H;
+        var rowS = ((oy + y) * W + ox) * 4;
+        var rowD = y * sw;
         for (x = 0; x < sw; x++) {
-          var sx0 = Math.floor(x * W / sw), sx1 = Math.max(sx0 + 1, Math.floor((x + 1) * W / sw));
-          if (sx1 > W) sx1 = W;
+          var pS = rowS + x * 4, pD = rowD + x;
+          baseImg[pD * 3] = rgba[pS];
+          baseImg[pD * 3 + 1] = rgba[pS + 1];
+          baseImg[pD * 3 + 2] = rgba[pS + 2];
+          baseHole[pD] = hole[(oy + y) * W + ox + x];
+        }
+      }
+    } else {
+      for (y = 0; y < sh; y++) {
+        var sy0 = oy + Math.floor(y * oh / sh), sy1 = oy + Math.max(Math.floor(y * oh / sh) + 1, Math.floor((y + 1) * oh / sh));
+        if (sy1 > oy + oh) sy1 = oy + oh;
+        for (x = 0; x < sw; x++) {
+          var sx0 = ox + Math.floor(x * ow / sw), sx1 = ox + Math.max(Math.floor(x * ow / sw) + 1, Math.floor((x + 1) * ow / sw));
+          if (sx1 > ox + ow) sx1 = ox + ow;
           var r = 0, g = 0, b2 = 0, cnt = 0, hb = 0, sy, sx, q, pp;
           for (sy = sy0; sy < sy1; sy++) {
             for (sx = sx0; sx < sx1; sx++) {
@@ -163,7 +228,7 @@
       return (L.sat[y1 * w1 + x1] - L.sat[y0 * w1 + x1] - L.sat[y1 * w1 + x0] + L.sat[y0 * w1 + x0]) === 0;
     }
 
-    function patchDist(L, tx, ty, sx, sy) {
+    function patchDist(L, tx, ty, sx, sy, lim) {
       var img = L.img, w = L.w, h = L.h, d = 0, th = L.hole, we = L.wEst;
       var sy0 = sy - rad, sx0 = sx - rad;
       var y0 = ty - rad, y1 = ty + rad, x0 = tx - rad, x1 = tx + rad;
@@ -180,6 +245,9 @@
           /* pixels conhecidos mandam; estimados pesam menos para não travar o borrão */
           wt = th[tp] ? we : 1;
           d += wt * (dr * dr + dg * dg + db * db);
+          /* corte antecipado: já passou do atual, não há como vencer.
+             Não muda o resultado, só evita somar o resto do patch. */
+          if (lim >= 0 && d >= lim) return d;
         }
       }
       return d;
@@ -193,7 +261,7 @@
         var sp = src[(rnd() * srcN) | 0];
         var sx = sp % w, sy = (sp / w) | 0;
         nnx[q] = sx; nny[q] = sy;
-        dist[q] = patchDist(L, q % w, (q / w) | 0, sx, sy);
+        dist[q] = patchDist(L, q % w, (q / w) | 0, sx, sy, -1);
       }
       return true;
     }
@@ -201,7 +269,7 @@
     function tryCand(L, q, xq, yq, sx, sy) {
       if (sx < rad || sy < rad || sx >= L.w - rad || sy >= L.h - rad) return 0;
       if (!validSrc(L, sx, sy)) return 0;
-      var d = patchDist(L, xq, yq, sx, sy);
+      var d = patchDist(L, xq, yq, sx, sy, L.dist[q]);
       if (d < L.dist[q]) { L.dist[q] = d; L.nnx[q] = sx; L.nny[q] = sy; return 1; }
       return 0;
     }
@@ -278,6 +346,17 @@
     }
 
     /* ---------- pirâmide (do fino para o grosso) ---------- */
+    /* patch automático: textura fina em buraco pequeno (cabe no tempo) */
+    if (!patchOpt) {
+      var nBase = 0;
+      for (i = 0; i < sw * sh; i++) if (baseHole[i]) nBase++;
+      if (nBase <= 16000) {
+        patch = 7; rad = 3;
+        /* patch maior já enxerga mais contexto: menos passadas, mesmo resultado */
+        if (opts.itersFine == null) itersF = 2;
+        if (opts.itersMid == null) itersM = 3;
+      }
+    }
     var levels = [makeLevel(sw, sh, baseImg, baseHole)];
     /* sem um único patch 5x5 inteiro fora do buraco não há o que casar */
     if (!levels[0].srcN) return null;
@@ -391,31 +470,69 @@
             sp4 = srcf[(rnd() * srcNf) | 0]; sx4 = sp4 % wf; sy4 = (sp4 / wf) | 0;
           }
           nnxf[qf] = sx4; nnyf[qf] = sy4;
-          distf[qf] = patchDist(F, fx, fy, sx4, sy4);
+          distf[qf] = patchDist(F, fx, fy, sx4, sy4, -1);
         }
       }
       if (timeUp()) return null;
     }
 
+    /* ---------- detalhe: alta frequência do patch escolhido ----------
+       Os patches-fonte são sempre 100% fora do buraco, então o pixel central é
+       cor verdadeira da imagem. O voto EM mistura até 25 patches e apaga a
+       textura fina. Aqui a base suave (sem emendas) é mantida e só a diferença
+       do pixel para a média do próprio patch é devolvida — textura real, sem
+       criar degrau de um pixel para o outro. */
+    if (sharp > 0) {
+      var LD = levels[0], imgD = LD.img, nnxD = LD.nnx, nnyD = LD.nny, hmD = LD.hole;
+      var wD = LD.w, hD = LD.h, nD = wD * hD, qD, sD, kD, dyd, dxd, sxD, syD, smD, cdD, tpD;
+      var modoD = opts.sharpMode === 'blend' ? 0 : 1;
+      for (qD = 0; qD < nD; qD++) {
+        if (!hmD[qD] || nnxD[qD] < 0) continue;
+        sxD = nnxD[qD]; syD = nnyD[qD];
+        if (modoD === 0) {
+          sD = (syD * wD + sxD) * 3;
+          for (kD = 0; kD < 3; kD++) {
+            imgD[qD * 3 + kD] = imgD[qD * 3 + kD] * (1 - sharp) + imgD[sD + kD] * sharp;
+          }
+          continue;
+        }
+        /* média do patch de origem (fonte 100% fora do buraco) */
+        var mR = 0, mG = 0, mB = 0, mC = 0;
+        for (dyd = -rad; dyd <= rad; dyd++) {
+          tpD = (syD + dyd) * wD;
+          for (dxd = -rad; dxd <= rad; dxd++) {
+            sD = (tpD + sxD + dxd) * 3;
+            mR += imgD[sD]; mG += imgD[sD + 1]; mB += imgD[sD + 2]; mC++;
+          }
+        }
+        mR /= mC; mG /= mC; mB /= mC;
+        sD = (syD * wD + sxD) * 3;
+        imgD[qD * 3] += sharp * (imgD[sD] - mR);
+        imgD[qD * 3 + 1] += sharp * (imgD[sD + 1] - mG);
+        imgD[qD * 3 + 2] += sharp * (imgD[sD + 2] - mB);
+      }
+    }
+
     /* ---------- resultado no tamanho de trabalho ---------- */
     var workImg = levels[0].img, ww = levels[0].w, wh = levels[0].h;
     var out = new Uint8ClampedArray(rgba);               /* cópia: fora fica idêntico */
-    var fill = new Float32Array(N * 3);
+    var nReg = ow * oh;
+    var fill = new Float32Array(nReg * 3);
 
     if (!scaled) {
-      for (q = 0; q < N; q++) {
+      for (q = 0; q < nReg; q++) {
         fill[q * 3] = workImg[q * 3]; fill[q * 3 + 1] = workImg[q * 3 + 1]; fill[q * 3 + 2] = workImg[q * 3 + 2];
       }
     } else {
-      for (y = 0; y < H; y++) {
-        var gy2 = (y + 0.5) * wh / H - 0.5, iy2 = Math.floor(gy2), ty2 = gy2 - iy2;
+      for (y = 0; y < oh; y++) {
+        var gy2 = (y + 0.5) * wh / oh - 0.5, iy2 = Math.floor(gy2), ty2 = gy2 - iy2;
         if (iy2 < 0) { iy2 = 0; ty2 = 0; }
         if (iy2 > wh - 2) { iy2 = wh - 2; ty2 = 1; }
-        for (x = 0; x < W; x++) {
-          var gx2 = (x + 0.5) * ww / W - 0.5, ix2 = Math.floor(gx2), tx2 = gx2 - ix2;
+        for (x = 0; x < ow; x++) {
+          var gx2 = (x + 0.5) * ww / ow - 0.5, ix2 = Math.floor(gx2), tx2 = gx2 - ix2;
           if (ix2 < 0) { ix2 = 0; tx2 = 0; }
           if (ix2 > ww - 2) { ix2 = ww - 2; tx2 = 1; }
-          q = y * W + x;
+          q = y * ow + x;
           for (var ch2 = 0; ch2 < 3; ch2++) {
             var a00 = workImg[(iy2 * ww + ix2) * 3 + ch2], a10 = workImg[(iy2 * ww + ix2 + 1) * 3 + ch2];
             var a01 = workImg[((iy2 + 1) * ww + ix2) * 3 + ch2], a11 = workImg[((iy2 + 1) * ww + ix2 + 1) * 3 + ch2];
@@ -426,15 +543,15 @@
     }
 
     /* ---------- emenda: degradê de 2 px com a borda conhecida ---------- */
-    for (y = 0; y < H; y++) {
-      for (x = 0; x < W; x++) {
-        q = y * W + x;
+    for (y = 0; y < oh; y++) {
+      for (x = 0; x < ow; x++) {
+        q = (y + oy) * W + x + ox;
         if (!hole[q]) continue;
         var sr2 = 0, sg2 = 0, sb2 = 0, c8 = 0, c4 = 0, kx, ky, nx2, ny2, z2;
         for (ky = -1; ky <= 1; ky++) {
           for (kx = -1; kx <= 1; kx++) {
             if (!kx && !ky) continue;
-            nx2 = x + kx; ny2 = y + ky;
+            nx2 = x + ox + kx; ny2 = y + oy + ky;
             if (nx2 < 0 || ny2 < 0 || nx2 >= W || ny2 >= H) continue;
             z2 = ny2 * W + nx2;
             if (hole[z2]) continue;
@@ -445,9 +562,10 @@
         }
         var al = c4 ? 0.5 : (c8 ? 0.22 : 0);
         if (al) {
-          fill[q * 3] = fill[q * 3] * (1 - al) + (sr2 / c8) * al;
-          fill[q * 3 + 1] = fill[q * 3 + 1] * (1 - al) + (sg2 / c8) * al;
-          fill[q * 3 + 2] = fill[q * 3 + 2] * (1 - al) + (sb2 / c8) * al;
+          var fE = (y * ow + x) * 3;
+          fill[fE] = fill[fE] * (1 - al) + (sr2 / c8) * al;
+          fill[fE + 1] = fill[fE + 1] * (1 - al) + (sg2 / c8) * al;
+          fill[fE + 2] = fill[fE + 2] * (1 - al) + (sb2 / c8) * al;
         }
       }
     }
@@ -455,49 +573,60 @@
     /* ---------- granulação opcional (desligada por padrão) ---------- */
     if (grain) {
       var dr2 = 0, dg2 = 0, db2 = 0, nd = 0;
-      for (q = 0; q < N; q++) {
-        if (hole[q]) continue;
-        var hasHole = 0, kk, nxx, nyy;
-        x = q % W; y = (q / W) | 0;
-        for (kk = -2; kk <= 2 && !hasHole; kk++) {
-          for (nxx = -2; nxx <= 2; nxx++) {
-            nyy = y + kk;
-            if (nxx + x < 0 || nxx + x >= W || nyy < 0 || nyy >= H) continue;
-            if (hole[nyy * W + x + nxx]) { hasHole = 1; break; }
+      for (y = 0; y < oh; y++) {
+        for (x = 0; x < ow; x++) {
+          q = (y + oy) * W + x + ox;
+          if (hole[q]) continue;
+          var hasHole = 0, kk, nxx, nyy;
+          for (kk = -2; kk <= 2 && !hasHole; kk++) {
+            for (nxx = -2; nxx <= 2; nxx++) {
+              nyy = y + oy + kk;
+              if (x + ox + nxx < 0 || x + ox + nxx >= W || nyy < 0 || nyy >= H) continue;
+              if (hole[nyy * W + x + ox + nxx]) { hasHole = 1; break; }
+            }
           }
+          if (!hasHole) continue;
+          dr2 += rgba[q * 4]; dg2 += rgba[q * 4 + 1]; db2 += rgba[q * 4 + 2]; nd++;
         }
-        if (!hasHole) continue;
-        dr2 += rgba[q * 4]; dg2 += rgba[q * 4 + 1]; db2 += rgba[q * 4 + 2]; nd++;
       }
       if (nd > 32) {
         var ar2 = dr2 / nd, ag2 = dg2 / nd, ab2 = db2 / nd;
         var vr = 0, vg = 0, vb = 0;
-        for (q = 0; q < N; q++) {
-          if (hole[q]) continue;
-          x = q % W; y = (q / W) | 0;
-          if (x < 4 || x >= W - 4 || y < 4 || y >= H - 4) continue;
-          vr += (rgba[q * 4] - ar2) * (rgba[q * 4] - ar2);
-          vg += (rgba[q * 4 + 1] - ag2) * (rgba[q * 4 + 1] - ag2);
-          vb += (rgba[q * 4 + 2] - ab2) * (rgba[q * 4 + 2] - ab2);
+        for (y = 0; y < oh; y++) {
+          for (x = 0; x < ow; x++) {
+            if (x < 4 || x >= ow - 4 || y < 4 || y >= oh - 4) continue;
+            q = (y + oy) * W + x + ox;
+            if (hole[q]) continue;
+            vr += (rgba[q * 4] - ar2) * (rgba[q * 4] - ar2);
+            vg += (rgba[q * 4 + 1] - ag2) * (rgba[q * 4 + 1] - ag2);
+            vb += (rgba[q * 4 + 2] - ab2) * (rgba[q * 4 + 2] - ab2);
+          }
         }
         var gr = Math.sqrt(vr / nd) * 0.35, gg = Math.sqrt(vg / nd) * 0.35, gb = Math.sqrt(vb / nd) * 0.35;
-        for (q = 0; q < N; q++) {
-          if (!hole[q]) continue;
-          fill[q * 3] += (rnd() * 2 - 1) * gr;
-          fill[q * 3 + 1] += (rnd() * 2 - 1) * gg;
-          fill[q * 3 + 2] += (rnd() * 2 - 1) * gb;
+        for (y = 0; y < oh; y++) {
+          for (x = 0; x < ow; x++) {
+            q = (y + oy) * W + x + ox;
+            if (!hole[q]) continue;
+            var fG = (y * ow + x) * 3;
+            fill[fG] += (rnd() * 2 - 1) * gr;
+            fill[fG + 1] += (rnd() * 2 - 1) * gg;
+            fill[fG + 2] += (rnd() * 2 - 1) * gb;
+          }
         }
       }
     }
 
     /* ---------- compõe só o buraco ---------- */
-    for (q = 0; q < N; q++) {
-      if (!hole[q]) continue;
-      var o4 = q * 4;
-      out[o4] = fill[q * 3];
-      out[o4 + 1] = fill[q * 3 + 1];
-      out[o4 + 2] = fill[q * 3 + 2];
-      /* alfa da entrada é preservado */
+    for (y = 0; y < oh; y++) {
+      for (x = 0; x < ow; x++) {
+        q = (y + oy) * W + x + ox;
+        if (!hole[q]) continue;
+        var fC = (y * ow + x) * 3, o4 = q * 4;
+        out[o4] = fill[fC];
+        out[o4 + 1] = fill[fC + 1];
+        out[o4 + 2] = fill[fC + 2];
+        /* alfa da entrada é preservado */
+      }
     }
     return out;
   }

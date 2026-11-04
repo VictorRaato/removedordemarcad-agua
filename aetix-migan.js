@@ -349,7 +349,7 @@
   }
 
   /* ---------- v1.5 (leve): PatchMatch carregado sob demanda ---------- */
-  var leveUrl = '/aetix-patchmatch.js?v=20261104a', leveLoad = null;
+  var leveUrl = '/aetix-patchmatch.js?v=20261104b', leveLoad = null;
   function carregarLeve() {
     if (window.AetixPatchMatch && typeof window.AetixPatchMatch.inpaint === 'function') return Promise.resolve(true);
     if (leveLoad) return leveLoad;
@@ -393,7 +393,7 @@
       for (y = 0; y < ch; y++) for (x = 0; x < cw; x++) hole[y * cw + x] = mask[(cy + y) * W + cx + x] ? 1 : 0;
       var img = ctx.getImageData(cx, cy, cw, ch);
       var saida = await api.inpaint(img.data, hole, cw, ch, {
-        patch: 5, maxSide: 640, timeLimit: 6000, seed: 12345, grow: 0, grain: false
+        maxSide: 640, timeLimit: 6000, seed: 12345, grow: 0, grain: false
       });
       if (!saida || saida.length !== img.data.length) return false;   // falhou/estourou: v1.0 apaga
       img.data.set(saida);                                          // fora do buraco vem idêntico
