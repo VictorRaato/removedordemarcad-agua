@@ -295,6 +295,21 @@ if (!ligado) {
     pt: { t: 'Confirme seu e-mail', p: 'Enviamos um link de confirmação para ', p2: '. Abra sua caixa de entrada — se não encontrar, olhe o spam — e clique no link para usar as ferramentas da plataforma.', ok: 'Já confirmei', reenviar: 'Reenviar e-mail', sair: 'Sair da conta', enviado: 'E-mail enviado. Confira a caixa de entrada e o spam.', nao: 'Ainda não confirmado. Abra o link do e-mail e toque em “Já confirmei”.', limite: 'Muitos envios em pouco tempo. Aguarde alguns minutos.', erro: 'Não foi possível agora. Tente de novo em instantes.' },
     en: { t: 'Confirm your email', p: 'We sent a confirmation link to ', p2: '. Open your inbox — check the spam folder if you can’t find it — and click the link to use the platform tools.', ok: 'I already confirmed', reenviar: 'Resend email', sair: 'Sign out', enviado: 'Email sent. Check your inbox and spam folder.', nao: 'Not confirmed yet. Open the email link and tap “I already confirmed”.', limite: 'Too many sends in a short time. Wait a few minutes.', erro: 'Could not do that right now. Please try again in a moment.' }
   };
+  /* Envia e-mails do Firebase com a página do site (/verificar) como destino.
+     Se o projeto recusar a URL, repete sem ela: melhor um e-mail sem o destino
+     no fim do que nenhum e-mail chegando. */
+  async function enviarComDestino(envio) {
+    const url = location.origin + '/verificar';
+    try {
+      return await envio(url);
+    } catch (e) {
+      if (!/unauthorized-continue-uri|invalid-continue-uri/.test((e && e.code) || '')) throw e;
+      return await envio(null);
+    }
+  }
+  function enviarVerificacao(fu) {
+    return enviarComDestino((url) => (url ? A.sendEmailVerification(fu, { url }) : A.sendEmailVerification(fu)));
+  }
   let emailAberto = false;
   function mostrarVerificacao(fu, aoConfirmar) {
     if (emailAberto || !fu) return;
@@ -335,7 +350,7 @@ if (!ligado) {
     });
     reenviar.addEventListener('click', async () => {
       reenviar.disabled = true; aviso('');
-      try { await A.sendEmailVerification(fu); aviso(T.enviado, true); }
+      try { await enviarVerificacao(fu); aviso(T.enviado, true); }
       catch (e) {
         try { console.warn('[auth] reenvio da verificacao falhou:', e && e.code); } catch (x) {}
         aviso(/too-many-requests/.test((e && e.code) || '') ? T.limite : T.erro, false);
@@ -432,7 +447,7 @@ if (!ligado) {
       const r = await A.createUserWithEmailAndPassword(auth, d.email, d.senha);
       await A.updateProfile(r.user, { displayName: limpar(d.nome, 60) });
       /* manda o link de confirmação; se falhar, a tela de confirmação oferece reenviar */
-      try { await A.sendEmailVerification(r.user); }
+      try { await enviarVerificacao(r.user); }
       catch (e) { try { console.warn('[auth] envio da verificacao falhou:', e && e.code); } catch (x) {} }
       try { await gravarAceite('cadastro'); } catch (e) { /* se falhar, a tela de aceite aparece ao entrar */ }
       guardarLembrar(true);
@@ -440,9 +455,13 @@ if (!ligado) {
       aplicar(dePerfil(auth.currentUser)); gravarCache(dePerfil(auth.currentUser));
     }),
     /* por segurança, não revela se o e-mail existe */
-    recuperar: (d) => Promise.resolve().then(() => A.sendPasswordResetEmail(auth, (d || {}).email)).catch((e) => {
-      if (/user-not-found/.test((e && e.code) || '')) return; throw erro(e);
-    }),
+    recuperar: (d) => Promise.resolve()
+      .then(() => enviarComDestino((url) => (url
+        ? A.sendPasswordResetEmail(auth, (d || {}).email, { url })
+        : A.sendPasswordResetEmail(auth, (d || {}).email))))
+      .catch((e) => {
+        if (/user-not-found/.test((e && e.code) || '')) return; throw erro(e);
+      }),
     google: envolve(async (d) => {
       await persist(true);
       const r = await A.signInWithPopup(auth, prov);
