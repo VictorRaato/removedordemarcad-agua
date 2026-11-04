@@ -83,6 +83,29 @@ window.fetch = async function (entrada, opcoes) {
 
 /* foto (ou inicial) do usuário no botão de conta do menu, igual ao avatar do perfil */
 let btnOriginal = null, btnChave = null;
+/* avatar do cabeçalho do menu da conta */
+let ddAvatarOriginal = null, ddAvatarChave = null;
+function avatarMenuCabecalho(u) {
+  const box = document.getElementById('ddAvatar'); if (!box) return;
+  if (ddAvatarOriginal === null) ddAvatarOriginal = box.innerHTML;
+  const foto = u && /^https:\/\//i.test(u.foto || '') ? u.foto : '';
+  const ini = u ? String(u.nome || u.email || '').trim().charAt(0).toUpperCase() : '';
+  const chave = foto + '|' + ini;
+  if (chave === ddAvatarChave) return;
+  ddAvatarChave = chave;
+  box.textContent = '';
+  if (foto) {
+    const img = new Image(); img.alt = ''; img.referrerPolicy = 'no-referrer'; img.src = foto;
+    img.onerror = () => {
+      box.textContent = '';
+      if (ini) { const b = document.createElement('b'); b.textContent = ini; box.appendChild(b); }
+    };
+    box.appendChild(img);
+    return;
+  }
+  if (ini) { const b = document.createElement('b'); b.textContent = ini; box.appendChild(b); return; }
+  box.innerHTML = ddAvatarOriginal;
+}
 function avatarMenu(u) {
   const b = document.getElementById('profileBtn'); if (!b) return;
   if (btnOriginal === null) {
@@ -107,6 +130,7 @@ function avatarMenu(u) {
 function aplicar(u) {
   window.AETIX_USER = u;
   try { avatarMenu(u); } catch (e) {}
+  try { avatarMenuCabecalho(u); } catch (e) {}
   try { if (typeof window.aetixSetUser === 'function') window.aetixSetUser(u ? (u.nome || u.email || '') : ''); } catch (e) {}
   try { if (window.aetixPerfil) window.aetixPerfil.set(u); } catch (e) {}
   window.dispatchEvent(new CustomEvent('aetix:user', { detail: u }));
