@@ -19,6 +19,7 @@ const PUBLICOS = new Set([
   '/login', '/login.js', '/login.css',
   '/js/aetix-auth.js', '/js/firebase-config.js', '/js/aetix-tema.js',
   '/js/aetix-nota.js', '/js/aetix-voltar.js', '/js/aetix-colaboracao.js',
+  '/js/aetix-splash.js',
   /* página de confirmação: aberta só por link de e-mail (ver regra no middleware) */
   '/js/verificar.js',
   '/favicon.ico', '/robots.txt', '/sitemap.xml',
