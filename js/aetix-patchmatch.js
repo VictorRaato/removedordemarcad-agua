@@ -713,7 +713,7 @@
   }
 
   var api = { inpaint: inpaint, core: pmCore };
-  if (G && G.document) {
+  if (G) {
     try { G.AetixPatchMatch = api; } catch (e) { /* nada */ }
   }
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

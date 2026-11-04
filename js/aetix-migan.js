@@ -23,6 +23,7 @@
     /* VÍDEO (mais leve, sem perder qualidade): */
     bloco: 64,                  // o recorte de cada quadro é arredondado para múltiplos de 64 px -> o modelo recebe sempre o mesmo formato e não recompila a cada quadro
     pausa: 0.3,                 // WebGPU: descansa 30% do tempo de cada quadro, para a GPU atender a tela (0 = sem pausa; 0.6 = bem mais suave e mais lento)
+    patchUrl: '/js/aetix-patchmatch.js',     // usado pela v1.9 (sem download de modelo)
     pausaMax: 60                // teto da pausa por quadro (ms)
   };
 
@@ -282,6 +283,48 @@
   /* Dentro do Worker do vídeo: o código do site chama self.__aetixV18 quadro a quadro.
      Devolve true se este quadro foi apagado pela v1.8; false = o código de sempre (OpenCV) apaga. */
   function workerBoot(g, mk, C) {
+    /* v1.9: PatchMatch local, sem baixar modelo. Usa o mesmo gancho que o vídeo já chama. */
+    if (C && C.version === 'v19') {
+      g.__aetixV18 = async function (frameCanvas, SW, SH, W, H, bb, mc) {
+        try {
+          if (!g.AetixPatchMatch) g.importScripts(C.patchUrl);
+          if (!g.AetixPatchMatch) return false;
+          var ctx = frameCanvas.getContext('2d', { willReadFrequently: true });
+          var sx = SW / W, sy = SH / H;
+          var x0 = Math.max(0, Math.floor(bb.x * sx)), y0 = Math.max(0, Math.floor(bb.y * sy));
+          var x1 = Math.min(SW, Math.ceil((bb.x + bb.width) * sx)), y1 = Math.min(SH, Math.ceil((bb.y + bb.height) * sy));
+          if (x1 - x0 < 2 || y1 - y0 < 2) return false;
+          var mg = Math.max(48, Math.round(Math.max(x1 - x0, y1 - y0) * 0.5));
+          var cx = Math.max(0, x0 - mg), cy = Math.max(0, y0 - mg);
+          var cw = Math.min(SW, x1 + mg) - cx, ch = Math.min(SH, y1 + mg) - cy;
+          var md = mc.getContext('2d', { willReadFrequently: true }).getImageData(bb.x, bb.y, bb.width, bb.height).data;
+          var hole = new Uint8Array(cw * ch), X, Y, u, v;
+          for (Y = 0; Y < ch; Y++) {
+            v = Math.floor((cy + Y) / sy) - bb.y;
+            if (v < 0 || v >= bb.height) continue;
+            for (X = 0; X < cw; X++) {
+              u = Math.floor((cx + X) / sx) - bb.x;
+              if (u >= 0 && u < bb.width && md[(v * bb.width + u) * 4] > 127) hole[Y * cw + X] = 1;
+            }
+          }
+          var img = ctx.getImageData(cx, cy, cw, ch);
+          var out = g.AetixPatchMatch.core(img.data, hole, cw, ch, {
+            maxSide: 320,
+            holeBudget: 12000,
+            timeLimit: 1800,
+            itersCoarse: 3,
+            itersMid: 2,
+            itersFine: 2,
+            patch: 3
+          });
+          if (!out) return false;
+          img.data.set(out);
+          ctx.putImageData(img, cx, cy);
+          return true;
+        } catch (e) { return false; }
+      };
+      return;
+    }
     var eng = mk(g, C), fails = 0, off = false;
     g.__aetixV18 = async function (frameCanvas, SW, SH, W, H, bb, mc) {
       if (off) return false;
@@ -332,14 +375,14 @@
   var eng = makeEngine(window, CFG);
   var KEY = { image: 'aetix.versao.imagem', video: 'aetix.versao.video' };
   var LABEL = {
-    image: { v1: 'AETIX v1.0 (LEVE)', v15: 'AETIX v1.5 (PADRÃO)', v2: 'AETIX v2.2 (PESADO PC)' },
-    video: { v1: 'AETIX v1.0 (LEVE)', v2: 'AETIX v1.8 (PESADO PC)' }
+    image: { v1: 'AETIX v1.0', v15: 'AETIX v1.5 (leve)', v2: 'AETIX v2.2' },
+    video: { v1: 'AETIX v1.0', v19: 'AETIX v1.9 (rápido)', v2: 'AETIX v1.8' }
   };
 
   /* versão escolhida por aba (guardada só neste navegador) */
   function verValida(tab, v) {
     if (tab === 'image') return (v === 'v2' || v === 'v15') ? v : 'v1';
-    return v === 'v2' ? 'v2' : 'v1';
+    if (tab === 'video') return (v === 'v2' || v === 'v19') ? v : 'v1';
   }
   function getVer(tab) {
     try { return verValida(tab, localStorage.getItem(KEY[tab])); } catch (e) { return 'v1'; }
@@ -431,15 +474,18 @@
   }
 
   /* ---------- vídeo: endereço do código que o Worker carrega (ou null = v1.0 de sempre) ---------- */
-  var wUrl = null;
+  var wUrls = {};
   function videoJob() {
     try {
-      if (getVer('video') !== 'v2' || eng.state().broken) return null;
-      if (!wUrl) {
-        var src = 'var __mk=' + makeEngine.toString() + ';(' + workerBoot.toString() + ')(self,__mk,' + JSON.stringify(CFG) + ');';
-        wUrl = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
+      var ver = getVer('video');
+      if (ver !== 'v2' && ver !== 'v19') return null;
+      if (ver === 'v2' && eng.state().broken) return null;
+      if (!wUrls[ver]) {
+        var cfg = Object.assign({}, CFG, { version: ver });
+        var src = 'var __mk=' + makeEngine.toString() + ';(' + workerBoot.toString() + ')(self,__mk,' + JSON.stringify(cfg) + ');';
+        wUrls[ver] = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
       }
-      return wUrl;
+      return wUrls[ver];
     } catch (e) { return null; }
   }
 
@@ -451,7 +497,7 @@
     return (pv && !pv.hidden && !pv.classList.contains('hidden')) ? 'video' : 'image';
   }
   function versoes(tab) {
-    return tab === 'image' ? ['v15', 'v2', 'v1'] : ['v2', 'v1'];
+    return tab === 'image' ? ['v15', 'v2', 'v1'] : ['v19', 'v2', 'v1'];
   }
 
   function injectCss() {
