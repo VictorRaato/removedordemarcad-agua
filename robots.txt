@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /verificar*
 
 Sitemap: https://aetixremove.vercel.app/sitemap.xml

@@ -19,8 +19,8 @@ const PUBLICOS = new Set([
   '/login', '/login.js', '/login.css',
   '/js/aetix-auth.js', '/js/firebase-config.js', '/js/aetix-tema.js',
   '/js/aetix-nota.js', '/js/aetix-voltar.js', '/js/aetix-colaboracao.js',
-  /* página de confirmação: aberta por link de e-mail, muita vezes sem sessão */
-  '/verificar', '/js/verificar.js',
+  /* página de confirmação: aberta só por link de e-mail (ver regra no middleware) */
+  '/js/verificar.js',
   '/favicon.ico', '/robots.txt', '/sitemap.xml',
   /* imagem de compartilhamento: precisa ser pública, senão o link do site
      aparece sem imagem no WhatsApp, Instagram, Facebook, X e LinkedIn */
@@ -65,11 +65,49 @@ async function cookieValido(cabecalho) {
 /* o navegador informa como o arquivo está sendo aberto (Sec-Fetch-Dest) */
 const ABERTURA_DIRETA = new Set(['document', 'iframe', 'frame', 'embed', 'object']);
 
+/* /verificar só abre com código de ação (modo + oobCode) ou vindo do Firebase.
+   Digitar o endereço direto no navegador ou abrir pelos mecanismos de busca
+   cai em 403: a página não é conteúdo, só o destino dos links de e-mail. */
+function ehVerificar(caminho) {
+  return caminho === '/verificar' || caminho === '/verificar.html';
+}
+function linkDeEmail(request) {
+  let busca;
+  try { busca = new URL(request.url).search; } catch (e) { return false; }
+  if (busca) {
+    const qs = new URLSearchParams(busca);
+    /* a busca pode vir na URL ou ser preservada via continueUrl */
+    if (qs.get('mode') && qs.get('oobCode')) return true;
+  }
+  const ref = (request.headers.get('referer') || '').toLowerCase();
+  if (ref) {
+    try {
+      const r = new URL(ref);
+      if (/firebaseapp\.com$/.test(r.hostname)) return true;
+      /* referência do próprio site (a tela do Firebase manda para cá) */
+      if (r.hostname === new URL(request.url).hostname) {
+        const qs = new URLSearchParams(r.search);
+        if (qs.get('mode') && qs.get('oobCode')) return true;
+      }
+    } catch (e) {}
+  }
+  return false;
+}
+
 export default async function middleware(request) {
   const caminho = new URL(request.url).pathname;
 
   if (caminho === '/api' || caminho.startsWith('/api/')) return next();
   if (caminho.startsWith('/_vercel/')) return next();
+
+  if (ehVerificar(caminho)) {
+    if (await cookieValido(request.headers.get('cookie') || '')) return next();
+    if (linkDeEmail(request)) return next();
+    return new Response('Acesso negado.', {
+      status: 403,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }
+    });
+  }
   if (publico(caminho)) return next();
 
   const ehPagina = /\.html$/.test(caminho) || !/\.[A-Za-z0-9]+$/.test(caminho);
