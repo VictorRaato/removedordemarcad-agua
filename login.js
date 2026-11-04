@@ -53,6 +53,8 @@
       foot: 'seus dados ficam protegidos',
       doneLoginT: 'Bem-vindo de volta!', doneLoginP: 'Login feito com sucesso.',
       doneSignupT: 'Conta criada!', doneSignupP: 'Sua conta foi criada com sucesso. Que bom ter você aqui!',
+      doneVerificarT: 'Conta criada! Confirme seu e-mail',
+      doneVerificarP: 'Enviamos um link para o seu e-mail. Abra a mensagem e clique no link para liberar a IA, o Pix e as avaliações. Não achou? Confira também o spam.',
       doneForgotT: 'Link a caminho!', doneForgotP: 'Se esse e-mail tiver uma conta, você receberá um link para criar uma nova senha.',
       vEmail: 'Digite um e-mail válido, como voce@email.com.',
       vSenha: 'Digite a sua senha.', vSenhaCurta: 'A senha precisa ter pelo menos 8 caracteres.',
@@ -91,6 +93,8 @@
       foot: 'your data stays protected',
       doneLoginT: 'Welcome back!', doneLoginP: 'You’re signed in.',
       doneSignupT: 'Account created!', doneSignupP: 'Your account is ready. We’re glad to have you here!',
+      doneVerificarT: 'Account created! Confirm your email',
+      doneVerificarP: 'We sent a link to your email. Open the message and click the link to unlock AI, Pix and reviews. Can’t find it? Check your spam folder too.',
       doneForgotT: 'Link on its way!', doneForgotP: 'If that email has an account, you’ll get a link to create a new password.',
       vEmail: 'Enter a valid email, like you@email.com.',
       vSenha: 'Enter your password.', vSenhaCurta: 'Your password needs at least 8 characters.',
@@ -165,7 +169,7 @@
     $('orTxt').textContent = t(s ? 'orSignup' : 'orLogin');
   }
   function atualizarDone() {
-    var m = { login: 'Login', signup: 'Signup', forgot: 'Forgot' }[doneTipo];
+    var m = { login: 'Login', signup: 'Signup', forgot: 'Forgot', verificar: 'Verificar' }[doneTipo];
     $('doneT').textContent = t('done' + m + 'T'); $('doneP').textContent = t('done' + m + 'P');
   }
 
@@ -183,7 +187,11 @@
       var f = $(VIEWS[nome]).querySelector('input'); if (f) setTimeout(function () { f.focus({ preventScroll: true }); }, 30);
     }
   }
-  function concluir(tipo) { doneTipo = tipo; atualizarDone(); mostrar('done', false); setTimeout(function () { $('btnDone').focus({ preventScroll: true }); }, 30); }
+  function concluir(tipo) {
+    /* cadastro novo que ainda não confirmou o e-mail: a tela final avisa e explica o link */
+    if (tipo === 'signup' && window.AETIX_USER && window.AETIX_USER.verificado === false) tipo = 'verificar';
+    doneTipo = tipo; atualizarDone(); mostrar('done', false); setTimeout(function () { $('btnDone').focus({ preventScroll: true }); }, 30);
+  }
 
   /* ---------- validação ---------- */
   var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
