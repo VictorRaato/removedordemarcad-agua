@@ -5,6 +5,6 @@
    publique, e atualize também a data "Última atualização" nas páginas de termos/privacidade.
    Quem tiver aceitado outra versão vê a tela de aceite de novo ao entrar. */
 module.exports = {
-  TERMOS: '2026-11',
-  PRIVACIDADE: '2026-11'
+  TERMOS: '2026-11-2',
+  PRIVACIDADE: '2026-11-2'
 };
