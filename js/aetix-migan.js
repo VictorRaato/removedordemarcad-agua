@@ -1,5 +1,5 @@
-/* AETIX · versão 2.2, versão 1.5 (leve, PatchMatch) e versão 1.0 (OpenCV) na imagem;
-   versão 1.8 (vídeo) e versão 1.0 no vídeo; seletor de versão.
+/* AETIX · imagem: v2.2 (MI-GAN, pesado), v1.5 (PatchMatch, padrão) e v1.0 (OpenCV, leve);
+   vídeo: v1.9 (MI-GAN, pesado), v1.5 (PatchMatch, padrão) e v1.0 (OpenCV, leve); seletor de versão.
    A v1.5 não usa o modelo: carrega aetix-patchmatch.js sob demanda e, em qualquer
    falha ou demora, devolve false e o site apaga com a v1.0, como antes.
    O modelo (migan_pipeline_v2.onnx) é baixado do Hugging Face (3 espelhos) e guardado no cache. */
@@ -23,7 +23,7 @@
     /* VÍDEO (mais leve, sem perder qualidade): */
     bloco: 64,                  // o recorte de cada quadro é arredondado para múltiplos de 64 px -> o modelo recebe sempre o mesmo formato e não recompila a cada quadro
     pausa: 0.3,                 // WebGPU: descansa 30% do tempo de cada quadro, para a GPU atender a tela (0 = sem pausa; 0.6 = bem mais suave e mais lento)
-    patchUrl: location.origin + '/js/aetix-patchmatch.js?v=20261105a',     // usado pela v1.9 (sem download de modelo); endereço absoluto para funcionar dentro do Worker
+    patchUrl: location.origin + '/js/aetix-patchmatch.js?v=20261105b',     // usado pela v1.5 (PatchMatch local, sem modelo); endereço absoluto para funcionar dentro do Worker
     pausaMax: 60                // teto da pausa por quadro (ms)
   };
 
@@ -281,10 +281,10 @@
   }
 
   /* Dentro do Worker do vídeo: o código do site chama self.__aetixV18 quadro a quadro.
-     Devolve true se este quadro foi apagado pela v1.8; false = o código de sempre (OpenCV) apaga. */
+     Devolve true se este quadro foi apagado pela v1.9 (MI-GAN) ou pela v1.5 (PatchMatch); false = o código de sempre (OpenCV) apaga. */
   function workerBoot(g, mk, C) {
-    /* v1.9: PatchMatch local, sem baixar modelo. Usa o mesmo gancho que o vídeo já chama. */
-    if (C && C.version === 'v19') {
+    /* v1.5 (vídeo): PatchMatch local, sem baixar modelo. Usa o mesmo gancho que o vídeo já chama. */
+    if (C && C.version === 'v15') {
       g.__aetixV18 = async function (frameCanvas, SW, SH, W, H, bb, mc) {
         try {
           if (!g.AetixPatchMatch) g.importScripts(C.patchUrl);
@@ -375,14 +375,15 @@
   var eng = makeEngine(window, CFG);
   var KEY = { image: 'aetix.versao.imagem', video: 'aetix.versao.video' };
   var LABEL = {
-    image: { v1: 'AETIX v1.0', v15: 'AETIX v1.5 (leve)', v2: 'AETIX v2.2' },
-    video: { v1: 'AETIX v1.0', v19: 'AETIX v1.9 (rápido)', v2: 'AETIX v1.8' }
+    image: { v1: 'AETIX v1.0 (LEVE)', v15: 'AETIX v1.5 (PADRÃO)', v2: 'AETIX v2.2 (PESADO PC)' },
+    video: { v1: 'AETIX v1.0 (LEVE)', v15: 'AETIX v1.5 (PADRÃO)', v2: 'AETIX v1.9 (PESADO PC)' }
   };
 
   /* versão escolhida por aba (guardada só neste navegador) */
   function verValida(tab, v) {
     if (tab === 'image') return (v === 'v2' || v === 'v15') ? v : 'v1';
-    if (tab === 'video') return (v === 'v2' || v === 'v19') ? v : 'v1';
+    if (v === 'v19') return 'v15';                     /* escolha antiga: o PatchMatch do vídeo era v1.9 */
+    return (v === 'v2' || v === 'v15') ? v : 'v1';
   }
   function getVer(tab) {
     try { return verValida(tab, localStorage.getItem(KEY[tab])); } catch (e) { return 'v1'; }
@@ -391,7 +392,7 @@
     try { localStorage.setItem(KEY[tab], verValida(tab, v)); } catch (e) { /* sem armazenamento */ }
   }
 
-  /* ---------- v1.5 (leve): PatchMatch carregado sob demanda ---------- */
+  /* ---------- v1.5 (padrão): PatchMatch carregado sob demanda ---------- */
   var leveUrl = '/js/aetix-patchmatch.js?v=20261105a', leveLoad = null;
   function carregarLeve() {
     if (window.AetixPatchMatch && typeof window.AetixPatchMatch.inpaint === 'function') return Promise.resolve(true);
@@ -478,7 +479,7 @@
   function videoJob() {
     try {
       var ver = getVer('video');
-      if (ver !== 'v2' && ver !== 'v19') return null;
+      if (ver !== 'v2' && ver !== 'v15') return null;
       if (ver === 'v2' && eng.state().broken) return null;
       if (!wUrls[ver]) {
         var cfg = Object.assign({}, CFG, { version: ver });
@@ -497,7 +498,7 @@
     return (pv && !pv.hidden && !pv.classList.contains('hidden')) ? 'video' : 'image';
   }
   function versoes(tab) {
-    return tab === 'image' ? ['v15', 'v2', 'v1'] : ['v19', 'v2', 'v1'];
+    return ['v15', 'v2', 'v1'];
   }
 
   function injectCss() {
@@ -547,7 +548,7 @@
       return;
     }
     var tab = curTab(), bad = eng.state().broken;
-    /* modelo indisponível: só a v2.2 volta para a v1.0 (a v1.5 não usa o modelo) */
+    /* modelo indisponível: só a v2 (MI-GAN) volta para a v1.0 (a v1.5 não usa o modelo) */
     if (bad) {
       if (getVer('image') === 'v2') setVer('image', 'v1');
       if (getVer('video') === 'v2') setVer('video', 'v1');
@@ -581,21 +582,19 @@
   async function choose(v) {
     var tab = curTab();
     setOpen(false);
-    if (v === 'v15') {                                 // imagem: PatchMatch sob demanda (não usa o modelo)
-      if (tab !== 'image') return;
+    if (v === 'v15') {                                 // PatchMatch local (não usa o modelo)
+      if (tab === 'video') {                           // no vídeo quem carrega o PatchMatch é o Worker
+        pend = null;
+        setVer(tab, 'v15');
+        refreshUi();
+        return;
+      }
       var minha15 = pend = { tab: tab, ver: 'v15' };
       refreshUi();
       var okLeve = false;
       try { okLeve = await carregarLeve(); } catch (e) { okLeve = false; }
       if (pend === minha15 && okLeve) setVer(tab, 'v15');
       if (pend === minha15) pend = null;
-      refreshUi();
-      return;
-    }
-    if (v === 'v19') {                                 // vídeo: PatchMatch local, sem modelo
-      if (tab !== 'video') return;
-      pend = null;
-      setVer(tab, 'v19');
       refreshUi();
       return;
     }
