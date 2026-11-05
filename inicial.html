@@ -128,7 +128,7 @@ html.splashing,html.splashing body{overflow:hidden}
 .avatar-btn{width:38px;height:38px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line-2);background:linear-gradient(145deg,rgba(var(--a-rgb),.2),rgba(var(--b-rgb),.1));color:var(--soft);cursor:pointer;transition:box-shadow .2s,border-color .2s}
 .avatar-btn:hover,.avatar-btn[aria-expanded="true"]{border-color:rgba(var(--a-rgb),.7);box-shadow:0 0 20px -4px rgba(var(--a-rgb),.75)}
 .dropdown{position:absolute;right:0;top:calc(100% + 12px);z-index:60;width:min(260px,calc(100vw - 24px));min-height:120px;padding:12px 14px 14px;border-radius:16px;border:1px solid var(--line-2);background:#12141B;box-shadow:0 30px 60px -18px rgba(0,0,0,.9),0 0 30px -12px rgba(var(--a-rgb),.4);animation:popin .16s ease-out}
-.dd-h{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.9rem}
+.dd-h{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.9rem}
 .dd-body{min-height:60px}
 .menu-item{display:flex;align-items:center;gap:10px;width:100%;height:42px;margin-top:10px;padding:0 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);font:500 .9rem Inter,system-ui,sans-serif;text-align:left;cursor:pointer;transition:background .16s,border-color .16s}
 .menu-item:hover{background:rgba(var(--a-rgb),.16);border-color:rgba(var(--a-rgb),.5)}
@@ -140,9 +140,18 @@ a.menu-item{text-decoration:none}
 .dd-avatar b{font:inherit;line-height:1}
 .dd-avatar .ic{width:16px;height:16px;color:#fff}
 .dd-user span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tokens-menu{margin-left:auto;display:inline-flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;gap:3px;padding:0 2px;max-width:74px}
-.tokens-menu .tokens-num{font:700 .62rem/1 Inter,system-ui,sans-serif;letter-spacing:.06em;color:var(--soft)}
+.plan-line{display:inline-flex;flex:0 0 auto;align-items:center;margin-left:auto}
+.plan-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border-radius:999px;border:1px solid rgba(74,222,154,.42);background:rgba(74,222,154,.1);color:#9BE7C4;font:800 .53rem/1 Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.plan-chip--mestre{border-color:rgba(255,200,90,.52);background:rgba(255,200,90,.12);color:#FFD08A}
+.plan-chip .ic{width:10px;height:10px;stroke-width:2.4}
+.dd-credits{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+.dd-credits .tokens-label{font:700 .58rem/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.dd-credits .tokens-line{display:flex;align-items:center;gap:8px;min-width:0}
+.dd-credits .tokens-num{font:800 .76rem/1 Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--ink)}
+#profileBtn[data-nivel="gratis"]{border-color:rgba(74,222,154,.6);box-shadow:0 0 0 2px rgba(74,222,154,.14),0 0 18px -5px rgba(74,222,154,.7)}
+#profileBtn[data-nivel="mestre"]{border-color:rgba(255,200,90,.7);box-shadow:0 0 0 2px rgba(255,200,90,.16),0 0 20px -4px rgba(255,190,80,.9)}
 .tokens-bar{display:block;position:relative;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.09);box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
+.tokens-bar-menu{width:66px;height:7px}
 .tokens-bar-sm{width:58px;height:5px}
 .tokens-fill{display:block;height:100%;width:100%;border-radius:inherit;background:linear-gradient(90deg,#38E184,#A3E635);box-shadow:0 0 8px rgba(74,222,154,.55);transition:width .25s ease}
 .only-mobile{display:none}
@@ -851,7 +860,8 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="profile">
         <button type="button" class="avatar-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu" aria-label="Conta" data-i18n-aria="core.profile" title="Conta" data-i18n-title="core.profile"><svg class="ic"><use href="#i-user"/></svg></button>
         <div class="dropdown" id="profileMenu" role="dialog" aria-labelledby="profileMenu-t" hidden>
-          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><span class="dd-avatar" id="ddAvatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></span><span id="profileName">Olá, visitante!</span></strong><span class="tokens-menu" data-credits data-variant="menu" hidden aria-label="Seus tokens" aria-live="polite"><b class="tokens-num" data-credit-count>3.5K</b><span class="tokens-bar tokens-bar-sm" aria-hidden="true"><span class="tokens-fill" data-credit-fill></span></span></span><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><span class="dd-avatar" id="ddAvatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></span><span id="profileName">Olá, visitante!</span></strong><span class="plan-line" aria-live="polite"><span class="plan-chip" data-plan="gratis" hidden><b data-i18n="core.planFree">Grátis</b></span><span class="plan-chip plan-chip--mestre" data-plan="mestre" hidden><b data-i18n="core.planMaster">Mestre</b></span></span><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <div class="dd-credits" data-credits data-variant="menu" hidden aria-label="Seus tokens" aria-live="polite"><span class="tokens-label" data-i18n="core.tokensLabel">Seus tokens</span><span class="tokens-line"><b class="tokens-num" data-credit-count>500</b><span class="tokens-bar tokens-bar-menu" aria-hidden="true"><span class="tokens-fill" data-credit-fill></span></span></span></div>
           <div class="dd-body" id="profileBody"><a class="menu-item" id="myProfile" href="/perfil/"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>Meu perfil</span></a><button type="button" class="menu-item" id="animToggle" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Animações: ligadas</span></button><button type="button" class="menu-item only-mobile" id="profileHelp"><svg class="ic"><use href="#i-spark"/></svg><span>Central de Ajuda</span></button></div>
         </div>
       </div>
@@ -1293,8 +1303,8 @@ html[data-tema="halloween"] .scene{display:block}
   <span class="nudge-bar" id="nudgeBar"></span>
 </aside>
 <script src="/js/aetix-inicio.js?v=20261102" defer></script>
-<script src="/js/aetix-creditos.js?v=20261105" defer></script>
-<script src="/js/script.js?v=20261105a" defer></script>
+<script src="/js/aetix-creditos.js?v=20261105b" defer></script>
+<script src="/js/script.js?v=20261105b" defer></script>
 <script src="/js/aetix-migan.js?v=20261105b" defer></script>
 
 

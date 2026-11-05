@@ -43,11 +43,33 @@
     if (!d || d.email !== emailUsuario()) return false;
     var elementos = document.querySelectorAll('[data-credits]');
     Array.prototype.forEach.call(elementos, function (el) { pintar(el, d); });
+    pintarPlano(d);
     return true;
   }
   function esconderTodos() {
     var elementos = document.querySelectorAll('[data-credits]');
     Array.prototype.forEach.call(elementos, function (el) { el.hidden = true; });
+  }
+
+  /* Nível mostrado no perfil/menu. Hoje o site não tem assinatura paga:
+     a API só diferencia a conta mestra (ilimitada); o resto é "Grátis". */
+  function nivelDe(dados) {
+    return dados && (dados.ilimitado === true || dados.mestre === true) ? 'mestre' : 'gratis';
+  }
+  function pintarPlano(dados) {
+    var nivel = nivelDe(dados);
+    document.documentElement.setAttribute('data-nivel', nivel);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-plan]'), function (el) {
+      el.hidden = el.getAttribute('data-plan') !== nivel;
+    });
+    var botao = document.getElementById('profileBtn');
+    if (botao) botao.setAttribute('data-nivel', nivel);
+  }
+  function esconderPlanos() {
+    document.documentElement.removeAttribute('data-nivel');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-plan]'), function (el) { el.hidden = true; });
+    var botao = document.getElementById('profileBtn');
+    if (botao) botao.removeAttribute('data-nivel');
   }
 
   function erro(message) {
@@ -109,6 +131,7 @@
     if (dados === null) {
       try { localStorage.removeItem(CHAVE_CREDITOS); } catch (e) {}
       esconderTodos();
+      esconderPlanos();
       return null;
     }
     var resposta = dados && dados.ok === true ? dados : await consulta();
@@ -116,6 +139,7 @@
       guardarCache(resposta);
       var elementos = document.querySelectorAll('[data-credits]');
       Array.prototype.forEach.call(elementos, function (el) { pintar(el, resposta); });
+      pintarPlano(resposta);
       return resposta;
     }
     if (pintarCache()) return lerCacheCreditos();
@@ -124,7 +148,7 @@
 
   function iniciarMedidores() {
     window.addEventListener('aetix:user', function (e) {
-      if (!e || !e.detail) { try { localStorage.removeItem(CHAVE_CREDITOS); } catch (x) {} esconderTodos(); return; }
+      if (!e || !e.detail) { try { localStorage.removeItem(CHAVE_CREDITOS); } catch (x) {} esconderTodos(); esconderPlanos(); return; }
       atualizarTudo();
     });
     if (window.AETIX_USER !== undefined) atualizarTudo();

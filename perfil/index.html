@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/perfil/perfil.css">
+<link rel="stylesheet" href="/perfil/perfil.css?v=20261105b">
 </head>
 <body>
 
@@ -44,7 +44,11 @@
         <path d="M26 0Q13 13 0 26M52 0Q27 27 0 52M80 0Q41 41 0 80M110 0Q57 57 0 110"/></g></svg>
     </div>
     <div class="me">
-      <div class="avatar" id="avatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></div>
+      <div class="avatar-wrap">
+        <div class="avatar" id="avatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></div>
+        <span class="plan-badge" data-plan="gratis" hidden aria-label="Nível da assinatura"><svg class="ic" aria-hidden="true"><use href="#i-tool"/></svg><span data-i18n="planFree">Grátis</span></span>
+        <span class="plan-badge plan-badge--mestre" data-plan="mestre" hidden aria-label="Nível da assinatura"><svg class="ic" aria-hidden="true"><use href="#i-tool"/></svg><span data-i18n="planMaster">Mestre</span></span>
+      </div>
       <div class="me-t">
         <h2 id="meNome">Visitante</h2>
         <p id="meEmail"></p>
@@ -141,8 +145,8 @@
   </defs>
 </svg>
 
-<script src="/js/aetix-creditos.js?v=20261105" defer></script>
-<script src="/perfil/perfil.js" defer></script>
+<script src="/js/aetix-creditos.js?v=20261105b" defer></script>
+<script src="/perfil/perfil.js?v=20261105b" defer></script>
 <script src="/js/firebase-config.js"></script>
 <script type="module" src="/js/aetix-auth.js"></script>
 
