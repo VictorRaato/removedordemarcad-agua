@@ -807,6 +807,31 @@ html[data-tema="halloween"] .scene{display:block}
 .hw-pumpkin{position:absolute;left:clamp(8px,2vw,28px);bottom:max(10px,env(safe-area-inset-bottom,0px));width:clamp(44px,5vw,66px);height:auto;filter:drop-shadow(0 0 12px rgba(255,122,26,.65));animation:hwFlick 3.2s ease-in-out infinite}
 @keyframes hwFlick{50%{filter:drop-shadow(0 0 20px rgba(255,170,60,.9))}}
 @media (prefers-reduced-motion:reduce){.scene *{animation:none!important}.hw-stars i{opacity:.55}}
+
+/* ---------- Painel de planos: ocupa a tela até embaixo ---------- */
+body:has(#planosPanel:not([hidden])) #page{display:none}
+.ss{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;margin:12px auto 12px;width:min(1180px,calc(100vw - 24px));padding:18px 22px 22px;display:flex;flex-direction:column}
+.ss-step{flex:1 1 auto;align-content:start}
+.ss-title{text-align:center;font-size:1rem;margin:0 0 22px}
+.ss-cards{align-items:stretch;gap:20px;margin-top:6px}
+.ss-card{padding:26px 22px 22px;gap:14px;min-height:min(520px,62dvh)}
+.ss-card__preco{font-size:2rem}.ss-card__creditos{font-size:1.1rem}.ss-card__eq{font-size:.9rem}.ss-lista{font-size:.9rem;gap:9px}
+.ss-card .pay-btn{height:50px}
+.ss-pay-head{padding:0 0 4px}
+.ss-pay-title{text-align:center}
+.ss-pay-layout{flex:1;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start;padding:22px 28px}
+.ss-pay-left{justify-items:center;gap:16px;align-content:start}
+.ss-pay-left .pay-qr{width:clamp(200px,34dvh,300px);height:clamp(200px,34dvh,300px);padding:12px}
+.ss-pay-left .pay-code{width:min(460px,100%);height:clamp(70px,12dvh,110px);overflow:auto;font-size:.78rem;padding:12px 14px}
+.ss-pay-acoes{width:min(280px,100%);justify-items:center}
+.ss-pay-acoes .pay-btn{height:52px}
+.ss-pay-left .ss-note{text-align:center;max-width:460px}
+.ss-pay-beneficios{display:block;align-self:start;padding:8px 0 0 12px}
+.ss-beneficios-title{font-size:.95rem;margin:0 0 26px}
+.ss-beneficios-lista{gap:22px;font-size:1.05rem}
+body .ss:has(#planosPix:not([hidden])) .ss-title,body .ss:has(#planosPix:not([hidden])) #planosHandle,body .ss:has(#planosOk:not([hidden])) #planosHandle{display:none}
+.ss-pay-head{padding:2px 0 10px}
+@media (max-width:780px){.ss-cards{gap:14px}.ss-card{min-height:0}.ss-pay-layout{grid-template-columns:1fr;gap:22px;padding:12px 4px}.ss-pay-beneficios{padding:0}}
 </style>
 </head>
 <body>
@@ -903,60 +928,11 @@ html[data-tema="halloween"] .scene{display:block}
 
   <!-- ===================== PAINEL DE PLANOS (na tela inicial) ===================== -->
   <section class="ss" id="planosPanel" hidden aria-labelledby="planosTitle">
-    <div class="guia-arrastar" style="display:none"></div>
+    <div class="ss-grip" id="planosHandle" role="button" tabindex="0" aria-label="Arraste para baixo para fechar"><span class="ss-grip-bar" aria-hidden="true"></span></div>
     <h2 class="ss-title tela-planos titulo" id="planosTitle">PLANOS AETIX</h2>
 
     <div class="ss-step" id="planosEscolher">
-      <div class="cards" id="planosCards" role="group" aria-label="Planos disponíveis">
-        <div class="card free">
-          <span class="selo">PLANO ATUAL</span>
-          <div class="nome">Free</div>
-          <div class="sub">um pacote por conta</div>
-          <div class="creditos">500 créditos</div>
-          <div class="equivalencia">≈ 33 fotos ou 20 vídeos</div>
-          <div class="benefits">
-            <ul>
-              <li>500 créditos de boas-vindas</li>
-              <li>Um pacote por conta</li>
-              <li>Sem cartão e sem pagamento</li>
-              <li>Processamento no seu navegador</li>
-            </ul>
-          </div>
-          <button class="btn" disabled>Plano atual</button>
-        </div>
-        <div class="card starter">
-          <span class="selo">MAIS POPULAR</span>
-          <div class="nome">Starter</div>
-          <div class="sub">pagamento único</div>
-          <div class="creditos">10.000 créditos</div>
-          <div class="equivalencia">≈ 666 fotos ou 400 vídeos</div>
-          <div class="benefits">
-            <ul>
-              <li>10.000 créditos somados ao saldo</li>
-              <li>Pagamento único via Pix</li>
-              <li>Serve para meses de uso leve</li>
-              <li>Processamento no seu navegador</li>
-            </ul>
-          </div>
-          <button class="btn">Starter</button>
-        </div>
-        <div class="card pro">
-          <div class="nome">Pro</div>
-          <div class="preco">R$ 24,90</div>
-          <div class="sub">pagamento único</div>
-          <div class="creditos">35.000 créditos</div>
-          <div class="equivalencia">≈ 2.333 fotos ou 1.400 vídeos</div>
-          <div class="benefits">
-            <ul>
-              <li>35.000 créditos somados ao saldo</li>
-              <li>Pagamento único via Pix</li>
-              <li>Melhor preço por crédito</li>
-              <li>Processamento no seu navegador</li>
-            </ul>
-          </div>
-          <button class="btn">Pro</button>
-        </div>
-      </div>
+      <div class="ss-cards" id="planosCards" role="group" aria-label="Planos disponíveis"></div>
       <p class="ss-err" id="planosErro" role="alert"></p>
     </div>
 
@@ -977,15 +953,8 @@ html[data-tema="halloween"] .scene{display:block}
           <p class="ss-note">Assim que o pagamento for confirmado, seus créditos e o seu plano entram na hora. A confirmação aparece sozinha aqui.</p>
         </div>
         <aside class="ss-pay-beneficios" aria-label="Benefícios do plano">
-          <div>
-            <h4 class="ss-beneficios-title" id="planosBenefitsTitle">BENEFÍCIOS · STARTER</h4>
-            <ul class="ss-beneficios-lista" id="planosBenefits">
-              <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>10.000 créditos somados ao saldo</li>
-              <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>Pagamento único via Pix</li>
-              <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>Serve para meses de uso leve</li>
-              <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>Processamento no seu navegador</li>
-            </ul>
-          </div>
+          <h4 class="ss-beneficios-title" id="planosBenefitsTitle">BENEFÍCIOS · STARTER</h4>
+          <ul class="ss-beneficios-lista" id="planosBenefits"></ul>
         </aside>
       </div>
     </div>
