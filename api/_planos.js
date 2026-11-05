@@ -7,12 +7,14 @@
    O navegador só escolhe o pacote; nunca informa valor.
 
    Coleções no Firestore:
-     compras_pendentes  -> cobrança Pix criada, aguardando confirmação da PagueZy
+     compras_pendentes  -> cobrança Pix criada, aguardando confirmação
      compras             -> cobrança confirmada (idempotência: um doc por cobrança)
+     assinantes          -> um doc por assinante (identidade + pacote atual + total
+                            de compras) para consulta/suporte em caso de problema
      creditos            -> carteira do usuário; recebe saldo, plano e planoCreditos
 
-   Promoção da compra (promoverCompra) é idempotente: pode ser chamada pelo webhook
-   e pelo polling de status no navegador sem creditar duas vezes.
+   Promoção da compra (promoverCompra) é idempotente e atômica: pode ser chamada
+   pelo webhook e pelo polling de status no navegador sem creditar duas vezes.
    ========================================================================== */
 
 const { getDb } = require('./_firebase');
@@ -25,10 +27,17 @@ const PACOTES = Object.freeze({
 });
 const COLECAO_PENDENTES = 'compras_pendentes';
 const COLECAO_COMPRAS = 'compras';
+const COLECAO_ASSINANTES = 'assinantes';
 const COLECAO_CARTEIRA = 'creditos';
 
 function limpo(valor, max) {
   return String(valor == null ? '' : valor).replace(/[\x00-\x1f<>]/g, '').trim().slice(0, max || 120);
+}
+function assinaturaAnterior(snap) {
+  return {
+    totalCompras: Number(snap.get('totalCompras')) || 0,
+    totalCreditos: Number(snap.get('totalCreditos')) || 0
+  };
 }
 
 /* Guarda o pedido até o pagamento ser confirmado. Nunca derruba a cobrança. */
@@ -112,6 +121,24 @@ async function promoverCompra(id) {
         criadoEm: agora
       });
       tx.delete(pendRef);
+      /* registro privado do assinante: identidade + pacote + total de compras.
+         Nunca é exposto por nenhuma rota; serve para consulta/suporte. */
+      const assinanteRef = db.collection(COLECAO_ASSINANTES).doc(uid);
+      const assinante = await tx.get(assinanteRef);
+      const anterior = assinante.exists ? assinaturaAnterior(assinante) : { totalCompras: 0, totalCreditos: 0 };
+      tx.set(assinanteRef, {
+        uid: uid,
+        nomeCompleto: limpo(d.nomeCompleto, 120),
+        email: limpo(d.email, 254).toLowerCase(),
+        plano: pacote.id,
+        planoCreditos: pacote.creditos,
+        planoEm: agora,
+        totalCompras: anterior.totalCompras + 1,
+        totalCreditos: anterior.totalCreditos + pacote.creditos,
+        ultimaCobranca: ref,
+        ultimaCompraEm: agora,
+        atualizadoEm: agora
+      }, { merge: true });
       promovido = true;
     });
     return { ok: true, promovido: promovido === true };
@@ -121,4 +148,4 @@ async function promoverCompra(id) {
   }
 }
 
-module.exports = { PACOTES, COLECAO_PENDENTES, COLECAO_COMPRAS, guardarPendenteCompra, promoverCompra };
+module.exports = { PACOTES, COLECAO_PENDENTES, COLECAO_COMPRAS, COLECAO_ASSINANTES, guardarPendenteCompra, promoverCompra };

@@ -83,6 +83,7 @@
   function nivelDe(dados) {
     if (dados && (dados.ilimitado === true || dados.mestre === true)) return 'mestre';
     if (dados && (dados.plano === 'starter' || dados.plano === 'pro')) return dados.plano;
+    if (dados && dados.plano === 'nenhum') return 'nenhum';   // ainda não escolheu plano
     return 'free';
   }
   function pintarPlano(dados) {
@@ -93,6 +94,14 @@
     });
     var botao = document.getElementById('profileBtn');
     if (botao) botao.setAttribute('data-nivel', nivel);
+    anunciar(dados);
+  }
+
+  /* Painel de planos (aetix-upgrade.js) reage a este evento */
+  function anunciar(dados) {
+    try {
+      window.dispatchEvent(new CustomEvent('aetix:saldo', { detail: dados || null }));
+    } catch (e) {}
   }
   function esconderPlanos() {
     document.documentElement.removeAttribute('data-nivel');
@@ -100,6 +109,7 @@
     var botao = document.getElementById('profileBtn');
     if (botao) botao.removeAttribute('data-nivel');
     esconderUpgrade();
+    anunciar(null);
   }
 
   function erro(message) {
@@ -137,11 +147,15 @@
     return Math.round(valor).toLocaleString('pt-BR');
   }
 
+  function ehNenhum(dados) {
+    return !!(dados && dados.plano === 'nenhum' && dados.mestre !== true && dados.ilimitado !== true);
+  }
+
   function pintar(el, dados) {
     if (!el) return;
     var numero = el.querySelector('[data-credit-count]');
     var barra = el.querySelector('[data-credit-fill]');
-    if (!dados || (dados.ok !== true && !dados.email)) { el.hidden = true; return; }
+    if (!dados || (dados.ok !== true && !dados.email) || ehNenhum(dados)) { el.hidden = true; return; }
 
     var ilimitado = dados.ilimitado === true || dados.mestre === true;
     var saldo = Number(dados.saldo);

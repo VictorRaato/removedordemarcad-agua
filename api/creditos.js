@@ -57,6 +57,9 @@ module.exports = async function handler(req, res) {
       if (code === 'sem_creditos') {
         return res.status(403).json({ ok: false, erro: 'sem_creditos', message: 'Você não tem créditos suficientes.' });
       }
+      if (code === 'sem_plano') {
+        return res.status(403).json({ ok: false, erro: 'sem_plano', message: 'Escolha um plano para usar as ferramentas.' });
+      }
       if (code === 'saldo_invalido') {
         return res.status(500).json({ ok: false, erro: 'saldo_invalido', message: 'Serviço indisponível no momento.' });
       }

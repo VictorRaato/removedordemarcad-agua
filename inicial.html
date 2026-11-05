@@ -380,20 +380,36 @@ input:-webkit-autofill:focus{
 .pay-opt:hover{color:var(--muted)}
 .pay-err{min-height:1.2em;margin:0 0 8px;color:var(--err);font-size:.82rem;text-align:center}
 .pay-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:54px;border:0;border-radius:16px;cursor:pointer;color:var(--cta-ink);font:800 1.1rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,var(--cyan),var(--accent) 70%,var(--accent-2));box-shadow:0 0 0 1px rgba(var(--c-rgb),.5),0 0 18px 2px rgba(var(--c-rgb),.65),0 0 42px 6px rgba(var(--a-rgb),.45);transition:transform .15s,filter .15s,box-shadow .15s}
-.upgrade-current{margin:0 0 12px;font-size:.8rem;color:var(--muted)}
-.upgrade-current b{color:var(--ink);font-weight:700}
-.upgrade-planos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
-.upgrade-card{display:flex;flex-direction:column;gap:6px;text-align:left;padding:12px;border-radius:16px;cursor:pointer;background:var(--field);border:1px solid var(--line-2);color:var(--ink);font:inherit;transition:border-color .15s,transform .15s,box-shadow .15s}
-.upgrade-card:hover{transform:translateY(-2px)}
-.upgrade-card.is-on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset,0 16px 34px -24px rgba(124,140,255,.9)}
-.upgrade-card__nome{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.upgrade-selo{font-size:.58rem;letter-spacing:.08em;padding:3px 7px;border-radius:999px;color:#04101A;background:linear-gradient(135deg,var(--cyan),var(--accent))}
-.upgrade-card__preco{font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
-.upgrade-card__preco small{display:block;font-size:.68rem;font-weight:500;color:var(--dim)}
-.upgrade-card__creditos{font-weight:700;color:#C9D0FF}
-.upgrade-card__eq{font-size:.78rem;color:var(--muted)}
-.upgrade-note{margin:12px 0 0;font-size:.76rem;color:var(--dim);line-height:1.5}
-@media (max-width:560px){.upgrade-planos{grid-template-columns:1fr}}
+/* ---------- Painel de planos (na tela inicial, estilo checkout) ---------- */
+.ss{margin:14px auto 0;width:min(1120px,calc(100vw - 22px));border-radius:22px;border:1px solid var(--line-2);background:#0F1118;box-shadow:0 40px 80px -34px rgba(0,0,0,.75),0 0 60px -30px rgba(var(--a-rgb),.35);padding:14px 16px 16px;max-height:78vh;min-height:0;overflow:auto;overscroll-behavior:contain}
+.ss-grip{display:flex;justify-content:center;padding:2px 0 10px;cursor:grab;touch-action:none}
+.ss-grip:active{cursor:grabbing}
+.ss-grip-bar{width:104px;height:6px;border-radius:999px;background:rgba(255,255,255,.32);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.ss-grip:hover .ss-grip-bar{background:rgba(255,255,255,.5)}
+.ss-title{margin:0 0 12px;font:800 .74rem/1 Inter,system-ui,sans-serif;letter-spacing:.22em;color:var(--soft)}
+.ss-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ss-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:16px 14px 14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line-2);color:var(--ink);text-align:left}
+.ss-card__nome{display:flex;align-items:center;gap:8px;font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ss-card__marca{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--line-2);flex:none}
+.ss-selo{position:absolute;top:-10px;right:14px;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;color:#0B0C12;background:linear-gradient(135deg,#7C8CFF,#9B6BFF)}
+.ss-atual{font-size:.58rem;letter-spacing:.08em;padding:3px 7px;border-radius:999px;color:#B9FFD9;background:rgba(74,222,154,.16);border:1px solid rgba(74,222,154,.4);margin-left:auto}
+.ss-card__preco{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.ss-card__preco small{display:block;margin-top:3px;font-size:.66rem;font-weight:500;color:var(--dim);letter-spacing:0;text-transform:none}
+.ss-card__creditos{font-weight:700;color:#C9D0FF;font-size:.95rem}
+.ss-card__eq{color:var(--muted);font-size:.8rem}
+.ss-lista{list-style:none;margin:0;padding:2px 0 0;display:grid;gap:6px;font-size:.8rem;color:var(--muted)}
+.ss-lista li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}
+.ss-lista li::before{content:"✓";color:#3DDC97;font-weight:800;flex:none}
+.ss-card .pay-btn{margin-top:auto;width:100%;height:44px;border-radius:12px;font-size:.85rem}
+.ss-card .pay-btn.is-current{background:transparent;border:1px solid var(--line-2);color:var(--muted);box-shadow:none;cursor:default}
+.ss-card .pay-btn:disabled:not(.is-current){opacity:.55;cursor:not-allowed}
+.ss-err{min-height:1.2em;margin:10px 4px 0;color:#FF9AA0;font-size:.8rem}
+.ss-note{color:var(--dim);font-size:.73rem;line-height:1.45;margin:0}
+.ss-step{display:grid;gap:10px}
+.plan-lock{display:none;justify-content:center;padding:9px 12px;margin:0 0 10px;border-radius:12px;background:rgba(46,230,255,.09);border:1px solid rgba(46,230,255,.35);color:#9BE7FF;font:700 .78rem/1.4 Inter,system-ui,sans-serif;text-align:center}
+html[data-nivel="nenhum"] .plan-lock{display:flex}
+html[data-nivel="nenhum"] #panelImage,html[data-nivel="nenhum"] #panelVideo{filter:grayscale(.6) brightness(.55)}
+@media (max-width:780px){.ss-cards{grid-template-columns:1fr}.ss-card__preco{font-size:1.5rem}}
 .pay-btn:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-1px)}
 .pay-btn:active:not(:disabled){transform:scale(.985)}
 .pay-btn:disabled{opacity:.55;cursor:wait}
@@ -869,6 +885,32 @@ html[data-tema="halloween"] .scene{display:block}
     </div>
   </header>
 
+  <!-- ===================== PAINEL DE PLANOS (na tela inicial) ===================== -->
+  <section class="ss" id="planosPanel" hidden aria-labelledby="planosTitle">
+    <div class="ss-grip" id="planosHandle" role="button" tabindex="0" aria-label="Arraste para baixo para fechar" title="Arraste para baixo para fechar"><span class="ss-grip-bar"></span></div>
+    <h2 class="ss-title" id="planosTitle">PLANOS SEM RENOVAÇÃO</h2>
+
+    <div class="ss-step" id="planosEscolher">
+      <div class="ss-cards" id="planosCards" role="group" aria-label="Planos disponíveis"></div>
+      <p class="ss-err" id="planosErro" role="alert"></p>
+    </div>
+
+    <div class="ss-step" id="planosPix" hidden>
+      <div class="pay-qr" id="planQr"></div>
+      <textarea class="pay-code" id="planCode" readonly spellcheck="false" aria-label="Pix copia e cola"></textarea>
+      <button type="button" class="pay-btn ss-cta" id="planCopy">Copiar código</button>
+      <p class="pay-status" id="planStatus" role="status" hidden><i></i><span></span></p>
+      <p class="ss-note">Assim que o pagamento for confirmado, seus créditos e o seu plano entram na hora. A confirmação aparece sozinha aqui.</p>
+    </div>
+
+    <div class="ss-step" id="planosOk" hidden>
+      <div class="pay-ok-ic">✓</div>
+      <p class="pay-ok-t">Pagamento confirmado!</p>
+      <p class="pay-ok-s" id="planOkText">Seus créditos e o seu plano já estão ativos. Bom uso!</p>
+      <button type="button" class="pay-btn ss-cta" id="planOkBtn">Concluir</button>
+    </div>
+  </section>
+
   <!-- ===================== MAIN ===================== -->
   <main class="page" id="page">
     <div class="page-in">
@@ -884,6 +926,7 @@ html[data-tema="halloween"] .scene{display:block}
 
       <!-- =============== PAINEL: IMAGEM =============== -->
       <section class="card" id="panelImage" role="tabpanel" aria-labelledby="tabImage">
+        <div class="plan-lock" role="status">Escolha um plano abaixo para liberar as ferramentas.</div>
         <p class="msg" id="im-msg" role="status"></p>
         <div class="drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i>
         <label class="drop" id="im-drop" tabindex="0">
@@ -983,6 +1026,7 @@ html[data-tema="halloween"] .scene{display:block}
 
       <!-- =============== PAINEL: VÍDEO =============== -->
       <section class="card hidden" id="panelVideo" role="tabpanel" aria-labelledby="tabVideo">
+        <div class="plan-lock" role="status">Escolha um plano abaixo para liberar as ferramentas.</div>
         <p class="msg" id="vd-msg" role="status"></p>
         <div class="drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i>
         <label class="drop" id="vd-drop" tabindex="0">
@@ -1207,54 +1251,6 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="pay-ok-ic">✓</div>
       <p class="pay-ok-t">Pagamento confirmado!</p>
       <p class="pay-ok-s">Valeu demais pela força. Vamos continuar no ar 🥤</p>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="upgradeModal" hidden>
-  <div class="modal-card pay-card" id="upgradeCard" data-step="form" role="dialog" aria-modal="true" aria-labelledby="upgradeModal-t">
-    <button type="button" class="x pay-x" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button>
-
-    <div class="pay-top">
-      <div class="pay-img" aria-hidden="true">
-        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="upGlow" cx=".5" cy=".4" r=".8"><stop offset="0" stop-color="#A88BFF"/><stop offset="1" stop-color="#3B2A75"/></radialGradient>
-            <linearGradient id="upSpark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C9D0FF"/></linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="52" fill="url(#upGlow)" stroke="#9B6BFF" stroke-opacity=".7" stroke-width="2"/>
-          <path d="M60 20c2.6 16.8 9.4 27 33 33-23.6 6-30.4 16.2-33 33-2.6-16.8-9.4-27-33-33 23.6-6 30.4-16.2 33-33z" fill="url(#upSpark)"/>
-        </svg>
-      </div>
-      <div class="pay-info">
-        <div class="pay-brand" id="upgradeModal-t" role="heading" aria-level="2" aria-label="AETIX DESIGN AI">
-          <span class="b1">AETIX</span><span class="b2">DESIGN</span><span class="b3">AI</span>
-        </div>
-        <p class="pay-text">Escolha um pacote, pague via Pix e os créditos entram na hora. Pagamento único, sem assinatura.</p>
-      </div>
-    </div>
-
-    <div class="pay-step" id="upgradeFormView">
-      <p class="upgrade-current">Seu plano atual: <b id="upgradeCurrentPlan">Free</b></p>
-      <div class="upgrade-planos" id="upgradePlanos" role="radiogroup" aria-label="Pacotes de créditos"></div>
-      <p class="pay-err" id="upErr" role="alert"></p>
-      <button type="button" class="pay-btn" id="upBtn"><span id="upBtnTxt">Comprar</span></button>
-      <p class="upgrade-note">Pagamento único via Pix. Os créditos entram na hora e somam ao seu saldo atual.</p>
-    </div>
-
-    <div class="pay-step" id="upgradePixView" hidden>
-      <div class="pay-qr" id="upQr"></div>
-      <textarea class="pay-code" id="upCode" readonly aria-label="Pix copia e cola"></textarea>
-      <button type="button" class="pay-btn" id="upCopy" style="height:44px;font-size:.95rem">Copiar código Pix</button>
-      <p class="pay-status" id="upStatus" role="status" hidden><i></i><span></span></p>
-      <p class="upgrade-note">Assim que o pagamento for confirmado, seus créditos e o seu plano entram na hora. A confirmação aparece sozinha nesta tela.</p>
-    </div>
-
-    <div class="pay-step" id="upgradeOkView" hidden>
-      <div class="pay-ok-ic">✓</div>
-      <p class="pay-ok-t">Pagamento confirmado!</p>
-      <p class="pay-ok-s" id="upOkText">Seus créditos e o seu plano já estão ativos. Bom uso!</p>
-      <button type="button" class="pay-btn" id="upOkBtn" data-close-modal>Concluir</button>
     </div>
   </div>
 </div>

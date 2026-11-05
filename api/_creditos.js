@@ -50,6 +50,7 @@ async function garantirCarteira(uid) {
       email: perfil.email,
       saldo: perfil.mestre ? 0 : SALDO_INICIAL,
       mestre: !!perfil.mestre,
+      plano: perfil.mestre ? 'mestre' : 'nenhum',   // 'nenhum' = ainda não escolheu plano
       criadoEm: FieldValue.serverTimestamp(),
       atualizadoEm: FieldValue.serverTimestamp()
     };
@@ -59,6 +60,7 @@ async function garantirCarteira(uid) {
 
   const dados = snap.data() || {};
   const mestre = perfil.mestre || dados.mestre === true;
+  /* contas antigas sem o campo plano contam como Free (já receberam os 500) */
 
   /* Ajuste único das contas antigas: saldo acima do inicial vira o inicial. */
   const precisaAjuste = !mestre && dados.ajusteSaldo500 !== true;
@@ -89,7 +91,8 @@ async function consultarCarteira(uid) {
   const dados = await garantirCarteira(uid);
   const mestre = dados.mestre === true;
   const saldo = mestre ? 0 : lerSaldo(dados);
-  const plano = dados.plano === 'starter' || dados.plano === 'pro' ? dados.plano : 'free';
+  const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';   // sem campo = conta antiga Free
+  const plano = mestre ? 'mestre' : planoBruto;
   const planoCreditos = Number(dados.planoCreditos);
   return {
     ok: true,
@@ -112,41 +115,37 @@ async function consumirCreditos(uid, tipo) {
   const perfil = await dadosDoLogin(uid);
   if (perfil.mestre) {
     const carteira = await garantirCarteira(uid);
-    return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: true, nome: carteira.nome, email: carteira.email };
+    return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: true, nome: carteira.nome, email: carteira.email, plano: 'mestre', planoCreditos: 0 };
   }
 
   /* cria/atualiza a carteira antes da transação, para contas novas também debitarem */
   const antes = await garantirCarteira(uid);
   if (antes.mestre === true) {
-    return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: true, nome: antes.nome, email: antes.email };
+    return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: true, nome: antes.nome, email: antes.email, plano: 'mestre', planoCreditos: 0 };
+  }
+  if (antes.plano === 'nenhum') {
+    const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e;
   }
 
   const ref = getDb().collection(COLECAO).doc(uid);
   return getDb().runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     if (!snap.exists) {
-      const criado = {
-        uid,
-        nome: perfil.nome,
-        email: perfil.email,
-        saldo: SALDO_INICIAL,
-        mestre: false,
-        criadoEm: FieldValue.serverTimestamp(),
-        atualizadoEm: FieldValue.serverTimestamp()
-      };
-      if (SALDO_INICIAL < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
-      tx.set(ref, { ...criado, saldo: SALDO_INICIAL - custo });
-      return { ok: true, tipo, custo, saldo: SALDO_INICIAL - custo, ilimitado: false, consumido: true, mestre: false, nome: perfil.nome, email: perfil.email, plano: 'free', planoCreditos: 0 };
+      /* alguém com plano escolheu indevidamente: bloqueia em vez de debitar conta nascida sem escolha */
+      const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e;
     }
     const dados = snap.data() || {};
     if (dados.mestre === true) {
-      return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: true, nome: limparNome(dados.nome), email: limparEmail(dados.email) };
+      return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: true, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano: 'mestre', planoCreditos: 0 };
     }
+    /* sem plano escolhido, não debita: precisa escolher um plano primeiro */
+    if (dados.plano === 'nenhum') { const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e; }
     const saldo = lerSaldo(dados);
     if (!Number.isFinite(saldo)) { const e = new Error('saldo_invalido'); e.code = 'saldo_invalido'; throw e; }
     if (saldo < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
     const novo = saldo - custo;
-    const plano = dados.plano === 'starter' || dados.plano === 'pro' ? dados.plano : 'free';
+    const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';
+    const plano = planoBruto;   // preserva free/starter/pro
     const planoCreditos = Number(dados.planoCreditos);
     tx.update(ref, { saldo: novo, atualizadoEm: FieldValue.serverTimestamp() });
     return { ok: true, tipo, custo, saldo: novo, ilimitado: false, consumido: true, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano, planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0 };

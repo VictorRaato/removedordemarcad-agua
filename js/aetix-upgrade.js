@@ -1,149 +1,206 @@
 'use strict';
-/* AETIX DESIGN AI · js/aetix-upgrade.js
-   Modal "Planos" (checkout de pacotes de créditos).
+/* ==========================================================================
+   AETIX DESIGN AI · js/aetix-upgrade.js
+   Painel "PLANOS SEM RENOVAÇÃO" (na tela inicial).
 
-   - Abertura pelo botão #pricingOpen (script.js abre o modal upgradeModal)
-   - Pacotes fixos aqui; o servidor cobra o valor real (api/comprar.js)
-   - O checkout não pede dados: nome e e-mail vêm da conta (api/comprar.js)
-   - Pagamento via Pix; a tela detecta a confirmação sozinha
-     (polling em /api/comprar?id=) ou pelo webhook (api/paguezy-webhook.mjs)
-   - Nada é cobrado sem login e sem aceite dos Termos
+   - Conta nova nasce sem plano: o painel abre automaticamente
+   - Enquanto o plano for 'nenhum', as ferramentas ficam bloqueadas (clique nelas
+     não faz nada até escolher um plano)
+   - Free ativado uma única vez por conta (POST /api/plano)
+   - Starter/Pro pagos via Pix (POST /api/comprar); pagamento único, sem renovação
+   - O botão PLANOS UPGRADE abre/fecha este mesmo painel (não é pop-up)
+   - Cada cartão tem o seu próprio botão de escolher
    ========================================================================== */
 (function () {
   'use strict';
 
-  var PACOTES = [
-    { id: 'starter', nome: 'Starter', creditos: 10000, preco: 990, selo: 'Mais popular' },
-    { id: 'pro', nome: 'Pro', creditos: 35000, preco: 2490, selo: '' }
+  var CARTOES = [
+    {
+      id: 'free', nome: 'Free', creditos: 500, preco: 0, eq: 33, eqv: 20, selo: '', tipo: 'free',
+      beneficios: ['500 créditos de boas-vindas', 'Um pacote por conta', 'Sem cartão e sem pagamento', 'Processamento no seu navegador']
+    },
+    {
+      id: 'starter', nome: 'Starter', creditos: 10000, preco: 990, eq: 666, eqv: 400, selo: 'Mais popular', tipo: 'pago',
+      beneficios: ['10.000 créditos somados ao saldo', 'Pagamento único via Pix', 'Serve para meses de uso leve', 'Processamento no seu navegador']
+    },
+    {
+      id: 'pro', nome: 'Pro', creditos: 35000, preco: 2490, eq: 2333, eqv: 1400, selo: '', tipo: 'pago',
+      beneficios: ['35.000 créditos somados ao saldo', 'Pagamento único via Pix', 'Melhor preço por crédito', 'Processamento no seu navegador']
+    }
   ];
-  var CUSTO_FOTO = 15;
-  var CUSTO_VIDEO = 25;
 
-  var escolhido = 'starter';
+  var escolhido = '';
   var cobrancaId = null;
   var polling = null;
   var qrLibPromise = null;
+  var painelAberto = false;
+  var dispensado = false;
 
   function $(id) { return document.getElementById(id); }
   function num(n) { return Math.round(Number(n) || 0).toLocaleString('pt-BR'); }
   function brl(centavos) { return ((Number(centavos) || 0) / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-  function fotos(c) { return Math.floor(c / CUSTO_FOTO); }
-  function videos(c) { return Math.floor(c / CUSTO_VIDEO); }
-  function achar(id) { for (var i = 0; i < PACOTES.length; i++) if (PACOTES[i].id === id) return PACOTES[i]; return PACOTES[0]; }
+  function fotos(c) { return Math.floor(c / 15); }
+  function videos(c) { return Math.floor(c / 25); }
+  function achar(id) { for (var i = 0; i < CARTOES.length; i++) if (CARTOES[i].id === id) return CARTOES[i]; return null; }
 
-  /* ---------- cartões de pacote ---------- */
-  function criarCard(p) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'upgrade-card';
-    b.dataset.pacote = p.id;
-    b.setAttribute('role', 'radio');
-    b.setAttribute('aria-checked', 'false');
-    var h = '';
-    if (p.selo) h += '<span class="upgrade-card__nome"><span>' + p.nome + '</span><span class="upgrade-selo">' + p.selo + '</span></span>';
-    else h += '<span class="upgrade-card__nome"><span>' + p.nome + '</span></span>';
-    h += '<span class="upgrade-card__preco">' + brl(p.preco) + '<small>pagamento único</small></span>';
-    h += '<span class="upgrade-card__creditos">' + num(p.creditos) + ' créditos</span>';
-    h += '<span class="upgrade-card__eq">≈ ' + num(fotos(p.creditos)) + ' fotos ou ' + num(videos(p.creditos)) + ' vídeos</span>';
-    b.innerHTML = h;
-    return b;
-  }
-
-  function selecionar(id) {
-    escolhido = String(id);
-    var p = achar(escolhido);
-    var caixa = $('upgradePlanos');
-    if (caixa) {
-      Array.prototype.forEach.call(caixa.children, function (c) {
-        var on = c.getAttribute('data-pacote') === String(id);
-        c.classList.toggle('is-on', on);
-        c.setAttribute('aria-checked', String(on));
-      });
-    }
-    var btn = $('upBtnTxt');
-    if (btn) btn.textContent = 'Comprar ' + p.nome + ' · ' + brl(p.preco);
-  }
-
-  function renderCards() {
-    var caixa = $('upgradePlanos');
+  /* ---------- renderização dos cartões ---------- */
+  function montarCartoes() {
+    var caixa = $('planosCards');
     if (!caixa || caixa.dataset.pronto === '1') return;
-    PACOTES.forEach(function (p) { caixa.appendChild(criarCard(p)); });
+    CARTOES.forEach(function (p) {
+      var b = document.createElement('div');
+      b.className = 'ss-card';
+      b.dataset.pacote = p.id;
+      var selo = p.selo ? '<span class="ss-selo">Mais popular</span>' : '';
+      b.innerHTML =
+        selo +
+        '<span class="ss-card__nome"><span class="ss-card__marca" aria-hidden="true"></span>' + p.nome + '<span class="ss-atual" data-atual hidden>Plano atual</span></span>' +
+        '<span class="ss-card__preco">' + (p.preco ? brl(p.preco) : 'Free') +
+          '<small>' + (p.preco ? 'pagamento único' : 'um pacote por conta') + '</small></span>' +
+        '<span class="ss-card__creditos">' + num(p.creditos) + ' créditos</span>' +
+        '<span class="ss-card__eq">≈ ' + num(fotos(p.creditos)) + ' fotos ou ' + num(videos(p.creditos)) + ' vídeos</span>' +
+        '<ul class="ss-lista">' + p.beneficios.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        '<button type="button" class="pay-btn ss-cta" data-escolher="' + p.id + '"><span>' + (p.preco ? p.nome : 'Free') + '</span></button>';
+      caixa.appendChild(b);
+    });
     caixa.dataset.pronto = '1';
     caixa.addEventListener('click', function (e) {
-      var card = e.target && e.target.closest ? e.target.closest('.upgrade-card') : null;
-      if (card) selecionar(card.getAttribute('data-pacote'));
+      var btn = e.target && e.target.closest ? e.target.closest('[data-escolher]') : null;
+      if (btn && !btn.disabled) escolherPlano(btn.getAttribute('data-escolher'));
     });
   }
 
-  /* ---------- passos do modal ---------- */
+  function estadoCartoes(dados) {
+    var plano = !dados ? 'nenhum' : (dados.mestre || dados.ilimitado ? 'mestre' : (dados.plano || 'free'));
+    Array.prototype.forEach.call(($('planosCards') || {}).children || [], function (b) {
+      var id = b.getAttribute('data-pacote');
+      var btn = b.querySelector('[data-escolher]');
+      var atual = b.querySelector('[data-atual]');
+      if (id === 'free') {
+        var podeFree = plano === 'nenhum';
+        btn.disabled = !podeFree;
+        btn.classList.toggle('is-current', !podeFree);
+        if (!podeFree) btn.innerHTML = '<span>Plano atual</span>';
+        if (atual) atual.hidden = plano !== 'free';
+        return;
+      }
+      if (plano === 'mestre') { btn.disabled = true; if (atual) atual.hidden = true; return; }
+      btn.disabled = false;
+      btn.classList.remove('is-current');
+      btn.innerHTML = '<span>' + (id === 'starter' ? 'Starter' : 'Pro') + '</span>';
+      if (atual) atual.hidden = plano !== id;
+    });
+  }
+
   function ir(passo) {
-    ['upgradeFormView', 'upgradePixView', 'upgradeOkView'].forEach(function (id) {
+    ['planosEscolher', 'planosPix', 'planosOk'].forEach(function (id) {
       var el = $(id); if (el) el.hidden = id !== passo;
     });
-    var card = $('upgradeCard');
-    if (card) card.dataset.step = passo === 'upgradeFormView' ? 'form' : (passo === 'upgradePixView' ? 'pix' : 'ok');
   }
 
-  function erro(msg) {
-    var el = $('upErr');
-    if (el) el.textContent = msg || '';
-  }
+  function erro(m) { var e = $('planosErro'); if (e) e.textContent = m || ''; }
 
   function setStatus(txt) {
-    var el = $('upStatus');
-    if (!el) return;
-    var s = el.querySelector('span:last-child') || (el.lastElementChild || el);
-    if (s && s !== el) s.textContent = txt || '';
+    var el = $('planStatus'); if (!el) return;
+    var s = el.querySelector('span:last-child'); if (s) s.textContent = txt || '';
     el.hidden = !txt;
   }
 
-  function planoAtualTexto() {
-    try {
-      var d = JSON.parse(localStorage.getItem('aetix-credits-cache') || 'null');
-      if (d && d.plano === 'pro') return 'Pro';
-      if (d && d.plano === 'starter') return 'Starter';
-    } catch (e) {}
-    return 'Free';
+  function mostrarPainel() {
+    var el = $('planosPanel'); if (!el) return;
+    el.hidden = false;
+    el.style.transform = '';
+    dispensado = false;
+    painelAberto = true;
+    if (window.innerWidth < 780 && el.scrollIntoView) {
+      try { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) { el.scrollIntoView(true); }
+    }
   }
 
-  function preencher() {
-    var cur = $('upgradeCurrentPlan');
-    if (cur) cur.textContent = planoAtualTexto();
+  function esconderPainel() {
+    var el = $('planosPanel'); if (el) { el.hidden = true; el.style.transform = ''; }
+    painelAberto = false;
   }
 
-  /* ---------- criar cobrança ---------- */
-  async function criarCobranca() {
+  function dispensarPainel() { esconderPainel(); dispensado = true; }
+
+  /* ---------- ativação do plano Free (uma vez por conta) ---------- */
+  async function ativarFree() {
     erro('');
-    var btn = $('upBtn');
+    var btn = document.querySelector('[data-escolher="free"]') || $('planosComprar');
+    var txt = btn ? (btn.querySelector('span') || btn) : null;
+    var textoOriginal = txt ? txt.textContent : '';
+    var feito = false;
     if (btn) btn.disabled = true;
-    var txt = $('upBtnTxt');
+    if (txt) txt.textContent = 'Ativando…';
+    try {
+      var r = await fetch('/api/plano', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plano: 'free' })
+      });
+      var data = null;
+      try { data = await r.json(); } catch (e) {}
+      if (r.ok && data && data.ok) {
+        feito = true;                  /* o estado "Plano atual" vem de aplicarEstado/estadoCartoes */
+        await atualizarCreditos();
+        esconderPainel();
+        return;
+      }
+      if (r.status === 401) return erro('Entre novamente para ativar o plano.');
+      if (r.status === 403) return erro((data && data.message) || 'Confirme seu e-mail e aceite os Termos para ativar.');
+      erro((data && data.message) || 'Não foi possível ativar o plano Free. Tente de novo.');
+    } catch (e) {
+      erro('Sem conexão agora. Tente de novo.');
+    } finally {
+      if (!feito) {
+        if (btn) btn.disabled = false;
+        if (txt) txt.textContent = textoOriginal;
+      }
+    }
+  }
+
+  /* ---------- compra de pacotes ---------- */
+  async function criarCobranca(pacote) {
+    erro('');
+    var btn = document.querySelector('[data-escolher="' + pacote + '"]');
+    var txt = btn ? (btn.querySelector('span') || btn) : null;
+    var textoOriginal = txt ? txt.textContent : '';
+    if (btn) btn.disabled = true;
     if (txt) txt.textContent = 'Gerando Pix…';
     try {
       var r = await fetch('/api/comprar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pacote: escolhido })
+        body: JSON.stringify({ pacote: pacote })
       });
       var data = null;
       try { data = await r.json(); } catch (e) {}
       if (r.status === 201 && data && data.ok) {
+        escolhido = pacote;
         mostrarPix(data.id, data.pix && data.pix.copy_paste);
         return;
       }
       if (r.status === 401) return erro('Entre novamente para comprar.');
       if (r.status === 403) return erro((data && data.message) || 'Confirme seu e-mail e aceite os Termos para comprar.');
-      if (r.status === 409) return erro((data && data.message) || 'Sua conta já tem acesso ilimitado.');
-      if (r.status === 400) return erro((data && data.message) || 'Escolha um pacote válido.');
+      if (r.status === 409) return erro((data && data.message) || 'Sua conta já tem tudo liberado.');
+      if (r.status === 400) return erro((data && data.message) || 'Escolha um plano válido.');
       erro((data && data.message) || 'Não foi possível gerar o Pix. Tente de novo.');
     } catch (e) {
       erro('Sem conexão agora. Tente de novo.');
     } finally {
-      if (btn) btn.disabled = false;
-      selecionar(escolhido);   // restaura o texto do botão
+      if (btn) { btn.disabled = false; if (txt) txt.textContent = textoOriginal; }
     }
   }
 
-  /* ---------- Pix: QR, polling, confirmação ---------- */
+  async function atualizarCreditos() {
+    if (window.AETIX_CREDITOS && typeof window.AETIX_CREDITOS.atualizar === 'function') {
+      try { await window.AETIX_CREDITOS.atualizar(); } catch (e) {}
+    }
+  }
+
+  function pararPolling() { if (polling) { clearInterval(polling); polling = null; } }
+
   function carregarQrLib() {
     if (!qrLibPromise) {
       qrLibPromise = new Promise(function (resolve, reject) {
@@ -160,8 +217,7 @@
   }
 
   function desenharQR(codigo) {
-    var box = $('upQr');
-    if (!box) return;
+    var box = $('planQr'); if (!box) return;
     box.textContent = 'Gerando QR…';
     carregarQrLib().then(function (qrcode) {
       var qr = qrcode(0, 'M');
@@ -173,17 +229,17 @@
     });
   }
 
-  function pararPolling() {
-    if (polling) { clearInterval(polling); polling = null; }
-  }
-
   function iniciarPolling() {
     pararPolling();
     var tentativas = 0;
     polling = setInterval(function () {
       tentativas += 1;
-      var modal = $('upgradeModal');
-      if (!modal || modal.hidden || tentativas > 240) { pararPolling(); if (tentativas > 240) setStatus('Pagamento ainda não detectado. Se você já pagou, aguarde alguns minutos.'); return; }
+      var modal = $('planosPanel');
+      if (!modal || modal.hidden || tentativas > 240) {
+        pararPolling();
+        if (tentativas > 240) setStatus('Pagamento ainda não detectado. Se você já pagou, aguarde alguns minutos.');
+        return;
+      }
       fetch('/api/comprar?id=' + encodeURIComponent(cobrancaId), { cache: 'no-store' })
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
@@ -199,30 +255,32 @@
   function pagamentoConfirmado() {
     setStatus('');
     var p = achar(escolhido);
-    var okText = $('upOkText');
-    if (okText) okText.textContent = num(p.creditos) + ' créditos e o plano ' + p.nome + ' já estão ativos. Bom uso!';
-    ir('upgradeOkView');
-    if (window.AETIX_CREDITOS && typeof window.AETIX_CREDITOS.atualizar === 'function') {
-      try { window.AETIX_CREDITOS.atualizar(); } catch (e) {}
-    }
+    var okText = $('planOkText');
+    if (okText && p) okText.textContent = num(p.creditos) + ' créditos e o plano ' + p.nome + ' já estão ativos. Bom uso!';
+    ir('planosOk');
+    atualizarCreditos();
+  }
+
+  function escolherPlano(id) {
+    var p = achar(id);
+    if (!p) return;
+    if (p.tipo === 'free') return ativarFree();
+    return criarCobranca(p.id);
   }
 
   function mostrarPix(id, codigo) {
     cobrancaId = id;
-    var c = $('upCode');
+    var c = $('planCode');
     if (c) c.value = codigo || '';
     desenharQR(codigo);
     setStatus('Aguardando confirmação do pagamento…');
-    ir('upgradePixView');
+    ir('planosPix');
     iniciarPolling();
   }
 
   function copiarCodigo() {
-    var c = $('upCode');
-    if (!c || !c.value) return;
-    var fim = function (ok) {
-      setStatus(ok ? 'Código copiado.' : 'Não foi possível copiar. Selecione o texto e copie manualmente.');
-    };
+    var c = $('planCode'); if (!c || !c.value) return;
+    var fim = function (ok) { setStatus(ok ? 'Código copiado.' : 'Não foi possível copiar. Selecione o texto e copie manualmente.'); };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(c.value).then(function () { fim(true); }, function () { fim(false); });
     } else {
@@ -231,22 +289,96 @@
     }
   }
 
-  /* ---------- bindings ---------- */
-  function bind() {
-    var btn = $('upBtn');
-    if (btn) btn.addEventListener('click', criarCobranca);
-    var copy = $('upCopy');
-    if (copy) copy.addEventListener('click', copiarCodigo);
-    var gatilho = $('pricingOpen');
-    if (gatilho) gatilho.addEventListener('click', function () { preencher(); ir('upgradeFormView'); });
-    var modaisFechables = document.querySelectorAll('#upgradeModal [data-close-modal]');
-    Array.prototype.forEach.call(modaisFechables, function (el) {
-      el.addEventListener('click', function () { pararPolling(); });
-    });
+  /* ---------- gate das ferramentas enquanto plano = nenhum ---------- */
+  function permitido(alvo) {
+    if (!alvo || !alvo.closest) return true;
+    if (document.documentElement.getAttribute('data-nivel') !== 'nenhum') return true;
+    return !!alvo.closest('#planosPanel, .hdr, .helpmenu, .dropdown, dialog, .flinks, #cookieBanner, .aetix-thanks, [data-close-modal]');
   }
 
-  renderCards();
-  selecionar(escolhido);
-  preencher();
-  bind();
+  function capturar(e) {
+    if (document.documentElement.getAttribute('data-nivel') !== 'nenhum') return;
+    if (permitido(e.target)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    mostrarPainel();
+  }
+
+  /* ---------- estado geral ---------- */
+  function aplicarEstado(dados) {
+    montarCartoes();
+    estadoCartoes(dados);
+    var nivel = document.documentElement.getAttribute('data-nivel');
+    if (nivel === 'nenhum' && !dispensado) mostrarPainel();
+    else if (nivel !== 'nenhum') esconderPainel();
+  }
+
+  function bind() {
+    var copy = $('planCopy');
+    if (copy) copy.addEventListener('click', copiarCodigo);
+    var ok = $('planOkBtn');
+    if (ok) ok.addEventListener('click', function () { esconderPainel(); });
+    var gatilho = $('pricingOpen');
+    if (gatilho) gatilho.addEventListener('click', function () {
+      if (painelAberto) dispensarPainel(); else mostrarPainel();
+    });
+
+    /* arrastar a guia para baixo para fechar */
+    var head = $('planosHandle');
+    var drag = null;
+    if (head) {
+      var iniciarArraste = function (e) {
+        var src = e.touches ? e.touches[0] : e;
+        drag = { startY: src.clientY, dy: 0 };
+      };
+      head.addEventListener('pointerdown', function (e) {
+        iniciarArraste(e);
+        try { head.setPointerCapture(e.pointerId); } catch (err) {}
+      });
+      head.addEventListener('pointermove', function (e) {
+        if (!drag) return;
+        drag.dy = Math.max(0, e.clientY - drag.startY);
+        var el = $('planosPanel');
+        if (el) el.style.transform = 'translateY(' + Math.min(drag.dy, 110) + 'px)';
+      });
+      var soltar = function () {
+        if (!drag) return;
+        var el = $('planosPanel');
+        if (el) el.style.transform = '';
+        if (drag.dy > 70) dispensarPainel();
+        drag = null;
+      };
+      head.addEventListener('pointerup', soltar);
+      head.addEventListener('pointercancel', soltar);
+      head.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { e.preventDefault(); dispensarPainel(); }
+      });
+    }
+
+    document.addEventListener('pointerdown', capturar, true);
+    document.addEventListener('click', capturar, true);
+    document.addEventListener('drop', capturar, true);
+    document.addEventListener('dragover', capturar, true);
+    document.addEventListener('keydown', function (e) {
+      if (document.documentElement.getAttribute('data-nivel') !== 'nenhum') return;
+      var v = (e.ctrlKey || e.metaKey) && (e.key === 'v' || e.key === 'V');
+      if (v && !permitido(e.target)) { capturar(e); }
+    }, true);
+  }
+
+  function iniciar() {
+    montarCartoes();
+    bind();
+    /* o aetix-creditos.js dispara 'aetix:saldo' assim que souber o plano (cacheado ou pela API) */
+    window.addEventListener('aetix:saldo', function (e) { aplicarEstado(e && e.detail ? e.detail : null); });
+    var nivelAtual = document.documentElement.getAttribute('data-nivel');
+    if (nivelAtual === 'nenhum' && !dispensado) mostrarPainel();
+    if (window.AETIX_CREDITOS && typeof window.AETIX_CREDITOS.atualizar === 'function') {
+      try { window.AETIX_CREDITOS.atualizar(); } catch (e) {}
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciar);
+  else iniciar();
 })();
