@@ -903,11 +903,60 @@ html[data-tema="halloween"] .scene{display:block}
 
   <!-- ===================== PAINEL DE PLANOS (na tela inicial) ===================== -->
   <section class="ss" id="planosPanel" hidden aria-labelledby="planosTitle">
-    <div class="ss-grip" id="planosHandle" role="button" tabindex="0" aria-label="Arraste para baixo para fechar" title="Arraste para baixo para fechar"><span class="ss-grip-bar"></span></div>
-    <h2 class="ss-title" id="planosTitle">PLANOS SEM RENOVAÇÃO</h2>
+    <div class="guia-arrastar" style="display:none"></div>
+    <h2 class="ss-title tela-planos titulo" id="planosTitle">PLANOS AETIX</h2>
 
     <div class="ss-step" id="planosEscolher">
-      <div class="ss-cards" id="planosCards" role="group" aria-label="Planos disponíveis"></div>
+      <div class="cards" id="planosCards" role="group" aria-label="Planos disponíveis">
+        <div class="card free">
+          <span class="selo">PLANO ATUAL</span>
+          <div class="nome">Free</div>
+          <div class="sub">um pacote por conta</div>
+          <div class="creditos">500 créditos</div>
+          <div class="equivalencia">≈ 33 fotos ou 20 vídeos</div>
+          <div class="benefits">
+            <ul>
+              <li>500 créditos de boas-vindas</li>
+              <li>Um pacote por conta</li>
+              <li>Sem cartão e sem pagamento</li>
+              <li>Processamento no seu navegador</li>
+            </ul>
+          </div>
+          <button class="btn" disabled>Plano atual</button>
+        </div>
+        <div class="card starter">
+          <span class="selo">MAIS POPULAR</span>
+          <div class="nome">Starter</div>
+          <div class="sub">pagamento único</div>
+          <div class="creditos">10.000 créditos</div>
+          <div class="equivalencia">≈ 666 fotos ou 400 vídeos</div>
+          <div class="benefits">
+            <ul>
+              <li>10.000 créditos somados ao saldo</li>
+              <li>Pagamento único via Pix</li>
+              <li>Serve para meses de uso leve</li>
+              <li>Processamento no seu navegador</li>
+            </ul>
+          </div>
+          <button class="btn">Starter</button>
+        </div>
+        <div class="card pro">
+          <div class="nome">Pro</div>
+          <div class="preco">R$ 24,90</div>
+          <div class="sub">pagamento único</div>
+          <div class="creditos">35.000 créditos</div>
+          <div class="equivalencia">≈ 2.333 fotos ou 1.400 vídeos</div>
+          <div class="benefits">
+            <ul>
+              <li>35.000 créditos somados ao saldo</li>
+              <li>Pagamento único via Pix</li>
+              <li>Melhor preço por crédito</li>
+              <li>Processamento no seu navegador</li>
+            </ul>
+          </div>
+          <button class="btn">Pro</button>
+        </div>
+      </div>
       <p class="ss-err" id="planosErro" role="alert"></p>
     </div>
 
@@ -916,23 +965,24 @@ html[data-tema="halloween"] .scene{display:block}
         <span class="ss-grip-bar" aria-hidden="true"></span>
         <button type="button" class="ss-pay-close" id="planosPayClose" aria-label="Cancelar pagamento" title="Cancelar pagamento">&times;</button>
       </div>
-      <h3 class="ss-pay-title" id="planosPayTitle">AETIX DESIGN AI</h3>
-      <div class="ss-pay-layout">
-        <div class="ss-pay-left">
-          <div class="pay-qr" id="planQr"></div>
-          <textarea class="pay-code" id="planCode" readonly spellcheck="false" aria-label="Pix copia e cola"></textarea>
-          <div class="ss-pay-acoes">
-            <button type="button" class="pay-btn" id="planCopy">Copiar código</button>
-            <p class="pay-status" id="planStatus" role="status" hidden><i></i><span></span></p>
-          </div>
-          <p class="ss-note">Assim que o pagamento for confirmado, seus créditos e o seu plano entram na hora. A confirmação aparece sozinha aqui.</p>
+      <h3 class="ss-pay-title tela-pagamento titulo" style="display:flex;align-items:center;gap:8px;padding:16px 24px 0;justify-content:center; font:600 22px/1.1 Inter,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:0;white-space:nowrap">AETIX DESIGN AI</h3>
+      <div class="guia-arrastar" style="position:relative;height:5px;border-radius:999px;background:rgba(255,255,255,0.35);margin:10px auto 0;width:100px;display:flex;align-items:center;justify-content:center;touch-action:none"><span style="content:'';position:absolute;right:20px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.7)"></span></div>
+      <div class="conteudo" style="display:grid;grid-template-columns:38% 42%;gap:12%;padding:0 24px;align-items:center;min-height:480px">
+        <div class="coluna-esquerda">
+          <div class="qr-code" style="width:280px;height:280px;border:1px solid #fff;border-radius:16px;padding:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0"></div>
+          <textarea class="chave-copia" readonly spellcheck="false" aria-label="Pix copia e cola" style="width:100%;min-height:120px;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:16px;background:rgba(255,255,255,0.02);font:400 13px/1.4 monospace,system-ui,sans-serif;color:#fff;word-break:break-all;align-self:flex-start;overflow:auto" placeholder="Chave PIX completa"></textarea>
+          <button class="btn-copiar" style="width:220px;height:52px;border:0;border-radius:12px;font:800 .75rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,#ffb347,#ff7a1a 62%,#a855f7);color:#0f1118;cursor:pointer;align-self:flex-start">Copiar código</button>
+          <div class="status" style="font:400 12px/1.4 Inter,system-ui,sans-serif;color:var(--dim);align-self:flex-start">Aguardando confirmação do pagamento…</div>
         </div>
-        <aside class="ss-pay-beneficios" aria-label="Benefícios do plano">
-          <div>
-            <h4 class="ss-beneficios-title" id="planosBenefitsTitle">BENEFÍCIOS</h4>
-            <ul class="ss-beneficios-lista" id="planosBenefits"></ul>
-          </div>
-        </aside>
+        <div class="coluna-direita">
+          <h4 class="beneficios-titulo" style="font:600 16px/1.2 Inter,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:0 0 24px">BENEFÍCIOS · STARTER</h4>
+          <ul class="beneficios-lista" style="list-style:none;margin:0;padding:0;display:grid;gap:20px;font:400 15px/1.4 Inter,system-ui,sans-serif;color:var(--muted)">
+            <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>10.000 créditos somados ao saldo</li>
+            <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>Pagamento único via Pix</li>
+            <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>Serve para meses de uso leve</li>
+            <li style="display:flex;align-items:flex-start;gap:8px;line-height:1.4"><span style="content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px"></span>Processamento no seu navegador</li>
+          </ul>
+        </div>
       </div>
     </div>
 
