@@ -5,7 +5,7 @@
    o do mapa de pacotes em ./_planos (nunca vem do navegador).
 
    POST /api/comprar     -> cria a cobrança Pix do pacote escolhido
-         corpo: { pacote: 'starter'|'pro', customer:{name,email,phone} }
+         corpo: { pacote: 'starter'|'pro' }  (nome e e-mail vêm da conta; nada é digitado no checkout)
          resposta 201: { ok:true, id, pix:{ copy_paste } }
    GET  /api/comprar?id= -> consulta o status da cobrança; se a PagueZy já
          confirmou (PAID), credita a carteira e marca o plano (idempotente).
@@ -142,13 +142,12 @@ module.exports = async function handler(req, res) {
       return res.status(409).json({ ok: false, erro: 'mestre', message: 'Sua conta já tem acesso ilimitado ao serviço.' });
     }
 
-    const c = body.customer || {};
-    const name = texto(c.name, 120);
-    const email = texto(c.email, 160);
-    const phone = texto(c.phone, 20).replace(/\D+/g, '');
-    if (name.split(/\s+/).filter(Boolean).length < 2) return res.status(400).json({ ok: false, message: 'Informe seu nome completo.' });
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return res.status(400).json({ ok: false, message: 'Informe um e-mail válido.' });
-    if (phone.length < 10 || phone.length > 13) return res.status(400).json({ ok: false, message: 'Informe o telefone com DDD.' });
+    /* nome e e-mail vêm da conta (nada é digitado no checkout) */
+    const { getAdminAuth } = require('./_firebase');
+    const loginUser = await getAdminAuth().getUser(uid);
+    const name = texto(loginUser.displayName, 120) || texto(String(loginUser.email || '').split('@')[0], 120) || 'Usuário';
+    const email = texto(loginUser.email, 254).toLowerCase();
+    if (!email) return res.status(400).json({ ok: false, message: 'Não encontramos o e-mail da sua conta.' });
 
     const externalReference = texto(body.external_reference, 64) || ('aetix-plano-' + pacote + '-' + Date.now());
 
@@ -156,7 +155,7 @@ module.exports = async function handler(req, res) {
       amount: cents,
       payment_method: 'pix',
       external_reference: externalReference,
-      customer: { name, email, phone }
+      customer: { name, email }
     };
 
     let r = await criarCobranca('/payments', {
@@ -170,7 +169,7 @@ module.exports = async function handler(req, res) {
     const copy = r.data.pix_copy_paste || (r.data.pix && r.data.pix.copy_paste);
     if (!id || !copy) return res.status(502).json({ ok: false, message: 'Resposta inesperada do processador de pagamentos.' });
 
-    await guardarPendenteCompra(id, pacote, { uid, nomeCompleto: name, email, telefone: phone });
+    await guardarPendenteCompra(id, pacote, { uid, nomeCompleto: name, email, telefone: '' });
     return res.status(201).json({ ok: true, id: id, pix: { copy_paste: copy } });
   } catch (err) {
     if (err && err.code === 'config') {

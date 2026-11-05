@@ -4,7 +4,8 @@
 
    - Abertura pelo botão #pricingOpen (script.js abre o modal upgradeModal)
    - Pacotes fixos aqui; o servidor cobra o valor real (api/comprar.js)
-   - Pagamento via Pix (PagueZy); a tela detecta a confirmação sozinha
+   - O checkout não pede dados: nome e e-mail vêm da conta (api/comprar.js)
+   - Pagamento via Pix; a tela detecta a confirmação sozinha
      (polling em /api/comprar?id=) ou pelo webhook (api/paguezy-webhook.mjs)
    - Nada é cobrado sem login e sem aceite dos Termos
    ========================================================================== */
@@ -106,27 +107,13 @@
   }
 
   function preencher() {
-    var u = window.AETIX_USER;
-    var n = $('upName'), e = $('upEmail');
-    if (u && n && !n.value) n.value = u.nome || '';
-    if (u && e && !e.value) e.value = u.email || '';
     var cur = $('upgradeCurrentPlan');
     if (cur) cur.textContent = planoAtualTexto();
   }
 
   /* ---------- criar cobrança ---------- */
-  function digitos(v) { return String(v || '').replace(/\D+/g, ''); }
-
   async function criarCobranca() {
     erro('');
-    var nEl = $('upName'), eEl = $('upEmail'), pEl = $('upPhone');
-    var nome = (nEl && nEl.value || '').trim();
-    var email = (eEl && eEl.value || '').trim();
-    var phone = digitos(pEl && pEl.value);
-    if (nome.split(/\s+/).filter(Boolean).length < 2) return erro('Informe seu nome completo.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return erro('Informe um e-mail válido.');
-    if (phone.length < 10 || phone.length > 13) return erro('Informe o telefone com DDD.');
-
     var btn = $('upBtn');
     if (btn) btn.disabled = true;
     var txt = $('upBtnTxt');
@@ -135,7 +122,7 @@
       var r = await fetch('/api/comprar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pacote: escolhido, customer: { name: nome, email: email, phone: phone } })
+        body: JSON.stringify({ pacote: escolhido })
       });
       var data = null;
       try { data = await r.json(); } catch (e) {}
@@ -146,6 +133,7 @@
       if (r.status === 401) return erro('Entre novamente para comprar.');
       if (r.status === 403) return erro((data && data.message) || 'Confirme seu e-mail e aceite os Termos para comprar.');
       if (r.status === 409) return erro((data && data.message) || 'Sua conta já tem acesso ilimitado.');
+      if (r.status === 400) return erro((data && data.message) || 'Escolha um pacote válido.');
       erro((data && data.message) || 'Não foi possível gerar o Pix. Tente de novo.');
     } catch (e) {
       erro('Sem conexão agora. Tente de novo.');
