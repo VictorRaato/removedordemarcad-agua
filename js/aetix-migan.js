@@ -23,7 +23,7 @@
     /* VÍDEO (mais leve, sem perder qualidade): */
     bloco: 64,                  // o recorte de cada quadro é arredondado para múltiplos de 64 px -> o modelo recebe sempre o mesmo formato e não recompila a cada quadro
     pausa: 0.3,                 // WebGPU: descansa 30% do tempo de cada quadro, para a GPU atender a tela (0 = sem pausa; 0.6 = bem mais suave e mais lento)
-    patchUrl: '/js/aetix-patchmatch.js',     // usado pela v1.9 (sem download de modelo)
+    patchUrl: location.origin + '/js/aetix-patchmatch.js?v=20261105a',     // usado pela v1.9 (sem download de modelo); endereço absoluto para funcionar dentro do Worker
     pausaMax: 60                // teto da pausa por quadro (ms)
   };
 
@@ -375,8 +375,8 @@
   var eng = makeEngine(window, CFG);
   var KEY = { image: 'aetix.versao.imagem', video: 'aetix.versao.video' };
   var LABEL = {
-    image: { v1: 'AETIX v1.0 (LEVE)', v15: 'AETIX v1.5 (PADRÃO)', v2: 'AETIX v2.2(PESADO PC)' },
-    video: { v1: 'AETIX v1.0 (LEVE)', v19: 'AETIX v1.9 (TESTE INTERNO)', v2: 'AETIX v1.8 (PESADO PC)' }
+    image: { v1: 'AETIX v1.0', v15: 'AETIX v1.5 (leve)', v2: 'AETIX v2.2' },
+    video: { v1: 'AETIX v1.0', v19: 'AETIX v1.9 (rápido)', v2: 'AETIX v1.8' }
   };
 
   /* versão escolhida por aba (guardada só neste navegador) */
@@ -392,7 +392,7 @@
   }
 
   /* ---------- v1.5 (leve): PatchMatch carregado sob demanda ---------- */
-  var leveUrl = '/js/aetix-patchmatch.js?v=20261104b', leveLoad = null;
+  var leveUrl = '/js/aetix-patchmatch.js?v=20261105a', leveLoad = null;
   function carregarLeve() {
     if (window.AetixPatchMatch && typeof window.AetixPatchMatch.inpaint === 'function') return Promise.resolve(true);
     if (leveLoad) return leveLoad;
@@ -589,6 +589,13 @@
       try { okLeve = await carregarLeve(); } catch (e) { okLeve = false; }
       if (pend === minha15 && okLeve) setVer(tab, 'v15');
       if (pend === minha15) pend = null;
+      refreshUi();
+      return;
+    }
+    if (v === 'v19') {                                 // vídeo: PatchMatch local, sem modelo
+      if (tab !== 'video') return;
+      pend = null;
+      setVer(tab, 'v19');
       refreshUi();
       return;
     }
