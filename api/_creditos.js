@@ -3,14 +3,16 @@
    Carteira de créditos no Firestore (coleção "creditos", um documento por conta).
 
    Campos: uid, nome, email, saldo, mestre, criadoEm, atualizadoEm
-   Contas novas e já existentes recebem 3.500 créditos.
+   Contas novas recebem 500 créditos.
+   Contas antigas de antes da mudança têm o saldo acima de 500 reduzido uma única vez
+   (marcador ajusteSaldo500), sem subir quem já gastou abaixo disso.
    A conta mestra (vitinhosilva2k20@gmail.com) é ilimitada e não é descontada. */
 
 const { getAdminAuth, getDb } = require('./_firebase');
 const { FieldValue } = require('firebase-admin/firestore');
 
 const MESTRE_EMAIL = 'vitinhosilva2k20@gmail.com';
-const SALDO_INICIAL = 3500;
+const SALDO_INICIAL = 500;
 const CUSTOS = Object.freeze({ foto: 15, video: 25 });
 const COLECAO = 'creditos';
 
@@ -56,10 +58,21 @@ async function garantirCarteira(uid) {
 
   const dados = snap.data() || {};
   const mestre = perfil.mestre || dados.mestre === true;
-  const mudou = dados.email !== perfil.email || dados.nome !== perfil.nome || (perfil.mestre && dados.mestre !== true);
+
+  /* Ajuste único das contas antigas: saldo acima do inicial vira o inicial. */
+  const precisaAjuste = !mestre && dados.ajusteSaldo500 !== true;
+  const saldoAtual = numero(dados.saldo);
+  const saldoAjustado = precisaAjuste && Number.isFinite(saldoAtual) && saldoAtual > SALDO_INICIAL ? SALDO_INICIAL : null;
+
+  const mudou = dados.email !== perfil.email || dados.nome !== perfil.nome ||
+    (perfil.mestre && dados.mestre !== true) || precisaAjuste;
 
   if (mudou) {
     const atualizacao = { nome: perfil.nome, email: perfil.email, mestre, atualizadoEm: FieldValue.serverTimestamp() };
+    if (precisaAjuste) {
+      atualizacao.ajusteSaldo500 = true;
+      if (saldoAjustado !== null) atualizacao.saldo = saldoAjustado;
+    }
     await ref.update(atualizacao);
     Object.assign(dados, atualizacao);
   }

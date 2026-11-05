@@ -6,7 +6,7 @@
   'use strict';
 
   var CUSTOS = { foto: 15, video: 25 };
-  var MAX_CREDITOS = 3500;
+  var MAX_CREDITOS = 500;
   var CHAVE_CREDITOS = 'aetix-credits-cache';
   var CHAVE_USUARIO = 'aetix-user-cache';
 
