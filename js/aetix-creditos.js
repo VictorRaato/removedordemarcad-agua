@@ -25,13 +25,17 @@
   }
   function guardarCache(dados) {
     if (!dados || dados.ok !== true || !dados.email) return;
+    var plano = dados.plano === 'starter' || dados.plano === 'pro' ? dados.plano : 'free';
+    var planoCreditos = Number(dados.planoCreditos);
     try {
       localStorage.setItem(CHAVE_CREDITOS, JSON.stringify({
         email: String(dados.email).toLowerCase(),
         nome: String(dados.nome || ''),
         saldo: dados.ilimitado === true ? null : Number(dados.saldo),
         ilimitado: dados.ilimitado === true,
-        mestre: dados.mestre === true
+        mestre: dados.mestre === true,
+        plano: plano,
+        planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0
       }));
     } catch (e) {}
   }
@@ -44,6 +48,7 @@
     var elementos = document.querySelectorAll('[data-credits]');
     Array.prototype.forEach.call(elementos, function (el) { pintar(el, d); });
     pintarPlano(d);
+    aplicarUpgrade(d);
     return true;
   }
   function esconderTodos() {
@@ -51,10 +56,34 @@
     Array.prototype.forEach.call(elementos, function (el) { el.hidden = true; });
   }
 
-  /* Nível mostrado no perfil/menu. Hoje o site não tem assinatura paga:
-     a API só diferencia a conta mestra (ilimitada); o resto é "Grátis". */
+  /* Botão "PLANOS UPGRADE": Free sempre vê; quem comprou pacote só vê
+     quando o saldo cai para 20% do pacote comprado; mestra não vê. */
+  var LIMIAR_UPGRADE = 0.2;
+  function esconderUpgrade() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-upgrade]'), function (el) { el.hidden = true; });
+  }
+  function aplicarUpgrade(dados) {
+    var els = document.querySelectorAll('[data-upgrade]');
+    if (!els.length) return;
+    var mostrar;
+    if (!dados) mostrar = false;
+    else if (dados.ilimitado === true || dados.mestre === true) mostrar = false;
+    else if (dados.plano !== 'starter' && dados.plano !== 'pro') mostrar = true;   /* plano Free */
+    else {
+      var planoCreditos = Number(dados.planoCreditos);
+      var saldo = Number(dados.saldo);
+      mostrar = Number.isFinite(planoCreditos) && planoCreditos > 0 &&
+        (!Number.isFinite(saldo) || saldo <= planoCreditos * LIMIAR_UPGRADE);
+    }
+    Array.prototype.forEach.call(els, function (el) { el.hidden = !mostrar; });
+  }
+
+  /* Nível mostrado no perfil/menu: 'free' (Free), 'starter'/'pro' (compras via /api/comprar)
+     e 'mestre' (conta ilimitada). O que a API devolver manda. */
   function nivelDe(dados) {
-    return dados && (dados.ilimitado === true || dados.mestre === true) ? 'mestre' : 'gratis';
+    if (dados && (dados.ilimitado === true || dados.mestre === true)) return 'mestre';
+    if (dados && (dados.plano === 'starter' || dados.plano === 'pro')) return dados.plano;
+    return 'free';
   }
   function pintarPlano(dados) {
     var nivel = nivelDe(dados);
@@ -70,6 +99,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-plan]'), function (el) { el.hidden = true; });
     var botao = document.getElementById('profileBtn');
     if (botao) botao.removeAttribute('data-nivel');
+    esconderUpgrade();
   }
 
   function erro(message) {
@@ -104,10 +134,7 @@
   function formatar(n) {
     var valor = Number(n);
     if (!Number.isFinite(valor)) return '—';
-    if (Math.abs(valor) >= 1000) {
-      return (valor / 1000).toFixed(3) + 'k';
-    }
-    return String(Math.round(valor));
+    return Math.round(valor).toLocaleString('pt-BR');
   }
 
   function pintar(el, dados) {
@@ -118,8 +145,12 @@
 
     var ilimitado = dados.ilimitado === true || dados.mestre === true;
     var saldo = Number(dados.saldo);
+    var maximo = MAX_CREDITOS;
+    if ((dados.plano === 'starter' || dados.plano === 'pro') && Number(dados.planoCreditos) > 0) {
+      maximo = Number(dados.planoCreditos);
+    }
     var texto = ilimitado ? '∞' : formatar(saldo);
-    var largura = ilimitado ? 100 : (Number.isFinite(saldo) ? Math.max(0, Math.min(100, saldo / MAX_CREDITOS * 100)) : 0);
+    var largura = ilimitado ? 100 : (Number.isFinite(saldo) ? Math.max(0, Math.min(100, saldo / maximo * 100)) : 0);
 
     if (numero) numero.textContent = texto;
     if (barra) barra.style.width = largura + '%';
@@ -140,6 +171,7 @@
       var elementos = document.querySelectorAll('[data-credits]');
       Array.prototype.forEach.call(elementos, function (el) { pintar(el, resposta); });
       pintarPlano(resposta);
+      aplicarUpgrade(resposta);
       return resposta;
     }
     if (pintarCache()) return lerCacheCreditos();

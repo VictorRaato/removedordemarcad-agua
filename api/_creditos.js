@@ -2,8 +2,9 @@
 /* AETIX DESIGN · api/_creditos.js (módulo compartilhado, NÃO é uma rota)
    Carteira de créditos no Firestore (coleção "creditos", um documento por conta).
 
-   Campos: uid, nome, email, saldo, mestre, criadoEm, atualizadoEm
-   Contas novas recebem 500 créditos.
+   Campos: uid, nome, email, saldo, mestre, plano, planoCreditos, criadoEm, atualizadoEm
+   Contas novas recebem 500 créditos e plano = 'free'.
+   Contas que compram pacote viram plano = 'starter'|'pro' e o saldo soma.
    Contas antigas de antes da mudança têm o saldo acima de 500 reduzido uma única vez
    (marcador ajusteSaldo500), sem subir quem já gastou abaixo disso.
    A conta mestra (vitinhosilva2k20@gmail.com) é ilimitada e não é descontada. */
@@ -88,6 +89,8 @@ async function consultarCarteira(uid) {
   const dados = await garantirCarteira(uid);
   const mestre = dados.mestre === true;
   const saldo = mestre ? 0 : lerSaldo(dados);
+  const plano = dados.plano === 'starter' || dados.plano === 'pro' ? dados.plano : 'free';
+  const planoCreditos = Number(dados.planoCreditos);
   return {
     ok: true,
     uid,
@@ -95,7 +98,9 @@ async function consultarCarteira(uid) {
     email: limparEmail(dados.email),
     mestre,
     ilimitado: mestre,
-    saldo: Number.isFinite(saldo) ? saldo : null
+    saldo: Number.isFinite(saldo) ? saldo : null,
+    plano,
+    planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0
   };
 }
 function limparNome(valor) { return limpo(valor, 80) || 'Usuário'; }
@@ -131,7 +136,7 @@ async function consumirCreditos(uid, tipo) {
       };
       if (SALDO_INICIAL < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
       tx.set(ref, { ...criado, saldo: SALDO_INICIAL - custo });
-      return { ok: true, tipo, custo, saldo: SALDO_INICIAL - custo, ilimitado: false, consumido: true, mestre: false, nome: perfil.nome, email: perfil.email };
+      return { ok: true, tipo, custo, saldo: SALDO_INICIAL - custo, ilimitado: false, consumido: true, mestre: false, nome: perfil.nome, email: perfil.email, plano: 'free', planoCreditos: 0 };
     }
     const dados = snap.data() || {};
     if (dados.mestre === true) {
@@ -141,8 +146,10 @@ async function consumirCreditos(uid, tipo) {
     if (!Number.isFinite(saldo)) { const e = new Error('saldo_invalido'); e.code = 'saldo_invalido'; throw e; }
     if (saldo < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
     const novo = saldo - custo;
+    const plano = dados.plano === 'starter' || dados.plano === 'pro' ? dados.plano : 'free';
+    const planoCreditos = Number(dados.planoCreditos);
     tx.update(ref, { saldo: novo, atualizadoEm: FieldValue.serverTimestamp() });
-    return { ok: true, tipo, custo, saldo: novo, ilimitado: false, consumido: true, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email) };
+    return { ok: true, tipo, custo, saldo: novo, ilimitado: false, consumido: true, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano, planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0 };
   });
 }
 

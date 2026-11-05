@@ -121,8 +121,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset
 .avatar-wrap{position:relative;flex:none}
 .plan-badge{position:absolute;left:-7px;bottom:-7px;z-index:3;display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(74,222,154,.42);background:var(--card-bg);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ok);font:800 .56rem/1 Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 20px -10px rgba(0,0,0,.9)}
 .plan-badge--mestre{border-color:rgba(255,200,90,.55);color:#FFD08A}
+.plan-badge--starter{border-color:rgba(111,182,255,.5);color:#A8D4FF}
+.plan-badge--pro{border-color:rgba(192,132,252,.55);color:#DCC2FF}
 .plan-badge .ic{width:10px;height:10px;stroke-width:2.4}
-:root[data-nivel="gratis"] .avatar{outline:2px solid rgba(74,222,154,.55);outline-offset:2px}
+:root[data-nivel="free"] .avatar{outline:2px solid rgba(74,222,154,.55);outline-offset:2px}
+:root[data-nivel="starter"] .avatar{outline:2px solid rgba(111,182,255,.55);outline-offset:2px}
+:root[data-nivel="pro"] .avatar{outline:2px solid rgba(192,132,252,.6);outline-offset:2px}
 :root[data-nivel="mestre"] .avatar{outline:2px solid rgba(255,200,90,.65);outline-offset:2px}
 .me-t{min-width:0}
 @media (max-width:560px){.me{flex-wrap:wrap}.credits-profile{width:100%;margin-left:0;padding-left:0;align-items:flex-start}.tokens-bar-lg{width:min(160px,52vw)}}

@@ -143,12 +143,16 @@ a.menu-item{text-decoration:none}
 .plan-line{display:inline-flex;flex:0 0 auto;align-items:center;margin-left:auto}
 .plan-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 6px;border-radius:999px;border:1px solid rgba(74,222,154,.42);background:rgba(74,222,154,.1);color:#9BE7C4;font:800 .53rem/1 Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
 .plan-chip--mestre{border-color:rgba(255,200,90,.52);background:rgba(255,200,90,.12);color:#FFD08A}
+.plan-chip--starter{border-color:rgba(111,182,255,.5);background:rgba(111,182,255,.12);color:#A8D4FF}
+.plan-chip--pro{border-color:rgba(192,132,252,.55);background:rgba(192,132,252,.14);color:#DCC2FF}
 .plan-chip .ic{width:10px;height:10px;stroke-width:2.4}
 .dd-credits{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
 .dd-credits .tokens-label{font:700 .58rem/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .dd-credits .tokens-line{display:flex;align-items:center;gap:8px;min-width:0}
 .dd-credits .tokens-num{font:800 .76rem/1 Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--ink)}
-#profileBtn[data-nivel="gratis"]{border-color:rgba(74,222,154,.6);box-shadow:0 0 0 2px rgba(74,222,154,.14),0 0 18px -5px rgba(74,222,154,.7)}
+#profileBtn[data-nivel="free"]{border-color:rgba(74,222,154,.6);box-shadow:0 0 0 2px rgba(74,222,154,.14),0 0 18px -5px rgba(74,222,154,.7)}
+#profileBtn[data-nivel="starter"]{border-color:rgba(111,182,255,.6);box-shadow:0 0 0 2px rgba(111,182,255,.15),0 0 18px -5px rgba(80,160,255,.75)}
+#profileBtn[data-nivel="pro"]{border-color:rgba(192,132,252,.65);box-shadow:0 0 0 2px rgba(192,132,252,.18),0 0 20px -4px rgba(170,110,255,.85)}
 #profileBtn[data-nivel="mestre"]{border-color:rgba(255,200,90,.7);box-shadow:0 0 0 2px rgba(255,200,90,.16),0 0 20px -4px rgba(255,190,80,.9)}
 .tokens-bar{display:block;position:relative;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.09);box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
 .tokens-bar-menu{width:66px;height:7px}
@@ -376,6 +380,20 @@ input:-webkit-autofill:focus{
 .pay-opt:hover{color:var(--muted)}
 .pay-err{min-height:1.2em;margin:0 0 8px;color:var(--err);font-size:.82rem;text-align:center}
 .pay-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:54px;border:0;border-radius:16px;cursor:pointer;color:var(--cta-ink);font:800 1.1rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,var(--cyan),var(--accent) 70%,var(--accent-2));box-shadow:0 0 0 1px rgba(var(--c-rgb),.5),0 0 18px 2px rgba(var(--c-rgb),.65),0 0 42px 6px rgba(var(--a-rgb),.45);transition:transform .15s,filter .15s,box-shadow .15s}
+.upgrade-current{margin:0 0 12px;font-size:.8rem;color:var(--muted)}
+.upgrade-current b{color:var(--ink);font-weight:700}
+.upgrade-planos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.upgrade-card{display:flex;flex-direction:column;gap:6px;text-align:left;padding:12px;border-radius:16px;cursor:pointer;background:var(--field);border:1px solid var(--line-2);color:var(--ink);font:inherit;transition:border-color .15s,transform .15s,box-shadow .15s}
+.upgrade-card:hover{transform:translateY(-2px)}
+.upgrade-card.is-on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset,0 16px 34px -24px rgba(124,140,255,.9)}
+.upgrade-card__nome{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.upgrade-selo{font-size:.58rem;letter-spacing:.08em;padding:3px 7px;border-radius:999px;color:#04101A;background:linear-gradient(135deg,var(--cyan),var(--accent))}
+.upgrade-card__preco{font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+.upgrade-card__preco small{display:block;font-size:.68rem;font-weight:500;color:var(--dim)}
+.upgrade-card__creditos{font-weight:700;color:#C9D0FF}
+.upgrade-card__eq{font-size:.78rem;color:var(--muted)}
+.upgrade-note{margin:12px 0 0;font-size:.76rem;color:var(--dim);line-height:1.5}
+@media (max-width:560px){.upgrade-planos{grid-template-columns:1fr}}
 .pay-btn:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-1px)}
 .pay-btn:active:not(:disabled){transform:scale(.985)}
 .pay-btn:disabled{opacity:.55;cursor:wait}
@@ -557,23 +575,6 @@ button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visi
 @media (max-width:380px){.brand{font-size:.66rem;letter-spacing:.07em;gap:.32em}.brand .logo{margin-right:.2em}.hdr{padding-left:8px;padding-right:8px}.langsw select{font-size:.66rem;padding:0 14px 0 22px}.link-btn{font-size:.7rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* ---------- aviso neon de colaboração ---------- */
-.nudge{position:fixed;z-index:95;top:76px;right:clamp(12px,3vw,28px);width:min(320px,calc(100vw - 24px));padding:14px 16px 16px;border-radius:18px;border:1px solid rgba(var(--a-rgb),.6);background:radial-gradient(260px 120px at 50% 0,rgba(var(--b-rgb),.22),transparent 70%),rgba(12,13,22,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.97);transition:opacity .45s ease,transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s;box-shadow:0 0 28px -4px rgba(var(--a-rgb),.75),0 0 60px -14px rgba(var(--b-rgb),.8),inset 0 1px 0 rgba(255,255,255,.14)}
-.nudge.show{opacity:1;visibility:visible;transform:none;transition-delay:0s;animation:nudgeGlow 2.2s ease-in-out infinite}
-@keyframes nudgeGlow{0%,100%{box-shadow:0 0 22px -4px rgba(var(--a-rgb),.65),0 0 50px -14px rgba(var(--b-rgb),.7),inset 0 1px 0 rgba(255,255,255,.14)}50%{box-shadow:0 0 34px -2px rgba(var(--a-rgb),.95),0 0 72px -10px rgba(var(--b-rgb),1),inset 0 1px 0 rgba(255,255,255,.2)}}
-.nudge-t{display:flex;align-items:center;gap:8px;margin:0 22px 6px 0;font-size:.95rem;font-weight:700;letter-spacing:.01em;line-height:1.25}
-.nudge-t svg{flex:none;width:17px;height:17px;color:var(--soft);filter:drop-shadow(0 0 6px rgba(var(--b-rgb),.95))}
-.nudge-p{margin:0 0 12px;color:#D6DAE6;font-size:.84rem;line-height:1.5}
-.nudge-p b{color:#fff;font-weight:700}
-.nudge-go{display:block;width:100%;height:38px;border-radius:12px;border:1px solid rgba(var(--a-rgb),.7);background:linear-gradient(135deg,rgba(var(--a-rgb),.38),rgba(var(--b-rgb),.3));color:#fff;font:700 .74rem Inter,system-ui,sans-serif;letter-spacing:.1em;cursor:pointer;box-shadow:0 0 22px -6px rgba(var(--a-rgb),.9),inset 0 1px 0 rgba(255,255,255,.16);transition:filter .18s,transform .18s}
-.nudge-go:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.nudge-x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:transparent;color:#98A1B3;font-size:18px;line-height:1;cursor:pointer}
-.nudge-x:hover{color:#fff;background:rgba(255,255,255,.08)}
-.nudge-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;transform-origin:0 50%;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 10px rgba(var(--b-rgb),.95);animation:nudgeBar 10s linear forwards;animation-play-state:paused}
-.nudge.show .nudge-bar{animation-play-state:running}
-.nudge.show:hover .nudge-bar{animation-play-state:paused}
-@keyframes nudgeBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
-@media (max-width:600px){.nudge{left:auto;right:12px;width:min(228px,calc(100vw - 24px));padding:8px 10px 11px;border-radius:13px}.nudge-t{font-size:.76rem;margin:0 18px 3px 0;gap:6px}.nudge-t svg{width:12px;height:12px}.nudge-p{font-size:.68rem;line-height:1.4;margin-bottom:8px}.nudge-go{height:28px;font-size:.62rem;letter-spacing:.08em;border-radius:9px}.nudge-x{top:3px;right:3px;width:24px;height:24px;font-size:16px}.nudge-bar{height:2px}}
-@media (prefers-reduced-motion:reduce){.nudge.show{animation:none}}
 
 /* ---------- SEÇÃO DE TEXTO (sx) ---------- */
 .sx{max-width:920px;margin:clamp(36px,7dvh,64px) auto 0;text-align:left;overflow-wrap:anywhere}
@@ -849,7 +850,7 @@ html[data-tema="halloween"] .scene{display:block}
           <div class="help-nav"><span id="helpCount" aria-live="polite"></span><div><button type="button" class="x sm up" id="helpUp" aria-label="Tópicos anteriores" data-i18n-aria="core.helpUp"><svg class="ic"><use href="#i-chev"/></svg></button><button type="button" class="x sm down" id="helpDown" aria-label="Próximos tópicos" data-i18n-aria="core.helpDown"><svg class="ic"><use href="#i-chev"/></svg></button></div></div>
         </div>
       </div>
-      <button type="button" class="link-btn" id="pricingOpen" aria-haspopup="dialog" data-i18n="core.pricing">Preços</button>
+      <button type="button" class="link-btn" id="pricingOpen" aria-haspopup="dialog" data-i18n="core.pricing" data-upgrade hidden>Planos</button>
       <div class="langsw" id="langsw">
         <svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>
         <select id="uiLang" aria-label="Idioma da interface" data-i18n-aria="core.uiLang">
@@ -860,7 +861,7 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="profile">
         <button type="button" class="avatar-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false" aria-controls="profileMenu" aria-label="Conta" data-i18n-aria="core.profile" title="Conta" data-i18n-title="core.profile"><svg class="ic"><use href="#i-user"/></svg></button>
         <div class="dropdown" id="profileMenu" role="dialog" aria-labelledby="profileMenu-t" hidden>
-          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><span class="dd-avatar" id="ddAvatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></span><span id="profileName">Olá, visitante!</span></strong><span class="plan-line" aria-live="polite"><span class="plan-chip" data-plan="gratis" hidden><b data-i18n="core.planFree">Grátis</b></span><span class="plan-chip plan-chip--mestre" data-plan="mestre" hidden><b data-i18n="core.planMaster">Mestre</b></span></span><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
+          <div class="dd-h"><strong class="dd-user" id="profileMenu-t"><span class="dd-avatar" id="ddAvatar" aria-hidden="true"><svg class="ic"><use href="#i-user"/></svg></span><span id="profileName">Olá, visitante!</span></strong><span class="plan-line" aria-live="polite"><span class="plan-chip" data-plan="free" hidden><b data-i18n="core.planFree">Free</b></span><span class="plan-chip plan-chip--starter" data-plan="starter" hidden><b data-i18n="core.planStarter">Starter</b></span><span class="plan-chip plan-chip--pro" data-plan="pro" hidden><b data-i18n="core.planPro">Pro</b></span><span class="plan-chip plan-chip--mestre" data-plan="mestre" hidden><b data-i18n="core.planMaster">Mestre</b></span></span><button type="button" class="x sm" id="profileClose" aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button></div>
           <div class="dd-credits" data-credits data-variant="menu" hidden aria-label="Seus tokens" aria-live="polite"><span class="tokens-label" data-i18n="core.tokensLabel">Seus tokens</span><span class="tokens-line"><b class="tokens-num" data-credit-count>500</b><span class="tokens-bar tokens-bar-menu" aria-hidden="true"><span class="tokens-fill" data-credit-fill></span></span></span></div>
           <div class="dd-body" id="profileBody"><a class="menu-item" id="myProfile" href="/perfil/"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>Meu perfil</span></a><button type="button" class="menu-item" id="animToggle" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg><span>Animações: ligadas</span></button><button type="button" class="menu-item only-mobile" id="profileHelp"><svg class="ic"><use href="#i-spark"/></svg><span>Central de Ajuda</span></button></div>
         </div>
@@ -1085,9 +1086,9 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="sx" id="sobre-a-ferramenta">
         <section class="sx-sec" aria-labelledby="sxH1">
           <h2 id="sxH1" data-i18n="core.seoH">Por que escolher o AETIX DESIGN AI</h2>
-          <p class="sx-sub" data-i18n="core.seoSub">Grátis, com login simples e sem enviar seus arquivos para nenhum servidor.</p>
+          <p class="sx-sub" data-i18n="core.seoSub">Free, com login simples e sem enviar seus arquivos para nenhum servidor.</p>
           <div class="sx-row"><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-1-faz.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma tela mostrando uma imagem com marca d’água de um lado e limpa do outro" data-i18n-aria="core.seoImg1"></div></div><div class="sx-rt"><h3 data-i18n="core.seoWhatT">O que o AETIX DESIGN AI faz</h3><p data-i18n="core.seoWhatP">O AETIX DESIGN AI apaga textos e marcas d’água de imagens e vídeos direto no navegador. Nas imagens, a leitura inteligente do AETIX encontra os textos para você escolher quais apagar, e o fundo é reconstruído; também dá para pintar à mão o que passar batido. Nos vídeos, você pinta a marca d’água e adiciona keyframes em outros momentos para acompanhar o movimento dela.</p></div></div>
-          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoFreeT">Gratuito e com login simples</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento: basta entrar com a sua conta (e-mail ou Google). Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p><p data-i18n="core.seoFreeP2">Sem anúncios e sem assinatura, o AETIX DESIGN AI só continua no ar com a ajuda de quem usa. Se ele já economizou o seu tempo, um Pix de R$ 5,00 mantém o site rápido, privado e cheio de novidades para todo mundo.</p></div><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-2-gratis.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma pessoa usando o celular com um aviso de sucesso, sem precisar pagar" data-i18n-aria="core.seoImg2"></div></div></div>
+          <div class="sx-row"><div class="sx-rt"><h3 data-i18n="core.seoFreeT">Free e com login simples</h3><p data-i18n="core.seoFreeP">Usar as ferramentas não depende de pagamento: basta entrar com a sua conta (e-mail ou Google). Quem quiser pode apoiar o projeto com uma colaboração voluntária por Pix, a partir de R$ 5,00, sem nenhuma obrigação.</p><p data-i18n="core.seoFreeP2">Sem anúncios e sem assinatura, o AETIX DESIGN AI só continua no ar com a ajuda de quem usa. Se ele já economizou o seu tempo, um Pix de R$ 5,00 mantém o site rápido, privado e cheio de novidades para todo mundo.</p></div><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-2-gratis.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma pessoa usando o celular com um aviso de sucesso, sem precisar pagar" data-i18n-aria="core.seoImg2"></div></div></div>
           <div class="sx-row"><div class="sx-ri"><div class="sx-pic drop-fx"><i class="fx fx-glow" aria-hidden="true"></i><i class="fx" aria-hidden="true"></i><img class="sx-photo" src="/img/foto-3-video.jpg" width="1600" height="1200" loading="lazy" decoding="async" alt="Foto de uma bancada de edição de vídeo com a linha do tempo na tela" data-i18n-aria="core.seoImg3"><span class="sx-badge" aria-hidden="true">BETA</span></div></div><div class="sx-rt"><h3 data-i18n="core.seoBetaT">Módulo de vídeo em BETA (experimental)</h3><p data-i18n="core.seoBetaP">O módulo de vídeo está em BETA: é uma função experimental, em testes e melhorias, mas já disponível para você usar. O resultado pode variar conforme o dispositivo, o formato e a codificação do vídeo, e a marca d’água pode deixar vestígios. Nesse caso, tente de novo marcando só a área da marca e adicionando keyframes onde ela se mover.</p><p data-i18n="core.seoBetaP2">Recomendamos o Chrome ou o Edge atualizados. Seu vídeo continua sendo processado só no seu dispositivo, sem envio a servidores. Encontrou um problema ou tem uma ideia? Fale com a gente pelo WhatsApp.</p></div></div>
         </section>
 
@@ -1127,7 +1128,7 @@ html[data-tema="halloween"] .scene{display:block}
         <section class="sx-sec" aria-labelledby="sxH5">
           <h2 id="sxH5" data-i18n="core.seoFaqH">Perguntas frequentes</h2>
           <p class="sx-sub" data-i18n="core.seoFaqSub">Respostas rápidas sobre o uso do AETIX DESIGN AI.</p>
-          <div class="sx-faq"><details><summary><span data-i18n="core.seoQ1">O AETIX DESIGN AI é grátis?</span></summary><p data-i18n="core.seoA1">Sim. As ferramentas são gratuitas; para usar, é preciso entrar com uma conta (e-mail ou Google). A colaboração por Pix é voluntária, com valor mínimo de R$ 5,00, e nunca é necessária para usar o site.</p></details><details><summary><span data-i18n="core.seoQ2">Meus arquivos são enviados para algum servidor?</span></summary><p data-i18n="core.seoA2">Não. O processamento é 100% local, no seu navegador. Seus arquivos nunca saem do seu dispositivo.</p></details><details><summary><span data-i18n="core.seoQ3">Quais formatos são aceitos?</span></summary><p data-i18n="core.seoA3">Imagens PNG, JPG e WEBP, e vídeos MP4, MOV e WEBM. A imagem final é baixada em PNG e o vídeo em MP4.</p></details><details><summary><span data-i18n="core.seoQ4">Preciso criar conta ou fazer login?</span></summary><p data-i18n="core.seoA4">Sim. O acesso é por conta (e-mail e senha ou Google). Depois de entrar, é só enviar o arquivo; ele continua sendo processado no seu navegador.</p></details><details><summary><span data-i18n="core.seoQ5">O módulo de vídeo funciona em qualquer navegador?</span></summary><p data-i18n="core.seoA5">O módulo de vídeo é BETA, ou seja, experimental, e usa recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados. O funcionamento pode variar conforme o dispositivo, o formato e a codificação do vídeo.</p></details><details><summary><span data-i18n="core.seoQ6">O resultado fica perfeito?</span></summary><p data-i18n="core.seoA6">Nem sempre. O resultado depende do conteúdo, do tamanho e da posição da marca e pode não ser perfeito. Marcar só a área da marca, com margem pequena, deixa o resultado mais natural. Guarde sempre uma cópia do arquivo original.</p></details><details><summary><span data-i18n="core.seoQ7">Posso remover qualquer marca d’água?</span></summary><p data-i18n="core.seoA7">Use a ferramenta apenas em conteúdos que são seus ou que você tem autorização para editar. A responsabilidade pelo conteúdo editado e pelo uso do resultado é do usuário, conforme os Termos de Uso.</p></details></div>
+          <div class="sx-faq"><details><summary><span data-i18n="core.seoQ1">O AETIX DESIGN AI é free?</span></summary><p data-i18n="core.seoA1">Sim. As ferramentas são gratuitas; para usar, é preciso entrar com uma conta (e-mail ou Google). A colaboração por Pix é voluntária, com valor mínimo de R$ 5,00, e nunca é necessária para usar o site.</p></details><details><summary><span data-i18n="core.seoQ2">Meus arquivos são enviados para algum servidor?</span></summary><p data-i18n="core.seoA2">Não. O processamento é 100% local, no seu navegador. Seus arquivos nunca saem do seu dispositivo.</p></details><details><summary><span data-i18n="core.seoQ3">Quais formatos são aceitos?</span></summary><p data-i18n="core.seoA3">Imagens PNG, JPG e WEBP, e vídeos MP4, MOV e WEBM. A imagem final é baixada em PNG e o vídeo em MP4.</p></details><details><summary><span data-i18n="core.seoQ4">Preciso criar conta ou fazer login?</span></summary><p data-i18n="core.seoA4">Sim. O acesso é por conta (e-mail e senha ou Google). Depois de entrar, é só enviar o arquivo; ele continua sendo processado no seu navegador.</p></details><details><summary><span data-i18n="core.seoQ5">O módulo de vídeo funciona em qualquer navegador?</span></summary><p data-i18n="core.seoA5">O módulo de vídeo é BETA, ou seja, experimental, e usa recursos modernos do navegador. Recomendamos o Chrome ou o Edge atualizados. O funcionamento pode variar conforme o dispositivo, o formato e a codificação do vídeo.</p></details><details><summary><span data-i18n="core.seoQ6">O resultado fica perfeito?</span></summary><p data-i18n="core.seoA6">Nem sempre. O resultado depende do conteúdo, do tamanho e da posição da marca e pode não ser perfeito. Marcar só a área da marca, com margem pequena, deixa o resultado mais natural. Guarde sempre uma cópia do arquivo original.</p></details><details><summary><span data-i18n="core.seoQ7">Posso remover qualquer marca d’água?</span></summary><p data-i18n="core.seoA7">Use a ferramenta apenas em conteúdos que são seus ou que você tem autorização para editar. A responsabilidade pelo conteúdo editado e pelo uso do resultado é do usuário, conforme os Termos de Uso.</p></details></div>
         </section>
       </div>
 
@@ -1135,7 +1136,7 @@ html[data-tema="halloween"] .scene{display:block}
         <span data-i18n="core.footerBy">Desenvolvido por</span> <strong>AETIX DESIGN AI</strong><br>
         <span data-i18n="core.footerRights">© AETIX DESIGN AI. Todos os direitos reservados.</span>
         <span class="flinks"><a href="/termos" target="_blank" rel="noopener noreferrer" data-i18n="core.cbTerms">Termos de Uso</a><i aria-hidden="true">·</i><a href="/privacidade" target="_blank" rel="noopener noreferrer" data-i18n="core.cbPrivacy">Política de Privacidade</a><i aria-hidden="true">·</i><a href="/sobre" target="_blank" rel="noopener noreferrer" data-i18n="core.cbAbout">Sobre</a></span>
-        <span class="rline"><span id="ratingLine" hidden>★ <b id="rMedia"></b> · <span id="rTotal"></span> <span data-i18n="core.ratingsWord">avaliações</span> · </span><span data-i18n="core.freeWord">Gratuito</span> · <span data-i18n="core.browserWord">Navegador da Internet</span></span>
+        <span class="rline"><span id="ratingLine" hidden>★ <b id="rMedia"></b> · <span id="rTotal"></span> <span data-i18n="core.ratingsWord">avaliações</span> · </span><span data-i18n="core.freeWord">Free</span> · <span data-i18n="core.browserWord">Navegador da Internet</span></span>
       </footer>
     </div>
   </main>
@@ -1206,6 +1207,59 @@ html[data-tema="halloween"] .scene{display:block}
       <div class="pay-ok-ic">✓</div>
       <p class="pay-ok-t">Pagamento confirmado!</p>
       <p class="pay-ok-s">Valeu demais pela força. Vamos continuar no ar 🥤</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="upgradeModal" hidden>
+  <div class="modal-card pay-card" id="upgradeCard" data-step="form" role="dialog" aria-modal="true" aria-labelledby="upgradeModal-t">
+    <button type="button" class="x pay-x" data-close-modal aria-label="Fechar" data-i18n-aria="core.close"><svg class="ic"><use href="#i-x"/></svg></button>
+
+    <div class="pay-top">
+      <div class="pay-img" aria-hidden="true">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="upGlow" cx=".5" cy=".4" r=".8"><stop offset="0" stop-color="#A88BFF"/><stop offset="1" stop-color="#3B2A75"/></radialGradient>
+            <linearGradient id="upSpark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#C9D0FF"/></linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="52" fill="url(#upGlow)" stroke="#9B6BFF" stroke-opacity=".7" stroke-width="2"/>
+          <path d="M60 20c2.6 16.8 9.4 27 33 33-23.6 6-30.4 16.2-33 33-2.6-16.8-9.4-27-33-33 23.6-6 30.4-16.2 33-33z" fill="url(#upSpark)"/>
+        </svg>
+      </div>
+      <div class="pay-info">
+        <div class="pay-brand" id="upgradeModal-t" role="heading" aria-level="2" aria-label="AETIX DESIGN AI">
+          <span class="b1">AETIX</span><span class="b2">DESIGN</span><span class="b3">AI</span>
+        </div>
+        <p class="pay-text">Escolha um pacote, pague via Pix e os créditos entram na hora. Pagamento único, sem assinatura.</p>
+      </div>
+    </div>
+
+    <div class="pay-step" id="upgradeFormView">
+      <p class="upgrade-current">Seu plano atual: <b id="upgradeCurrentPlan">Free</b></p>
+      <div class="upgrade-planos" id="upgradePlanos" role="radiogroup" aria-label="Pacotes de créditos"></div>
+      <div class="pay-form">
+        <label class="pay-f" style="grid-column:1/-1"><span>Nome</span><input id="upName" name="upname" type="text" autocomplete="name" placeholder="Seu nome completo"></label>
+        <label class="pay-f"><span>Telefone</span><input id="upPhone" name="upphone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(83) 99999-8888"></label>
+        <label class="pay-f"><span>E-mail</span><input id="upEmail" name="upemail" type="email" autocomplete="email" inputmode="email" placeholder="voce@email.com"></label>
+      </div>
+      <p class="pay-err" id="upErr" role="alert"></p>
+      <button type="button" class="pay-btn" id="upBtn"><span id="upBtnTxt">Comprar</span></button>
+      <p class="upgrade-note">Pagamento único via Pix (PagueZy). Os créditos somam ao seu saldo atual. Valores definidos e cobrados no servidor; o navegador nunca informa o preço.</p>
+    </div>
+
+    <div class="pay-step" id="upgradePixView" hidden>
+      <div class="pay-qr" id="upQr"></div>
+      <textarea class="pay-code" id="upCode" readonly aria-label="Pix copia e cola"></textarea>
+      <button type="button" class="pay-btn" id="upCopy" style="height:44px;font-size:.95rem">Copiar código Pix</button>
+      <p class="pay-status" id="upStatus" role="status" hidden><i></i><span></span></p>
+      <p class="upgrade-note">Assim que o Pix for confirmado, seus créditos e o seu plano entram na hora. Esta tela detecta a confirmação sozinha.</p>
+    </div>
+
+    <div class="pay-step" id="upgradeOkView" hidden>
+      <div class="pay-ok-ic">✓</div>
+      <p class="pay-ok-t">Pagamento confirmado!</p>
+      <p class="pay-ok-s" id="upOkText">Seus créditos e o seu plano já estão ativos. Bom uso!</p>
+      <button type="button" class="pay-btn" id="upOkBtn" data-close-modal>Concluir</button>
     </div>
   </div>
 </div>
@@ -1295,16 +1349,10 @@ html[data-tema="halloween"] .scene{display:block}
   </div>
 </div>
 
-<aside class="nudge" id="nudge" role="complementary" aria-live="polite" aria-label="Colabore com o projeto">
-  <button type="button" class="nudge-x" id="nudgeX" aria-label="Fechar">&times;</button>
-  <p class="nudge-t"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c1.8 11.4 6.6 18.4 22 22-15.4 3.6-20.2 10.6-22 22-1.8-11.4-6.6-18.4-22-22 15.4-3.6 20.2-10.6 22-22z" fill="currentColor"/></svg><span id="nudgeT"></span></p>
-  <p class="nudge-p" id="nudgeP"></p>
-  <button type="button" class="nudge-go" id="nudgeGo"></button>
-  <span class="nudge-bar" id="nudgeBar"></span>
-</aside>
 <script src="/js/aetix-inicio.js?v=20261102" defer></script>
 <script src="/js/aetix-creditos.js?v=20261105b" defer></script>
 <script src="/js/script.js?v=20261105b" defer></script>
+<script src="/js/aetix-upgrade.js?v=20261105b" defer></script>
 <script src="/js/aetix-migan.js?v=20261105b" defer></script>
 
 
@@ -1314,7 +1362,7 @@ html[data-tema="halloween"] .scene{display:block}
 
 
 
-<script src="/js/aetix-final.js?v=20261102" defer></script>
+<script src="/js/aetix-final.js?v=20261105b" defer></script>
 <script src="/js/firebase-config.js"></script>
 <script type="module" src="/js/aetix-auth.js"></script>
 </body>

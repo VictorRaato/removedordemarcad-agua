@@ -7,6 +7,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const { promover } = require('./_pix.js');
+const { promoverCompra } = require('./_planos.js');
 
 const MAX_BODY_CHARS = 32768;
 
@@ -58,7 +59,9 @@ export default {
       if (!/^[\w.-]{4,128}$/.test(id)) {
         return responder({ ok: false, message: 'Identificador inválido.' }, 400);
       }
-      await promover(id);
+      /* compra de pacotes tem prioridade; cobrança desconhecida cai na colaboração */
+      const r = await promoverCompra(id);
+      if (!r || r.promovido !== true) await promover(id);
     }
 
     return responder({ ok: true }, 200);

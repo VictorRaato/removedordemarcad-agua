@@ -1,43 +1,4 @@
 /* AETIX · aetix-final.js — comportamentos da página inicial que rodam depois do script.js (antes eram <script> dentro do HTML) */
-/* Aviso neon de colaboração: aparece após a abertura, dura 10s (pausa ao passar o mouse) */
-(function(){
-  var T={pt:{t:'Ajude a manter o AETIX grátis',p:'Sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',b:'COLABORAR VIA PIX',tm:'Apoie o AETIX',pm:'Sem pagar nada. Se a ferramenta te ajudou, um <b>Pix a partir de R$ 5</b> mantém o projeto no ar e traz novidades.',bm:'COLABORAR'},
-         en:{t:'Help keep AETIX free',p:'Nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',b:'CONTRIBUTE VIA PIX',tm:'Support AETIX',pm:'Nothing to pay. If it helped you, a <b>Pix from R$ 5</b> keeps the project online and funds new features.',bm:'CONTRIBUTE'}};
-  var box,tries=0,done=false;
-  function $(i){return document.getElementById(i)}
-  function mob(){return window.matchMedia&&window.matchMedia('(max-width:600px)').matches}
-  function place(){var h=document.querySelector(mob()?'.hdr-right':'.hdr');if(h)box.style.top=Math.round(h.getBoundingClientRect().bottom+(mob()?6:10))+'px'}
-  function hide(){done=true;box.classList.remove('show')}
-  function show(){
-    var l=(document.documentElement.lang||'pt').toLowerCase().indexOf('en')===0?'en':'pt';
-    var m=mob();$('nudgeT').textContent=m?T[l].tm:T[l].t;$('nudgeP').innerHTML=m?T[l].pm:T[l].p;$('nudgeGo').textContent=m?T[l].bm:T[l].b;
-    place();void box.offsetWidth;box.classList.add('show');
-  }
-  function ready(){
-    if(document.documentElement.classList.contains('splashing')||$('splash'))return false;
-    return true;
-  }
-  function after(){
-    setTimeout(function(){if(!done&&!document.querySelector('.modal:not([hidden])'))show()},700);
-  }
-  function tick(){
-    if(done)return;
-    if(!ready()&&tries++<60)return setTimeout(tick,200);
-    /* só aparece depois que o pop-up de Halloween for fechado */
-    if(window.__aetixHwDone)return after();
-    document.addEventListener('aetix:hw-done',function once(){document.removeEventListener('aetix:hw-done',once);after()});
-  }
-  function init(){
-    box=$('nudge');if(!box)return;
-    $('nudgeX').addEventListener('click',hide);
-    $('nudgeBar').addEventListener('animationend',hide);
-    $('nudgeGo').addEventListener('click',function(){hide();var b=$('pricingOpen');if(b)b.click()});
-    window.addEventListener('resize',function(){if(box.classList.contains('show'))place()});
-    tick();
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
-
 window.addEventListener('load',function(){
   var ok=window.AetixApp&&window.AetixApp.Core&&typeof window.AetixApp.Core.openHelp==='function';
   if(ok)return;
