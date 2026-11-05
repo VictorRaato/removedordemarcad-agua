@@ -382,10 +382,26 @@ input:-webkit-autofill:focus{
 .pay-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:54px;border:0;border-radius:16px;cursor:pointer;color:var(--cta-ink);font:800 1.1rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,var(--cyan),var(--accent) 70%,var(--accent-2));box-shadow:0 0 0 1px rgba(var(--c-rgb),.5),0 0 18px 2px rgba(var(--c-rgb),.65),0 0 42px 6px rgba(var(--a-rgb),.45);transition:transform .15s,filter .15s,box-shadow .15s}
 /* ---------- Painel de planos (na tela inicial, estilo checkout) ---------- */
 .ss{margin:14px auto 0;width:min(1120px,calc(100vw - 22px));border-radius:22px;border:1px solid var(--line-2);background:#0F1118;box-shadow:0 40px 80px -34px rgba(0,0,0,.75),0 0 60px -30px rgba(var(--a-rgb),.35);padding:14px 16px 16px;max-height:78vh;min-height:0;overflow:auto;overscroll-behavior:contain}
-.ss-grip{display:flex;justify-content:center;padding:2px 0 10px;cursor:grab;touch-action:none}
+.ss-grip{position:relative;display:flex;justify-content:center;padding:2px 0 10px;cursor:grab;touch-action:none}
 .ss-grip:active{cursor:grabbing}
 .ss-grip-bar{width:104px;height:6px;border-radius:999px;background:rgba(255,255,255,.32);box-shadow:0 1px 4px rgba(0,0,0,.4)}
 .ss-grip:hover .ss-grip-bar{background:rgba(255,255,255,.5)}
+.ss-close{position:absolute;right:0;top:0;width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.03);color:var(--muted);cursor:pointer;font:600 1.1rem/1 Inter,system-ui,sans-serif}
+.ss-close:hover{color:#fff;background:rgba(255,255,255,.08);border-color:var(--line)}
+.ss-pay-close{position:absolute;right:0;top:0;width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.03);color:var(--muted);cursor:pointer;font:600 1.1rem/1 Inter,system-ui,sans-serif;z-index:3}
+.ss-pay-close:hover{color:#fff;background:rgba(255,255,255,.08);border-color:var(--line)}
+.ss-pay-head{position:relative;display:flex;justify-content:center;padding:0 0 12px;cursor:grab;touch-action:none}
+.ss-pay-head:active{cursor:grabbing}
+.ss-pay-title{margin:0;font:800 .74rem/1 Inter,system-ui,sans-serif;letter-spacing:.22em;color:var(--soft);text-transform:uppercase}
+.ss-pay-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:start}
+.ss-pay-left{display:grid;justify-items:center;gap:12px}
+.ss-pay-beneficios{display:grid;justify-items:center;gap:14px}
+.ss-beneficios-title{margin:0 0 10px;font:800 .72rem/1.2 Inter,system-ui,sans-serif;letter-spacing:.18em;color:var(--soft);text-transform:uppercase}
+.ss-beneficios-lista{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.86rem;color:var(--muted)}
+.ss-beneficios-lista li{display:flex;gap:8px;align-items:flex-start;line-height:1.35}
+.ss-beneficios-lista li::before{content:"✓";color:#3DDC97;font-weight:800;flex:none}
+.ss-pay-acoes{display:grid;gap:8px;width:min(280px,100%)}
+@media (max-width:780px){.ss-pay-layout{grid-template-columns:1fr}.ss-pay-acoes{width:min(320px,100%)}}
 .ss-title{margin:0 0 12px;font:800 .74rem/1 Inter,system-ui,sans-serif;letter-spacing:.22em;color:var(--soft)}
 .ss-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .ss-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:16px 14px 14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line-2);color:var(--ink);text-align:left}
@@ -896,11 +912,28 @@ html[data-tema="halloween"] .scene{display:block}
     </div>
 
     <div class="ss-step" id="planosPix" hidden>
-      <div class="pay-qr" id="planQr"></div>
-      <textarea class="pay-code" id="planCode" readonly spellcheck="false" aria-label="Pix copia e cola"></textarea>
-      <button type="button" class="pay-btn ss-cta" id="planCopy">Copiar código</button>
-      <p class="pay-status" id="planStatus" role="status" hidden><i></i><span></span></p>
-      <p class="ss-note">Assim que o pagamento for confirmado, seus créditos e o seu plano entram na hora. A confirmação aparece sozinha aqui.</p>
+      <div class="ss-pay-head">
+        <span class="ss-grip-bar" aria-hidden="true"></span>
+        <button type="button" class="ss-pay-close" id="planosPayClose" aria-label="Cancelar pagamento" title="Cancelar pagamento">&times;</button>
+      </div>
+      <h3 class="ss-pay-title" id="planosPayTitle">AETIX DESIGN AI</h3>
+      <div class="ss-pay-layout">
+        <div class="ss-pay-left">
+          <div class="pay-qr" id="planQr"></div>
+          <textarea class="pay-code" id="planCode" readonly spellcheck="false" aria-label="Pix copia e cola"></textarea>
+          <div class="ss-pay-acoes">
+            <button type="button" class="pay-btn" id="planCopy">Copiar código</button>
+            <p class="pay-status" id="planStatus" role="status" hidden><i></i><span></span></p>
+          </div>
+          <p class="ss-note">Assim que o pagamento for confirmado, seus créditos e o seu plano entram na hora. A confirmação aparece sozinha aqui.</p>
+        </div>
+        <aside class="ss-pay-beneficios" aria-label="Benefícios do plano">
+          <div>
+            <h4 class="ss-beneficios-title" id="planosBenefitsTitle">BENEFÍCIOS</h4>
+            <ul class="ss-beneficios-lista" id="planosBenefits"></ul>
+          </div>
+        </aside>
+      </div>
     </div>
 
     <div class="ss-step" id="planosOk" hidden>

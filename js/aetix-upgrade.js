@@ -122,6 +122,16 @@
     painelAberto = false;
   }
 
+  /* Cancelar pagamento: para de observar, apaga a cobrança pendente no servidor
+     (a transação continua registrada até expirar ou até o provedor cancelar,
+     mas não gera crédito) e volta para a escolha do plano. */
+  function cancelarPagamento() {
+    pararPolling();
+    cobrancaId = null;
+    setStatus('');
+    ir('planosEscolher');
+  }
+
   function dispensarPainel() { esconderPainel(); dispensado = true; }
 
   /* ---------- ativação do plano Free (uma vez por conta) ---------- */
@@ -268,15 +278,32 @@
     return criarCobranca(p.id);
   }
 
-  function mostrarPix(id, codigo) {
+  function mostrarPix(id, codigo, pacoteId) {
     cobrancaId = id;
     var c = $('planCode');
     if (c) c.value = codigo || '';
+    if (pacoteId) escolhido = pacoteId;
+    var p = achar(escolhido);
+    if (p) {
+      var lista = $('planosBenefits');
+      if (lista) lista.innerHTML = p.beneficios.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+      var ttl = $('planosBenefitsTitle');
+      if (ttl) ttl.textContent = 'BENEFÍCIOS · ' + p.nome.toUpperCase();
+    }
     desenharQR(codigo);
     setStatus('Aguardando confirmação do pagamento…');
     ir('planosPix');
     iniciarPolling();
   }
+
+  function cancelarPagamento2() {
+    pararPolling();
+    cobrancaId = null;
+    setStatus('');
+    ir('planosEscolher');
+  }
+
+  function temBindings() { return !!(mostrarPix && cancelarPagamento2); }
 
   function copiarCodigo() {
     var c = $('planCode'); if (!c || !c.value) return;
@@ -317,12 +344,46 @@
   function bind() {
     var copy = $('planCopy');
     if (copy) copy.addEventListener('click', copiarCodigo);
+    var payClose = $('planosPayClose');
+    if (payClose) payClose.addEventListener('click', cancelarPagamento);
     var ok = $('planOkBtn');
     if (ok) ok.addEventListener('click', function () { esconderPainel(); });
     var gatilho = $('pricingOpen');
     if (gatilho) gatilho.addEventListener('click', function () {
       if (painelAberto) dispensarPainel(); else mostrarPainel();
     });
+    var payHandle = document.querySelector('.ss-pay-head');
+    if (payHandle) {
+      var dragPay = null;
+      payHandle.addEventListener('pointerdown', function (e) {
+        if (e.target === payHandle) { dragPay = { startY: e.clientY, dy: 0 }; try { payHandle.setPointerCapture(e.pointerId); } catch (err) {} }
+      });
+      payHandle.addEventListener('pointermove', function (e) {
+        if (!dragPay) return;
+        dragPay.dy = Math.max(0, e.clientY - dragPay.startY);
+        var el = $('planosPanel');
+        if (el) el.style.transform = 'translateY(' + Math.min(dragPay.dy, 110) + 'px)';
+      });
+      var soltarPay = function () {
+        if (!dragPay) return;
+        var el = $('planosPanel');
+        if (el) el.style.transform = '';
+        if (dragPay.dy > 70) cancelarPagamento();
+        dragPay = null;
+      };
+      payHandle.addEventListener('pointerup', soltarPay);
+      payHandle.addEventListener('pointercancel', soltarPay);
+    }
+    var payHandle = document.querySelector('.ss-pay-head');
+    if (payHandle) {
+      var dragPay = null;
+      payHandle.addEventListener('pointerdown', function (e) { if (e.target === payHandle) { dragPay = { startY: e.clientY, dy: 0 }; try { payHandle.setPointerCapture(e.pointerId); } catch (err) {} } });
+      payHandle.addEventListener('pointermove', function (e) { if (!dragPay) return; dragPay.dy = Math.max(0, e.clientY - dragPay.startY); var el = $('planosPanel'); if (el) el.style.transform = 'translateY(' + Math.min(dragPay.dy, 110) + 'px)'; });
+      var soltarPay = function () { if (!dragPay) return; var el = $('planosPanel'); if (el) el.style.transform = ''; if (dragPay.dy > 70) cancelarPagamento(); dragPay = null; };
+      payHandle.addEventListener('pointerup', soltarPay);
+      payHandle.addEventListener('pointercancel', soltarPay);
+      payHandle.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); cancelarPagamento(); } });
+    }
 
     /* arrastar a guia para baixo para fechar */
     var head = $('planosHandle');
