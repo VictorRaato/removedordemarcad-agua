@@ -141,6 +141,10 @@ module.exports = async function handler(req, res) {
     if (carteira && carteira.mestre) {
       return res.status(409).json({ ok: false, erro: 'mestre', message: 'Sua conta já tem acesso ilimitado ao serviço.' });
     }
+    /* Pro ativo já inclui tudo por 30 dias: evita cobrar de novo (e perder dias) por engano */
+    if (carteira && carteira.plano === 'pro' && carteira.ilimitado === true) {
+      return res.status(409).json({ ok: false, erro: 'pro', message: 'Seu plano Pro já está ativo e inclui tudo por 30 dias.' });
+    }
 
     /* nome e e-mail vêm da conta (nada é digitado no checkout) */
     const { getAdminAuth } = require('./_firebase');

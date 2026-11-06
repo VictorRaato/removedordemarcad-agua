@@ -6,7 +6,7 @@
   'use strict';
 
   var CUSTOS = { foto: 15, video: 25 };
-  var MAX_CREDITOS = 500;
+  var MAX_CREDITOS = 150;
   var CHAVE_CREDITOS = 'aetix-credits-cache';
   var CHAVE_USUARIO = 'aetix-user-cache';
 
@@ -81,7 +81,7 @@
   /* Nível mostrado no perfil/menu: 'free' (Free), 'starter'/'pro' (compras via /api/comprar)
      e 'mestre' (conta ilimitada). O que a API devolver manda. */
   function nivelDe(dados) {
-    if (dados && (dados.ilimitado === true || dados.mestre === true)) return 'mestre';
+    if (dados && dados.mestre === true) return 'mestre';
     if (dados && (dados.plano === 'starter' || dados.plano === 'pro')) return dados.plano;
     if (dados && dados.plano === 'nenhum') return 'nenhum';   // ainda não escolheu plano
     return 'free';
@@ -163,12 +163,13 @@
     if ((dados.plano === 'starter' || dados.plano === 'pro') && Number(dados.planoCreditos) > 0) {
       maximo = Number(dados.planoCreditos);
     }
-    var texto = ilimitado ? '∞' : formatar(saldo);
+    var criador = dados.plano === 'pro' && dados.mestre !== true && ilimitado;
+    var texto = criador ? 'Criador' : (ilimitado ? '∞' : formatar(saldo));
     var largura = ilimitado ? 100 : (Number.isFinite(saldo) ? Math.max(0, Math.min(100, saldo / maximo * 100)) : 0);
 
     if (numero) numero.textContent = texto;
     if (barra) barra.style.width = largura + '%';
-    el.setAttribute('aria-label', ilimitado ? 'Tokens ilimitados' : 'Seus tokens: ' + texto);
+    el.setAttribute('aria-label', criador ? 'Plano Criador · ilimitado' : (ilimitado ? 'Tokens ilimitados' : 'Seus tokens: ' + texto));
     el.hidden = false;
   }
 

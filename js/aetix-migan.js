@@ -500,6 +500,12 @@
   function versoes(tab) {
     return ['v15', 'v2', 'v1'];
   }
+  /* Free (e conta sem plano) só usa a v1.0. Starter/Pro/Mestre usam todas. */
+  function versoesLiberadas() {
+    var n = document.documentElement.getAttribute('data-nivel') || '';
+    return n === '' || n === 'starter' || n === 'pro' || n === 'mestre';
+  }
+  var LOCK_SVG = '<svg class="ic aetix-ver-lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
 
   function injectCss() {
     if (document.getElementById('aetixVerCss')) return;
@@ -512,9 +518,10 @@
       '.pill.aetix-ver:focus-visible{outline:2px solid var(--accent);outline-offset:2px}' +
       '.aetix-ver-menu{position:fixed;z-index:80;min-width:150px;padding:5px;border-radius:14px;border:1px solid var(--line-2);background:rgba(18,12,30,.97);box-shadow:0 12px 32px rgba(0,0,0,.45)}' +
       '.aetix-ver-menu[hidden]{display:none}' +
-      '.aetix-ver-menu button{display:block;width:100%;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--ink);font:inherit;font-size:.82rem;text-align:left;cursor:pointer}' +
+      '.aetix-ver-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:8px 12px;border:0;border-radius:10px;background:transparent;color:var(--ink);font:inherit;font-size:.82rem;text-align:left;cursor:pointer}' +
       '.aetix-ver-menu button:hover:not(:disabled),.aetix-ver-menu button:focus-visible{background:var(--panel-2);outline:0}' +
-      '.aetix-ver-menu button:disabled{opacity:.5;cursor:not-allowed}';
+      '.aetix-ver-menu button:disabled{opacity:.5;cursor:not-allowed}' +
+      '.aetix-ver-menu button .aetix-ver-lock{width:13px;height:13px;margin-left:auto;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}';
     document.head.appendChild(st);
   }
 
@@ -548,6 +555,13 @@
       return;
     }
     var tab = curTab(), bad = eng.state().broken;
+    /* Free: só a v1.0. Se o navegador guardou v1.5/v2 de antes, volta para a v1.0. */
+    var liberado = versoesLiberadas();
+    if (!liberado) {
+      if (getVer('image') !== 'v1') setVer('image', 'v1');
+      if (getVer('video') !== 'v1') setVer('video', 'v1');
+      if (pend) pend = null;
+    }
     /* modelo indisponível: só a v2 (MI-GAN) volta para a v1.0 (a v1.5 não usa o modelo) */
     if (bad) {
       if (getVer('image') === 'v2') setVer('image', 'v1');
@@ -561,7 +575,7 @@
     pill.setAttribute('tabindex', '0');
     pill.setAttribute('aria-haspopup', 'listbox');
     pill.setAttribute('aria-expanded', String(open));
-    var sig = tab + '|' + ver + '|' + bad + '|' + (isPt() ? 'pt' : 'en');
+    var sig = tab + '|' + ver + '|' + bad + '|' + liberado + '|' + (isPt() ? 'pt' : 'en');
     if (menu && sig !== menuSig) { menuSig = sig; montarMenu(tab, ver, bad); }
     if (open) place();
   }
@@ -570,11 +584,16 @@
   function montarMenu(tab, ver, bad) {
     while (menu.firstChild) menu.removeChild(menu.firstChild);
     var lista = versoes(tab).filter(function (v) { return v !== ver; });
+    var liberado = versoesLiberadas();
     for (var i = 0; i < lista.length; i++) {
       var b = document.createElement('button');
       b.type = 'button'; b.setAttribute('role', 'option'); b.dataset.v = lista[i];
-      b.textContent = LABEL[tab][lista[i]] + ((lista[i] === 'v2' && bad) ? (isPt() ? ' · indisponível' : ' · unavailable') : '');
-      b.disabled = (lista[i] === 'v2' && bad);
+      var travada = !liberado && lista[i] !== 'v1';       /* Free: só a v1.0 */
+      var rotulo = LABEL[tab][lista[i]];
+      if (lista[i] === 'v2' && bad) rotulo += (isPt() ? ' · indisponível' : ' · unavailable');
+      b.innerHTML = '<span>' + rotulo + '</span>' + (travada ? LOCK_SVG : '');
+      b.disabled = travada || (lista[i] === 'v2' && bad);
+      if (travada) b.setAttribute('aria-label', rotulo + ' · ' + (isPt() ? 'disponível no Starter' : 'available on Starter'));
       menu.appendChild(b);
     }
   }
@@ -582,6 +601,7 @@
   async function choose(v) {
     var tab = curTab();
     setOpen(false);
+    if (!versoesLiberadas() && v !== 'v1') { refreshUi(); return; }   /* Free: só a v1.0 */
     if (v === 'v15') {                                 // PatchMatch local (não usa o modelo)
       if (tab === 'video') {                           // no vídeo quem carrega o PatchMatch é o Worker
         pend = null;
@@ -646,9 +666,16 @@
       var b = document.getElementById(id);
       if (b) b.addEventListener('click', function () { setTimeout(refreshUi, 0); setTimeout(refreshUi, 200); });
     });
+    /* o plano chega depois (aetix-creditos): atualiza cadeados na hora */
+    window.addEventListener('aetix:saldo', refreshUi);
+    window.addEventListener('aetix:user', refreshUi);
+    try {
+      new MutationObserver(refreshUi).observe(document.documentElement, { attributes: true, attributeFilter: ['data-nivel'] });
+    } catch (e) {}
     refreshUi();
 
     // quem já escolheu a versão nova antes: deixa o modelo (ou a v1.5) pronto sem atrapalhar o carregamento da página
+    if (!versoesLiberadas()) return;                    /* Free não baixa o modelo pesado */
     var vi = getVer('image');
     var pre = vi === 'v2' ? eng.load : (vi === 'v15' ? carregarLeve : (getVer('video') === 'v2' ? eng.prepare : null));
     if (pre) setTimeout(function () { pre().catch(function () { /* indisponível */ }).then(refreshUi); }, 2500);

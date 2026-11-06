@@ -367,6 +367,11 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
       '.ai-btn svg{width:15px;height:15px}',
       '.ai-btn:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-1px)}',
       '.ai-btn:disabled{opacity:.6;cursor:wait}',
+      '.ai-btn .ai-lock{display:inline-flex;align-items:center}',
+      '.ai-btn .ai-lock[hidden]{display:none}',
+      '.ai-btn .ai-lock svg{width:14px;height:14px;animation:none;opacity:.9}',
+      '.ai-wrap.bloqueado .ai-in{opacity:.6}',
+      '.ai-wrap.bloqueado .ai-btn{filter:grayscale(.4)}',
       '.ai-msg{margin:0;min-height:1.2em;max-width:520px;text-align:center;color:#98A1B3;font-size:.84rem;line-height:1.45}',
       '.ai-msg.err{color:#FF8A8A}.ai-msg.ok{color:#4ADE9A}',
       '.ai-msg .btn{margin-top:8px}',
@@ -536,6 +541,19 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
 
   /* ---------- Remover com IA (imagem + vídeo) ---------- */
   var AIS=[];
+  var LOCK='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
+  /* Remover com IA é exclusivo do Pro/Mestre; Free e Starter veem o cadeado.
+     Sem data-nivel (estado ainda não chegou) fica liberado para não piscar o cadeado. */
+  function planoIA(){var n=D.documentElement.getAttribute('data-nivel');return !n||n==='pro'||n==='mestre'}
+  function aiSync(){
+    var ok=planoIA();
+    AIS.forEach(function(o){
+      if(o.wrap)o.wrap.classList.toggle('bloqueado',!ok);
+      if(o.lock)o.lock.hidden=ok;
+      if(o.q)o.q.setAttribute('aria-disabled',ok?'false':'true');
+      if(o.btn)o.btn.setAttribute('aria-disabled',ok?'false':'true');
+    });
+  }
   function modOf(k){return (CORE.modules&&CORE.modules[k])||(k==='image'?APP.ImageProcessor:APP.VideoProcessor)}
   function tk(o,k){var d=T[lang()]||T.pt;if(o&&o.k==='video'&&d[k+'V']!=null)return d[k+'V'];return d[k]}
   function setMsg(o,txt,cls){if(!o||!o.msg)return;o.msg.textContent=txt||'';o.msg.className='ai-msg'+(cls?' '+cls:'')}
@@ -544,16 +562,17 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
       o.q.placeholder=tk(o,'aiPh');o.q.setAttribute('aria-label',t('aiLabel'));
       if(!o.run)o.lbl.textContent=t('aiLabel');
     });
+    aiSync();
   }
   function buildAiFor(k,barSel,pre){
     for(var i=0;i<AIS.length;i++)if(AIS[i].k===k)return true;
     var bar=$(barSel);if(!bar)return false;
     css();
     var w=D.createElement('div');w.className='ai-wrap';
-    w.innerHTML='<form class="ai-row" id="'+pre+'Form" autocomplete="off"><label class="ai-in">'+SPARK+'<input id="'+pre+'Q" type="text" maxlength="60" enterkeyhint="go" spellcheck="false"></label><button type="submit" class="ai-btn" id="'+pre+'Go">'+SPARK+'<span></span></button></form><p class="ai-msg" id="'+pre+'Msg" role="status"></p>';
+    w.innerHTML='<form class="ai-row" id="'+pre+'Form" autocomplete="off"><label class="ai-in">'+SPARK+'<input id="'+pre+'Q" type="text" maxlength="60" enterkeyhint="go" spellcheck="false"></label><button type="submit" class="ai-btn" id="'+pre+'Go">'+SPARK+'<span></span><span class="ai-lock" hidden>'+LOCK+'</span></button></form><p class="ai-msg" id="'+pre+'Msg" role="status"></p>';
     bar.insertBefore(w,bar.firstChild);
-    var o={k:k,run:0,form:$('#'+pre+'Form'),q:$('#'+pre+'Q'),btn:$('#'+pre+'Go'),msg:$('#'+pre+'Msg')};
-    o.lbl=$('span',o.btn);
+    var o={k:k,run:0,wrap:w,form:$('#'+pre+'Form'),q:$('#'+pre+'Q'),btn:$('#'+pre+'Go'),msg:$('#'+pre+'Msg')};
+    o.lbl=$('span',o.btn);o.lock=$('.ai-lock',o.btn);
     o.form.addEventListener('submit',function(e){e.preventDefault();aiStart(o)});
     AIS.push(o);aiRefresh();return true;
   }
@@ -561,8 +580,14 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
     var a=buildAiFor('image','#im-bar','ai'),b=buildAiFor('video','#vd-bar','aiV');
     return a&&b;
   }
+  window.addEventListener('aetix:saldo',aiSync);
+  window.addEventListener('aetix:user',aiSync);
+  try{
+    new MutationObserver(aiSync).observe(D.documentElement,{attributes:true,attributeFilter:['data-nivel']});
+  }catch(e){}
   function aiStart(o){
     if(o.run)return;
+    if(!planoIA()){setMsg(o,lang()==='en'?'Available on the Pro plan.':'Disponível no plano Pro.','err');return}
     var mod=modOf(o.k),q=o.q.value.replace(/\s+/g,' ').trim();
     if(!mod||!mod.aiReady||!mod.aiReady()){setMsg(o,tk(o,'aiWait'),'err');return}
     if(!q){setMsg(o,t('aiNeed'),'err');o.q.focus();return}
@@ -577,7 +602,7 @@ function ph(){const pd=!!o4,pL=o8['some'](py=>{if(!py['stats'])py['stats']=ox(py
     fetch('/api/ia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tipo:'busca',alvo:q,img:data,lang:lang()})})
       .then(function(r){return r.json().catch(function(){return {}})})
       .then(function(d){
-        if(!d||!d.ok){var e=d&&d.erro;setMsg(o,t(e==='limite'?'aiLimit':e==='limite_dia'?'aiDay':'aiFail'),'err');return}
+        if(!d||!d.ok){var e=d&&d.erro;if(e==='plano'){setMsg(o,lang()==='en'?'Available on the Pro plan.':'Disponível no plano Pro.','err');return}setMsg(o,t(e==='limite'?'aiLimit':e==='limite_dia'?'aiDay':'aiFail'),'err');return}
         if(!d.caixas||!d.caixas.length){setMsg(o,tk(o,'aiNone').replace('{q}',q),'err');return}
         return mod.aiApply(d.caixas).then(function(n){
           if(!n){setMsg(o,tk(o,'aiNone').replace('{q}',q),'err');return}

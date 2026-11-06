@@ -2,10 +2,12 @@
 /* AETIX DESIGN · api/_creditos.js (módulo compartilhado, NÃO é uma rota)
    Carteira de créditos no Firestore (coleção "creditos", um documento por conta).
 
-   Campos: uid, nome, email, saldo, mestre, plano, planoCreditos, criadoEm, atualizadoEm
-   Contas novas recebem 500 créditos e plano = 'free'.
-   Contas que compram pacote viram plano = 'starter'|'pro' e o saldo soma.
-   Contas antigas de antes da mudança têm o saldo acima de 500 reduzido uma única vez
+   Campos: uid, nome, email, saldo, mestre, plano, planoCreditos, proAte, criadoEm, atualizadoEm
+   Contas novas recebem 150 créditos e plano = 'free'.
+   Starter soma os créditos do pacote ao saldo.
+   Pro é um passe de 30 dias ilimitado (campo proAte); não soma créditos e,
+   ao expirar, volta a valer como Free.
+   Contas antigas de antes da mudança têm o saldo acima de 150 reduzido uma única vez
    (marcador ajusteSaldo500), sem subir quem já gastou abaixo disso.
    A conta mestra (vitinhosilva2k20@gmail.com) é ilimitada e não é descontada. */
 
@@ -13,9 +15,35 @@ const { getAdminAuth, getDb } = require('./_firebase');
 const { FieldValue } = require('firebase-admin/firestore');
 
 const MESTRE_EMAIL = 'vitinhosilva2k20@gmail.com';
-const SALDO_INICIAL = 500;
+const SALDO_INICIAL = 150;
 const CUSTOS = Object.freeze({ foto: 15, video: 25 });
 const COLECAO = 'creditos';
+const DIAS_PRO = 30;
+const MS_DIA = 86400000;
+
+/* Pro = passe de 30 dias ilimitado. proAte (ms) manda; contas antigas
+   que só têm planoEm usam planoEm + 30 dias. */
+function millisDe(valor) {
+  if (!valor) return NaN;
+  if (typeof valor.toMillis === 'function') return valor.toMillis();
+  const n = Number(valor);
+  return Number.isFinite(n) ? n : NaN;
+}
+function proAteMs(dados) {
+  const direto = millisDe(dados && dados.proAte);
+  if (Number.isFinite(direto)) return direto;
+  const inicio = millisDe(dados && dados.planoEm);
+  return Number.isFinite(inicio) ? inicio + DIAS_PRO * MS_DIA : NaN;
+}
+function proValido(dados) {
+  if (!dados || dados.plano !== 'pro') return false;
+  const ate = proAteMs(dados);
+  return Number.isFinite(ate) && Date.now() < ate;
+}
+/* Pro vencido: volta para o plano anterior (Starter) ou Free. */
+function planoAposPro(dados) {
+  return dados && dados.planoAntes === 'starter' ? 'starter' : 'free';
+}
 
 function limpo(valor, max) {
   return String(valor == null ? '' : valor).replace(/[\x00-\x1f<>]/g, '').trim().slice(0, max || 120);
@@ -60,7 +88,7 @@ async function garantirCarteira(uid) {
 
   const dados = snap.data() || {};
   const mestre = perfil.mestre || dados.mestre === true;
-  /* contas antigas sem o campo plano contam como Free (já receberam os 500) */
+  /* contas antigas sem o campo plano contam como Free (já receberam o saldo inicial) */
 
   /* Ajuste único das contas antigas: saldo acima do inicial vira o inicial. */
   const precisaAjuste = !mestre && dados.ajusteSaldo500 !== true;
@@ -92,7 +120,9 @@ async function consultarCarteira(uid) {
   const mestre = dados.mestre === true;
   const saldo = mestre ? 0 : lerSaldo(dados);
   const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';   // sem campo = conta antiga Free
-  const plano = mestre ? 'mestre' : planoBruto;
+  const proAtivo = !mestre && proValido(dados);
+  const plano = mestre ? 'mestre' : (planoBruto === 'pro' && !proAtivo ? planoAposPro(dados) : planoBruto);
+  const ilimitado = mestre || proAtivo;
   const planoCreditos = Number(dados.planoCreditos);
   return {
     ok: true,
@@ -100,10 +130,11 @@ async function consultarCarteira(uid) {
     nome: limparNome(dados.nome),
     email: limparEmail(dados.email),
     mestre,
-    ilimitado: mestre,
-    saldo: Number.isFinite(saldo) ? saldo : null,
+    ilimitado,
+    saldo: ilimitado ? null : (Number.isFinite(saldo) ? saldo : null),
     plano,
-    planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0
+    planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0,
+    proAte: proAtivo ? new Date(proAteMs(dados)).toISOString() : null
   };
 }
 function limparNome(valor) { return limpo(valor, 80) || 'Usuário'; }
@@ -126,6 +157,10 @@ async function consumirCreditos(uid, tipo) {
   if (antes.plano === 'nenhum') {
     const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e;
   }
+  if (proValido(antes)) {
+    const pc = Number(antes.planoCreditos);
+    return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: false, nome: limparNome(antes.nome), email: limparEmail(antes.email), plano: 'pro', planoCreditos: Number.isFinite(pc) && pc > 0 ? pc : 0 };
+  }
 
   const ref = getDb().collection(COLECAO).doc(uid);
   return getDb().runTransaction(async (tx) => {
@@ -140,12 +175,16 @@ async function consumirCreditos(uid, tipo) {
     }
     /* sem plano escolhido, não debita: precisa escolher um plano primeiro */
     if (dados.plano === 'nenhum') { const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e; }
+    if (proValido(dados)) {
+      const pc = Number(dados.planoCreditos);
+      return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano: 'pro', planoCreditos: Number.isFinite(pc) && pc > 0 ? pc : 0 };
+    }
     const saldo = lerSaldo(dados);
     if (!Number.isFinite(saldo)) { const e = new Error('saldo_invalido'); e.code = 'saldo_invalido'; throw e; }
     if (saldo < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
     const novo = saldo - custo;
     const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';
-    const plano = planoBruto;   // preserva free/starter/pro
+    const plano = planoBruto === 'pro' ? planoAposPro(dados) : planoBruto;   // pro expirado volta ao plano anterior
     const planoCreditos = Number(dados.planoCreditos);
     tx.update(ref, { saldo: novo, atualizadoEm: FieldValue.serverTimestamp() });
     return { ok: true, tipo, custo, saldo: novo, ilimitado: false, consumido: true, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano, planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0 };

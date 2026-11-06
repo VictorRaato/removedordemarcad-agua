@@ -1,7 +1,8 @@
 'use strict';
 /* ==========================================================================
    AETIX DESIGN AI · api/_planos.js (módulo compartilhado, NÃO é uma rota)
-   Pacotes de créditos vendidos no site e registro das compras confirmadas.
+   Pacotes vendidos no site e registro das compras confirmadas.
+   Starter = 2.500 créditos somados ao saldo; Pro = passe de 30 dias ilimitado.
 
    Regra de ouro: preço e quantidade de créditos são definidos AQUI, no servidor.
    O navegador só escolhe o pacote; nunca informa valor.
@@ -22,8 +23,8 @@ const { FieldValue } = require('firebase-admin/firestore');
 const { SALDO_INICIAL } = require('./_creditos');
 
 const PACOTES = Object.freeze({
-  starter: Object.freeze({ id: 'starter', nome: 'Starter', creditos: 10000, centavos: 990 }),
-  pro: Object.freeze({ id: 'pro', nome: 'Pro', creditos: 35000, centavos: 2490 })
+  starter: Object.freeze({ id: 'starter', nome: 'Starter', creditos: 2500, centavos: 990, dias: 0 }),
+  pro: Object.freeze({ id: 'pro', nome: 'Pro', creditos: 0, centavos: 1798, dias: 30, ilimitado: true })
 });
 const COLECAO_PENDENTES = 'compras_pendentes';
 const COLECAO_COMPRAS = 'compras';
@@ -87,29 +88,40 @@ async function promoverCompra(id) {
       const saldoAtual = carteira.exists ? Number(carteira.get('saldo')) : NaN;
       const base = Number.isFinite(saldoAtual) ? saldoAtual : SALDO_INICIAL;
       const agora = FieldValue.serverTimestamp();
+      /* Pro é passe de 30 dias ilimitado: não soma créditos, define a validade.
+         Starter soma os créditos do pacote ao saldo atual. */
+      const dias = Number(pacote.dias) || 0;
+      const proAte = dias > 0 ? Date.now() + dias * 86400000 : null;
+      const creditosComprados = dias > 0 ? 0 : pacote.creditos;
+      /* Ao vencer o Pro, a conta volta para o plano que tinha antes (Starter ou Free). */
+      const planoAtual = carteira.exists ? String(carteira.get('plano') || 'free') : 'free';
+      const planoAntes = planoAtual === 'pro' ? String(carteira.get('planoAntes') || 'free') : planoAtual;
+      const extras = proAte !== null ? { proAte, planoAntes } : {};
 
       if (carteira.exists) {
         tx.update(carteiraRef, {
-          saldo: base + pacote.creditos,
+          saldo: base + creditosComprados,
           plano: pacote.id,
           planoCreditos: pacote.creditos,
           planoEm: agora,
           ajusteSaldo500: true,          /* compra paga nunca pode ser rebaixada pelo ajuste único */
-          atualizadoEm: agora
+          atualizadoEm: agora,
+          ...extras
         });
       } else {
         tx.set(carteiraRef, {
           uid,
           nome: limpo(d.nomeCompleto, 80) || 'Usuário',
           email: limpo(d.email, 254).toLowerCase(),
-          saldo: SALDO_INICIAL + pacote.creditos,
+          saldo: SALDO_INICIAL + creditosComprados,
           mestre: false,
           plano: pacote.id,
           planoCreditos: pacote.creditos,
           planoEm: agora,
           ajusteSaldo500: true,
           criadoEm: agora,
-          atualizadoEm: agora
+          atualizadoEm: agora,
+          ...extras
         });
       }
       tx.set(compraRef, {
@@ -117,6 +129,8 @@ async function promoverCompra(id) {
         pacote: pacote.id,
         creditos: pacote.creditos,
         centavos: pacote.centavos,
+        dias,
+        ...extras,
         email: limpo(d.email, 254).toLowerCase(),
         criadoEm: agora
       });

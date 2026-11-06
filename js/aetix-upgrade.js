@@ -16,16 +16,16 @@
 
   var CARTOES = [
     {
-      id: 'free', nome: 'Free', creditos: 500, preco: 0, eq: 33, eqv: 20, selo: '', tipo: 'free',
-      beneficios: ['500 créditos de boas-vindas', 'Um pacote por conta', 'Sem cartão e sem pagamento', 'Processamento no seu navegador']
+      id: 'free', nome: 'Free', creditos: 150, preco: 0, eq: 10, eqv: 6, selo: '', tipo: 'free',
+      beneficios: ['150 créditos de boas-vindas', 'Recursos limitados', 'Um pacote por conta', 'Sem cartão e sem pagamento', 'Processamento no navegador']
     },
     {
-      id: 'starter', nome: 'Starter', creditos: 10000, preco: 990, eq: 666, eqv: 400, selo: 'Mais popular', tipo: 'pago',
-      beneficios: ['10.000 créditos somados ao saldo', 'Pagamento único via Pix', 'Serve para meses de uso leve', 'Processamento no seu navegador']
+      id: 'starter', nome: 'Starter', creditos: 2500, preco: 990, eq: 166, eqv: 100, selo: 'Mais popular', tipo: 'pago',
+      beneficios: ['2.500 créditos', 'Todos os modelos desbloqueados', 'Créditos somados ao saldo', 'Pagamento único via Pix', 'Serve até o saldo zerar', 'Processamento no navegador']
     },
     {
-      id: 'pro', nome: 'Pro', creditos: 35000, preco: 2490, eq: 2333, eqv: 1400, selo: '', tipo: 'pago',
-      beneficios: ['35.000 créditos somados ao saldo', 'Pagamento único via Pix', 'Melhor preço por crédito', 'Processamento no seu navegador']
+      id: 'pro', nome: 'Pro', creditos: 0, preco: 1798, criador: true, selo: '', tipo: 'pago',
+      beneficios: ['30 dias ilimitado', 'Suporte prioritário', 'Recursos de IA disponíveis', 'Todos os modelos desbloqueados', 'Modelos de teste', 'Pagamento único via Pix', 'Melhor preço para criador', 'Processamento no navegador']
     }
   ];
 
@@ -52,13 +52,16 @@
       b.className = 'ss-card';
       b.dataset.pacote = p.id;
       var selo = p.selo ? '<span class="ss-selo">Mais popular</span>' : '';
+      var linhaCreditos = p.criador ? 'Criador' : num(p.creditos) + ' créditos';
+      var linhaEq = p.criador ? '30 dias ilimitado' : '≈ ' + num(fotos(p.creditos)) + ' fotos ou ' + num(videos(p.creditos)) + ' vídeos';
+      var subPreco = p.criador ? '30 dias · pagamento único' : (p.preco ? 'pagamento único' : 'um pacote por conta');
       b.innerHTML =
         selo +
         '<span class="ss-card__nome"><span class="ss-card__marca" aria-hidden="true"></span>' + p.nome + '<span class="ss-atual" data-atual hidden>Plano atual</span></span>' +
         '<span class="ss-card__preco">' + (p.preco ? brl(p.preco) : 'Free') +
-          '<small>' + (p.preco ? 'pagamento único' : 'um pacote por conta') + '</small></span>' +
-        '<span class="ss-card__creditos">' + num(p.creditos) + ' créditos</span>' +
-        '<span class="ss-card__eq">≈ ' + num(fotos(p.creditos)) + ' fotos ou ' + num(videos(p.creditos)) + ' vídeos</span>' +
+          '<small>' + subPreco + '</small></span>' +
+        '<span class="ss-card__creditos">' + linhaCreditos + '</span>' +
+        '<span class="ss-card__eq">' + linhaEq + '</span>' +
         '<ul class="ss-lista">' + p.beneficios.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
         '<button type="button" class="pay-btn ss-cta" data-escolher="' + p.id + '"><span>' + (p.preco ? p.nome : 'Free') + '</span></button>';
       caixa.appendChild(b);
@@ -71,7 +74,8 @@
   }
 
   function estadoCartoes(dados) {
-    var plano = !dados ? 'nenhum' : (dados.mestre || dados.ilimitado ? 'mestre' : (dados.plano || 'free'));
+    /* Pro ilimitado não é mestre: conta mestra continua com tudo travado. */
+    var plano = !dados ? 'nenhum' : (dados.mestre === true ? 'mestre' : (dados.plano || 'free'));
     Array.prototype.forEach.call(($('planosCards') || {}).children || [], function (b) {
       var id = b.getAttribute('data-pacote');
       var btn = b.querySelector('[data-escolher]');
@@ -84,8 +88,22 @@
         if (atual) atual.hidden = plano !== 'free';
         return;
       }
-      if (plano === 'mestre') { btn.disabled = true; if (atual) atual.hidden = true; return; }
-      btn.disabled = false;
+      if (plano === 'mestre') {
+        btn.disabled = true;
+        btn.classList.remove('is-current');
+        btn.innerHTML = '<span>' + (id === 'starter' ? 'Starter' : 'Pro') + '</span>';
+        if (atual) atual.hidden = true;
+        return;
+      }
+      if (id === 'pro' && plano === 'pro') {
+        /* 30 dias já ativos: comprar de novo só depois de expirar */
+        btn.disabled = true;
+        btn.classList.add('is-current');
+        btn.innerHTML = '<span>Plano atual</span>';
+        if (atual) atual.hidden = false;
+        return;
+      }
+      btn.disabled = plano === 'pro' && id === 'starter';   /* Pro ativo já dá tudo: não vende Starter por engano */
       btn.classList.remove('is-current');
       btn.innerHTML = '<span>' + (id === 'starter' ? 'Starter' : 'Pro') + '</span>';
       if (atual) atual.hidden = plano !== id;
@@ -266,7 +284,11 @@
     setStatus('');
     var p = achar(escolhido);
     var okText = $('planOkText');
-    if (okText && p) okText.textContent = num(p.creditos) + ' créditos e o plano ' + p.nome + ' já estão ativos. Bom uso!';
+    if (okText && p) {
+      okText.textContent = p.criador
+        ? 'Plano Pro ativo: 30 dias ilimitado em todos os modelos. Bom uso!'
+        : num(p.creditos) + ' créditos e o plano ' + p.nome + ' já estão ativos. Bom uso!';
+    }
     ir('planosOk');
     atualizarCreditos();
   }
@@ -295,15 +317,6 @@
     ir('planosPix');
     iniciarPolling();
   }
-
-  function cancelarPagamento2() {
-    pararPolling();
-    cobrancaId = null;
-    setStatus('');
-    ir('planosEscolher');
-  }
-
-  function temBindings() { return !!(mostrarPix && cancelarPagamento2); }
 
   function copiarCodigo() {
     var c = $('planCode'); if (!c || !c.value) return;
@@ -352,6 +365,7 @@
     if (gatilho) gatilho.addEventListener('click', function () {
       if (painelAberto) dispensarPainel(); else mostrarPainel();
     });
+    /* tela de pagamento: arrastar a guia para baixo ou pressionar Escape volta para a escolha */
     var payHandle = document.querySelector('.ss-pay-head');
     if (payHandle) {
       var dragPay = null;
@@ -371,15 +385,6 @@
         if (dragPay.dy > 70) cancelarPagamento();
         dragPay = null;
       };
-      payHandle.addEventListener('pointerup', soltarPay);
-      payHandle.addEventListener('pointercancel', soltarPay);
-    }
-    var payHandle = document.querySelector('.ss-pay-head');
-    if (payHandle) {
-      var dragPay = null;
-      payHandle.addEventListener('pointerdown', function (e) { if (e.target === payHandle) { dragPay = { startY: e.clientY, dy: 0 }; try { payHandle.setPointerCapture(e.pointerId); } catch (err) {} } });
-      payHandle.addEventListener('pointermove', function (e) { if (!dragPay) return; dragPay.dy = Math.max(0, e.clientY - dragPay.startY); var el = $('planosPanel'); if (el) el.style.transform = 'translateY(' + Math.min(dragPay.dy, 110) + 'px)'; });
-      var soltarPay = function () { if (!dragPay) return; var el = $('planosPanel'); if (el) el.style.transform = ''; if (dragPay.dy > 70) cancelarPagamento(); dragPay = null; };
       payHandle.addEventListener('pointerup', soltarPay);
       payHandle.addEventListener('pointercancel', soltarPay);
       payHandle.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); cancelarPagamento(); } });

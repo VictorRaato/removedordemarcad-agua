@@ -5,7 +5,7 @@
 
    - Login e aceite dos Termos obrigatórios
    - Idempotente: quem já está no Free/Starter/Pro/Mestre recebe o plano atual sem mudar nada
-   - Quem está em 'nenhum' (conta nova) passa para 'free' com os mesmos 500 créditos iniciais
+   - Quem está em 'nenhum' (conta nova) passa para 'free' com os mesmos 150 créditos iniciais
    - Conta mestra devolve 'mestre' (não precisa de plano)
    ========================================================================== */
 const { exigirLogin } = require('./_auth');
