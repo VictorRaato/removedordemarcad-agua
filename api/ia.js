@@ -26,7 +26,6 @@
 const crypto = require('crypto');
 const { getDb } = require('./_firebase');
 const { exigirLogin } = require('./_auth');
-const { consultarCarteira } = require('./_creditos');
 
 const API = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const MAX_BODY_IMG = 3_200_000;      // caracteres do base64 (~2,4 MB); a Vercel aceita até ~4,5 MB
