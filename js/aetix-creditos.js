@@ -123,9 +123,26 @@
   }
 
   var aviso401 = false;
+  /* o aetix-auth.js (módulo) carrega DEPOIS deste script e é ele que anexa o token nas chamadas /api/.
+     Se a primeira consulta sair antes dele, vai sem token e dá 401: espera o login ficar pronto e tenta de novo. */
+  function esperarAuth() {
+    return new Promise(function (resolve) {
+      var t0 = Date.now();
+      (function ver() {
+        if (window.AETIX_AUTH || Date.now() - t0 > 10000) return resolve();
+        setTimeout(ver, 100);
+      })();
+    });
+  }
   async function consulta() {
     var response;
-    try { response = await fetch('/api/creditos', { cache: 'no-store' }); }
+    try {
+      response = await fetch('/api/creditos', { cache: 'no-store' });
+      if (response.status === 401) {
+        await esperarAuth();
+        response = await fetch('/api/creditos', { cache: 'no-store' });
+      }
+    }
     catch (e) { return { ok: false, erro: 'rede', message: 'Sem conexão agora.' }; }
     if (response.status === 401 && !aviso401) {
       aviso401 = true;
