@@ -122,10 +122,15 @@
     try { return await response.json(); } catch (e) { return null; }
   }
 
+  var aviso401 = false;
   async function consulta() {
     var response;
     try { response = await fetch('/api/creditos', { cache: 'no-store' }); }
     catch (e) { return { ok: false, erro: 'rede', message: 'Sem conexão agora.' }; }
+    if (response.status === 401 && !aviso401) {
+      aviso401 = true;
+      try { console.warn('[AETIX] não foi possível anexar a sessão (401). O navegador não mandou o token da conta; se isso persistir, saia e entre de novo.'); } catch (e) {}
+    }
     var data = await lerJson(response);
     if (!data || typeof data !== 'object') return { ok: false, erro: 'indisponivel' };
     return data;
