@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AETIX DESIGN AI · perfil.css (tela de perfil)
+   AETIX DESIGN AI · perfil.css  (tela de perfil)
    TEMAS: igual ao login/site. O tema vem de data-tema no <html> (script no <head> do index.html:
    var T=...;  ou ?tema=padrao / ?tema=halloween na URL). "padrao" = visual normal; "halloween" liga as cores e enfeites.
    Para criar outro tema: copie o bloco halloween, troque o nome e as cores.
@@ -48,147 +48,134 @@ html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
 body{margin:0;min-height:100dvh;color:var(--ink);background:var(--bg);overflow-x:hidden;
   font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button,input{font:inherit;color:inherit}
+.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* ---------- variáveis do modal de planos/pagamento ---------- */
-:root{
-  --altura-cabecalho: 80px;
-  --cor-fundo-painel: rgba(14,12,22,0.96);
-  --cor-sombra-painel: 0 25px 50px -12px rgba(0,0,0,0.55);
-  --cor-borda-painel: rgba(255,255,255,0.08);
-  --cor-gui-a: rgba(255,255,255,0.35);
-  --cor-texto-brco: rgba(255,255,255,0.7);
-  --grad-cta: linear-gradient(135deg, var(--cyan), var(--accent) 70%, var(--accent-2));
-}
+/* ---------- cenário ---------- */
+.scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.glow{position:absolute;inset:0;background:radial-gradient(900px 520px at 12% -8%,var(--glow-1),transparent 60%),radial-gradient(800px 520px at 92% 0,var(--glow-2),transparent 60%)}
+:root[data-tema="halloween"] .glow{background:radial-gradient(900px 520px at 85% -6%,var(--glow-2),transparent 60%),radial-gradient(1100px 420px at 50% 112%,rgba(255,122,26,.3),transparent 62%),radial-gradient(700px 400px at 5% 30%,rgba(120,40,160,.18),transparent 60%)}
+.hill{position:absolute;left:-10%;right:-10%;bottom:-18vh;height:36vh;border-radius:50%;background:radial-gradient(ellipse at 50% 0,rgba(60,18,80,.75),rgba(9,4,15,0) 70%);filter:blur(2px)}
+.moon{position:absolute;top:clamp(54px,9vh,92px);right:clamp(-30px,6vw,9vw);width:clamp(84px,11vw,138px);aspect-ratio:1;border-radius:50%;
+  background:
+    radial-gradient(circle at 63% 29%,rgba(177,128,86,.55) 0 8%,transparent 9%),
+    radial-gradient(circle at 30% 54%,rgba(177,128,86,.5) 0 11%,transparent 12%),
+    radial-gradient(circle at 66% 62%,rgba(177,128,86,.5) 0 6.5%,transparent 7.5%),
+    radial-gradient(circle at 36% 28%,#FFF2D2,#F6D79C 58%,#E8B777);
+  box-shadow:0 0 50px 10px rgba(255,190,110,.32),0 0 120px 30px rgba(255,150,60,.14);animation:moon 9s ease-in-out infinite alternate}
+@keyframes moon{to{transform:translateY(8px)}}
+.stars{position:absolute;inset:0}
+.stars i{position:absolute;border-radius:50%;background:var(--c,#FF9B3D);box-shadow:0 0 8px 2px var(--c,#FF9B3D);opacity:0;animation:fly var(--d,6s) ease-in-out var(--w,0s) infinite}
+@keyframes fly{0%,100%{opacity:0;transform:translate(0,0)}25%,70%{opacity:.85}50%{transform:translate(var(--x,10px),var(--y,-14px));opacity:.45}}
+.bat{position:absolute;top:0;left:0;width:38px;color:#1B1030;opacity:.95;filter:drop-shadow(0 0 7px rgba(168,85,247,.6))}
+.b-1{top:14%;animation:bat 19s linear infinite,flap .5s ease-in-out infinite alternate}
+.b-2{top:30%;width:28px;animation:bat 27s linear -9s infinite,flap .42s ease-in-out infinite alternate}
+.b-3{top:7%;width:22px;animation:bat 33s linear -20s infinite,flap .36s ease-in-out infinite alternate}
+@keyframes bat{0%{left:-60px;margin-top:0}50%{margin-top:34px}100%{left:calc(100% + 60px);margin-top:-10px}}
+@keyframes flap{to{transform:scaleY(.62)}}
 
-/* ---------- modal painel de planos e pagamento (layout novo) ---------- */
-.modal-painel{position:fixed;left:50%;transform:translateX(-50%);width:73vw;max-width:1400px;padding:0 20px;margin-top:calc(var(--altura-cabecalho)+24px);top:calc(var(--altura-cabecalho)+24px);background:rgba(14,12,22,0.96);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.08);border-radius:28px 0 0 0;color:#fff;z-index:1050;overflow:hidden;animation:entrada-painel .28s ease-out both}
-@keyframes entrada-painel{to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.modal-painel .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1049;opacity:0;transition:opacity .3s;}
-.modal-painel .overlay.ativo{opacity:1}
-.modal-painel .fechar-x{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.08);color:var(--muted);cursor:pointer;font:600 1.2rem/1 Inter,system-ui,sans-serif;transition:background .16s,border-color .16s}
-.modal-painel .fechar-x:hover{background:rgba(255,255,255,0.12);border-color:var(--line)}
-@media (max-width:900px){.modal-painel{left:0;transform:none;width:100vw;max-width:100%;border-radius:0 0 0 0;top:var(--altura-cabecalho);height:calc(100dvh - var(--altura-cabecalho));border-radius:0}}
-.modal-painel .conteudo{overflow-y:auto;height:calc(100% - 80px);mask-image:linear-gradient(to bottom, transparent, black);}
-@media (max-width:900px){.modal-painel .conteudo{height:100%}}
-/* --- Tela 1: PLANOS --- */
-.tela-planos .titulo{text-align:center;padding:24px 0 8px; font:600 24px/1.1 Inter,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:0}
-.tela-planos .guia-arrastar{display:none}
-.tela-planos .cards{display:flex;justify-content:center;align-items:center;gap:5%;padding:0 24px;flex-wrap:nowrap}
-.tela-planos .card{flex:0 0 auto;width:24%;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid var(--line);border-radius:20px;padding:28px;position:relative;transition:transform .15s,box-shadow .15s}
-.tela-planos .card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,0.3)}
-.tela-planos .card.starter{width:26%}
-.tela-planos .card .selo{position:absolute;right:12px;top:12px;padding:4px 8px;font:600 .7rem Inter,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;border-radius:12px;background:rgba(255,255,255,0.08);color:#a3e6e0}
-.tela-planos .card.free .selo{background:rgba(79,211,178,0.2);color:#4fd3b2;content:'PLANO ATUAL'}
-.tela-planos .card.starter .selo{background:rgba(179,89,255,0.2);color:#bb8bff;content:'MAIS POPULAR'}
-.tela-planos .card.pro .selo{background:rgba(239,83,80,0.2);color:#ef533c;content:''}
-.tela-planos .card .nome{font:600 20px/1.2 Inter,system-ui,sans-serif;letter-spacing:.04em;color:#fff;margin:8px 0 4px}
-.tela-planos .card .sub{font:500 13px/1.3 Inter,system-ui,sans-serif;color:var(--muted);margin-bottom:4px}
-.tela-planos .card .creditos{font:400 20px/1.2 Inter,system-ui,sans-serif;color:#ffd700;margin:4px 0}
-.tela-planos .card .equivalencia{font:400 13px/1.4 Inter,system-ui,sans-serif;color:var(--dim);margin:8px 0}
-.tela-planos .card .benefits{font:400 13px/1.4 Inter,system-ui,sans-serif;color:var(--muted);margin:4px 0}
-.tela-planos .card .benefits li{margin:4px 0;line-height:1.4}
-.tela-planos .card .btn{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:100%;max-width:200px;height:48px;border:0;border-radius:12px;cursor:pointer;font:800 .85rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,#ffb347,#ff7a1a 62%,#a855f7);box-shadow:0 0 0 1px rgba(var(--c-rgb),.5),0 0 18px 2px rgba(var(--c-rgb),.65),0 0 42px 6px rgba(var(--a-rgb),.45);transition:transform .15s,filter .15s}
-.tela-planos .card .btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
-.tela-planos .card.free .btn{pointer-events:none;opacity:.5;background:rgba(79,211,178,.2);box-shadow:none}
-.tela-planos .card.starter .btn{background:linear-gradient(135deg,#ffb347,#ff7a1a 62%,#a855f7);}
-.tela-planos .card.pro .btn{background:linear-gradient(135deg,#ffb347,#ff7a1a 62%,#a855f7);}
-@media (max-width:900px){.tela-planos .cards{flex-direction:column;align-items:center;padding:16px}.tela-planos .card{width:92%;margin:8px 0}.tela-planos .card.starter{width:92%}}
-/* --- Tela 2: PAGAMENTO PIX --- */
-.tela-pagamento .titulo{display:flex;align-items:center;gap:8px;padding:16px 24px 0;justify-content:center; font:600 22px/1.1 Inter,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:0;white-space:nowrap}
-.tela-pagamento .guia-arrastar{position:relative;height:5px;border-radius:999px;background:rgba(255,255,255,0.35);margin:10px auto 0;width:100px;display:flex;align-items:center;justify-content:center;touch-action:none}
-.tela-pagamento .guia-arrastar::after{content:'';position:absolute;right:20px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.7)}
-.tela-pagamento .guia-arrastar:active{cursor:grabbing}
-.tela-pagamento .conteudo{display:grid;grid-template-columns:38% 42%;gap:12%;padding:0 24px;align-items:center;min-height:480px}
-@media (max-width:900px){.tela-pagamento .conteudo{grid-template-columns:1fr;padding:16px;gap:24px}.tela-pagamento .coluna-esquerda,.tela-pagamento .coluna-direita{width:100%}}
-.tela-pagamento .coluna-esquerda{display:flex;flex-direction:column;gap:24px;padding-right:24px}
-.tela-pagamento .qr-code{width:280px;height:280px;border:1px solid #fff;border-radius:16px;padding:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-start}
-.tela-pagamento .chave-copia{width:100%;min-height:120px;border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:16px;background:rgba(255,255,255,0.02);font:400 13px/1.4 monospace,system-ui,sans-serif;color:#fff;word-break:break-all;flex-shrink:0;align-self:flex-start;overflow:auto}
-.tela-pagamento .btn-copiar{width:220px;height:52px;border:0;border-radius:12px;font:800 .75rem Inter,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(135deg,#ffb347,#ff7a1a 62%,#a855f7);color:#0f1118;cursor:pointer;align-self:flex-start;transition:transform .15s,filter .15s}
-.tela-pagamento .btn-copiar:hover{transform:translateY(-2px);filter:brightness(1.1)}
-.tela-pagamento .btn-copiar.copiado{background:#2ee6ff;color:#0f1118}
-.tela-pagamento .status{font:400 12px/1.4 Inter,system-ui,sans-serif;color:var(--dim);align-self:flex-start;white-space:pre-wrap}
-.tela-pagamento .coluna-direita{display:flex;flex-direction:column;gap:24px;padding-left:24px;align-self:flex-start}
-.tela-pagamento .beneficios-titulo{font:600 16px/1.2 Inter,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:0 0 24px}
-.tela-pagamento .beneficios-lista{list-style:none;margin:0;padding:0;display:grid;gap:20px;font:400 15px/1.4 Inter,system-ui,sans-serif;color:var(--muted)}
-.tela-pagamento .beneficios-lista li{display:flex;align-items:flex-start;gap:8px;line-height:1.4}
-.tela-pagamento .beneficios-lista li::before{content:'✓';color:#3DDC97;font-weight:800;flex:none;margin-top:2px}
-@media (max-width:900px){.tela-pagamento .beneficios-lista{font-size:14px}}
-/* --- overlay e body bloqueado --- */
-body.modal-aberto{overflow:hidden}
-.overlay-modal{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1049;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
-.overlay-modal.ativo{opacity:1;visibility:visible}
+.lang{height:30px;min-width:44px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--field);color:var(--muted);font-size:.72rem;font-weight:700;letter-spacing:.08em;cursor:pointer}
+.lang:hover{color:var(--ink);border-color:var(--line-2)}
+.brand{display:inline-flex;align-items:center;justify-content:center;gap:.45em;margin:0;font:700 clamp(.72rem,3.7vw,1.08rem)/1 Inter,system-ui,sans-serif;letter-spacing:.14em;white-space:nowrap}
+.brand .logo{width:2.6em;height:2.6em;flex:none;margin-right:.3em;filter:drop-shadow(0 0 10px rgba(155,107,255,.55))}
+.brand .b1,.brand .b3{background:var(--brand-1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .b2{font-weight:400;color:var(--brand-2)}
+.cta{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:52px;border:0;border-radius:14px;cursor:pointer;
+  color:var(--cta-ink);background:var(--cta);box-shadow:var(--cta-glow);font:800 1.02rem Inter,system-ui,sans-serif;letter-spacing:.04em;transition:transform .15s,filter .15s}
+.cta:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px)}
+.cta:active:not(:disabled){transform:scale(.985)}
+.cta:disabled{opacity:.7;cursor:wait}
+.cta.busy>span{opacity:0}
+.cta.busy::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(0,0,0,.25);border-top-color:var(--cta-ink);animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
 
-/* ---------- TEMA PADRÃO (igual ao site) ---------- */
-:root{
-  --bg:#07080C; --glow-1:rgba(124,140,255,.17); --glow-2:rgba(155,107,255,.12);
-  --ink:#F2F4F8; --muted:#98A1B3; --dim:#6B7385;
-  --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.18);
-  --field:rgba(255,255,255,.035); --tab-on:rgba(255,255,255,.08);
-  --accent:#7C8CFF; --accent-2:#9B6BFF; --ring:rgba(124,140,255,.18);
-  --ok:#4ADE9A; --err:#FF6B83;
-  --cta:linear-gradient(135deg,#2EE6FF,#7C8CFF 70%,#9B6BFF); --cta-ink:#04101A;
-  --cta-glow:0 0 0 1px rgba(46,230,255,.5),0 0 18px 2px rgba(46,230,255,.5),0 0 42px 6px rgba(124,140,255,.4);
-  --card-bg:rgba(14,15,22,.82); --card-line:rgba(255,255,255,.1);
-  --brand-1:linear-gradient(135deg,#C9D0FF,var(--accent) 55%,var(--accent-2)); --brand-2:#C9D0FF;
-  --emoji:"✨";
-  color-scheme:dark;
-}
+/* ---------- estrutura da tela de perfil ---------- */
+.wrap{position:relative;z-index:2;width:min(100% - 24px,720px);min-height:100dvh;margin:0 auto;display:flex;flex-direction:column;gap:14px;
+  padding:max(16px,env(safe-area-inset-top)) 0 max(18px,env(safe-area-inset-bottom))}
+.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.top .brand{justify-self:center}
+.top .lang{justify-self:end}
+.back{justify-self:start;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px 0 9px;border-radius:999px;border:1px solid var(--line);background:var(--field);color:var(--muted);font-size:.78rem;font-weight:600;text-decoration:none}
+.back:hover{color:var(--ink);border-color:var(--line-2);text-decoration:none}
+.back .ic{width:16px;height:16px}
+@media (max-width:520px){.back span{display:none}.back{padding:0 9px}}
 
-/* ---------- TEMA HALLOWEEN ---------- */
-:root[data-tema="halloween"]{
-  --bg:#09040F; --glow-1:rgba(255,122,26,.14); --glow-2:rgba(168,85,247,.2);
-  --ink:#F6F0FA; --muted:#B5A6C4; --dim:#8A7A9B;
-  --line:rgba(255,170,90,.15); --line-2:rgba(255,170,90,.3);
-  --field:rgba(255,200,150,.035); --tab-on:rgba(255,160,80,.1);
-  --accent:#FF8A2B; --accent-2:#A855F7; --ring:rgba(255,138,43,.22);
-  --cta:linear-gradient(135deg,#FFB347,#FF7A1A 62%,#A855F7); --cta-ink:#1B0A02;
-  --cta-glow:0 0 0 1px rgba(255,160,70,.5),0 0 20px 2px rgba(255,122,26,.45),0 0 44px 6px rgba(168,85,247,.35);
-  --card-bg:rgba(20,10,28,.84); --card-line:rgba(255,160,80,.24);
-  --brand-1:linear-gradient(135deg,#FFD08A,#FF9B3D 55%,#C084FC); --brand-2:#EBDDFF;
-  --emoji:"🎃";
-}
+.card{position:relative;padding:20px;border-radius:24px;border:1px solid var(--card-line);background:var(--card-bg);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 40px 90px -40px rgba(0,0,0,.85),inset 0 1px 0 rgba(255,255,255,.05);animation:in .45s cubic-bezier(.2,.8,.2,1) both}
+.card:nth-of-type(2){animation-delay:.05s}.card:nth-of-type(3){animation-delay:.1s}.card:nth-of-type(4){animation-delay:.15s}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+:root[data-tema="halloween"] .card{box-shadow:0 40px 90px -40px rgba(0,0,0,.85),0 0 60px -26px rgba(255,122,26,.55),inset 0 1px 0 rgba(255,200,150,.07)}
+.card-clip{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
+.web{position:absolute;top:0;left:0;width:96px;height:96px;color:rgba(255,160,80,.34)}
+.pumpkin{position:absolute;right:-8px;bottom:-14px;width:62px;height:auto;filter:drop-shadow(0 0 12px rgba(255,122,26,.65));animation:flick 3.2s ease-in-out infinite}
+@keyframes flick{50%{filter:drop-shadow(0 0 20px rgba(255,170,60,.9))}}
 
-/* ---------- decorações: só aparecem nos temas listados aqui ---------- */
-.deco{display:none}
-:root[data-tema="halloween"] .deco{display:block}
-:root[data-tema="halloween"] .stars.deco{display:block}
+/* topo do perfil: avatar + nome */
+.me{display:flex;align-items:center;gap:16px}
+.avatar-wrap{position:relative;flex:none}
+.avatar{position:relative;flex:none;width:76px;height:76px;border-radius:50%;display:grid;place-items:center;overflow:hidden;
+  background:var(--cta);color:var(--cta-ink);font:800 2rem/1 Inter,system-ui,sans-serif;box-shadow:var(--cta-glow)}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.avatar .ic{width:34px;height:34px}
+.plan-badge{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:999px;border:1px solid rgba(74,222,154,.42);background:rgba(74,222,154,.1);color:#9BE7C4;font:800 .53rem/1 Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.plan-badge .ic{width:10px;height:10px;stroke-width:2.4}
+.plan-badge--starter{border-color:rgba(111,182,255,.5);background:rgba(111,182,255,.12);color:#A8D4FF}
+.plan-badge--pro{border-color:rgba(192,132,252,.55);background:rgba(192,132,252,.14);color:#DCC2FF}
+.plan-badge--mestre{border-color:rgba(255,200,90,.52);background:rgba(255,200,90,.12);color:#FFD08A}
+.me-t{min-width:0}
+.me-t h2{margin:0;font:800 1.5rem/1.15 Inter,system-ui,sans-serif;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me-t p{margin:3px 0 0;color:var(--muted);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:3px 10px;border-radius:999px;border:1px dashed var(--line-2);color:var(--dim);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+.badge.ok{border-style:solid;color:var(--ok)}
 
-/* ---------- base ---------- */
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scrollbar-width:none}
-html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
-[hidden]{display:none!important}
-body{margin:0;min-height:100dvh;color:var(--ink);background:var(--bg);overflow-x:hidden;
-  font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}
+/* medidor de tokens no perfil */
+.credits-profile{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.credits-profile .tokens-label{font:700 .62rem/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;display:block;margin-bottom:6px}
+.credits-profile .tokens-line{display:flex;align-items:center;gap:10px;min-width:0}
+.credits-profile .tokens-num{font:800 1.1rem/1 Inter,system-ui,sans-serif;letter-spacing:.04em;color:var(--ink)}
+.tokens-bar{display:block;position:relative;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.09);box-shadow:inset 0 1px 2px rgba(0,0,0,.45)}
+.tokens-bar-lg{flex:1;height:8px;min-width:60px}
+.tokens-fill{display:block;height:100%;width:100%;border-radius:inherit;background:linear-gradient(90deg,#38E184,#A3E635);box-shadow:0 0 8px rgba(74,222,154,.55);transition:width .25s ease}
 
-/* ---------- TEMA HALLOWEEN ---------- */
-:root[data-tema="halloween"]{
-  --bg:#09040F; --glow-1:rgba(255,122,26,.14); --glow-2:rgba(168,85,247,.2);
-  --ink:#F6F0FA; --muted:#B5A6C4; --dim:#8A7A9B;
-  --line:rgba(255,170,90,.15); --line-2:rgba(255,170,90,.3);
-  --field:rgba(255,200,150,.035); --tab-on:rgba(255,160,80,.1);
-  --accent:#FF8A2B; --accent-2:#A855F7; --ring:rgba(255,138,43,.22);
-  --cta:linear-gradient(135deg,#FFB347,#FF7A1A 62%,#A855F7); --cta-ink:#1B0A02;
-  --cta-glow:0 0 0 1px rgba(255,160,70,.5),0 0 20px 2px rgba(255,122,26,.45),0 0 44px 6px rgba(168,85,247,.35);
-  --card-bg:rgba(20,10,28,.84); --card-line:rgba(255,160,80,.24);
-  --brand-1:linear-gradient(135deg,#FFD08A,#FF9B3D 55%,#C084FC); --brand-2:#EBDDFF;
-  --emoji:"🎃";
-}
+/* seções */
+.sec-t{margin:0 0 4px;font:700 .72rem/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.sec-p{margin:0 0 14px;color:var(--muted);font-size:.86rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+.f{position:relative;display:flex;flex-direction:column;gap:2px;padding:8px 14px 7px;border-radius:12px;border:1px solid var(--line);background:var(--field)}
+.f>span{font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.f input{width:100%;height:26px;padding:0;border:0;outline:0;background:transparent;font:500 .96rem Inter,system-ui,sans-serif;text-overflow:ellipsis}
+.f input::placeholder{color:var(--dim)}
 
-/* ---------- decorações: só aparecem nos temas listados aqui ---------- */
-.deco{display:none}
-:root[data-tema="halloween"] .deco{display:block}
-:root[data-tema="halloween"] .stars.deco{display:block}
+.seg{display:inline-flex;padding:3px;border-radius:12px;border:1px solid var(--line);background:var(--field);gap:2px}
+.seg button{height:34px;min-width:84px;padding:0 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-weight:600;font-size:.88rem;cursor:pointer}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--tab-on);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
+.pref{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pref b{font-weight:600}
+.pref small{display:block;color:var(--muted);font-size:.8rem;font-weight:400}
 
-/* ---------- base ---------- */
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scrollbar-width:none}
-html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}
-[hidden]{display:none!important}
-body{margin:0;min-height:100dvh;color:var(--ink);background:var(--bg);overflow-x:hidden;
-  font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}
+.links{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.links a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);font-weight:500;text-decoration:none;transition:border-color .16s,background .16s}
+.links a:hover{border-color:var(--line-2);background:var(--tab-on);text-decoration:none}
+.links a .ic{color:var(--accent)}
+.links a span{flex:1;min-width:0}
+.links a small{display:block;color:var(--muted);font-size:.78rem;font-weight:400}
+.links a .go{color:var(--dim);width:16px;height:16px}
 
-/* ---------- layout do painel principal (index.html e inicial.html) ---------- */
-/* CSS para o painel ss e elementos relacionados já existiam, as novas classes acima substituem/estendem */
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.ghost{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line-2);background:var(--field);color:var(--ink);font-weight:600;font-size:.9rem;cursor:pointer;transition:background .16s,border-color .16s}
+.ghost:hover{background:var(--tab-on)}
+.ghost.danger{color:var(--err);border-color:rgba(255,107,131,.4)}
+.ghost.danger:hover{background:rgba(255,107,131,.1)}
+.msg{min-height:1.2em;margin:10px 0 0;color:var(--muted);font-size:.82rem}
+.msg.ok{color:var(--ok)}
+.demo{margin:0;padding:10px 12px;border:1px dashed var(--line-2);border-radius:12px;color:var(--dim);font-size:.74rem;line-height:1.45;text-align:center}
+:root[data-tema="halloween"] .demo{padding-right:74px}
+
+.foot{margin:4px 0 0;text-align:center;color:var(--dim);font-size:.76rem}
+.foot strong{color:var(--muted);letter-spacing:.06em;font-weight:600}
+@media (max-width:380px){.card{padding:16px 14px}.avatar{width:64px;height:64px;font-size:1.7rem}.me-t h2{font-size:1.25rem}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.stars i{opacity:.6}}
