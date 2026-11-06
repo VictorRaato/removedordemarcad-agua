@@ -44,6 +44,20 @@
   function achar(id) { for (var i = 0; i < CARTOES.length; i++) if (CARTOES[i].id === id) return CARTOES[i]; return null; }
 
   /* ---------- renderização dos cartões ---------- */
+  function cartaoHTML(p, atualTag) {
+    var selo = p.selo ? '<span class="ss-selo">' + p.selo + '</span>' : '';
+    var atual = atualTag ? '<span class="ss-atual" data-atual hidden>Plano atual</span>' : '';
+    var linhaCreditos = p.criador ? 'Criador' : num(p.creditos) + ' créditos';
+    var linhaEq = p.criador ? '30 dias ilimitado' : '≈ ' + num(fotos(p.creditos)) + ' fotos ou ' + num(videos(p.creditos)) + ' vídeos';
+    var subPreco = p.criador ? '30 dias · pagamento único' : (p.preco ? 'pagamento único' : 'um pacote por conta');
+    return selo +
+      '<span class="ss-card__nome"><span class="ss-card__marca" aria-hidden="true"></span>' + p.nome + atual + '</span>' +
+      '<span class="ss-card__preco">' + (p.preco ? brl(p.preco) : 'Free') +
+        '<small>' + subPreco + '</small></span>' +
+      '<span class="ss-card__creditos">' + linhaCreditos + '</span>' +
+      '<span class="ss-card__eq">' + linhaEq + '</span>' +
+      '<ul class="ss-lista">' + p.beneficios.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+  }
   function montarCartoes() {
     var caixa = $('planosCards');
     if (!caixa || caixa.dataset.pronto === '1') return;
@@ -51,18 +65,8 @@
       var b = document.createElement('div');
       b.className = 'ss-card';
       b.dataset.pacote = p.id;
-      var selo = p.selo ? '<span class="ss-selo">Mais popular</span>' : '';
-      var linhaCreditos = p.criador ? 'Criador' : num(p.creditos) + ' créditos';
-      var linhaEq = p.criador ? '30 dias ilimitado' : '≈ ' + num(fotos(p.creditos)) + ' fotos ou ' + num(videos(p.creditos)) + ' vídeos';
-      var subPreco = p.criador ? '30 dias · pagamento único' : (p.preco ? 'pagamento único' : 'um pacote por conta');
       b.innerHTML =
-        selo +
-        '<span class="ss-card__nome"><span class="ss-card__marca" aria-hidden="true"></span>' + p.nome + '<span class="ss-atual" data-atual hidden>Plano atual</span></span>' +
-        '<span class="ss-card__preco">' + (p.preco ? brl(p.preco) : 'Free') +
-          '<small>' + subPreco + '</small></span>' +
-        '<span class="ss-card__creditos">' + linhaCreditos + '</span>' +
-        '<span class="ss-card__eq">' + linhaEq + '</span>' +
-        '<ul class="ss-lista">' + p.beneficios.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        cartaoHTML(p, true) +
         '<button type="button" class="pay-btn ss-cta" data-escolher="' + p.id + '"><span>' + (p.preco ? p.nome : 'Free') + '</span></button>';
       caixa.appendChild(b);
     });
@@ -307,10 +311,8 @@
     if (pacoteId) escolhido = pacoteId;
     var p = achar(escolhido);
     if (p) {
-      var lista = $('planosBenefits');
-      if (lista) lista.innerHTML = p.beneficios.map(function (x) { return '<li>' + x + '</li>'; }).join('');
-      var ttl = $('planosBenefitsTitle');
-      if (ttl) ttl.textContent = 'BENEFÍCIOS · ' + p.nome.toUpperCase();
+      var box = $('planosCardEscolhido');
+      if (box) box.innerHTML = '<div class="ss-card" data-pacote="' + p.id + '">' + cartaoHTML(p, false) + '</div>';
     }
     desenharQR(codigo);
     setStatus('Aguardando confirmação do pagamento…');
