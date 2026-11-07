@@ -5,29 +5,17 @@
 
    - Login e aceite dos Termos obrigatórios
    - Idempotente: quem já está no Free/Starter/Pro/Mestre recebe o plano atual sem mudar nada
-   - Quem está em 'nenhum' (conta nova) passa para 'free' com os mesmos 150 créditos iniciais
+   - Quem está em 'nenhum' (conta nova) passa para 'free' com os mesmos 500 créditos iniciais
    - Conta mestra devolve 'mestre' (não precisa de plano)
    ========================================================================== */
 const { exigirLogin } = require('./_auth');
 const { consultarCarteira } = require('./_creditos');
+const { excedeu } = require('./_rate');
 
 let _fb = null;
 function fb() { return _fb || (_fb = require('./_firebase')); }
 
 const MAX_BODY_CHARS = 2048;
-const JANELA_MS = 60 * 1000;
-const MAX_POR_JANELA = 30;
-const hits = new Map();
-function excedeuLimite(req) {
-  const xff = String(req.headers['x-forwarded-for'] || '');
-  const chave = xff.split(',')[0].trim() || 'anon';
-  const agora = Date.now();
-  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
-  lista.push(agora);
-  hits.set(chave, lista);
-  if (hits.size > 5000) hits.clear();
-  return lista.length > MAX_POR_JANELA;
-}
 function lerBody(req) {
   let b = req.body;
   if (typeof b === 'string') {
@@ -45,7 +33,7 @@ module.exports = async function handler(req, res) {
   }
   const uid = await exigirLogin(req, res, { aceite: true });   // 401 sem login · 403 sem aceite
   if (!uid) return;
-  if (excedeuLimite(req)) return res.status(429).json({ ok: false, message: 'Muitas tentativas. Aguarde um pouco.' });
+  if (await excedeu('plano', req, 30, 60 * 1000)) return res.status(429).json({ ok: false, message: 'Muitas tentativas. Aguarde um pouco.' });
 
   const body = lerBody(req);
   if (!body || String(body.plano || '').toLowerCase() !== 'free') {

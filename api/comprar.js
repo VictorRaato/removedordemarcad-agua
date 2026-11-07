@@ -10,11 +10,13 @@
    GET  /api/comprar?id= -> consulta o status da cobrança; se a PagueZy já
          confirmou (PAID), credita a carteira e marca o plano (idempotente).
 
-   Variáveis de ambiente: PAGUEZY_API_KEY, PAGUEZY_API_SECRET, PAGUEZY_WEBHOOK_SECRET (recomendada). E-mail/telefone nunca são logados.
+   Variáveis de ambiente: PAGUEZY_API_KEY, PAGUEZY_API_SECRET,
+   PAGUEZY_WEBHOOK_SECRET (recomendada). E-mail/telefone nunca são logados.
    ========================================================================== */
 const { exigirLogin } = require('./_auth');
 const { consultarCarteira } = require('./_creditos');
 const { PACOTES, guardarPendenteCompra, promoverCompra } = require('./_planos');
+const { excedeu } = require('./_rate');
 
 let _fb = null;
 function fb() { return _fb || (_fb = require('./_firebase')); }
@@ -24,20 +26,6 @@ const MIN_CENTS = 500;
 const MAX_CENTS = 5000000;
 const TIMEOUT_MS = 20000;
 const MAX_BODY_CHARS = 8192;
-const JANELA_MS = 60 * 1000;
-const MAX_POR_JANELA = 20;
-
-const hits = new Map();
-function excedeuLimite(req) {
-  const xff = String(req.headers['x-forwarded-for'] || '');
-  const chave = xff.split(',')[0].trim() || 'anon';
-  const agora = Date.now();
-  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
-  lista.push(agora);
-  hits.set(chave, lista);
-  if (hits.size > 5000) hits.clear();
-  return lista.length > MAX_POR_JANELA;
-}
 
 function lerBody(req) {
   let b = req.body;
@@ -80,8 +68,10 @@ async function criarCobranca(path, options) {
 }
 
 function mensagemErro(data, status) {
+  /* detalhe do provedor só no log do servidor; o usuário recebe texto amigável */
   const m = data && (data.message || (data.error && (data.error.message || data.error)));
-  return typeof m === 'string' && m.length < 200 ? m : 'Erro ' + status;
+  console.error('[comprar] provedor:', status, typeof m === 'string' ? m.slice(0, 200) : '');
+  return 'Não foi possível gerar o Pix agora. Tente de novo em instantes.';
 }
 
 module.exports = async function handler(req, res) {
@@ -93,7 +83,7 @@ module.exports = async function handler(req, res) {
   }
   const uid = await exigirLogin(req, res, { aceite: true });   // 401 sem login · 403 sem aceite
   if (!uid) return;
-  if (excedeuLimite(req)) {
+  if (await excedeu('comprar', req, 20, 60 * 1000)) {
     return res.status(429).json({ ok: false, message: 'Muitas tentativas. Aguarde um pouco.' });
   }
 
@@ -150,12 +140,11 @@ module.exports = async function handler(req, res) {
 
     const externalReference = texto(body.external_reference, 64) || ('aetix-plano-' + pacote + '-' + Date.now());
 
-    /* corpo mínimo da PagueZy: amount (centavos) + payment_method. customer é opcional na API;
-       nome e e-mail continuam guardados do nosso lado (compras_pendentes) para o suporte. */
     const payload = {
       amount: cents,
       payment_method: 'pix',
-      external_reference: externalReference
+      external_reference: externalReference,
+      customer: { name, email }
     };
 
     let r = await criarCobranca('/payments', {
@@ -163,14 +152,10 @@ module.exports = async function handler(req, res) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (!r.ok) {
-      console.error('[comprar] PagueZy recusou a cobrança:', r.status, JSON.stringify(r.data).slice(0, 300));
-      return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ ok: false, message: mensagemErro(r.data, r.status) });
-    }
+    if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ ok: false, message: mensagemErro(r.data, r.status) });
 
     const id = r.data.transaction_id || r.data.id || r.data.provider_transaction_id;
     const copy = r.data.pix_copy_paste || (r.data.pix && r.data.pix.copy_paste);
-    if (!id || !copy) console.error('[comprar] resposta inesperada da PagueZy status=' + r.status + ' chaves=' + Object.keys(r.data || {}).join(','));
     if (!id || !copy) return res.status(502).json({ ok: false, message: 'Resposta inesperada do processador de pagamentos.' });
 
     await guardarPendenteCompra(id, pacote, { uid, nomeCompleto: name, email, telefone: '' });

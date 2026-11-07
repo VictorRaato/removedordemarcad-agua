@@ -21,8 +21,6 @@ const FIRESTORE_DATABASE_ID = 'default';
 
 const MAX_COMENTARIO = 500;      // mesmo limite do campo no site (maxlength)
 const MAX_BODY_BYTES = 4096;     // evita lixo/abuso
-const JANELA_MS = 60 * 1000;     // filtro barato em memória: 5 requisições por minuto
-const MAX_POR_JANELA = 5;
 const HORA_MS = 60 * 60 * 1000;  // limite real: 1 avaliação por hora por visitante
 
 /* Inicializa o Firebase Admin uma única vez (instâncias "quentes" reaproveitam). */
@@ -86,17 +84,7 @@ async function limparExpirados(db) {
   }
 }
 
-/* Filtro em memória (melhor esforço; some quando a instância é reciclada). */
-const hits = new Map();
-function excedeuLimite(req) {
-  const chave = ipDoVisitante(req) || 'anon';
-  const agora = Date.now();
-  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
-  lista.push(agora);
-  hits.set(chave, lista);
-  if (hits.size > 5000) hits.clear();
-  return lista.length > MAX_POR_JANELA;
-}
+const { excedeu } = require('./_rate');
 
 function lerBody(req) {
   let b = req.body;
@@ -119,7 +107,7 @@ module.exports = async function handler(req, res) {
   const uid = await exigirLogin(req, res, { aceite: true });
   if (!uid) return;
 
-  if (excedeuLimite(req)) {
+  if (await excedeu('avaliacao', req, 5, 60 * 1000)) {
     return res.status(429).json({ ok: false, erro: 'Muitas tentativas. Aguarde um pouco.' });
   }
 

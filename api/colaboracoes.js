@@ -10,21 +10,7 @@
    2) limitador por IP, na memória da instância;
    3) cache curto na memória da instância, para não consultar o banco a cada visita. */
 const { getDb } = require('./_firebase');
-
-const JANELA_MS = 60 * 1000;
-const MAX_POR_JANELA = 40;
-
-const hits = new Map();
-function excedeuLimite(req) {
-  const xff = String(req.headers['x-forwarded-for'] || '');
-  const chave = xff.split(',')[0].trim() || 'anon';
-  const agora = Date.now();
-  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
-  lista.push(agora);
-  hits.set(chave, lista);
-  if (hits.size > 5000) hits.clear();
-  return lista.length > MAX_POR_JANELA;
-}
+const { excedeu } = require('./_rate');
 
 const CACHE_MS = { feed: 60 * 1000, mural: 5 * 60 * 1000 };
 const cache = { feed: null, mural: null };
@@ -37,7 +23,7 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ ok: false }); }
 
   const q = req.query || {};
-  if (excedeuLimite(req)) {
+  if (await excedeu('colaboracoes', req, 40, 60 * 1000)) {
     res.setHeader('Retry-After', '30');
     return res.status(429).json({ ok: false });
   }

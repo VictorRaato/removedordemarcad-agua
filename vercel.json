@@ -7,6 +7,16 @@
       "permanent": false
     },
     {
+      "source": "/index.html",
+      "destination": "/inicial/",
+      "permanent": true
+    },
+    {
+      "source": "/index",
+      "destination": "/inicial/",
+      "permanent": true
+    },
+    {
       "source": "/termosprivacidade/:p(privacidade|termos|sobre|colaboracao)",
       "destination": "/:p",
       "permanent": false

@@ -61,7 +61,8 @@ export default {
       }
       /* compra de pacotes tem prioridade; cobrança desconhecida cai na colaboração */
       const r = await promoverCompra(id);
-      if (!r || r.promovido !== true) await promover(id);
+      /* promoverCompra devolve { ok, jaPromovida } — não existe o campo "promovido". */
+      if (!r || r.ok !== true) await promover(id);
     }
 
     return responder({ ok: true }, 200);

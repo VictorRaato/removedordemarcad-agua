@@ -30,6 +30,11 @@ function chaveEmail(email) {
   return crypto.createHmac('sha256', segredoRate()).update(String(email).toLowerCase()).digest('hex');
 }
 
+/* Identificador irreversível da conta (nunca o uid em texto puro). */
+function chaveDono(uid) {
+  return crypto.createHmac('sha256', segredoRate()).update('dono|' + String(uid || '')).digest('hex');
+}
+
 /* Guarda o pedido de exibição até o pagamento ser confirmado. Nunca derruba a cobrança. */
 async function guardarPendente(id, nome, cents, dados) {
   try {
@@ -40,7 +45,7 @@ async function guardarPendente(id, nome, cents, dados) {
       centavos: cents,
       chave: chaveEmail(dados.email),
       criadoEm: FieldValue.serverTimestamp(),
-      conta: String(dados.uid || ''),
+      donoHash: chaveDono(dados.uid),
       nomeCompleto: String(dados.nomeCompleto || ''),
       email: String(dados.email || ''),
       telefone: String(dados.telefone || ''),
@@ -72,7 +77,7 @@ async function promover(id) {
       const rank = rankRef ? await tx.get(rankRef) : null;
       tx.set(colRef, { nome: d.nome, centavos: d.centavos, criadoEm: FieldValue.serverTimestamp() });
       tx.set(db.collection('colaboradores').doc(String(id)), {
-        conta: d.conta || '',
+        donoHash: d.donoHash || (d.conta ? chaveDono(d.conta) : ''),
         nomeCompleto: d.nomeCompleto || '',
         email: d.email || '',
         telefone: d.telefone || '',
@@ -99,4 +104,4 @@ async function promover(id) {
   } catch (e) { console.error('[pix] promoção falhou:', e && e.message); }
 }
 
-module.exports = { ANONIMO, nomePublico, chaveEmail, guardarPendente, promover };
+module.exports = { ANONIMO, nomePublico, chaveEmail, chaveDono, guardarPendente, promover };

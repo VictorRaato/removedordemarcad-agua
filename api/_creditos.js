@@ -2,48 +2,29 @@
 /* AETIX DESIGN · api/_creditos.js (módulo compartilhado, NÃO é uma rota)
    Carteira de créditos no Firestore (coleção "creditos", um documento por conta).
 
-   Campos: uid, nome, email, saldo, mestre, plano, planoCreditos, proAte, criadoEm, atualizadoEm
-   Contas novas recebem 150 créditos e plano = 'free'.
-   Starter soma os créditos do pacote ao saldo.
-   Pro é um passe de 30 dias ilimitado (campo proAte); não soma créditos e,
-   ao expirar, volta a valer como Free.
-   Contas antigas de antes da mudança têm o saldo acima de 150 reduzido uma única vez
+   Campos: uid, nome, email, saldo, mestre, plano, planoCreditos, criadoEm, atualizadoEm
+   Contas novas recebem 500 créditos e plano = 'free'.
+   Contas que compram pacote viram plano = 'starter'|'pro' e o saldo soma.
+   Contas antigas de antes da mudança têm o saldo acima de 500 reduzido uma única vez
    (marcador ajusteSaldo500), sem subir quem já gastou abaixo disso.
-   A conta mestra (vitinhosilva2k20@gmail.com) é ilimitada e não é descontada. */
+   A conta mestra (vitinhosilva2k20@gmail.com) é ilimitada e não é descontada.
+
+   Cobrança confiável (foto/vídeo): o navegador chama
+     1) reservarCreditos  -> debita na hora e cria uma reserva com validade
+     2) confirmarReserva  -> operação deu certo: apaga a reserva (não cobra de novo)
+     3) cancelarReserva   -> operação falhou/cancelou: devolve o valor
+   Reserva não confirmada e vencida é devolvida automaticamente por
+   limparReservasVencidas (chamada antes de cada nova reserva). */
 
 const { getAdminAuth, getDb } = require('./_firebase');
-const { FieldValue } = require('firebase-admin/firestore');
+const { FieldValue, Timestamp } = require('firebase-admin/firestore');
 
 const MESTRE_EMAIL = 'vitinhosilva2k20@gmail.com';
-const SALDO_INICIAL = 150;
+const SALDO_INICIAL = 500;
 const CUSTOS = Object.freeze({ foto: 15, video: 25 });
 const COLECAO = 'creditos';
-const DIAS_PRO = 30;
-const MS_DIA = 86400000;
-
-/* Pro = passe de 30 dias ilimitado. proAte (ms) manda; contas antigas
-   que só têm planoEm usam planoEm + 30 dias. */
-function millisDe(valor) {
-  if (!valor) return NaN;
-  if (typeof valor.toMillis === 'function') return valor.toMillis();
-  const n = Number(valor);
-  return Number.isFinite(n) ? n : NaN;
-}
-function proAteMs(dados) {
-  const direto = millisDe(dados && dados.proAte);
-  if (Number.isFinite(direto)) return direto;
-  const inicio = millisDe(dados && dados.planoEm);
-  return Number.isFinite(inicio) ? inicio + DIAS_PRO * MS_DIA : NaN;
-}
-function proValido(dados) {
-  if (!dados || dados.plano !== 'pro') return false;
-  const ate = proAteMs(dados);
-  return Number.isFinite(ate) && Date.now() < ate;
-}
-/* Pro vencido: volta para o plano anterior (Starter) ou Free. */
-function planoAposPro(dados) {
-  return dados && dados.planoAntes === 'starter' ? 'starter' : 'free';
-}
+const COLECAO_RESERVAS = 'reservas';
+const RESERVA_MS = 30 * 60 * 1000;   // validade de uma reserva (tempo de sobra para renderizar)
 
 function limpo(valor, max) {
   return String(valor == null ? '' : valor).replace(/[\x00-\x1f<>]/g, '').trim().slice(0, max || 120);
@@ -88,7 +69,7 @@ async function garantirCarteira(uid) {
 
   const dados = snap.data() || {};
   const mestre = perfil.mestre || dados.mestre === true;
-  /* contas antigas sem o campo plano contam como Free (já receberam o saldo inicial) */
+  /* contas antigas sem o campo plano contam como Free (já receberam os 500) */
 
   /* Ajuste único das contas antigas: saldo acima do inicial vira o inicial. */
   const precisaAjuste = !mestre && dados.ajusteSaldo500 !== true;
@@ -120,9 +101,7 @@ async function consultarCarteira(uid) {
   const mestre = dados.mestre === true;
   const saldo = mestre ? 0 : lerSaldo(dados);
   const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';   // sem campo = conta antiga Free
-  const proAtivo = !mestre && proValido(dados);
-  const plano = mestre ? 'mestre' : (planoBruto === 'pro' && !proAtivo ? planoAposPro(dados) : planoBruto);
-  const ilimitado = mestre || proAtivo;
+  const plano = mestre ? 'mestre' : planoBruto;
   const planoCreditos = Number(dados.planoCreditos);
   return {
     ok: true,
@@ -130,11 +109,10 @@ async function consultarCarteira(uid) {
     nome: limparNome(dados.nome),
     email: limparEmail(dados.email),
     mestre,
-    ilimitado,
-    saldo: ilimitado ? null : (Number.isFinite(saldo) ? saldo : null),
+    ilimitado: mestre,
+    saldo: Number.isFinite(saldo) ? saldo : null,
     plano,
-    planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0,
-    proAte: proAtivo ? new Date(proAteMs(dados)).toISOString() : null
+    planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0
   };
 }
 function limparNome(valor) { return limpo(valor, 80) || 'Usuário'; }
@@ -157,10 +135,6 @@ async function consumirCreditos(uid, tipo) {
   if (antes.plano === 'nenhum') {
     const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e;
   }
-  if (proValido(antes)) {
-    const pc = Number(antes.planoCreditos);
-    return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: false, nome: limparNome(antes.nome), email: limparEmail(antes.email), plano: 'pro', planoCreditos: Number.isFinite(pc) && pc > 0 ? pc : 0 };
-  }
 
   const ref = getDb().collection(COLECAO).doc(uid);
   return getDb().runTransaction(async (tx) => {
@@ -175,20 +149,143 @@ async function consumirCreditos(uid, tipo) {
     }
     /* sem plano escolhido, não debita: precisa escolher um plano primeiro */
     if (dados.plano === 'nenhum') { const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e; }
-    if (proValido(dados)) {
-      const pc = Number(dados.planoCreditos);
-      return { ok: true, tipo, custo, saldo: null, ilimitado: true, consumido: false, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano: 'pro', planoCreditos: Number.isFinite(pc) && pc > 0 ? pc : 0 };
-    }
     const saldo = lerSaldo(dados);
     if (!Number.isFinite(saldo)) { const e = new Error('saldo_invalido'); e.code = 'saldo_invalido'; throw e; }
     if (saldo < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
     const novo = saldo - custo;
     const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';
-    const plano = planoBruto === 'pro' ? planoAposPro(dados) : planoBruto;   // pro expirado volta ao plano anterior
+    const plano = planoBruto;   // preserva free/starter/pro
     const planoCreditos = Number(dados.planoCreditos);
     tx.update(ref, { saldo: novo, atualizadoEm: FieldValue.serverTimestamp() });
     return { ok: true, tipo, custo, saldo: novo, ilimitado: false, consumido: true, mestre: false, nome: limparNome(dados.nome), email: limparEmail(dados.email), plano, planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0 };
   });
 }
 
-module.exports = { MESTRE_EMAIL, SALDO_INICIAL, CUSTOS, COLECAO, consultarCarteira, consumirCreditos, garantirCarteira };
+/* ---------- reserva: debita agora, confirma no fim ou devolve se falhar ---------- */
+
+function dadosCarteira(dados, extra) {
+  const planoBruto = (typeof dados.plano === 'string' && dados.plano) ? dados.plano : 'free';
+  const planoCreditos = Number(dados.planoCreditos);
+  return Object.assign({
+    nome: limparNome(dados.nome),
+    email: limparEmail(dados.email),
+    plano: planoBruto,
+    planoCreditos: Number.isFinite(planoCreditos) && planoCreditos > 0 ? planoCreditos : 0
+  }, extra || {});
+}
+
+/* Devolve reservas vencidas (aba fechada no meio do processamento, por exemplo).
+   Roda em transação por documento; falha em uma não impede as outras. */
+async function limparReservasVencidas(db) {
+  try {
+    const snap = await db.collection(COLECAO_RESERVAS)
+      .where('expiraEm', '<', Timestamp.fromMillis(Date.now()))
+      .orderBy('expiraEm', 'asc')
+      .limit(5)
+      .get();
+    for (const doc of snap.docs) {
+      const d = doc.data() || {};
+      if (d.estado !== 'reservado' || !d.uid) { await doc.ref.delete().catch(() => {}); continue; }
+      try {
+        await db.runTransaction(async (tx) => {
+          const atual = await tx.get(doc.ref);
+          if (!atual.exists || atual.get('estado') !== 'reservado') return;
+          const ref = db.collection(COLECAO).doc(String(atual.get('uid')));
+          const c = await tx.get(ref);
+          const custo = Number(atual.get('custo')) || 0;
+          if (c.exists && c.get('mestre') !== true && custo > 0) {
+            const saldo = lerSaldo(c.data() || {});
+            if (Number.isFinite(saldo)) {
+              tx.update(ref, { saldo: saldo + custo, atualizadoEm: FieldValue.serverTimestamp() });
+            }
+          }
+          tx.delete(doc.ref);
+        });
+      } catch (e) { console.error('[creditos] estorno de reserva:', e && e.message); }
+    }
+  } catch (e) { console.error('[creditos] limpar reservas:', e && e.message); }
+}
+
+async function reservarCreditos(uid, tipo) {
+  const custo = CUSTOS[tipo];
+  if (!custo) { const e = new Error('tipo_invalido'); e.code = 'tipo_invalido'; throw e; }
+
+  /* cria/atualiza a carteira antes, para contas novas também reservarem */
+  const antes = await garantirCarteira(uid);
+  if (antes.mestre === true) {
+    return dadosCarteira(antes, {
+      ok: true, tipo, custo, saldo: null, ilimitado: true, mestre: true, reservaId: '', plano: 'mestre', planoCreditos: 0
+    });
+  }
+  if (antes.plano === 'nenhum') { const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e; }
+
+  const db = getDb();
+  await limparReservasVencidas(db);   // devolve reservas antigas antes de checar o saldo
+
+  const ref = db.collection(COLECAO).doc(uid);
+  const refReserva = db.collection(COLECAO_RESERVAS).doc();
+  return db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists) { const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e; }
+    const dados = snap.data() || {};
+    if (dados.mestre === true) {
+      return dadosCarteira(dados, {
+        ok: true, tipo, custo, saldo: null, ilimitado: true, mestre: true, reservaId: '', plano: 'mestre', planoCreditos: 0
+      });
+    }
+    if (dados.plano === 'nenhum') { const e = new Error('sem_plano'); e.code = 'sem_plano'; throw e; }
+    const saldo = lerSaldo(dados);
+    if (!Number.isFinite(saldo)) { const e = new Error('saldo_invalido'); e.code = 'saldo_invalido'; throw e; }
+    if (saldo < custo) { const e = new Error('sem_creditos'); e.code = 'sem_creditos'; throw e; }
+    const novo = saldo - custo;
+    tx.update(ref, { saldo: novo, atualizadoEm: FieldValue.serverTimestamp() });
+    tx.set(refReserva, {
+      uid: String(uid),
+      tipo: tipo,
+      custo: custo,
+      estado: 'reservado',
+      criadoEm: FieldValue.serverTimestamp(),
+      expiraEm: Timestamp.fromMillis(Date.now() + RESERVA_MS)
+    });
+    return dadosCarteira(dados, {
+      ok: true, tipo, custo, saldo: novo, ilimitado: false, mestre: false, reservaId: refReserva.id
+    });
+  });
+}
+
+async function confirmarReserva(uid, id) {
+  if (!id) return { ok: true, semReserva: true };
+  const db = getDb();
+  const ref = db.collection(COLECAO_RESERVAS).doc(String(id));
+  return db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists) return { ok: true, semReserva: true };   // já confirmada ou já devolvida
+    if (String(snap.get('uid')) !== String(uid)) { const e = new Error('reserva'); e.code = 'reserva'; throw e; }
+    tx.delete(ref);
+    return { ok: true, semReserva: false };
+  });
+}
+
+async function cancelarReserva(uid, id) {
+  if (!id) return { ok: true, semReserva: true };
+  const db = getDb();
+  const ref = db.collection(COLECAO_RESERVAS).doc(String(id));
+  return db.runTransaction(async (tx) => {
+    const snap = await tx.get(ref);
+    if (!snap.exists) return { ok: true, semReserva: true };   // já confirmada
+    if (String(snap.get('uid')) !== String(uid)) { const e = new Error('reserva'); e.code = 'reserva'; throw e; }
+    const custo = Number(snap.get('custo')) || 0;
+    const carteiraRef = db.collection(COLECAO).doc(String(uid));
+    const c = await tx.get(carteiraRef);
+    if (c.exists && c.get('mestre') !== true && custo > 0) {
+      const saldo = lerSaldo(c.data() || {});
+      if (Number.isFinite(saldo)) {
+        tx.update(carteiraRef, { saldo: saldo + custo, atualizadoEm: FieldValue.serverTimestamp() });
+      }
+    }
+    tx.delete(ref);
+    return { ok: true, semReserva: false, devolvido: custo };
+  });
+}
+
+module.exports = { MESTRE_EMAIL, SALDO_INICIAL, CUSTOS, COLECAO, COLECAO_RESERVAS, consultarCarteira, consumirCreditos, garantirCarteira, reservarCreditos, confirmarReserva, cancelarReserva };

@@ -24,7 +24,8 @@
    MURAL DE COLABORADORES: toda colaboração paga entra no mural e no ranking.
    ========================================================================== */
 const { exigirLogin } = require('./_auth');
-const { ANONIMO, nomePublico, guardarPendente, promover } = require('./_pix');
+const { ANONIMO, nomePublico, chaveDono, guardarPendente, promover } = require('./_pix');
+const { excedeu } = require('./_rate');
 
 let _fb = null;
 function fb() { return _fb || (_fb = require('./_firebase')); }
@@ -34,20 +35,6 @@ const MIN_CENTS = 500;            // R$ 5,00
 const MAX_CENTS = 5000000;        // R$ 50.000,00
 const TIMEOUT_MS = 20000;
 const MAX_BODY_CHARS = 8192;
-const JANELA_MS = 60 * 1000;
-const MAX_POR_JANELA = 20;
-
-const hits = new Map();
-function excedeuLimite(req) {
-  const xff = String(req.headers['x-forwarded-for'] || '');
-  const chave = xff.split(',')[0].trim() || 'anon';
-  const agora = Date.now();
-  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
-  lista.push(agora);
-  hits.set(chave, lista);
-  if (hits.size > 5000) hits.clear();
-  return lista.length > MAX_POR_JANELA;
-}
 
 function lerBody(req) {
   let b = req.body;
@@ -90,8 +77,10 @@ async function criarCobranca(path, options) {
 }
 
 function mensagemErro(data, status) {
+  /* detalhe do provedor só no log do servidor; o usuário recebe texto amigável */
   const m = data && (data.message || (data.error && (data.error.message || data.error)));
-  return typeof m === 'string' && m.length < 200 ? m : 'Erro ' + status;
+  console.error('[pix] provedor:', status, typeof m === 'string' ? m.slice(0, 200) : '');
+  return 'Não foi possível gerar o Pix agora. Tente de novo em instantes.';
 }
 
 module.exports = async function handler(req, res) {
@@ -103,7 +92,7 @@ module.exports = async function handler(req, res) {
   }
   const uid = await exigirLogin(req, res, { aceite: true });   // 401 sem login · 403 sem aceite dos Termos
   if (!uid) return;
-  if (excedeuLimite(req)) {
+  if (await excedeu('pix', req, 20, 60 * 1000)) {
     return res.status(429).json({ message: 'Muitas tentativas. Aguarde um pouco.' });
   }
 
@@ -114,16 +103,18 @@ module.exports = async function handler(req, res) {
       if (!/^[\w.-]{4,128}$/.test(id)) {
         return res.status(400).json({ message: 'Identificador inválido.' });
       }
-      /* só o dono da cobrança pode consultar o status */
+      /* só o dono da cobrança pode consultar o status (uid vai como hash, nunca em texto puro) */
       const db = fb().getDb();
+      const donoHash = chaveDono(uid);
+      const ehDono = (dono) => !dono || dono === donoHash || dono === uid;   // aceita registros antigos com uid puro
       const pend = await db.collection('colab_pendentes').doc(id).get();
       if (pend.exists) {
-        const dono = pend.get('conta');
-        if (dono && dono !== uid) return res.status(404).json({ message: 'Cobrança não encontrada.' });
+        const dono = pend.get('donoHash') || pend.get('conta');
+        if (!ehDono(dono)) return res.status(404).json({ message: 'Cobrança não encontrada.' });
       } else {
         const pagoDoc = await db.collection('colaboradores').doc(id).get();
-        const dono = pagoDoc.exists ? pagoDoc.get('conta') : '';
-        if (!pagoDoc.exists || (dono && dono !== uid)) return res.status(404).json({ message: 'Cobrança não encontrada.' });
+        const dono = pagoDoc.exists ? (pagoDoc.get('donoHash') || pagoDoc.get('conta')) : '';
+        if (!pagoDoc.exists || !ehDono(dono)) return res.status(404).json({ message: 'Cobrança não encontrada.' });
       }
       const r = await criarCobranca('/payments/' + encodeURIComponent(id), { method: 'GET' });
       if (!r.ok) return res.status(r.status >= 400 && r.status < 600 ? r.status : 502).json({ message: mensagemErro(r.data, r.status) });

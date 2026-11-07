@@ -11,19 +11,7 @@
    ========================================================================== */
 const { exigirLogin, temAceite } = require('./_auth');
 const S = require('./_sessao');
-
-const JANELA_MS = 60 * 1000;
-const MAX_POR_JANELA = 40;
-const hits = new Map();
-function excedeu(req) {
-  const chave = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'anon';
-  const agora = Date.now();
-  const lista = (hits.get(chave) || []).filter(t => agora - t < JANELA_MS);
-  lista.push(agora);
-  hits.set(chave, lista);
-  if (hits.size > 5000) hits.clear();
-  return lista.length > MAX_POR_JANELA;
-}
+const { excedeu } = require('./_rate');
 
 function lerBody(req) {
   let b = req.body;
@@ -40,7 +28,7 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'POST, DELETE');
     return res.status(405).json({ ok: false, erro: 'metodo' });
   }
-  if (excedeu(req)) return res.status(429).json({ ok: false, erro: 'limite' });
+  if (await excedeu('sessao', req, 40, 60 * 1000)) return res.status(429).json({ ok: false, erro: 'limite' });
 
   if (req.method === 'DELETE') {
     res.setHeader('Set-Cookie', S.cookieApagar());

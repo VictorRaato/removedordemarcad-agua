@@ -15,7 +15,7 @@
       { url: 'https://huggingface.co/CardAnvilModels/MI-GAN-ONNX/resolve/main/migan_pipeline_v2.onnx', ext: true },
       { url: 'https://huggingface.co/techycoder/migan-inpainting/resolve/main/migan_pipeline_v2.onnx', ext: true }
     ],
-    sha256: '',                 // opcional: SHA-256 do arquivo (minúsculas). Vazio = não confere. Vale para todos os endereços.
+    sha256: '6f1f3530a1a2324b19752018ce756088b07973cda8d7d890034ace5c8a48c40b',   // SHA-256 dos 3 espelhos (conferido em 07/11/2026)
     minBytes: 5 * 1048576,      // proteção: uma página de erro não pode virar "modelo"
     ortVer: '1.22.0',
     cache: 'aetix-modelo-v1',

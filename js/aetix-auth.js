@@ -72,10 +72,21 @@ window.fetch = async function (entrada, opcoes) {
   let token = '';
   try {
     const pronta = authPronta.then((a) => (a && a.authStateReady ? a.authStateReady().then(() => a) : a));
-    const auth = await Promise.race([pronta, new Promise((r) => setTimeout(() => r(null), 10000))]);
-    if (auth && auth.currentUser) token = await auth.currentUser.getIdToken();
+    const auth = await Promise.race([pronta, new Promise((r) => setTimeout(() => r(null), 12000))]);
+    if (!auth) {
+      /* Firebase não carregou a tempo: NÃO chama a API sem token (isso virava 401 e derrubava a sessão visual).
+         Devolve um erro amigável e a próxima chamada tenta de novo. */
+      return new Response(JSON.stringify({ ok: false, erro: 'indisponivel', message: 'Conexão lenta. Tente de novo em instantes.' }), {
+        status: 503,
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      });
+    }
+    if (auth.currentUser) {
+      token = await auth.currentUser.getIdToken();
+      if (!token) token = await auth.currentUser.getIdToken(true);
+    }
   } catch (e) {}
-  if (!token) return fetchOriginal(entrada, opcoes);   // sem sessão: o servidor responde 401
+  if (!token) return fetchOriginal(entrada, opcoes);   // sem conta: o servidor responde 401 (esperado)
   const req = new Request(entrada, opcoes);
   req.headers.set('Authorization', 'Bearer ' + token);
   return fetchOriginal(req);
@@ -499,13 +510,26 @@ if (!ligado) {
     logout: envolve(async () => { await limparSessao(); await A.signOut(auth); }),
     excluir: envolve(async () => {
       const u = auth.currentUser; if (!u) return;
-      try { await A.deleteUser(u); }
-      catch (e) {
+      /* Apaga primeiro os dados no Firestore (carteira, aceite, compras...).
+         Só depois remove a conta de login: se o Firestore falhar, nada é perdido. */
+      const apagarDados = async () => {
+        const r = await fetch('/api/excluir', { method: 'POST' });
+        if (r.ok) return;
+        let d = null; try { d = await r.json(); } catch (e) {}
+        throw { codigo: d && d.erro === 'login' ? 'sessao' : 'rede' };
+      };
+      try {
+        await apagarDados();
+        await A.deleteUser(u);
+      } catch (e) {
         if (!/requires-recent-login/.test((e && e.code) || '')) throw e;
         const usaGoogle = u.providerData.some((p) => p.providerId === 'google.com');
         if (!usaGoogle) throw { codigo: 'outro', original: 'auth/requires-recent-login' };
-        await A.reauthenticateWithPopup(u, prov); await A.deleteUser(u);
+        await A.reauthenticateWithPopup(u, prov);
+        await apagarDados();
+        await A.deleteUser(u);
       }
+      try { await limparSessao(); } catch (e) {}
     })
   };
 

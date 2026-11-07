@@ -22,8 +22,8 @@ const { FieldValue } = require('firebase-admin/firestore');
 const { SALDO_INICIAL } = require('./_creditos');
 
 const PACOTES = Object.freeze({
-  starter: Object.freeze({ id: 'starter', nome: 'Starter', creditos: 2500, centavos: 990 }),
-  pro: Object.freeze({ id: 'pro', nome: 'Pro', creditos: 35000, centavos: 1798 })
+  starter: Object.freeze({ id: 'starter', nome: 'Starter', creditos: 10000, centavos: 990 }),
+  pro: Object.freeze({ id: 'pro', nome: 'Pro', creditos: 35000, centavos: 2490 })
 });
 const COLECAO_PENDENTES = 'compras_pendentes';
 const COLECAO_COMPRAS = 'compras';

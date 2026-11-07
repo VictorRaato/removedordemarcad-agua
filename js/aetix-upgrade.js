@@ -16,16 +16,16 @@
 
   var CARTOES = [
     {
-      id: 'free', nome: 'Free', creditos: 150, preco: 0, eq: 10, eqv: 6, selo: '', tipo: 'free',
-      beneficios: ['150 créditos de boas-vindas', 'Recursos limitados', 'Um pacote por conta', 'Sem cartão e sem pagamento', 'Processamento no navegador']
+      id: 'free', nome: 'Free', creditos: 500, preco: 0, eq: 33, eqv: 20, selo: '', tipo: 'free',
+      beneficios: ['500 créditos de boas-vindas', 'Recursos limitados', 'Um pacote por conta', 'Sem cartão e sem pagamento', 'Processamento no navegador']
     },
     {
-      id: 'starter', nome: 'Starter', creditos: 2500, preco: 990, eq: 166, eqv: 100, selo: 'Mais popular', tipo: 'pago',
-      beneficios: ['2.500 créditos', 'Todos os modelos desbloqueados', 'Créditos somados ao saldo', 'Pagamento único via Pix', 'Serve até o saldo zerar', 'Processamento no navegador']
+      id: 'starter', nome: 'Starter', creditos: 10000, preco: 990, eq: 666, eqv: 400, selo: 'Mais popular', tipo: 'pago',
+      beneficios: ['10.000 créditos', 'Todos os modelos desbloqueados', 'Créditos somados ao saldo', 'Pagamento único via Pix', 'Serve até o saldo zerar', 'Processamento no navegador']
     },
     {
-      id: 'pro', nome: 'Pro', creditos: 0, preco: 1798, criador: true, selo: '', tipo: 'pago',
-      beneficios: ['30 dias ilimitado', 'Suporte prioritário', 'Recursos de IA disponíveis', 'Todos os modelos desbloqueados', 'Modelos de teste', 'Pagamento único via Pix', 'Melhor preço para criador', 'Processamento no navegador']
+      id: 'pro', nome: 'Pro', creditos: 35000, preco: 2490, eq: 2333, eqv: 1400, selo: '', tipo: 'pago',
+      beneficios: ['35.000 créditos', 'Suporte prioritário', 'Recursos de IA disponíveis', 'Todos os modelos desbloqueados', 'Modelos de teste', 'Pagamento único via Pix', 'Melhor preço por crédito', 'Processamento no navegador']
     }
   ];
 

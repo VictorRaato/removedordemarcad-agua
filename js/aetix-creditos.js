@@ -6,7 +6,7 @@
   'use strict';
 
   var CUSTOS = { foto: 15, video: 25 };
-  var MAX_CREDITOS = 150;
+  var MAX_CREDITOS = 500;
   var CHAVE_CREDITOS = 'aetix-credits-cache';
   var CHAVE_USUARIO = 'aetix-user-cache';
 
@@ -123,26 +123,9 @@
   }
 
   var aviso401 = false;
-  /* o aetix-auth.js (módulo) carrega DEPOIS deste script e é ele que anexa o token nas chamadas /api/.
-     Se a primeira consulta sair antes dele, vai sem token e dá 401: espera o login ficar pronto e tenta de novo. */
-  function esperarAuth() {
-    return new Promise(function (resolve) {
-      var t0 = Date.now();
-      (function ver() {
-        if (window.AETIX_AUTH || Date.now() - t0 > 10000) return resolve();
-        setTimeout(ver, 100);
-      })();
-    });
-  }
   async function consulta() {
     var response;
-    try {
-      response = await fetch('/api/creditos', { cache: 'no-store' });
-      if (response.status === 401) {
-        await esperarAuth();
-        response = await fetch('/api/creditos', { cache: 'no-store' });
-      }
-    }
+    try { response = await fetch('/api/creditos', { cache: 'no-store' }); }
     catch (e) { return { ok: false, erro: 'rede', message: 'Sem conexão agora.' }; }
     if (response.status === 401 && !aviso401) {
       aviso401 = true;
@@ -224,22 +207,48 @@
     else pintarCache();
   }
 
-  async function consumir(tipo) {
-    var custo = CUSTOS[tipo];
-    if (!custo) return { ok: false, erro: 'tipo' };
+  async function enviar(corpo) {
     var response;
     try {
       response = await fetch('/api/creditos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tipo: tipo })
+        body: JSON.stringify(corpo)
       });
     } catch (e) {
       return { ok: false, erro: 'rede', message: 'Sem conexão agora.' };
     }
     var data = await lerJson(response);
     if (!data || typeof data !== 'object') return { ok: false, erro: 'indisponivel' };
-    if (data.ok === true) atualizarTudo(data);
+    return data;
+  }
+
+  /* Reserva: debita agora e guarda o comprovante. No fim, confirme; se falhar, cancele. */
+  async function reservar(tipo) {
+    var custo = CUSTOS[tipo];
+    if (!custo) return { ok: false, erro: 'tipo' };
+    var data = await enviar({ acao: 'reservar', tipo: tipo });
+    if (data && data.ok === true) atualizarTudo(data);
+    return data;
+  }
+
+  async function confirmar(id) {
+    if (!id) return { ok: true, semReserva: true };   /* conta ilimitada: nada a fazer */
+    return enviar({ acao: 'confirmar', id: id });
+  }
+
+  async function cancelar(id) {
+    if (!id) return { ok: true, semReserva: true };
+    var data = await enviar({ acao: 'cancelar', id: id });
+    if (data && data.ok === true) atualizarTudo();     /* mostra o saldo devolvido */
+    return data;
+  }
+
+  async function consumir(tipo) {
+    var custo = CUSTOS[tipo];
+    if (!custo) return { ok: false, erro: 'tipo' };
+    var data = await enviar({ tipo: tipo });
+    if (data && data.ok === true) atualizarTudo(data);
     return data;
   }
 
@@ -247,6 +256,9 @@
     custos: CUSTOS,
     consultar: consulta,
     pode: pode,
+    reservar: reservar,
+    confirmar: confirmar,
+    cancelar: cancelar,
     consumir: consumir,
     atualizar: atualizarTudo,
     max: MAX_CREDITOS
